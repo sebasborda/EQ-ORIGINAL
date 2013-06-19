@@ -15,6 +15,7 @@
 - (void)regiteredUser:(Usuario *)user;
 - (void)endSession;
 - (void)dataUpdated;
+- (BOOL)isUserLogged;
 
 @property (nonatomic,strong) Cliente *selectedClient;
 @property (nonatomic,strong) Usuario* user;

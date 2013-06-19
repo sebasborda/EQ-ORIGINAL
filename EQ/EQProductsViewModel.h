@@ -12,9 +12,9 @@
 
 @property (nonatomic,assign) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic,strong) NSMutableArray *articles;
-@property (nonatomic,strong) NSMutableArray *category1List;
-@property (nonatomic,strong) NSMutableArray *category2List;
-@property (nonatomic,strong) NSMutableArray *category3List;
+@property (nonatomic,strong) NSArray *category1List;
+@property (nonatomic,strong) NSArray *category2List;
+@property (nonatomic,strong) NSArray *category3List;
 
 - (void)loadData;
 - (void)defineSelectedCategory1:(int)categoryIndex;

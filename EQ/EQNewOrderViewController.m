@@ -71,6 +71,8 @@
     
     UINib *nibDetail = [UINib nibWithNibName:@"EQEditOrderDetailCell" bundle: nil];
     [self.tableOrderDetail registerNib:nibDetail forCellReuseIdentifier:@"EditOrderDetailCell"];
+    
+    [self loadQuantity];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -237,18 +239,22 @@
 - (void)loadQuantity{
     int minimum = [self.viewModel.articleSelected.minimoPedido intValue];
     int multiplicity = [self.viewModel.articleSelected.multiploPedido intValue];
-    int base = 0;
-    for (UIButton *button in self.quantityButtons) {
-        if (base == 0) {
-            base = minimum;
+    int base = minimum;
+    for (int index = 0; [self.quantityButtons count] > index; index++) {
+        UIButton *button = self.quantityButtons[index];
+        if (self.viewModel.articleSelected) {
+            if (index > 0 || base == 0) {
+                do {
+                    base += multiplicity;
+                } while ((base % 2) != 0);
+            }
+            
+            NSString *text = [NSString stringWithFormat:@"%i",base];
+            [button setTitle:text forState:UIControlStateNormal];
+            button.hidden = NO;
         } else {
-            do {
-                base += multiplicity;
-            } while (base % 2 == 0);
+            button.hidden = YES;
         }
-        
-        NSString *text = [NSString stringWithFormat:@"%i",base];
-        [button setTitle:text forState:UIControlStateNormal];
     }
     
     self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];

@@ -2,7 +2,7 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/15/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -11,6 +11,7 @@
 #import "CtaCte.h"
 #import "Expreso.h"
 #import "LineaVTA.h"
+#import "Pedido.h"
 #import "Provincia.h"
 #import "TipoIvas.h"
 #import "Vendedor.h"
@@ -53,6 +54,7 @@
 @dynamic expreso;
 @dynamic iva;
 @dynamic lineaDeVenta;
+@dynamic pedidos;
 @dynamic vendedor;
 @dynamic venta;
 @dynamic zona;

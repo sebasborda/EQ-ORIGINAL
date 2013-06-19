@@ -1,21 +1,20 @@
 //
-//  Usuario.m
+//  Grupo.m
 //  EQ
 //
 //  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "Usuario.h"
-#import "Vendedor.h"
+#import "Grupo.h"
 
 
-@implementation Usuario
+@implementation Grupo
 
 @dynamic identifier;
+@dynamic parentID;
 @dynamic nombre;
-@dynamic nombreDeUsuario;
-@dynamic password;
-@dynamic vendedor;
+@dynamic descripcion;
+@dynamic count;
 
 @end

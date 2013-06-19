@@ -10,6 +10,8 @@
 #import "EQSession.h"
 #import "Usuario.h"
 #import "NSString+Number.h"
+#import "EQDataAccessLayer.h"
+
 @interface EQClientsViewModel()
 
 @property (nonatomic, strong) NSString* searchTerm;

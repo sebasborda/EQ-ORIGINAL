@@ -22,5 +22,6 @@
 
 -(void) hideExistingTabBar;
 -(void) selectTabAtIndex:(int)index;
+-(void) reloadControllers;
 
 @end

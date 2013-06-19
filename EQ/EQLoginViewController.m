@@ -8,6 +8,7 @@
 
 #import "EQLoginViewController.h"
 #import "EQMainScreenViewController.h"
+#import "EQSession.h"
 
 @interface EQLoginViewController ()
 
@@ -25,6 +26,13 @@
         self.viewModel.delegate = self;
     }
     return self;
+}
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    if ([[EQSession sharedInstance] isUserLogged]) {
+        [self.navigationController pushViewController:[EQMainScreenViewController new] animated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{

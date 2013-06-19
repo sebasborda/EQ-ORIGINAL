@@ -10,6 +10,7 @@
 #import "EQDefines.h"
 #import "Usuario.h"
 #import "EQDataManager.h"
+#import "EQDataAccessLayer.h"
 
 @interface EQSession()
 
@@ -30,19 +31,32 @@
 }
 
 - (void)updateData{
-    [[EQDataManager sharedInstance] updateData];
+    [EQDataManager updateDataShowLoading:NO];
+    
+    //Modify last update date
+    [self dataUpdated];
 }
 
 - (void)regiteredUser:(Usuario *)user{
     self.user = user;
-//    [self updateData];
-    
-    self.updateTimer = [NSTimer timerWithTimeInterval:(MAXIMUM_MINUTES_TO_UPDATE * 60) target:self selector:@selector(updateData) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:self.updateTimer forMode:NSRunLoopCommonModes];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:user.identifier forKey:@"loggedUser"];
+    [defaults synchronize];
+    [self initializeDataSynchronization];
+}
+
+- (void)initializeDataSynchronization{
+    self.updateTimer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:(MAXIMUM_MINUTES_TO_UPDATE * 60)] interval:(MAXIMUM_MINUTES_TO_UPDATE * 60) target:self selector:@selector(updateData) userInfo:nil repeats:YES];
+    NSRunLoop *runner = [NSRunLoop currentRunLoop];
+    [runner addTimer:self.updateTimer forMode: NSDefaultRunLoopMode];
+    [EQDataManager updateDataShowLoading:YES];
 }
 
 - (void)endSession{
     self.user = nil;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"loggedUser"];
+    [defaults synchronize];
     [self.updateTimer invalidate];
 }
 
@@ -55,6 +69,17 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
+}
+
+- (BOOL)isUserLogged{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *userID = [defaults objectForKey:@"loggedUser"];
+    if (userID && !self.user) {
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+        [self regiteredUser:(Usuario *)[adl objectForClass:[Usuario class] withId:userID]];
+    }
+    
+    return userID != nil;
 }
 
 @end

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12C3103</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -1064,6 +1064,30 @@
 						<reference key="destination" ref="1019250617"/>
 					</object>
 					<int key="connectionID">1064</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">ordersTable</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="682091248"/>
+					</object>
+					<int key="connectionID">1090</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">dataSource</string>
+						<reference key="source" ref="682091248"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">1088</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="682091248"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">1089</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -4986,7 +5010,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1087</int>
+			<int key="maxID">1090</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5107,6 +5131,7 @@
 						<string key="billingFilterButton">UIButton</string>
 						<string key="clientFilterButton">UIButton</string>
 						<string key="orderFilterButton">UIButton</string>
+						<string key="ordersTable">UITableView</string>
 						<string key="statusFilterButton">UIButton</string>
 						<string key="syncFilterButton">UIButton</string>
 						<string key="totalPriceLabel">UILabel</string>
@@ -5123,6 +5148,10 @@
 						<object class="IBToOneOutletInfo" key="orderFilterButton">
 							<string key="name">orderFilterButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ordersTable">
+							<string key="name">ordersTable</string>
+							<string key="candidateClassName">UITableView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="statusFilterButton">
 							<string key="name">statusFilterButton</string>

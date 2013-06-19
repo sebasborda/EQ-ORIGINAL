@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^SuccessRequest)(NSArray *);
+typedef void(^SuccessRequest)(id);
 typedef void(^FailRequest)(NSError *);
 
 @interface EQRequest : NSObject

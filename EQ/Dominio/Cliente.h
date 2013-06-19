@@ -2,14 +2,14 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 5/15/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CondPag, CtaCte, Expreso, LineaVTA, Provincia, TipoIvas, Vendedor, Venta, ZonaEnvio;
+@class CondPag, CtaCte, Expreso, LineaVTA, Pedido, Provincia, TipoIvas, Vendedor, Venta, ZonaEnvio;
 
 @interface Cliente : NSManagedObject
 
@@ -46,8 +46,9 @@
 @property (nonatomic, retain) Expreso *expreso;
 @property (nonatomic, retain) TipoIvas *iva;
 @property (nonatomic, retain) LineaVTA *lineaDeVenta;
+@property (nonatomic, retain) NSSet *pedidos;
 @property (nonatomic, retain) Vendedor *vendedor;
-@property (nonatomic, retain) Venta *venta;
+@property (nonatomic, retain) NSSet *venta;
 @property (nonatomic, retain) Provincia *zona;
 @property (nonatomic, retain) ZonaEnvio *zonaEnvio;
 @end
@@ -58,5 +59,15 @@
 - (void)removeCtaCteObject:(CtaCte *)value;
 - (void)addCtaCte:(NSSet *)values;
 - (void)removeCtaCte:(NSSet *)values;
+
+- (void)addPedidosObject:(Pedido *)value;
+- (void)removePedidosObject:(Pedido *)value;
+- (void)addPedidos:(NSSet *)values;
+- (void)removePedidos:(NSSet *)values;
+
+- (void)addVentaObject:(Venta *)value;
+- (void)removeVentaObject:(Venta *)value;
+- (void)addVenta:(NSSet *)values;
+- (void)removeVenta:(NSSet *)values;
 
 @end

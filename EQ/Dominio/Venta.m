@@ -2,7 +2,7 @@
 //  Venta.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/1/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,13 +14,13 @@
 
 @implementation Venta
 
+@dynamic actualizado;
 @dynamic cantidad;
 @dynamic comprobante;
 @dynamic empresa;
 @dynamic fecha;
-@dynamic importe;
 @dynamic identifier;
-@dynamic actualizado;
+@dynamic importe;
 @dynamic articulos;
 @dynamic cliente;
 @dynamic vendedor;

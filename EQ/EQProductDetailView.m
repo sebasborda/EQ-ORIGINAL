@@ -9,6 +9,8 @@
 #import "EQProductDetailView.h"
 #import "EQProductCell.h"
 #import "Precio.h"
+#import "Disponibilidad.h"
+#import "Grupo.h"
 
 @interface EQProductDetailView()
 
@@ -18,27 +20,22 @@
 
 @implementation EQProductDetailView
 
-- (id)initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    if(self){
-        UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
-        [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
-    }
-    
-    return self;
-}
-
 - (void)loadArticle:(Articulo *)article{
+    UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
+    [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
     self.productName.text = article.nombre;
     [self.productImage loadURL:article.imagenURL];
     self.descriptionLabel.text = article.descripcion;
     self.codelabel.text = article.codigo;
     self.quantityLabel.text = [article.minimoPedido stringValue];
     self.multipleLabel.text = [article.multiploPedido stringValue];
-    self.statusLabel.text = [article.disponibilidadID boolValue] ? @"Disponible" : @"Agotado";
+    self.statusLabel.text = article.disponibilidad.descripcion;
     int precio = article.precio.importe ? [article.precio.importe intValue] : 0;
     self.PriceLabel.text = [NSString stringWithFormat:@"$ %i",precio];
-    [self LoadGridData];
+    EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+    Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:article.grupoID];
+    self.group1Label.text = [grupo nombre];
+    [self LoadGridData:article];
 }
 
 #pragma mark - UICollectionView Datasource
@@ -54,9 +51,9 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     EQProductCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductCell" forIndexPath:indexPath];
     Articulo *art = [self.articles objectAtIndex:indexPath.item];
-    //TODO: reemplazar con nombre cuando funcione
-    cell.productNameLabel.text = art.descripcion;
-    cell.productStatusLabel.text = [art.disponibilidadID stringValue];
+
+    cell.productNameLabel.text = art.nombre;
+    cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
     cell.productCostLabel.text = [art.precio.importe stringValue];
     cell.productCodeLabel.text = art.codigo;
@@ -86,10 +83,12 @@
     [self.delegate productDetailClose];
 }
 
-- (void)LoadGridData{
+- (void)LoadGridData:(Articulo *)article{
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-    //TODO: cambiar predicate para buscar por tercer categoria
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.codigo like %@",@"400*"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.grupoID = %@",article.grupoID];
     self.articles = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
+    Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:article.grupoID];
+    self.group1Label.text = [grupo nombre];
+    [self.productsCollectionView reloadData];
 }
 @end

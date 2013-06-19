@@ -2,7 +2,7 @@
 //  ItemPedido.h
 //  EQ
 //
-//  Created by Sebastian Borda on 5/19/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 

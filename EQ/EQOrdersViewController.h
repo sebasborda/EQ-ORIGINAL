@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *statusFilterButton;
 @property (strong, nonatomic) IBOutlet UIButton *orderFilterButton;
 @property (strong, nonatomic) IBOutlet UILabel *totalPriceLabel;
+@property (strong, nonatomic) IBOutlet UITableView *ordersTable;
 
 - (IBAction)newOrderButtonAction:(id)sender;
 - (IBAction)clientFilterAction:(id)sender;

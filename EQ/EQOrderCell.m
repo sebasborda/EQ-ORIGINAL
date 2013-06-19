@@ -38,9 +38,9 @@
     self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = [pedido.identifier stringValue];
-    self.grossPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.importe];
-    self.discountLabel.text = [NSString stringWithFormat:@"%@%%", pedido.importe];
-    self.netPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.neto];
+    self.grossPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.subTotal];
+    self.discountLabel.text = [NSString stringWithFormat:@"%@%%", pedido.descuento];
+    self.netPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.total];
 }
 
 

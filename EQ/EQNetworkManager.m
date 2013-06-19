@@ -18,19 +18,24 @@
             [APP_DELEGATE showLoadingView];
         }
         [AFJSONRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"text/html"]];
-        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, NSDictionary *JSON) {
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
             NSArray *jsonArray = nil;
             BOOL error = false;
             NSString *message = nil;
             
-            for (NSString* key in [JSON allKeys]) {
-                if ([key isEqualToString:@"data"]) {
-                    jsonArray = [JSON objectForKey:key];
-                } else if([key isEqualToString:@"error"]) {
-                    error = [[JSON objectForKey:key] boolValue];
-                } else if([key isEqualToString:@"message"]){
-                    message = [JSON objectForKey:key];
+            if ([JSON isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *dictionary = JSON;
+                for (NSString* key in [dictionary allKeys]) {
+                    if ([key isEqualToString:@"data"]) {
+                        jsonArray = [dictionary objectForKey:key];
+                    } else if([key isEqualToString:@"error"]) {
+                        error = [[dictionary objectForKey:key] boolValue];
+                    } else if([key isEqualToString:@"message"]){
+                        message = [dictionary objectForKey:key];
+                    }
                 }
+            } else {
+                jsonArray = JSON;
             }
             
             if (!error) {

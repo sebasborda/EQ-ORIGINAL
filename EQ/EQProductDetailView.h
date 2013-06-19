@@ -17,7 +17,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *productName;
 @property (strong, nonatomic) IBOutlet EQImageView *productImage;
 @property (strong, nonatomic) IBOutlet UILabel *group1Label;
-@property (strong, nonatomic) IBOutlet UILabel *group2Label;
 @property (strong, nonatomic) IBOutlet UILabel *codelabel;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *multipleLabel;

@@ -8,6 +8,7 @@
 
 #import "EQProductsViewModel.h"
 #import "Articulo.h"
+#import "Grupo.h"
 
 @interface EQProductsViewModel()
 
@@ -21,30 +22,47 @@
 @implementation EQProductsViewModel
 @synthesize delegate;
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.searchTerm = nil;
+        self.category1SelectedIndex = -1;
+        self.category2SelectedIndex = -2;
+        self.category3SelectedIndex = -3;
+    }
+    return self;
+}
+
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     NSMutableArray *subPredicates = [NSMutableArray array];
-    if (self.category1SelectedIndex > 0) {
-        NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"categoria1 = %@", [self.category1List objectAtIndex:self.category1SelectedIndex]];
-        [subPredicates addObject:subPredicate];
-    }
-    
-    if (self.category2SelectedIndex > 0) {
-        NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"categoria2 = %@", [self.category2List objectAtIndex:self.category2SelectedIndex]];
-        [subPredicates addObject:subPredicate];
-    }
-    
-    if (self.category3SelectedIndex > 0) {
-        NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"categoria3 = %@", [self.category3List objectAtIndex:self.category3SelectedIndex]];
-        [subPredicates addObject:subPredicate];
-    }
-    
     if ([self.searchTerm length] > 0) {
-        
         NSString *searchTerm = [self.searchTerm stringByAppendingString:@"*"];
-        NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"(SELF.nombre like[cd] %@ || SELF.descripcion like[cd] %@ || SELF.codigo like %@)",searchTerm ,[@"*" stringByAppendingString:searchTerm] ,searchTerm];
-        [subPredicates addObject:subPredicate];
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"(SELF.nombre like[cd] %@ || SELF.descripcion like[cd] %@ || SELF.codigo like %@)",searchTerm ,[@"*" stringByAppendingString:searchTerm] ,searchTerm];
+        [subPredicates addObject:searchPredicate];
+    }
+    
+    NSPredicate *categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %i", 0];
+    self.category1List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+    
+    if (self.category1SelectedIndex >= 0) {
+        Grupo *grupo = [self.category1List objectAtIndex:self.category1SelectedIndex];
+        categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %@", grupo.identifier];
+        self.category2List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+    }
+    
+    if (self.category2SelectedIndex >= 0) {
+        Grupo *grupo = [self.category2List objectAtIndex:self.category2SelectedIndex];
+        categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %@", grupo.identifier];
+        self.category3List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+    }
+    
+    if (([self.category3List count] == 0 && self.category2SelectedIndex >= 0) || self.category3SelectedIndex >= 0) {
+        Grupo *grupo = [self.category3List count] > 0 ? [self.category3List objectAtIndex:self.category3SelectedIndex] : [self.category2List objectAtIndex:self.category2SelectedIndex];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.grupoID = %@",grupo.identifier];
+        [subPredicates addObject:predicate];
     }
 
     NSPredicate *predicate = [subPredicates count] > 0 ? [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates] : nil;
@@ -56,10 +74,13 @@
 
 - (void)defineSelectedCategory1:(int)categoryIndex{
     self.category1SelectedIndex = categoryIndex;
+    self.category2SelectedIndex = -2;
+    self.category3SelectedIndex = -3;
 }
 
 - (void)defineSelectedCategory2:(int)categoryIndex{
     self.category2SelectedIndex = categoryIndex;
+    self.category3SelectedIndex = -3;
 }
 
 - (void)defineSelectedCategory3:(int)categoryIndex{
@@ -75,6 +96,9 @@
     self.category1SelectedIndex = -1;
     self.category2SelectedIndex = -2;
     self.category3SelectedIndex = -3;
+    self.category1List = nil;
+    self.category2List = nil;
+    self.category3List = nil;
     [self loadData];
 }
 

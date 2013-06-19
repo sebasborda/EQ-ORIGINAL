@@ -2,11 +2,12 @@
 //  Articulo.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/20/13.
+//  Created by Sebastian Borda on 6/17/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Articulo.h"
+#import "Disponibilidad.h"
 #import "ItemPedido.h"
 #import "Precio.h"
 #import "Venta.h"
@@ -19,7 +20,7 @@
 @dynamic codigo;
 @dynamic creado;
 @dynamic descripcion;
-@dynamic disponibilidadID;
+@dynamic grupoID;
 @dynamic identifier;
 @dynamic imagenURL;
 @dynamic minimoPedido;
@@ -28,7 +29,8 @@
 @dynamic nombre;
 @dynamic tipo;
 @dynamic itemsPedido;
-@dynamic ventas;
 @dynamic precio;
+@dynamic ventas;
+@dynamic disponibilidad;
 
 @end

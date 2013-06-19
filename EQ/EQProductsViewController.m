@@ -10,52 +10,66 @@
 #import "EQProductCell.h"
 #import "Articulo.h"
 #import "Precio.h"
+#import "EQTablePopover.h"
+#import "Grupo.h"
+#import "Disponibilidad.h"
 
 @interface EQProductsViewController ()
 
 @property (nonatomic,strong) EQProductsViewModel *viewModel;
-
+@property (nonatomic,strong) EQTablePopover *popoverGroup1;
+@property (nonatomic,strong) EQTablePopover *popoverGroup2;
+@property (nonatomic,strong) EQTablePopover *popoverGroup3;
 @end
 
 @implementation EQProductsViewController
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.viewModel = [EQProductsViewModel new];
-        self.viewModel.delegate = self;
-    }
-    return self;
-}
-
 - (void)viewDidLoad{
-    [super viewDidLoad];
+    self.viewModel = [EQProductsViewModel new];
+    self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
     [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
     self.productDetailView.delegate = self;
+    [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self.viewModel loadData];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSMutableArray *)obtainGroupNames:(NSArray *)group{
+    NSMutableArray *names = [NSMutableArray new];
+    for (Grupo *groupItem in group) {
+        [names addObject:groupItem.nombre];
+    }
+    
+    return names;
 }
 
 - (IBAction)groupOneAction:(id)sender {
-    [self notImplemented];
+    self.popoverGroup1 = [[EQTablePopover alloc] initWithData:[self obtainGroupNames:[self.viewModel category1List]] delegate:self];
+    UIButton *button = (UIButton *)sender;
+    [self presentPopoverInView:button withContent:self.popoverGroup1];
 }
 
 - (IBAction)groupTwoAction:(id)sender {
-    [self notImplemented];
+    self.popoverGroup2 = [[EQTablePopover alloc] initWithData:[self obtainGroupNames:[self.viewModel category2List]] delegate:self];
+    UIButton *button = (UIButton *)sender;
+    [self presentPopoverInView:button withContent:self.popoverGroup2];
 }
 
 - (IBAction)groupThreeAction:(id)sender {
-    [self notImplemented];
+    self.popoverGroup3 = [[EQTablePopover alloc] initWithData:[self obtainGroupNames:[self.viewModel category3List]] delegate:self];
+    UIButton *button = (UIButton *)sender;
+    [self presentPopoverInView:button withContent:self.popoverGroup3];
 }
 
 - (IBAction)reloadAction:(id)sender {
     [self.viewModel resetFilters];
+    [self.groupOneButton setTitle:@"  Todas" forState:UIControlStateNormal];
+    [self.groupTwoButton setTitle:@"  Todas" forState:UIControlStateNormal];
+    [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
     self.searchBar.text = @"";
 }
 
@@ -72,9 +86,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     EQProductCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductCell" forIndexPath:indexPath];
     Articulo *art = [self.viewModel.articles objectAtIndex:indexPath.item];
-    //TODO: reemplazar con nombre cuando funcione
-    cell.productNameLabel.text = art.descripcion;
-    cell.productStatusLabel.text = [art.disponibilidadID stringValue];
+    cell.productNameLabel.text = art.nombre;
+    cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
     int precio = art.precio.importe ? [art.precio.importe intValue] : 0;
     if (precio > 0) {
@@ -82,7 +95,12 @@
     }
     cell.productCostLabel.text = [NSString stringWithFormat:@"$%i",precio];
     cell.productCodeLabel.text = art.codigo;
-    cell.productStatusLabel.text = [art.disponibilidadID boolValue] ? @"Disponible" : @"Agotado";
+    if([art.disponibilidad.identifier integerValue] > 1){
+        cell.productStatusLabel.hidden = YES;
+    } else {
+        cell.productStatusLabel.hidden = NO;
+        cell.productStatusLabel.text = art.disponibilidad.descripcion;
+    }
     
     return cell;
 }
@@ -128,6 +146,31 @@
     [self.viewModel defineSearchTerm:searchText];
     [NSObject cancelPreviousPerformRequestsWithTarget:self.viewModel selector:@selector(loadData) object:nil];
     [self.viewModel performSelector:@selector(loadData) withObject:nil afterDelay:.8];
+}
+
+#pragma mark - Table Popover delegate
+
+- (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
+    if (selectedData) {
+        NSString *title = [NSString stringWithFormat:@"  %@",selectedData];
+        if (sender == self.popoverGroup1) {
+            [self.viewModel defineSelectedCategory1:rowNumber];
+            [self.groupOneButton setTitle:title forState:UIControlStateNormal];
+            [self.groupTwoButton setTitle:@"  Todas" forState:UIControlStateNormal];
+            [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
+        } else if (sender == self.popoverGroup2) {
+            [self.viewModel defineSelectedCategory2:rowNumber];
+            [self.groupTwoButton setTitle:title forState:UIControlStateNormal];
+            [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
+        } else if (sender == self.popoverGroup3) {
+            [self.viewModel defineSelectedCategory3:rowNumber];
+            [self.groupThreeButton setTitle:title forState:UIControlStateNormal];
+        }
+        
+        [self.viewModel loadData];
+    }
+
+    [self closePopover];
 }
 
 @end

@@ -18,6 +18,6 @@ typedef enum{
 }EQTabIndex;
 
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
-#define MAXIMUM_MINUTES_TO_UPDATE 1
+#define MAXIMUM_MINUTES_TO_UPDATE 10
 #define BASE_URL "http://eq.gm2dev.com/wp-admin/admin-ajax.php"
 #define SELECTION_TEXT "Elige una"

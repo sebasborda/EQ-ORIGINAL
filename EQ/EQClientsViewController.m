@@ -22,19 +22,13 @@
 
 @implementation EQClientsViewController
 
--(id)initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.viewModel = [EQClientsViewModel new];
-        self.viewModel.delegate = self;
-    }
-    return self;
-}
-
 - (void)viewDidLoad{
-    [super viewDidLoad];
+    
+    self.viewModel = [EQClientsViewModel new];
+    self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQClientCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -51,6 +45,10 @@
     EQTablePopover *popover = [[EQTablePopover alloc] initWithData:self.viewModel.sortFields delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
+}
+
+- (IBAction)newClientButtonAction:(id)sender {
+    self.createClient = [[EQCreateClientViewController alloc] init];
 }
 
 #pragma mark - Table view data source

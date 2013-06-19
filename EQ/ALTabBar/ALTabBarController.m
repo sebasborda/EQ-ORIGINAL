@@ -47,6 +47,15 @@
     [self.customTabBarView selectTabAtIndex:index];
 }
 
+- (void)reloadControllers{
+    NSMutableArray *controllers = [NSMutableArray new];
+    for (UIViewController *controller in self.viewControllers) {
+        [controllers addObject:[[controller class] new]];
+    }
+    
+    self.viewControllers = controllers;
+}
+
 #pragma mark ALTabBarDelegate
 
 -(void)tabWasSelected:(NSInteger)index {

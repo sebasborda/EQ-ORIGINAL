@@ -2,7 +2,7 @@
 //  CtaCte.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/12/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,14 +14,14 @@
 @implementation CtaCte
 
 @dynamic comprobante;
+@dynamic condicionDeVenta;
 @dynamic diasDeAtraso;
 @dynamic empresa;
 @dynamic fecha;
 @dynamic identifier;
 @dynamic importe;
-@dynamic importePercepcion;
-@dynamic condicionDeVenta;
 @dynamic importeConDescuento;
+@dynamic importePercepcion;
 @dynamic cliente;
 @dynamic vendedor;
 

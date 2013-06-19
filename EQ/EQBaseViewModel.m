@@ -15,7 +15,6 @@
 @implementation EQBaseViewModel
 
 - (NSString *)sellerName{
-    
     return [EQSession sharedInstance].user.vendedor ? [EQSession sharedInstance].user.vendedor.descripcion : [EQSession sharedInstance].user.nombre;
 }
 

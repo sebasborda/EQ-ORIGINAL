@@ -2,7 +2,7 @@
 //  Vendedor.h
 //  EQ
 //
-//  Created by Sebastian Borda on 5/16/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -20,9 +20,9 @@
 @property (nonatomic, retain) NSSet *clienteCobrador;
 @property (nonatomic, retain) NSSet *clienteVendedor;
 @property (nonatomic, retain) NSSet *ctaCte;
+@property (nonatomic, retain) NSSet *pedidos;
 @property (nonatomic, retain) Usuario *usuario;
 @property (nonatomic, retain) NSSet *venta;
-@property (nonatomic, retain) NSSet *pedidos;
 @end
 
 @interface Vendedor (CoreDataGeneratedAccessors)
@@ -42,14 +42,14 @@
 - (void)addCtaCte:(NSSet *)values;
 - (void)removeCtaCte:(NSSet *)values;
 
-- (void)addVentaObject:(Venta *)value;
-- (void)removeVentaObject:(Venta *)value;
-- (void)addVenta:(NSSet *)values;
-- (void)removeVenta:(NSSet *)values;
-
 - (void)addPedidosObject:(Pedido *)value;
 - (void)removePedidosObject:(Pedido *)value;
 - (void)addPedidos:(NSSet *)values;
 - (void)removePedidos:(NSSet *)values;
+
+- (void)addVentaObject:(Venta *)value;
+- (void)removeVentaObject:(Venta *)value;
+- (void)addVenta:(NSSet *)values;
+- (void)removeVenta:(NSSet *)values;
 
 @end

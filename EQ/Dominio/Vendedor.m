@@ -2,7 +2,7 @@
 //  Vendedor.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/16/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -23,8 +23,8 @@
 @dynamic clienteCobrador;
 @dynamic clienteVendedor;
 @dynamic ctaCte;
+@dynamic pedidos;
 @dynamic usuario;
 @dynamic venta;
-@dynamic pedidos;
 
 @end

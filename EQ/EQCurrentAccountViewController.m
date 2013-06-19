@@ -21,20 +21,12 @@
 
 @implementation EQCurrentAccountViewController
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.viewModel = [EQCurrentAccountViewModel new];
-        self.viewModel.delegate = self;
-    }
-    return self;
-}
-
 - (void)viewDidLoad{
-    [super viewDidLoad];
+    self.viewModel = [EQCurrentAccountViewModel new];
+    self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQCurrentAccountCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -92,7 +84,10 @@
     EQCurrentAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.clientLabel.text = ctaCte.cliente.nombre;
-    cell.dateLabel.text = ctaCte.fecha;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+    cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];
     cell.delayLabel.text = ctaCte.diasDeAtraso;
     cell.voucherLabel.text = ctaCte.comprobante;
     cell.conditionLabel.text = ctaCte.condicionDeVenta;

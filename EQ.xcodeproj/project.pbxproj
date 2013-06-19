@@ -9,11 +9,6 @@
 /* Begin PBXBuildFile section */
 		21014BD2173048550035F36B /* EQRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BD1173048550035F36B /* EQRequest.m */; };
 		21014BD51730AB050035F36B /* NSDictionary+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BD41730AB040035F36B /* NSDictionary+EQ.m */; };
-		21014BE41730CE050035F36B /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BE31730CE030035F36B /* Venta.m */; };
-		21014BEA1730D1150035F36B /* TipoIvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BE91730D1140035F36B /* TipoIvas.m */; };
-		21014BED1730D1180035F36B /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BEC1730D1170035F36B /* Provincia.m */; };
-		21014BF91730DE6D0035F36B /* Expreso.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BF81730DE6D0035F36B /* Expreso.m */; };
-		21014BFC173178270035F36B /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BFB173178270035F36B /* Usuario.m */; };
 		21014BFF173192AC0035F36B /* NSString+Number.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014BFE173192AA0035F36B /* NSString+Number.m */; };
 		21014C17173349FB0035F36B /* EQClientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21014C16173349FB0035F36B /* EQClientCell.xib */; };
 		21014C1D173352280035F36B /* EQClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21014C1C173352270035F36B /* EQClientCell.m */; };
@@ -155,7 +150,6 @@
 		214A58E616FFB88A005D787D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 214A58E516FFB88A005D787D /* Default@2x.png */; };
 		214A58E816FFB88A005D787D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 214A58E716FFB88A005D787D /* Default-568h@2x.png */; };
 		214A590316FFBD43005D787D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 214A590216FFBD43005D787D /* CoreData.framework */; };
-		214A590616FFBE77005D787D /* EQModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 214A590416FFBE77005D787D /* EQModel.xcdatamodeld */; };
 		214A590A16FFCB6B005D787D /* EQDataAccessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 214A590916FFCB6B005D787D /* EQDataAccessLayer.m */; };
 		214E8720172BFF3B006E4C31 /* EQLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 214E871F172BFF3B006E4C31 /* EQLoadingView.m */; };
 		214E8726172C14FA006E4C31 /* EQImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 214E8725172C14F9006E4C31 /* EQImageView.m */; };
@@ -165,21 +159,15 @@
 		214E8737172C6430006E4C31 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 214E8736172C642F006E4C31 /* NSString+MD5.m */; };
 		214ED0C8172F47FA007D3718 /* EQClientsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 214ED0C7172F47FA007D3718 /* EQClientsViewModel.m */; };
 		214ED0D7172F76EC007D3718 /* EQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 214ED0D6172F76EC007D3718 /* EQDataManager.m */; };
-		2165782917503D3900CFD18F /* ZonaEnvio.m in Sources */ = {isa = PBXBuildFile; fileRef = 2165782817503D3900CFD18F /* ZonaEnvio.m */; };
-		2165782C17503F6C00CFD18F /* LineaVTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 2165782B17503F6C00CFD18F /* LineaVTA.m */; };
-		2165782F175047A100CFD18F /* CondPag.m in Sources */ = {isa = PBXBuildFile; fileRef = 2165782E175047A100CFD18F /* CondPag.m */; };
 		2172A8F8173B41D800C8C446 /* EQCreateClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A8F6173B41D800C8C446 /* EQCreateClientViewController.m */; };
 		2172A8F9173B41D800C8C446 /* EQCreateClientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2172A8F7173B41D800C8C446 /* EQCreateClientViewController.xib */; };
 		2172A8FC173B428900C8C446 /* EQCreateClientViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A8FB173B428800C8C446 /* EQCreateClientViewModel.m */; };
 		2172A905173C842D00C8C446 /* NSMutableDictionary+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A904173C842C00C8C446 /* NSMutableDictionary+EQ.m */; };
 		2172A90B1740611A00C8C446 /* EQCurrentAccountViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A90A1740611900C8C446 /* EQCurrentAccountViewModel.m */; };
-		2172A91117408E1F00C8C446 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A91017408E1D00C8C446 /* CtaCte.m */; };
 		2172A913174097DB00C8C446 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2172A912174097DA00C8C446 /* MessageUI.framework */; };
-		2172A91A1743F1AB00C8C446 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A9191743F1AB00C8C446 /* Cliente.m */; };
 		2172A91D1744747100C8C446 /* EQOrdersViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A91C1744747000C8C446 /* EQOrdersViewModel.m */; };
 		2172A921174476CF00C8C446 /* EQOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A920174476CF00C8C446 /* EQOrderCell.m */; };
 		2172A923174476FE00C8C446 /* EQOrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2172A922174476FE00C8C446 /* EQOrderCell.xib */; };
-		2172A92C17453BAF00C8C446 /* Vendedor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A92B17453BAE00C8C446 /* Vendedor.m */; };
 		2172A9421746671A00C8C446 /* EQDateFilterPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 2172A9401746671600C8C446 /* EQDateFilterPopover.m */; };
 		2172A9431746671A00C8C446 /* EQDateFilterPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2172A9411746671700C8C446 /* EQDateFilterPopover.xib */; };
 		218BCE1A172739CA00FC8D92 /* detailButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 218BCE12172739CA00FC8D92 /* detailButton.png */; };
@@ -192,11 +180,7 @@
 		219D90C717487300007BF3E9 /* EQArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 219D90C617487300007BF3E9 /* EQArticleCell.xib */; };
 		219D90C917495D3D007BF3E9 /* EQEditOrderDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 219D90C817495D3D007BF3E9 /* EQEditOrderDetailCell.xib */; };
 		219D90CC17495D5E007BF3E9 /* EQEditOrderDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90CB17495D5E007BF3E9 /* EQEditOrderDetailCell.m */; };
-		219D90CF1749AA92007BF3E9 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90CE1749AA92007BF3E9 /* ItemPedido.m */; };
-		219D90D21749AA93007BF3E9 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90D11749AA93007BF3E9 /* Pedido.m */; };
 		219D90D6174A6384007BF3E9 /* ItemPedido+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90D5174A6384007BF3E9 /* ItemPedido+extra.m */; };
-		219D90DC174A64A6007BF3E9 /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90DB174A64A6007BF3E9 /* Articulo.m */; };
-		219D90DF174A67A4007BF3E9 /* Precio.m in Sources */ = {isa = PBXBuildFile; fileRef = 219D90DE174A67A3007BF3E9 /* Precio.m */; };
 		21D2C9DD174C727100527202 /* EQCurrentAccountFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21D2C9DC174C727100527202 /* EQCurrentAccountFooter.xib */; };
 		21D2C9E0174C7A9400527202 /* EQCurrentAccountFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D2C9DF174C7A9400527202 /* EQCurrentAccountFooter.m */; };
 		21D39CC81739336A00B3D324 /* clean.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D39CC61739336A00B3D324 /* clean.png */; };
@@ -205,6 +189,24 @@
 		6B2D51C0176E196F0044AF24 /* EQCommunicationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2D51BE176E196E0044AF24 /* EQCommunicationsViewController.xib */; };
 		6B2D51C4176E19980044AF24 /* EQGoalsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D51C2176E19980044AF24 /* EQGoalsViewController.m */; };
 		6B2D51C5176E19980044AF24 /* EQGoalsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2D51C3176E19980044AF24 /* EQGoalsViewController.xib */; };
+		6BA0D6C0176E486B000F86A0 /* EQModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6BE176E486B000F86A0 /* EQModel.xcdatamodeld */; };
+		6BA0D6C3176E48A3000F86A0 /* Vendedor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6C2176E48A3000F86A0 /* Vendedor.m */; };
+		6BA0D6C6176E48A4000F86A0 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6C5176E48A4000F86A0 /* Cliente.m */; };
+		6BA0D6C9176E48A4000F86A0 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6C8176E48A4000F86A0 /* ItemPedido.m */; };
+		6BA0D6CC176E48A4000F86A0 /* ZonaEnvio.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6CB176E48A4000F86A0 /* ZonaEnvio.m */; };
+		6BA0D6CF176E48A4000F86A0 /* TipoIvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6CE176E48A4000F86A0 /* TipoIvas.m */; };
+		6BA0D6D2176E48A4000F86A0 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6D1176E48A4000F86A0 /* CtaCte.m */; };
+		6BA0D6D5176E48A4000F86A0 /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6D4176E48A4000F86A0 /* Usuario.m */; };
+		6BA0D6D8176E48A4000F86A0 /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6D7176E48A4000F86A0 /* Provincia.m */; };
+		6BA0D6DB176E48A4000F86A0 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6DA176E48A4000F86A0 /* Pedido.m */; };
+		6BA0D6E1176E48A4000F86A0 /* Expreso.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6E0176E48A4000F86A0 /* Expreso.m */; };
+		6BA0D6E4176E48A4000F86A0 /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6E3176E48A4000F86A0 /* Venta.m */; };
+		6BA0D6E7176E48A4000F86A0 /* LineaVTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6E6176E48A4000F86A0 /* LineaVTA.m */; };
+		6BA0D6EA176E48A4000F86A0 /* Precio.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6E9176E48A4000F86A0 /* Precio.m */; };
+		6BA0D6ED176E48A4000F86A0 /* CondPag.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6EC176E48A4000F86A0 /* CondPag.m */; };
+		6BA0D6F3176E85D8000F86A0 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6F2176E85D8000F86A0 /* Grupo.m */; };
+		6BA0D6FF176F7C58000F86A0 /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6FE176F7C57000F86A0 /* Articulo.m */; };
+		6BA0D702176F8B08000F86A0 /* Disponibilidad.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D701176F8B08000F86A0 /* Disponibilidad.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -212,16 +214,6 @@
 		21014BD1173048550035F36B /* EQRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQRequest.m; sourceTree = "<group>"; };
 		21014BD31730AB010035F36B /* NSDictionary+EQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+EQ.h"; sourceTree = "<group>"; };
 		21014BD41730AB040035F36B /* NSDictionary+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+EQ.m"; sourceTree = "<group>"; };
-		21014BE21730CE020035F36B /* Venta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venta.h; sourceTree = "<group>"; };
-		21014BE31730CE030035F36B /* Venta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venta.m; sourceTree = "<group>"; };
-		21014BE81730D1140035F36B /* TipoIvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipoIvas.h; sourceTree = "<group>"; };
-		21014BE91730D1140035F36B /* TipoIvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipoIvas.m; sourceTree = "<group>"; };
-		21014BEB1730D1150035F36B /* Provincia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provincia.h; sourceTree = "<group>"; };
-		21014BEC1730D1170035F36B /* Provincia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Provincia.m; sourceTree = "<group>"; };
-		21014BF71730DE6D0035F36B /* Expreso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expreso.h; path = ../Expreso.h; sourceTree = "<group>"; };
-		21014BF81730DE6D0035F36B /* Expreso.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Expreso.m; path = ../Expreso.m; sourceTree = "<group>"; };
-		21014BFA173178270035F36B /* Usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usuario.h; sourceTree = "<group>"; };
-		21014BFB173178270035F36B /* Usuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usuario.m; sourceTree = "<group>"; };
 		21014BFD173192A60035F36B /* NSString+Number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Number.h"; sourceTree = "<group>"; };
 		21014BFE173192AA0035F36B /* NSString+Number.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Number.m"; sourceTree = "<group>"; };
 		21014C16173349FB0035F36B /* EQClientCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQClientCell.xib; sourceTree = "<group>"; };
@@ -399,7 +391,6 @@
 		214A58E516FFB88A005D787D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		214A58E716FFB88A005D787D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		214A590216FFBD43005D787D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		214A590516FFBE77005D787D /* EQModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EQModel.xcdatamodel; sourceTree = "<group>"; };
 		214A590816FFCB6B005D787D /* EQDataAccessLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQDataAccessLayer.h; sourceTree = "<group>"; };
 		214A590916FFCB6B005D787D /* EQDataAccessLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQDataAccessLayer.m; sourceTree = "<group>"; };
 		214E871E172BFF3B006E4C31 /* EQLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQLoadingView.h; sourceTree = "<group>"; };
@@ -418,12 +409,6 @@
 		214ED0C7172F47FA007D3718 /* EQClientsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQClientsViewModel.m; sourceTree = "<group>"; };
 		214ED0D5172F76EC007D3718 /* EQDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQDataManager.h; sourceTree = "<group>"; };
 		214ED0D6172F76EC007D3718 /* EQDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQDataManager.m; sourceTree = "<group>"; };
-		2165782717503D3900CFD18F /* ZonaEnvio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZonaEnvio.h; sourceTree = "<group>"; };
-		2165782817503D3900CFD18F /* ZonaEnvio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZonaEnvio.m; sourceTree = "<group>"; };
-		2165782A17503F6C00CFD18F /* LineaVTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineaVTA.h; sourceTree = "<group>"; };
-		2165782B17503F6C00CFD18F /* LineaVTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineaVTA.m; sourceTree = "<group>"; };
-		2165782D175047A100CFD18F /* CondPag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CondPag.h; sourceTree = "<group>"; };
-		2165782E175047A100CFD18F /* CondPag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CondPag.m; sourceTree = "<group>"; };
 		2172A8F5173B41D800C8C446 /* EQCreateClientViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCreateClientViewController.h; sourceTree = "<group>"; };
 		2172A8F6173B41D800C8C446 /* EQCreateClientViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCreateClientViewController.m; sourceTree = "<group>"; };
 		2172A8F7173B41D800C8C446 /* EQCreateClientViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQCreateClientViewController.xib; sourceTree = "<group>"; };
@@ -433,18 +418,12 @@
 		2172A904173C842C00C8C446 /* NSMutableDictionary+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+EQ.m"; sourceTree = "<group>"; };
 		2172A9091740611900C8C446 /* EQCurrentAccountViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCurrentAccountViewModel.h; sourceTree = "<group>"; };
 		2172A90A1740611900C8C446 /* EQCurrentAccountViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCurrentAccountViewModel.m; sourceTree = "<group>"; };
-		2172A90F17408E1C00C8C446 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
-		2172A91017408E1D00C8C446 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
 		2172A912174097DA00C8C446 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		2172A9181743F1AB00C8C446 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
-		2172A9191743F1AB00C8C446 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
 		2172A91B1744747000C8C446 /* EQOrdersViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQOrdersViewModel.h; sourceTree = "<group>"; };
 		2172A91C1744747000C8C446 /* EQOrdersViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQOrdersViewModel.m; sourceTree = "<group>"; };
 		2172A91F174476CF00C8C446 /* EQOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQOrderCell.h; sourceTree = "<group>"; };
 		2172A920174476CF00C8C446 /* EQOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQOrderCell.m; sourceTree = "<group>"; };
 		2172A922174476FE00C8C446 /* EQOrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQOrderCell.xib; sourceTree = "<group>"; };
-		2172A92A17453BAD00C8C446 /* Vendedor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendedor.h; sourceTree = "<group>"; };
-		2172A92B17453BAE00C8C446 /* Vendedor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vendedor.m; sourceTree = "<group>"; };
 		2172A93F1746671500C8C446 /* EQDateFilterPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQDateFilterPopover.h; sourceTree = "<group>"; };
 		2172A9401746671600C8C446 /* EQDateFilterPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQDateFilterPopover.m; sourceTree = "<group>"; };
 		2172A9411746671700C8C446 /* EQDateFilterPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQDateFilterPopover.xib; sourceTree = "<group>"; };
@@ -463,16 +442,8 @@
 		219D90C817495D3D007BF3E9 /* EQEditOrderDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQEditOrderDetailCell.xib; sourceTree = "<group>"; };
 		219D90CA17495D5E007BF3E9 /* EQEditOrderDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQEditOrderDetailCell.h; sourceTree = "<group>"; };
 		219D90CB17495D5E007BF3E9 /* EQEditOrderDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQEditOrderDetailCell.m; sourceTree = "<group>"; };
-		219D90CD1749AA92007BF3E9 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
-		219D90CE1749AA92007BF3E9 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
-		219D90D01749AA93007BF3E9 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
-		219D90D11749AA93007BF3E9 /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
 		219D90D4174A6384007BF3E9 /* ItemPedido+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ItemPedido+extra.h"; sourceTree = "<group>"; };
 		219D90D5174A6384007BF3E9 /* ItemPedido+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ItemPedido+extra.m"; sourceTree = "<group>"; };
-		219D90DA174A64A6007BF3E9 /* Articulo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Articulo.h; sourceTree = "<group>"; };
-		219D90DB174A64A6007BF3E9 /* Articulo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Articulo.m; sourceTree = "<group>"; };
-		219D90DD174A67A3007BF3E9 /* Precio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Precio.h; sourceTree = "<group>"; };
-		219D90DE174A67A3007BF3E9 /* Precio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Precio.m; sourceTree = "<group>"; };
 		21D2C9DC174C727100527202 /* EQCurrentAccountFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQCurrentAccountFooter.xib; sourceTree = "<group>"; };
 		21D2C9DE174C7A9400527202 /* EQCurrentAccountFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCurrentAccountFooter.h; sourceTree = "<group>"; };
 		21D2C9DF174C7A9400527202 /* EQCurrentAccountFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCurrentAccountFooter.m; sourceTree = "<group>"; };
@@ -484,6 +455,41 @@
 		6B2D51C1176E19980044AF24 /* EQGoalsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQGoalsViewController.h; sourceTree = "<group>"; };
 		6B2D51C2176E19980044AF24 /* EQGoalsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQGoalsViewController.m; sourceTree = "<group>"; };
 		6B2D51C3176E19980044AF24 /* EQGoalsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQGoalsViewController.xib; sourceTree = "<group>"; };
+		6BA0D6BF176E486B000F86A0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		6BA0D6C1176E48A3000F86A0 /* Vendedor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendedor.h; sourceTree = "<group>"; };
+		6BA0D6C2176E48A3000F86A0 /* Vendedor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vendedor.m; sourceTree = "<group>"; };
+		6BA0D6C4176E48A4000F86A0 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
+		6BA0D6C5176E48A4000F86A0 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
+		6BA0D6C7176E48A4000F86A0 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
+		6BA0D6C8176E48A4000F86A0 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
+		6BA0D6CA176E48A4000F86A0 /* ZonaEnvio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZonaEnvio.h; sourceTree = "<group>"; };
+		6BA0D6CB176E48A4000F86A0 /* ZonaEnvio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZonaEnvio.m; sourceTree = "<group>"; };
+		6BA0D6CD176E48A4000F86A0 /* TipoIvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipoIvas.h; sourceTree = "<group>"; };
+		6BA0D6CE176E48A4000F86A0 /* TipoIvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipoIvas.m; sourceTree = "<group>"; };
+		6BA0D6D0176E48A4000F86A0 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
+		6BA0D6D1176E48A4000F86A0 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
+		6BA0D6D3176E48A4000F86A0 /* Usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usuario.h; sourceTree = "<group>"; };
+		6BA0D6D4176E48A4000F86A0 /* Usuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usuario.m; sourceTree = "<group>"; };
+		6BA0D6D6176E48A4000F86A0 /* Provincia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provincia.h; sourceTree = "<group>"; };
+		6BA0D6D7176E48A4000F86A0 /* Provincia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Provincia.m; sourceTree = "<group>"; };
+		6BA0D6D9176E48A4000F86A0 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
+		6BA0D6DA176E48A4000F86A0 /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
+		6BA0D6DF176E48A4000F86A0 /* Expreso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expreso.h; sourceTree = "<group>"; };
+		6BA0D6E0176E48A4000F86A0 /* Expreso.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Expreso.m; sourceTree = "<group>"; };
+		6BA0D6E2176E48A4000F86A0 /* Venta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venta.h; sourceTree = "<group>"; };
+		6BA0D6E3176E48A4000F86A0 /* Venta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venta.m; sourceTree = "<group>"; };
+		6BA0D6E5176E48A4000F86A0 /* LineaVTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineaVTA.h; sourceTree = "<group>"; };
+		6BA0D6E6176E48A4000F86A0 /* LineaVTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineaVTA.m; sourceTree = "<group>"; };
+		6BA0D6E8176E48A4000F86A0 /* Precio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Precio.h; sourceTree = "<group>"; };
+		6BA0D6E9176E48A4000F86A0 /* Precio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Precio.m; sourceTree = "<group>"; };
+		6BA0D6EB176E48A4000F86A0 /* CondPag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CondPag.h; sourceTree = "<group>"; };
+		6BA0D6EC176E48A4000F86A0 /* CondPag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CondPag.m; sourceTree = "<group>"; };
+		6BA0D6F1176E85D8000F86A0 /* Grupo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grupo.h; sourceTree = "<group>"; };
+		6BA0D6F2176E85D8000F86A0 /* Grupo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grupo.m; sourceTree = "<group>"; };
+		6BA0D6FD176F7C57000F86A0 /* Articulo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Articulo.h; sourceTree = "<group>"; };
+		6BA0D6FE176F7C57000F86A0 /* Articulo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Articulo.m; sourceTree = "<group>"; };
+		6BA0D700176F8B08000F86A0 /* Disponibilidad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disponibilidad.h; sourceTree = "<group>"; };
+		6BA0D701176F8B08000F86A0 /* Disponibilidad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disponibilidad.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -519,36 +525,40 @@
 			isa = PBXGroup;
 			children = (
 				219D90D3174A635C007BF3E9 /* extra */,
-				21014BE21730CE020035F36B /* Venta.h */,
-				21014BE31730CE030035F36B /* Venta.m */,
-				21014BEB1730D1150035F36B /* Provincia.h */,
-				21014BEC1730D1170035F36B /* Provincia.m */,
-				21014BE81730D1140035F36B /* TipoIvas.h */,
-				21014BE91730D1140035F36B /* TipoIvas.m */,
-				21014BF71730DE6D0035F36B /* Expreso.h */,
-				21014BF81730DE6D0035F36B /* Expreso.m */,
-				21014BFA173178270035F36B /* Usuario.h */,
-				21014BFB173178270035F36B /* Usuario.m */,
-				2172A90F17408E1C00C8C446 /* CtaCte.h */,
-				2172A91017408E1D00C8C446 /* CtaCte.m */,
-				2172A9181743F1AB00C8C446 /* Cliente.h */,
-				2172A9191743F1AB00C8C446 /* Cliente.m */,
-				2172A92A17453BAD00C8C446 /* Vendedor.h */,
-				2172A92B17453BAE00C8C446 /* Vendedor.m */,
-				219D90D01749AA93007BF3E9 /* Pedido.h */,
-				219D90D11749AA93007BF3E9 /* Pedido.m */,
-				219D90CD1749AA92007BF3E9 /* ItemPedido.h */,
-				219D90CE1749AA92007BF3E9 /* ItemPedido.m */,
-				219D90DA174A64A6007BF3E9 /* Articulo.h */,
-				219D90DB174A64A6007BF3E9 /* Articulo.m */,
-				219D90DD174A67A3007BF3E9 /* Precio.h */,
-				219D90DE174A67A3007BF3E9 /* Precio.m */,
-				2165782717503D3900CFD18F /* ZonaEnvio.h */,
-				2165782817503D3900CFD18F /* ZonaEnvio.m */,
-				2165782A17503F6C00CFD18F /* LineaVTA.h */,
-				2165782B17503F6C00CFD18F /* LineaVTA.m */,
-				2165782D175047A100CFD18F /* CondPag.h */,
-				2165782E175047A100CFD18F /* CondPag.m */,
+				6BA0D6EB176E48A4000F86A0 /* CondPag.h */,
+				6BA0D6EC176E48A4000F86A0 /* CondPag.m */,
+				6BA0D6E8176E48A4000F86A0 /* Precio.h */,
+				6BA0D6E9176E48A4000F86A0 /* Precio.m */,
+				6BA0D6E5176E48A4000F86A0 /* LineaVTA.h */,
+				6BA0D6E6176E48A4000F86A0 /* LineaVTA.m */,
+				6BA0D6E2176E48A4000F86A0 /* Venta.h */,
+				6BA0D6E3176E48A4000F86A0 /* Venta.m */,
+				6BA0D6DF176E48A4000F86A0 /* Expreso.h */,
+				6BA0D6E0176E48A4000F86A0 /* Expreso.m */,
+				6BA0D6D9176E48A4000F86A0 /* Pedido.h */,
+				6BA0D6DA176E48A4000F86A0 /* Pedido.m */,
+				6BA0D6D6176E48A4000F86A0 /* Provincia.h */,
+				6BA0D6D7176E48A4000F86A0 /* Provincia.m */,
+				6BA0D6D3176E48A4000F86A0 /* Usuario.h */,
+				6BA0D6D4176E48A4000F86A0 /* Usuario.m */,
+				6BA0D6D0176E48A4000F86A0 /* CtaCte.h */,
+				6BA0D6D1176E48A4000F86A0 /* CtaCte.m */,
+				6BA0D6CD176E48A4000F86A0 /* TipoIvas.h */,
+				6BA0D6CE176E48A4000F86A0 /* TipoIvas.m */,
+				6BA0D6CA176E48A4000F86A0 /* ZonaEnvio.h */,
+				6BA0D6CB176E48A4000F86A0 /* ZonaEnvio.m */,
+				6BA0D6C7176E48A4000F86A0 /* ItemPedido.h */,
+				6BA0D6C8176E48A4000F86A0 /* ItemPedido.m */,
+				6BA0D6C4176E48A4000F86A0 /* Cliente.h */,
+				6BA0D6C5176E48A4000F86A0 /* Cliente.m */,
+				6BA0D6C1176E48A3000F86A0 /* Vendedor.h */,
+				6BA0D6C2176E48A3000F86A0 /* Vendedor.m */,
+				6BA0D6F1176E85D8000F86A0 /* Grupo.h */,
+				6BA0D6F2176E85D8000F86A0 /* Grupo.m */,
+				6BA0D6FD176F7C57000F86A0 /* Articulo.h */,
+				6BA0D6FE176F7C57000F86A0 /* Articulo.m */,
+				6BA0D700176F8B08000F86A0 /* Disponibilidad.h */,
+				6BA0D701176F8B08000F86A0 /* Disponibilidad.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -912,9 +922,6 @@
 		214A58C516FFB88A005D787D = {
 			isa = PBXGroup;
 			children = (
-				2172A912174097DA00C8C446 /* MessageUI.framework */,
-				2144AA20172A23720065D30A /* MobileCoreServices.framework */,
-				2144AA1E172A23640065D30A /* SystemConfiguration.framework */,
 				214A58D716FFB88A005D787D /* EQ */,
 				214A58D016FFB88A005D787D /* Frameworks */,
 				214A58CF16FFB88A005D787D /* Products */,
@@ -932,6 +939,9 @@
 		214A58D016FFB88A005D787D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2172A912174097DA00C8C446 /* MessageUI.framework */,
+				2144AA20172A23720065D30A /* MobileCoreServices.framework */,
+				2144AA1E172A23640065D30A /* SystemConfiguration.framework */,
 				212A8A51171F865400F7900A /* QuartzCore.framework */,
 				214A590216FFBD43005D787D /* CoreData.framework */,
 				214A58D116FFB88A005D787D /* UIKit.framework */,
@@ -975,7 +985,7 @@
 			isa = PBXGroup;
 			children = (
 				211067CF1719C33F002C42C0 /* Dominio */,
-				214A590416FFBE77005D787D /* EQModel.xcdatamodeld */,
+				6BA0D6BE176E486B000F86A0 /* EQModel.xcdatamodeld */,
 				214A590816FFCB6B005D787D /* EQDataAccessLayer.h */,
 				214A590916FFCB6B005D787D /* EQDataAccessLayer.m */,
 			);
@@ -1215,7 +1225,6 @@
 			files = (
 				214A58DE16FFB88A005D787D /* main.m in Sources */,
 				214A58E216FFB88A005D787D /* EQAppDelegate.m in Sources */,
-				214A590616FFBE77005D787D /* EQModel.xcdatamodeld in Sources */,
 				214A590A16FFCB6B005D787D /* EQDataAccessLayer.m in Sources */,
 				211068031719DD72002C42C0 /* EQLoginViewController.m in Sources */,
 				21106807171AF3AB002C42C0 /* EQLoginViewModel.m in Sources */,
@@ -1255,11 +1264,6 @@
 				214ED0D7172F76EC007D3718 /* EQDataManager.m in Sources */,
 				21014BD2173048550035F36B /* EQRequest.m in Sources */,
 				21014BD51730AB050035F36B /* NSDictionary+EQ.m in Sources */,
-				21014BE41730CE050035F36B /* Venta.m in Sources */,
-				21014BEA1730D1150035F36B /* TipoIvas.m in Sources */,
-				21014BED1730D1180035F36B /* Provincia.m in Sources */,
-				21014BF91730DE6D0035F36B /* Expreso.m in Sources */,
-				21014BFC173178270035F36B /* Usuario.m in Sources */,
 				21014BFF173192AC0035F36B /* NSString+Number.m in Sources */,
 				21014C1D173352280035F36B /* EQClientCell.m in Sources */,
 				2116C5C41739EFBE00C47451 /* EQCurrentAccountCell.m in Sources */,
@@ -1267,26 +1271,34 @@
 				2172A8FC173B428900C8C446 /* EQCreateClientViewModel.m in Sources */,
 				2172A905173C842D00C8C446 /* NSMutableDictionary+EQ.m in Sources */,
 				2172A90B1740611A00C8C446 /* EQCurrentAccountViewModel.m in Sources */,
-				2172A91117408E1F00C8C446 /* CtaCte.m in Sources */,
-				2172A91A1743F1AB00C8C446 /* Cliente.m in Sources */,
 				2172A91D1744747100C8C446 /* EQOrdersViewModel.m in Sources */,
 				2172A921174476CF00C8C446 /* EQOrderCell.m in Sources */,
-				2172A92C17453BAF00C8C446 /* Vendedor.m in Sources */,
 				2172A9421746671A00C8C446 /* EQDateFilterPopover.m in Sources */,
 				219D90C11747E375007BF3E9 /* EQNewOrderViewModel.m in Sources */,
 				219D90C517487288007BF3E9 /* EQArticleCell.m in Sources */,
 				219D90CC17495D5E007BF3E9 /* EQEditOrderDetailCell.m in Sources */,
-				219D90CF1749AA92007BF3E9 /* ItemPedido.m in Sources */,
-				219D90D21749AA93007BF3E9 /* Pedido.m in Sources */,
 				219D90D6174A6384007BF3E9 /* ItemPedido+extra.m in Sources */,
-				219D90DC174A64A6007BF3E9 /* Articulo.m in Sources */,
-				219D90DF174A67A4007BF3E9 /* Precio.m in Sources */,
 				21D2C9E0174C7A9400527202 /* EQCurrentAccountFooter.m in Sources */,
-				2165782917503D3900CFD18F /* ZonaEnvio.m in Sources */,
-				2165782C17503F6C00CFD18F /* LineaVTA.m in Sources */,
-				2165782F175047A100CFD18F /* CondPag.m in Sources */,
 				6B2D51BF176E196F0044AF24 /* EQCommunicationsViewController.m in Sources */,
 				6B2D51C4176E19980044AF24 /* EQGoalsViewController.m in Sources */,
+				6BA0D6C0176E486B000F86A0 /* EQModel.xcdatamodeld in Sources */,
+				6BA0D6C3176E48A3000F86A0 /* Vendedor.m in Sources */,
+				6BA0D6C6176E48A4000F86A0 /* Cliente.m in Sources */,
+				6BA0D6C9176E48A4000F86A0 /* ItemPedido.m in Sources */,
+				6BA0D6CC176E48A4000F86A0 /* ZonaEnvio.m in Sources */,
+				6BA0D6CF176E48A4000F86A0 /* TipoIvas.m in Sources */,
+				6BA0D6D2176E48A4000F86A0 /* CtaCte.m in Sources */,
+				6BA0D6D5176E48A4000F86A0 /* Usuario.m in Sources */,
+				6BA0D6D8176E48A4000F86A0 /* Provincia.m in Sources */,
+				6BA0D6DB176E48A4000F86A0 /* Pedido.m in Sources */,
+				6BA0D6E1176E48A4000F86A0 /* Expreso.m in Sources */,
+				6BA0D6E4176E48A4000F86A0 /* Venta.m in Sources */,
+				6BA0D6E7176E48A4000F86A0 /* LineaVTA.m in Sources */,
+				6BA0D6EA176E48A4000F86A0 /* Precio.m in Sources */,
+				6BA0D6ED176E48A4000F86A0 /* CondPag.m in Sources */,
+				6BA0D6F3176E85D8000F86A0 /* Grupo.m in Sources */,
+				6BA0D6FF176F7C58000F86A0 /* Articulo.m in Sources */,
+				6BA0D702176F8B08000F86A0 /* Disponibilidad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1418,12 +1430,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		214A590416FFBE77005D787D /* EQModel.xcdatamodeld */ = {
+		6BA0D6BE176E486B000F86A0 /* EQModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				214A590516FFBE77005D787D /* EQModel.xcdatamodel */,
+				6BA0D6BF176E486B000F86A0 /* Model.xcdatamodel */,
 			);
-			currentVersion = 214A590516FFBE77005D787D /* EQModel.xcdatamodel */;
+			currentVersion = 6BA0D6BF176E486B000F86A0 /* Model.xcdatamodel */;
 			path = EQModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -40,28 +40,25 @@
     return self;
 }
 
--(NSURLRequest *)generateRequestWithParameters:(NSMutableDictionary *)parameters{
+-(NSURLRequest *)generateRequestWithParameters:(NSMutableDictionary *)params{
+    NSMutableString *queryString = [NSMutableString stringWithFormat:@"%@?action=%@&object=%@",@BASE_URL,params[@"action"],params[@"object"]];
+    BOOL post = [params[@"POST"] boolValue];
     NSURLRequest *request = nil;
-    if ([[parameters allKeys] containsObject:@"POST"]) {
-        [parameters removeObjectForKey:@"POST"];
-        NSURL *url = [NSURL URLWithString:@BASE_URL];
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    [params removeObjectForKey:@"object"];
+    [params removeObjectForKey:@"action"];
+    
+    if (post) {
+        [params removeObjectForKey:@"POST"];        
+        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@BASE_URL]];
         httpClient.parameterEncoding = AFJSONParameterEncoding;
-        request = [httpClient requestWithMethod:@"POST" path:@BASE_URL parameters:parameters];
+        request = [httpClient requestWithMethod:@"POST" path:@BASE_URL parameters:params];
     } else {
-        NSMutableString *queryString = [NSMutableString string];
-        //add extra parameters
-        for (NSString* key in [parameters allKeys]) {
-            NSString *format = [queryString length] == 0 ? @"?%@=%@" : @"&%@=%@";
-            [queryString appendFormat:format,key, [parameters objectForKey:key]];
+        for (NSString *key in params.allKeys) {
+            NSString *value = [NSString stringWithFormat:@"%@",params[key]];
+            value = [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [queryString appendFormat:@"&%@=%@",key,value];
         }
-        
-        NSString *urlString = [NSString stringWithFormat:@"%s%@",BASE_URL,queryString];
-        NSURL *URL = [NSURL URLWithString:urlString];
-        request = [NSURLRequest requestWithURL:URL];
-        if ([queryString length] == 0 || URL == nil || request == nil) {
-            NSLog(@"error");
-        }
+        request = [NSURLRequest requestWithURL:[NSURL URLWithString:queryString]];
     }
     
     return request;

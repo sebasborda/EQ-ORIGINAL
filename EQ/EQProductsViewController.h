@@ -10,8 +10,9 @@
 #import "EQProductsViewModel.h"
 #import "EQTransparentBackgroundSearchBar.h"
 #import "EQProductDetailView.h"
+#import "EQTablePopover.h"
 
-@interface EQProductsViewController : EQBaseViewController<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, EQProductDetailViewDelegate>
+@interface EQProductsViewController : EQBaseViewController<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, EQProductDetailViewDelegate, EQTablePopoverDelegate>
 
 - (IBAction)groupOneAction:(id)sender;
 - (IBAction)groupTwoAction:(id)sender;

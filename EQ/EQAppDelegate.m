@@ -80,6 +80,7 @@
 
 - (void)reStartNavigation{
     [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.tabBarController reloadControllers];
 }
 
 - (void)showLoadingView{

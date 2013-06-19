@@ -20,13 +20,12 @@
 
 @implementation EQOrdersViewController
 
-- (id)init{
-    self = [super init];
-    if (self) {
-        self.viewModel = [EQOrdersViewModel new];
-        self.viewModel.delegate = self;
-    }
-    return self;
+-(void)viewDidLoad{
+    self.viewModel = [EQOrdersViewModel new];
+    self.viewModel.delegate = self;
+    UINib *nib = [UINib nibWithNibName:@"EQOrderCell" bundle: nil];
+    [self.ordersTable registerNib:nib forCellReuseIdentifier:@"OrderCell"];
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -130,6 +129,11 @@
     
     [self.viewModel loadData];
     [self closePopover];
+}
+
+- (void)modelDidUpdateData{
+    [self.ordersTable reloadData];
+    [super modelDidUpdateData];
 }
 
 @end

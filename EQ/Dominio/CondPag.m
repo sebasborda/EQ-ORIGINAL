@@ -2,7 +2,7 @@
 //  CondPag.m
 //  EQ
 //
-//  Created by Sebastian Borda on 5/24/13.
+//  Created by Sebastian Borda on 6/16/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,8 +14,8 @@
 
 @dynamic activo;
 @dynamic codigo;
-@dynamic identifier;
 @dynamic descripcion;
+@dynamic identifier;
 @dynamic cliente;
 
 @end

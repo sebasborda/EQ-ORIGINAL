@@ -8,6 +8,15 @@
 
 #import "EQCreateClientViewController.h"
 #import "NSMutableDictionary+EQ.h"
+#import "Provincia.h"
+#import "ZonaEnvio.h"
+#import "Expreso.h"
+#import "Vendedor.h"
+#import "Vendedor.h"
+#import "Provincia.h"
+#import "LineaVTA.h"
+#import "TipoIvas.h"
+#import "CondPag.h"
 
 @interface EQCreateClientViewController ()
 
@@ -119,61 +128,67 @@
     return YES;
 }
 
-- (IBAction)testButton:(id)sender {
+- (NSArray *)descriptions:(NSArray *)values{
+    NSMutableArray *descriptions = [NSMutableArray new];
+    for (id value in values) {
+        [descriptions addObject:[value performSelector:@selector(descripcion)]];
+    }
+    
+    return descriptions;
 }
 
 - (IBAction)deliveryAreaButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainDeliveryAreaList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainDeliveryAreaList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)provinceButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainProvinces] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainProvinces]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)expressButonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainExpressList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainExpressList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)sellerButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainSellersList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainSellersList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)collectorButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainCollectorList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainCollectorList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)salesLineButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainSalesLineList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainSalesLineList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)paymentConditionButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainPaymentConditionList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainPaymentConditionList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
 
 - (IBAction)taxesButtonAction:(id)sender {
     [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel obtainTaxesList] delegate:self];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self descriptions:[self.viewModel obtainTaxesList]] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
 }
@@ -199,7 +214,7 @@
     [clientDictionary setNotEmptyString:self.scheduleTextField.text forKey:@"schedule"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.CUITTextField withName:@"CUIT"] forKey:@"cuit"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code1TextField withName:@"Codigo 1"] forKey:@"code1"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code2TextField withName:@"Codigo 2"] forKey:@"code2"];
+    [clientDictionary setNotEmptyString:self.code2TextField.text forKey:@"code2"];
     [clientDictionary setNotEmptyString:self.collectionDaysTextField.text forKey:@"collectionDays"];
     [clientDictionary setNotEmptyString:self.discount1TextField.text forKey:@"discount1"];
     [clientDictionary setNotEmptyString:self.discount2TextField.text forKey:@"discount2"];

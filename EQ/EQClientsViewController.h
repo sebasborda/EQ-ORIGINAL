@@ -18,5 +18,6 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet EQTransparentBackgroundSearchBar *searchBar;
 - (IBAction)sortButtonAction:(id)sender;
+- (IBAction)newClientButtonAction:(id)sender;
 
 @end
