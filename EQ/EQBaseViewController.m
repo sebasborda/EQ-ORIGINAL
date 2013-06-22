@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIPopoverController *popoverVC;
 @property (nonatomic, strong) EQBaseViewModel *viewModel;
 @property (nonatomic, strong) UIAlertView *logoutAlert;
+@property (nonatomic, strong) UIScrollView *scroll;
 
 @end
 
@@ -33,6 +34,12 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    self.scroll = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    self.view.frame = CGRectMake(0, 0, self.scroll.frame.size.width, self.scroll.frame.size.height);
+    [self.scroll addSubview:self.view];
+    self.view = self.scroll;
 	[[self navigationController] setNavigationBarHidden:YES animated:NO];
     
     self.sellerNameLabel.text = self.viewModel.sellerName;
@@ -40,6 +47,18 @@
     self.syncDateLabel.text = self.viewModel.lastUpdateWithFormat;
     self.clientStatusLabel.text = self.viewModel.clientStatus;
     self.clientNameLabel.text = self.viewModel.clientName;
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    [self.scroll setContentSize:CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height + 210)];
+    [self.scroll setContentOffset:CGPointMake(0, 210) animated:YES];
+}
+
+-(void)keyboardDidHide:(NSNotification *)notification
+{
+    [self.scroll setContentSize:CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height)];
+    [self.scroll setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 
 - (void)didReceiveMemoryWarning

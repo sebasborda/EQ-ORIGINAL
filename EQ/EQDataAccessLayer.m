@@ -66,6 +66,9 @@
     
     if (sortDescriptor) {
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    } else {
+        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES];
+        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     }
     
     NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];

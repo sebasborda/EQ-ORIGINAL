@@ -89,6 +89,7 @@
     self.client.sucursal = [clientDictionary[@"branch"] number];
     self.client.telefono = clientDictionary[@"phone"];
     self.client.web = clientDictionary[@"web"];
+    self.client.activo = [NSNumber numberWithBool:YES];
     if (self.selectedCollectorAtIndex >= 0 )
         self.client.cobrador = [self obtainCollectorList][self.selectedCollectorAtIndex];
     if (self.selectedPaymentConditionAtIndex >= 0 )
@@ -108,7 +109,7 @@
     if (self.selectedDeliveryAreaAtIndex >= 0 )
         self.client.zonaEnvio = [self obtainDeliveryAreaList][self.selectedDeliveryAreaAtIndex];
     
-    [EQDataManager sendClient:self.client];
+    [[EQDataManager sharedInstance] sendClient:self.client];
 }
 
 - (NSArray *)obtainProvinces{

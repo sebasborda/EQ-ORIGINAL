@@ -11,6 +11,7 @@
 #import "Precio.h"
 #import "Disponibilidad.h"
 #import "Grupo.h"
+#import "Precio+Cliente.h"
 
 @interface EQProductDetailView()
 
@@ -30,8 +31,8 @@
     self.quantityLabel.text = [article.minimoPedido stringValue];
     self.multipleLabel.text = [article.multiploPedido stringValue];
     self.statusLabel.text = article.disponibilidad.descripcion;
-    int precio = article.precio.importe ? [article.precio.importe intValue] : 0;
-    self.PriceLabel.text = [NSString stringWithFormat:@"$ %i",precio];
+    CGFloat precio = article.precio.importe ? [article.precio importeConDescuento] : 0;
+    self.PriceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:article.grupoID];
     self.group1Label.text = [grupo nombre];
@@ -55,7 +56,8 @@
     cell.productNameLabel.text = art.nombre;
     cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
-    cell.productCostLabel.text = [art.precio.importe stringValue];
+    CGFloat precio = art.precio.importe ? [art.precio importeConDescuento] : 0;
+    cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precio];
     cell.productCodeLabel.text = art.codigo;
     
     return cell;

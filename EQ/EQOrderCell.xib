@@ -35,7 +35,7 @@
 			</object>
 			<object class="IBUITableViewCell" id="122638599">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
+				<int key="NSvFlags">310</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="96116575">
 						<reference key="NSNextResponder" ref="122638599"/>
@@ -46,6 +46,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{30, 49}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="606195497"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -60,6 +61,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{28, 0}, {61, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="138424748"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -97,6 +99,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{88, 0}, {61, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="273324523"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -116,8 +119,9 @@
 							<object class="IBUILabel" id="273324523">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{157, 0}, {130, 49}}</string>
+								<string key="NSFrame">{{157, 0}, {135, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="740901233"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -129,6 +133,7 @@
 								<reference key="IBUITextColor" ref="231701563"/>
 								<reference key="IBUIHighlightedColor" ref="1063379280"/>
 								<int key="IBUIBaselineAdjustment">0</int>
+								<int key="IBUINumberOfLines">2</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">HelveticaNeue-Bold</string>
 									<string key="family">Helvetica Neue</string>
@@ -141,12 +146,14 @@
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+								<double key="preferredMaxLayoutWidth">135</double>
 							</object>
 							<object class="IBUILabel" id="740901233">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{295, 0}, {67, 49}}</string>
+								<string key="NSFrame">{{300, 0}, {63, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="970150413"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -158,8 +165,17 @@
 								<reference key="IBUITextColor" ref="231701563"/>
 								<reference key="IBUIHighlightedColor" ref="1063379280"/>
 								<int key="IBUIBaselineAdjustment">0</int>
-								<reference key="IBUIFontDescription" ref="300399393"/>
-								<reference key="IBUIFont" ref="676665863"/>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<string key="name">HelveticaNeue-Medium</string>
+									<string key="family">Helvetica Neue</string>
+									<int key="traits">0</int>
+									<double key="pointSize">11</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">HelveticaNeue-Medium</string>
+									<double key="NSSize">11</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUILabel" id="970150413">
@@ -167,6 +183,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{370, 0}, {81, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="269784634"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -185,8 +202,9 @@
 							<object class="IBUILabel" id="269784634">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{454, 0}, {35, 49}}</string>
+								<string key="NSFrame">{{451, 0}, {46, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1073345466"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -208,6 +226,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{497, 0}, {81, 49}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="464053873"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -228,6 +247,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{586, 9}, {35, 30}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="321914927"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -243,9 +263,9 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="269945864">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">03.listado.de.pedidos.btn.editar.png</string>
+									<string key="NSResourceName">editar.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="912138806">
 									<int key="type">2</int>
@@ -262,6 +282,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{641, 9}, {35, 30}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="991820849"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -274,7 +295,10 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="5737544"/>
-								<reference key="IBUINormalBackgroundImage" ref="269945864"/>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">deleteItem.png</string>
+								</object>
 								<reference key="IBUIFontDescription" ref="912138806"/>
 								<reference key="IBUIFont" ref="904898000"/>
 							</object>
@@ -283,6 +307,8 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{697, 9}, {35, 30}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -304,6 +330,7 @@
 						</array>
 						<string key="NSFrameSize">{758, 48}</string>
 						<reference key="NSSuperview" ref="122638599"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="658325435"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -319,6 +346,7 @@
 				</array>
 				<string key="NSFrameSize">{758, 49}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="96116575"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -570,15 +598,105 @@
 			<nil key="sourceID"/>
 			<int key="maxID">101</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">EQOrderCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancelButtonAction:">id</string>
+						<string key="cloneButtonAction:">id</string>
+						<string key="editButtonAction:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cancelButtonAction:">
+							<string key="name">cancelButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="cloneButtonAction:">
+							<string key="name">cloneButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editButtonAction:">
+							<string key="name">editButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="billingDateLabel">UILabel</string>
+						<string key="cancelButton">UIButton</string>
+						<string key="clienLabel">UILabel</string>
+						<string key="cloneButton">UIButton</string>
+						<string key="discountLabel">UILabel</string>
+						<string key="editButton">UIButton</string>
+						<string key="grossPriceLabel">UILabel</string>
+						<string key="netPriceLabel">UILabel</string>
+						<string key="orderNumberLabel">UILabel</string>
+						<string key="statusImageView">UIImageView</string>
+						<string key="syncDateLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="billingDateLabel">
+							<string key="name">billingDateLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cancelButton">
+							<string key="name">cancelButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clienLabel">
+							<string key="name">clienLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="cloneButton">
+							<string key="name">cloneButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="discountLabel">
+							<string key="name">discountLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editButton">
+							<string key="name">editButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="grossPriceLabel">
+							<string key="name">grossPriceLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="netPriceLabel">
+							<string key="name">netPriceLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="orderNumberLabel">
+							<string key="name">orderNumberLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="statusImageView">
+							<string key="name">statusImageView</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="syncDateLabel">
+							<string key="name">syncDateLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EQOrderCell.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="03.listado.de.pedidos.btn.duplicar.png">{35, 30}</string>
-			<string key="03.listado.de.pedidos.btn.editar.png">{35, 30}</string>
 			<string key="03.listado.de.pedidos.btn.estado.sin.facturar.png">{30, 49}</string>
+			<string key="deleteItem.png">{36, 32}</string>
+			<string key="editar.png">{35, 30}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

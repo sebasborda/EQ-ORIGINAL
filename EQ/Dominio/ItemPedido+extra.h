@@ -10,6 +10,6 @@
 
 @interface ItemPedido (extra)
 
-- (NSNumber *)subTotal;
+- (CGFloat)subTotal;
 
 @end

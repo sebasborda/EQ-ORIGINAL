@@ -31,7 +31,7 @@
 }
 
 - (void)updateData{
-    [EQDataManager updateDataShowLoading:NO];
+    [[EQDataManager sharedInstance] updateDataShowLoading:NO];
     
     //Modify last update date
     [self dataUpdated];
@@ -49,7 +49,7 @@
     self.updateTimer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:(MAXIMUM_MINUTES_TO_UPDATE * 60)] interval:(MAXIMUM_MINUTES_TO_UPDATE * 60) target:self selector:@selector(updateData) userInfo:nil repeats:YES];
     NSRunLoop *runner = [NSRunLoop currentRunLoop];
     [runner addTimer:self.updateTimer forMode: NSDefaultRunLoopMode];
-    [EQDataManager updateDataShowLoading:YES];
+    [[EQDataManager sharedInstance] updateDataShowLoading:YES];
 }
 
 - (void)endSession{

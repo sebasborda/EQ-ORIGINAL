@@ -49,6 +49,8 @@
 
 - (IBAction)newClientButtonAction:(id)sender {
     self.createClient = [[EQCreateClientViewController alloc] init];
+    self.createClient.delegate = self;
+    [self presentViewController:self.createClient animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source

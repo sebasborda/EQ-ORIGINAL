@@ -9,12 +9,13 @@
 #import "ItemPedido+extra.h"
 #import "Articulo.h"
 #import "Precio.h"
+#import "Precio+Cliente.h"
 
 @implementation ItemPedido (extra)
 
-- (NSNumber *)subTotal{
-    CGFloat subTotal = [self.articulo.precio.importe floatValue] * [self.cantidad intValue];
-    return [NSNumber numberWithFloat:subTotal];
+- (CGFloat)subTotal{
+    CGFloat subTotal = [self.articulo.precio importeConDescuento] * [self.cantidad intValue];
+    return subTotal;
 }
 
 @end

@@ -24,14 +24,20 @@
 - (void)save;
 
 @property (nonatomic,assign) id<EQNewOrderViewModelDelegate> delegate;
-@property (nonatomic,strong) NSArray *group1;
-@property (nonatomic,strong) NSArray *group2;
 @property (nonatomic,strong) NSArray *articles;
-@property (nonatomic,strong) NSArray *items;
 @property (nonatomic,strong) Pedido *order;
 @property (nonatomic,strong) Articulo *articleSelected;
+@property (nonatomic,strong) NSArray *group1;
+@property (nonatomic,strong) NSArray *group2;
+@property (nonatomic,strong) NSArray *categories;
 
-- (void)defineSelectedCategory:(NSString *)category;
+@property (nonatomic,assign) int categorySelected;
+@property (nonatomic,assign) int group1Selected;
+@property (nonatomic,assign) int group2Selected;
+
+@property (nonatomic,assign) BOOL newOrder;
+
+- (void)defineSelectedCategory:(int)index;
 - (void)defineSelectedGroup1:(int)index;
 - (void)defineSelectedGroup2:(int)index;
 - (void)defineSelectedArticle:(int)index;
@@ -41,4 +47,6 @@
 - (int)discountPercentage;
 - (int)discountValue;
 - (float)total;
+- (NSArray *)items;
+
 @end

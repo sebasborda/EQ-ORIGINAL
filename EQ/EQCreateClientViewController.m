@@ -72,10 +72,10 @@
         self.code1TextField.text = client.codigo1;
         self.code2TextField.text = client.codigo2;
         self.collectionDaysTextField.text = client.diasDePago;
-        self.discount1TextField.text = client.descuento1;
-        self.discount2TextField.text = client.descuento2;
-        self.discount3TextField.text = client.descuento3;
-        self.discount4TextField.text = client.descuento4;
+        self.discount1TextField.text = [client.descuento1 stringValue];
+        self.discount2TextField.text = [client.descuento2 stringValue];
+        self.discount3TextField.text = [client.descuento3 stringValue];
+        self.discount4TextField.text = [client.descuento4 stringValue];
         self.observationsTextField.text = client.observaciones;
     }
     

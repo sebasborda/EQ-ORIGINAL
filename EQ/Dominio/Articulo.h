@@ -2,7 +2,7 @@
 //  Articulo.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/17/13.
+//  Created by Sebastian Borda on 6/21/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -26,10 +26,10 @@
 @property (nonatomic, retain) NSNumber * multiploPedido;
 @property (nonatomic, retain) NSString * nombre;
 @property (nonatomic, retain) NSString * tipo;
+@property (nonatomic, retain) Disponibilidad *disponibilidad;
 @property (nonatomic, retain) NSSet *itemsPedido;
 @property (nonatomic, retain) Precio *precio;
 @property (nonatomic, retain) NSSet *ventas;
-@property (nonatomic, retain) Disponibilidad *disponibilidad;
 @end
 
 @interface Articulo (CoreDataGeneratedAccessors)

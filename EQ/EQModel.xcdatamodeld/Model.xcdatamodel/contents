@@ -26,10 +26,10 @@
         <attribute name="codigo2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="codigoPostal" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cuit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descuento1" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descuento2" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descuento3" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descuento4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descuento1" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="descuento2" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="descuento3" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento4" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="diasDePago" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="domicilio" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="domicilioDeEnvio" optional="YES" attributeType="String" syncable="YES"/>
@@ -113,7 +113,7 @@
     <entity name="Pedido" representedClassName="Pedido" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="descuento" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="descuento3" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="descuento4" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="estado" optional="YES" attributeType="String" syncable="YES"/>
@@ -192,6 +192,7 @@
         <element name="Cliente" positionX="160" positionY="192" width="128" height="615"/>
         <element name="CondPag" positionX="160" positionY="192" width="128" height="120"/>
         <element name="CtaCte" positionX="160" positionY="192" width="128" height="210"/>
+        <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="90"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="120"/>
         <element name="Grupo" positionX="160" positionY="192" width="128" height="120"/>
         <element name="ItemPedido" positionX="160" positionY="192" width="128" height="90"/>
@@ -204,6 +205,5 @@
         <element name="Vendedor" positionX="160" positionY="192" width="128" height="195"/>
         <element name="Venta" positionX="160" positionY="192" width="128" height="195"/>
         <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="120"/>
-        <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

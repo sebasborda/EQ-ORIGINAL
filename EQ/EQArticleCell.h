@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) IBOutlet EQImageView *articleImage;
 @property (strong, nonatomic) IBOutlet UILabel *codeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UITextView *nameTextView;
 
 @end

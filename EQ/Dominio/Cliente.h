@@ -2,7 +2,7 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/16/13.
+//  Created by Sebastian Borda on 6/21/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -19,10 +19,10 @@
 @property (nonatomic, retain) NSString * codigo2;
 @property (nonatomic, retain) NSString * codigoPostal;
 @property (nonatomic, retain) NSString * cuit;
-@property (nonatomic, retain) NSString * descuento1;
-@property (nonatomic, retain) NSString * descuento2;
-@property (nonatomic, retain) NSString * descuento3;
-@property (nonatomic, retain) NSString * descuento4;
+@property (nonatomic, retain) NSNumber * descuento1;
+@property (nonatomic, retain) NSNumber * descuento2;
+@property (nonatomic, retain) NSNumber * descuento3;
+@property (nonatomic, retain) NSNumber * descuento4;
 @property (nonatomic, retain) NSString * diasDePago;
 @property (nonatomic, retain) NSString * domicilio;
 @property (nonatomic, retain) NSString * domicilioDeEnvio;

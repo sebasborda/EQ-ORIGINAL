@@ -32,15 +32,15 @@
 
 - (void)loadOrder:(Pedido *)pedido{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd.MM.yyyy"];
+    [dateFormat setDateFormat:@"dd.MM.yy"];
     [self loadStatusStyle:pedido.estado];
     self.syncDateLabel.text = [dateFormat stringFromDate:pedido.sincronizacion];
     self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = [pedido.identifier stringValue];
-    self.grossPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.subTotal];
+    self.grossPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.subTotal floatValue]];
     self.discountLabel.text = [NSString stringWithFormat:@"%@%%", pedido.descuento];
-    self.netPriceLabel.text = [NSString stringWithFormat:@"$%@", pedido.total];
+    self.netPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.total floatValue]];
 }
 
 
@@ -49,22 +49,22 @@
     if ([estado isEqualToString:@"Pendiente"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.pendiente.png";
         self.editButton.hidden = NO;
-        self.cancelButton .hidden = YES;
-        self.cloneButton.hidden = NO;
+        self.cancelButton .hidden = NO;
+        self.cloneButton.hidden = YES;
     } else if ([estado isEqualToString:@"Facturado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.facturado.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;
-        self.cloneButton.hidden = NO;
+        self.cloneButton.hidden = YES;
     } else if ([estado isEqualToString:@"Presupuestado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.sin.facturar.png";
-        self.editButton.hidden = YES;
-        self.cancelButton .hidden = YES;
-        self.cloneButton.hidden = YES;
+        self.editButton.hidden = NO;
+        self.cancelButton .hidden = NO;
+        self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"Anulado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.cancelado.png";
-        self.editButton.hidden = YES;
-        self.cancelButton .hidden = YES;
+        self.editButton.hidden = NO;
+        self.cancelButton .hidden = NO;
         self.cloneButton.hidden = YES;
         [self.syncDateLabel setTextColor:[UIColor grayColor]];
         [self.billingDateLabel setTextColor:[UIColor grayColor]];

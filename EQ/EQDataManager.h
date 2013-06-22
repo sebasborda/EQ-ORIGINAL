@@ -10,6 +10,7 @@
 
 @interface EQDataManager : NSObject
 
-+ (void)updateDataShowLoading:(BOOL)show;
-+ (void)sendClient:(Cliente *)client;
++ (EQDataManager *)sharedInstance;
+- (void)updateDataShowLoading:(BOOL)show;
+- (void)sendClient:(Cliente *)client;
 @end

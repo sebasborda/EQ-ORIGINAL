@@ -9,5 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface EQEditOrderDetailCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UILabel *codeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *productNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *quantityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+
+- (IBAction)editButtonAction:(id)sender;
+- (IBAction)deleteButtonAction:(id)sender;
 
 @end

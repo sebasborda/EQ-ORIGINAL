@@ -11,9 +11,14 @@
 #import "EQEditOrderDetailCell.h"
 #import "Articulo.h"
 #import "EQImageView.h"
+#import "Grupo.h"
+#import "ItemPedido.h"
+#import "ItemPedido+extra.h"
+#import "Precio.h"
+#import "Precio+Cliente.h"
+#import "ItemPedido+extra.h"
 
 @interface EQNewOrderViewController ()
-
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
 @property (nonatomic,strong) UIAlertView* cancelOrderAlert;
 @property (nonatomic,strong) UIAlertView* saveOrderAlert;
@@ -32,11 +37,22 @@
     return self;
 }
 
+- (id)initWithClonedOrder:(Pedido *)order {
+    self = [super init];
+    if (self) {
+        self.viewModel = [[EQNewOrderViewModel alloc] initWithOrder:order];
+        self.viewModel.delegate = self;
+    }
+    
+    return self;
+}
+
 - (id)initWithOrder:(Pedido *)order {
     self = [super init];
     if (self) {
         self.viewModel = [[EQNewOrderViewModel alloc] initWithOrder:order];
         self.viewModel.delegate = self;
+        self.viewModel.newOrder = NO;
     }
     
     return self;
@@ -109,12 +125,15 @@
 
 - (IBAction)quantityButtonAction:(id)sender {
     UIButton *button = (UIButton *)sender;
-    self.quantityTextField.text = [NSString stringWithFormat:@"%i",button.tag];
+    self.quantityTextField.text = button.titleLabel.text;
 }
 
 - (IBAction)categoryButtonAction:(id)sender {
-    NSArray *categories = [NSArray arrayWithObjects:@"Artistica",@"Limpieza", nil];
-    EQTablePopover *tablePopover = [[EQTablePopover alloc] initWithData:categories delegate:self];
+    NSMutableArray *categoriesNames = [NSMutableArray array];
+    for (Grupo *category in self.viewModel.categories) {
+        [categoriesNames addObject:category.nombre];
+    }
+    EQTablePopover *tablePopover = [[EQTablePopover alloc] initWithData:categoriesNames delegate:self];
     [self presentPopoverInView:sender withContent:tablePopover];
 }
 
@@ -144,7 +163,7 @@
     } else if ([tableView isEqual:self.tableGroup3]) {
         return [self.viewModel.articles count];
     } else if ([tableView isEqual:self.tableOrderDetail]) {
-        return [self.viewModel.items count];
+        return [self.viewModel.order.items count];
     }
     
     return 0;
@@ -153,21 +172,30 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([tableView isEqual:self.tableGroup1]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group1Cell" forIndexPath:indexPath];
-        cell.textLabel.text = [self.viewModel.group1 objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[self.viewModel.group1 objectAtIndex:indexPath.row] nombre];
+        [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:12.f]];
+        cell.textLabel.numberOfLines = 2;
         return cell;
     } else if ([tableView isEqual:self.tableGroup2]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"group2Cell" forIndexPath:indexPath];
-        cell.textLabel.text = [self.viewModel.group2 objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[self.viewModel.group2 objectAtIndex:indexPath.row] nombre];
+        [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica" size:12.f]];
+        cell.textLabel.numberOfLines = 2;
         return cell;
     } else if ([tableView isEqual:self.tableGroup3]) {
         EQArticleCell *cell = (EQArticleCell *)[tableView dequeueReusableCellWithIdentifier:@"ArticleCell" forIndexPath:indexPath];
         Articulo *articulo = [self.viewModel.articles objectAtIndex:indexPath.row];
         [cell.articleImage loadURL:articulo.imagenURL];
         cell.codeLabel.text = articulo.codigo;
-        cell.nameLabel.text = articulo.nombre;
+        cell.nameTextView.text = articulo.nombre;
         return cell;
     } else if ([tableView isEqual:self.tableOrderDetail]) {
         EQEditOrderDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EditOrderDetailCell" forIndexPath:indexPath];
+        ItemPedido *item = [self.viewModel items][indexPath.row];
+        cell.codeLabel.text = item.articulo.codigo;
+        cell.productNameLabel.text = item.articulo.nombre;
+        cell.quantityLabel.text = [item.cantidad stringValue];
+        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f",[item subTotal]];
         return cell;
     }
     
@@ -204,7 +232,7 @@
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
-    [self.viewModel defineSelectedCategory:selectedData];
+    [self.viewModel defineSelectedCategory:rowNumber];
     [self.viewModel loadData];
     [self loadQuantity];
     [self.categoryButton setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
@@ -217,7 +245,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     } else if([alertView isEqual:self.saveOrderAlert]){
-        if (buttonIndex == alertView.cancelButtonIndex) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
             [self.viewModel save];
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -230,9 +258,26 @@
     self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     
+    NSIndexPath *table1IndexPath = self.viewModel.group1Selected >=0 ? [self.tableGroup1 indexPathForSelectedRow] : nil;
+    NSIndexPath *table2IndexPath = self.viewModel.group2Selected >=0 ? [self.tableGroup2 indexPathForSelectedRow] : nil;
+    NSIndexPath *table3IndexPath = self.viewModel.articleSelected ? [self.tableGroup3 indexPathForSelectedRow] : nil;
+    
     [self.tableGroup1 reloadData];
     [self.tableGroup2 reloadData];
-    [self.tableOrderDetail reloadData];
+    [self.tableGroup3 reloadData];
+    
+    if (table1IndexPath) {
+        [self.tableGroup1 selectRowAtIndexPath:table1IndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
+    
+    if (table2IndexPath) {
+        [self.tableGroup2 selectRowAtIndexPath:table2IndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
+    
+    if (table3IndexPath){
+        [self.tableGroup3 selectRowAtIndexPath:table3IndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    }
+    
     [super modelDidUpdateData];
 }
 
@@ -261,7 +306,7 @@
 }
 
 - (void)modelDidAddItem{
-    [self.tableGroup1 reloadData];
+    [self.tableOrderDetail reloadData];
 }
 
 - (void)modelAddItemDidFail{

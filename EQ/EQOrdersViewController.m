@@ -86,12 +86,14 @@
     return 50;
 }
 
-- (void)editOrder:(Pedido *)pedido{
-    
+- (void)editOrder:(Pedido *)order{
+    EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithOrder:order];
+    [self.navigationController pushViewController:newOrderController animated:YES];
 }
 
-- (void)copyOrder:(Pedido *)pedido{
-    
+- (void)copyOrder:(Pedido *)order{
+    EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithClonedOrder:order];
+    [self.navigationController pushViewController:newOrderController animated:YES];
 }
 
 - (void)cancelOrder:(Pedido *)pedido{
@@ -103,7 +105,10 @@
         [self.viewModel defineClient:selectedData];
     } else if ([self.popoverOwner isEqual:self.statusFilterButton]) {
         [self.viewModel defineStatus:selectedData];
+    } else if ([self.popoverOwner isEqual:self.orderFilterButton]) {
+        [self.viewModel changeSortOrder:rowNumber];
     }
+    
     [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
     
     [self closePopover];

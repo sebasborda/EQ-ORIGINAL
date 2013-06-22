@@ -30,17 +30,41 @@
 #import "Disponibilidad.h"
 
 
+@interface EQDataManager()
+
+@property (nonatomic,assign) BOOL showLoading;
+@property (nonatomic,assign) BOOL running;
+@property (nonatomic,strong) FailRequest failBlock;
+
+@end
 
 @implementation EQDataManager
 
-static BOOL showLoading = YES;
-
-+ (void)updateDataShowLoading:(BOOL)show{
-    showLoading = show;
-    [EQDataManager updateShippingArea];
++ (EQDataManager *)sharedInstance {
+    __strong static EQDataManager *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[EQDataManager alloc] init];
+        sharedInstance.showLoading = YES;
+        sharedInstance.running = NO;
+        
+        sharedInstance.failBlock = ^(NSError *error){
+            sharedInstance.running = NO;
+            NSLog(@"EQRequest fail error:%@ UserInfo:%@",error ,error.userInfo);
+        };
+    });
+    return sharedInstance;
 }
 
-+ (NSDictionary *)obtainCredentials{
+- (void)updateDataShowLoading:(BOOL)show{
+    if (!self.running) {
+        self.running = YES;
+        self.showLoading = show;
+        [self updateShippingArea];
+    }
+}
+
+- (NSDictionary *)obtainCredentials{
     NSMutableDictionary *credentials = nil;
     Usuario *user = [[EQSession sharedInstance] user];
     if (user) {
@@ -52,32 +76,40 @@ static BOOL showLoading = YES;
     return credentials;
 }
 
-+ (NSDictionary *)obtainLastUpdate{
-    NSMutableDictionary *lastUpdate = nil;
-    NSDate *lastSyncDate = [[EQSession sharedInstance] lastSyncDate];
+- (void)updateCompletedFor:(Class)class{
+    NSString *className = NSStringFromClass(class);
+    NSString *key = [className stringByAppendingString:@"LasUpdate"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSMutableDictionary *)obtainLastUpdateFor:(Class)class{
+    NSString *className = NSStringFromClass(class);
+    NSString *key = [className stringByAppendingString:@"LasUpdate"];
+    NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    NSMutableDictionary *lastUpdate = [NSMutableDictionary dictionary];
     if (lastSyncDate) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         //TODO: cambiar 2012 por yyyy
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
-        lastUpdate = [NSMutableDictionary dictionary];
         [lastUpdate setNotEmptyStringEscaped:[dateFormatter stringFromDate:lastSyncDate] forKey:@"timestamp"];
     }
     
     return lastUpdate;
 }
 
-+ (void)updateCost{
-    [EQDataManager updateCostPage:1];
+- (void)updateCost{
+    [self updateCostPage:1];
 }
 
-+ (void)updateCostPage:(int)page{
+- (void)updateCostPage:(int)page{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"precio_articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary setObject:@"page" forKey:[NSNumber numberWithInt:page]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Precio class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -95,39 +127,39 @@ static BOOL showLoading = YES;
             
             [adl saveContext];
             int nextPage = page + 1;
-            [EQDataManager updateCostPage:nextPage];
+            [self updateCostPage:nextPage];
         } else {
-            [EQDataManager updateUsers];
+            [self updateCompletedFor:[Precio class]];
+            [self updateUsers];
         }
-
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateNotifications{
+- (void)updateNotifications{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"comunicacion" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[NSObject class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
         //TODO: implementar
-        [EQDataManager updateGroups];
+        [self updateGroups];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateOrders{
+- (void)updateOrders{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"pedido" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+//    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Pedido class]]];
    
     SuccessRequest success = ^(NSArray *jsonArray){
          EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -152,28 +184,29 @@ static BOOL showLoading = YES;
             pedido.descuento4 = [dictionary[@"descuento4"] number];
             pedido.cliente = (Cliente *)[adl objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"cliente_id"] number]]];
             pedido.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"vendedor_id"] number]]];
+            pedido.sincronizacion = [NSDate date];
             
             [objectsList addObject:pedido];
         }
         
         [adl saveContext];
-        [EQDataManager updateCurrentAccount];
+        [self updateCompletedFor:[Pedido class]];
+        [self updateCurrentAccount];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateCurrentAccount{
+- (void)updateCurrentAccount{
     NSMutableDictionary *params = [NSMutableDictionary new];
     [params setObject:@"cuenta_corriente" forKey:@"object"];
     [params setObject:@"listar" forKey:@"action"];
-    [params addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [params addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [params addEntriesFromDictionary:[self obtainCredentials]];
+    [params addEntriesFromDictionary:[self obtainLastUpdateFor:[CtaCte class]]];
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *auxArray = [NSMutableArray array];
-         NSLog(@"ctacte result: %i", [jsonArray count]);
         for (NSDictionary *ctaCteDictionary in jsonArray) {
             CtaCte *ctaCte = (CtaCte *)[adl objectForClass:[CtaCte class] withId:[[ctaCteDictionary objectForKey:@"id"] number]];
             ctaCte.identifier = [[ctaCteDictionary filterInvalidEntry:@"id"] number];
@@ -193,19 +226,20 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateNotifications];
+        [self updateCompletedFor:[CtaCte class]];
+        [self updateNotifications];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:params successRequestBlock:success failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:params successRequestBlock:success failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updatePaymentCondition{
+- (void)updatePaymentCondition{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"condicion_pago" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[CondPag class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -221,19 +255,20 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateKindTaxes];
+        [self updateCompletedFor:[CondPag class]];
+        [self updateKindTaxes];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateKindSales{
+- (void)updateKindSales{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"linea_venta" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[LineaVTA class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -249,53 +284,69 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateExpress];
+        [self updateCompletedFor:[LineaVTA class]];
+        [self updateExpress];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateSales{
+- (void)updateSales{
+    [self updateSalesPage:1];
+}
+
+- (void)updateSalesPage:(int)page{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"venta" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
-    SuccessRequest successBlock = ^(NSArray * jsonArray){
+    [dictionary setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Venta class]]];
+    
+    SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-        NSMutableArray *objectsList = [NSMutableArray array];
-        for (NSDictionary *dictionary in jsonArray) {
-            NSNumber *identifier = [dictionary[@"id"] number];
-            Venta *venta = (Venta *)[dal objectForClass:[Venta class] withId:[dictionary objectForKey:@"id"]];
-            venta.identifier = identifier;
-            venta.importe = [dictionary[@"importe"] number];
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            venta.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
-            venta.cantidad =  [dictionary[@"cantidad"] number];
-            venta.comprobante =  dictionary[@"comprobante"];
-            venta.empresa =  dictionary[@"empresa"];
-            venta.cliente = (Cliente *)[dal objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"cliente_id"] number]]];
-            venta.vendedor = (Vendedor *)[dal objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"vendedor_id"] number]]];
+        if ([jsonArray count] > 0) {
+            NSMutableArray *objectsList = [NSMutableArray array];
+            for (NSDictionary *dictionary in jsonArray) {
+                NSNumber *identifier = [dictionary[@"id"] number];
+                Venta *venta = (Venta *)[dal objectForClass:[Venta class] withId:[dictionary objectForKey:@"id"]];
+                if (![venta.identifier isEqualToNumber:identifier]) {
+                    venta.identifier = identifier;
+                    venta.importe = [dictionary[@"importe"] number];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                    venta.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
+                    venta.cantidad =  [dictionary[@"cantidad"] number];
+                    venta.comprobante =  dictionary[@"comprobante"];
+                    venta.empresa =  dictionary[@"empresa"];
+                    venta.cliente = (Cliente *)[dal objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"cliente_id"] number]]];
+                    venta.vendedor = (Vendedor *)[dal objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"vendedor_id"] number]]];
+                    
+                    [objectsList addObject:venta];
+                }
+            }
             
-            [objectsList addObject:venta];
+            [dal saveContext];
+            int nextPage = page + 1;
+            [self updateSalesPage:nextPage];
+        } else {
+            [self updateCompletedFor:[Venta class]];
+            self.running = NO;
         }
         
-        [dal saveContext];
-        [EQDataManager updateExpress];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateShippingArea{
+- (void)updateShippingArea{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"zona_envio" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ZonaEnvio class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -311,17 +362,17 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateProvince];
+        [self updateCompletedFor:[ZonaEnvio class]];
+        [self updateProvince];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateClients{
+- (void)updateClients{
     SuccessRequest block = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-         NSLog(@"cliente result: %i", [jsonArray count]);
         NSMutableArray *auxArray = [NSMutableArray array];
         for (NSDictionary* clienteDictionary in jsonArray) {
             Cliente *client = (Cliente *)[adl objectForClass:[Cliente class] withId:[clienteDictionary objectForKey:@"id"]];
@@ -332,10 +383,10 @@ static BOOL showLoading = YES;
             client.codigo2 = [clienteDictionary filterInvalidEntry:@"codigo2"];
             client.condicionDePago = (CondPag *)[adl objectForClass:[CondPag class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number]]];
             client.cuit = [clienteDictionary filterInvalidEntry:@"cuit"];
-            client.descuento1 = [clienteDictionary filterInvalidEntry:@"descuento1"];
-            client.descuento2 = [clienteDictionary filterInvalidEntry:@"descuento2"];
-            client.descuento3 = [clienteDictionary filterInvalidEntry:@"descuento3"];
-            client.descuento4 = [clienteDictionary filterInvalidEntry:@"descuento4"];
+            client.descuento1 = [[clienteDictionary filterInvalidEntry:@"descuento1"] number];
+            client.descuento2 = [[clienteDictionary filterInvalidEntry:@"descuento2"] number];
+            client.descuento3 = [[clienteDictionary filterInvalidEntry:@"descuento3"] number];
+            client.descuento4 = [[clienteDictionary filterInvalidEntry:@"descuento4"] number];
             client.diasDePago = [clienteDictionary filterInvalidEntry:@"dias_de_pago"];
             client.domicilio = [clienteDictionary filterInvalidEntry:@"domicilio"];
             client.domicilioDeEnvio = [clienteDictionary filterInvalidEntry:@"domicilio_envio"];
@@ -366,20 +417,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateCost];
+        [self updateCompletedFor:[Cliente class]];
+        [self updateCost];
     };
 
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"cliente" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Cliente class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateProducts{
+- (void)updateProducts{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *auxArray = [NSMutableArray array];
@@ -400,7 +452,7 @@ static BOOL showLoading = YES;
             NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
             art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
             art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.identifier = %@", [articuloDictionary filterInvalidEntry:@"disponibilidad_id"]];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.identifier == %@", [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number]];
             Disponibilidad *disponibilidad = (Disponibilidad *)[adl objectForClass:[Disponibilidad class] withPredicate:predicate];
             art.disponibilidad = disponibilidad;
             
@@ -417,20 +469,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateSellers];
+        [self updateCompletedFor:[Articulo class]];
+        [self updateSellers];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateSellers{
+- (void)updateSellers{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *auxArray = [NSMutableArray array];
@@ -440,27 +493,28 @@ static BOOL showLoading = YES;
             seller.codigo = [vendedorDictionary filterInvalidEntry:@"codigo"];
             seller.descripcion = [vendedorDictionary filterInvalidEntry:@"descripcion"];
             seller.activo = [[vendedorDictionary filterInvalidEntry:@"activo"] number];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.vendedor.identifier = %@", seller.identifier];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.vendedor.identifier == %@", seller.identifier];
             Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withPredicate:predicate];
             seller.usuario = user;
             [auxArray addObject:seller];
         }
         
         [adl saveContext];
-        [EQDataManager updatePaymentCondition];
+        [self updateCompletedFor:[Vendedor class]];
+        [self updatePaymentCondition];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"vendedor" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Vendedor class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateExpress{
+- (void)updateExpress{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *array = [NSMutableArray array];
@@ -475,20 +529,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateClients];
+        [self updateCompletedFor:[Expreso class]];
+        [self updateClients];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"expreso" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Expreso class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateProvince{
+- (void)updateProvince{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *provinces = [NSMutableArray array];
@@ -503,20 +558,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateAvailability];
+        [self updateCompletedFor:[Provincia class]];
+        [self updateAvailability];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"provincia" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Provincia class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateKindTaxes{
+- (void)updateKindTaxes{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *tipos = [NSMutableArray array];
@@ -530,20 +586,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateKindSales];
+        [self updateCompletedFor:[TipoIvas class]];
+        [self updateKindSales];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"tipo_iva" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[TipoIvas class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateUsers{
+- (void)updateUsers{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *users = [NSMutableArray array];
@@ -561,20 +618,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateOrders];
+        [self updateCompletedFor:[Usuario class]];
+        [self updateOrders];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"login" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateGroups{
+- (void)updateGroups{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *grupos = [NSMutableArray array];
@@ -590,19 +648,21 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
+        [self updateCompletedFor:[Grupo class]];
+        [self updateSales];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"categoria" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Grupo class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
-+ (void)updateAvailability{
+- (void)updateAvailability{
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSMutableArray *array = [NSMutableArray array];
@@ -615,27 +675,28 @@ static BOOL showLoading = YES;
         }
         
         [adl saveContext];
-        [EQDataManager updateProducts];
+        [self updateCompletedFor:[Disponibilidad class]];
+        [self updateProducts];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"disponibilidad" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [parameters addEntriesFromDictionary:[EQDataManager obtainLastUpdate]];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Disponibilidad class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:nil];
-    [EQNetworkManager makeRequest:request showLoading:showLoading];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
+    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
 }
 
 #pragma mark - update server
 
-+ (void)sendClient:(Cliente *)client{
+- (void)sendClient:(Cliente *)client{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setNotNilObject:@"cliente" forKey:@"object"];
     [dictionary setNotNilObject:[client.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[EQDataManager obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[EQDataManager parseClient:client]];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self parseClient:client]];
 
     __block Cliente *newClient = client;
     SuccessRequest block = ^(NSDictionary *clientDictionary){
@@ -645,11 +706,15 @@ static BOOL showLoading = YES;
         [adl saveContext];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:nil];
+    FailRequest failBlock = ^(NSError *error){
+        NSLog(@"send client fail error:%@ UserInfo:%@",error ,error.userInfo);
+    };
+    
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
     [EQNetworkManager makeRequest:request];
 }
 
-+ (NSMutableDictionary *)parseClient:(Cliente *)client{
+- (NSMutableDictionary *)parseClient:(Cliente *)client{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     if([client.identifier intValue] > 0) {
         [dictionary setNotNilObject:client.identifier forKey:@"atributos[id]"];
@@ -660,10 +725,10 @@ static BOOL showLoading = YES;
     [dictionary setNotEmptyStringEscaped:client.codigo2 forKey:@"atributos[codigo2]"];
     [dictionary setNotNilObject:client.condicionDePago.identifier forKey:@"atributos[condicion_pago_id]"];
     [dictionary setNotEmptyStringEscaped:client.cuit forKey:@"atributos[cuit]"];
-    [dictionary setNotEmptyStringEscaped:client.descuento1 forKey:@"atributos[descuento1]"];
-    [dictionary setNotEmptyStringEscaped:client.descuento2 forKey:@"atributos[descuento2]"];
-    [dictionary setNotEmptyStringEscaped:client.descuento3 forKey:@"atributos[descuento3]"];
-    [dictionary setNotEmptyStringEscaped:client.descuento4 forKey:@"atributos[descuento4]"];
+    [dictionary setObject:client.descuento1 forKey:@"atributos[descuento1]"];
+    [dictionary setObject:client.descuento2 forKey:@"atributos[descuento2]"];
+    [dictionary setObject:client.descuento3 forKey:@"atributos[descuento3]"];
+    [dictionary setObject:client.descuento4 forKey:@"atributos[descuento4]"];
     [dictionary setNotEmptyStringEscaped:client.diasDePago forKey:@"atributos[dias_de_pago]"];
     [dictionary setNotEmptyStringEscaped:client.domicilio forKey:@"atributos[domicilio]"];
     [dictionary setNotEmptyStringEscaped:client.domicilioDeEnvio forKey:@"atributos[domicilio_envio]"];
@@ -686,6 +751,7 @@ static BOOL showLoading = YES;
     [dictionary setNotNilObject:client.vendedor.identifier forKey:@"atributos[vendedor_id]"];
     [dictionary setNotNilObject:client.zonaEnvio.identifier forKey:@"atributos[zona_envio_id]"];
     [dictionary setNotEmptyStringEscaped:client.web forKey:@"atributos[web]"];
+    [dictionary setObject:client.activo forKey:@"atributos[activo]"];
     
     return dictionary;
 }

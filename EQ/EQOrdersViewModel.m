@@ -72,14 +72,14 @@
     }
     
     self.orders = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
-    self.clientsList = [NSMutableArray array];
-    self.statusList = [NSMutableArray array];
+    self.clientsList = [NSMutableArray arrayWithObject:@"Todos"];
+    self.statusList = [NSMutableArray arrayWithObject:@"Todos"];
     for (Pedido *order in self.orders) {
-        if ([order.cliente.nombre length] > 0 && [self.clientsList containsObject:order.cliente.nombre]) {
+        if ([order.cliente.nombre length] > 0 && ![self.clientsList containsObject:order.cliente.nombre]) {
             [self.clientsList addObject: order.cliente.nombre];
         }
         
-        if ([order.estado length] > 0 && [self.statusList containsObject:order.estado]) {
+        if ([order.estado length] > 0 && ![self.statusList containsObject:order.estado]) {
             [self.statusList addObject:order.estado];
         }
     }

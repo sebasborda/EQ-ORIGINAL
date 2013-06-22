@@ -26,4 +26,9 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)editButtonAction:(id)sender {
+}
+
+- (IBAction)deleteButtonAction:(id)sender {
+}
 @end

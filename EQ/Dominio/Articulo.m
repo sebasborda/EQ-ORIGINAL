@@ -2,7 +2,7 @@
 //  Articulo.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/17/13.
+//  Created by Sebastian Borda on 6/21/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -28,9 +28,9 @@
 @dynamic multiploPedido;
 @dynamic nombre;
 @dynamic tipo;
+@dynamic disponibilidad;
 @dynamic itemsPedido;
 @dynamic precio;
 @dynamic ventas;
-@dynamic disponibilidad;
 
 @end

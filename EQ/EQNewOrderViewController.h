@@ -32,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *orderClientLabel;
 
 - (id)initWithOrder:(Pedido *)order;
+- (id)initWithClonedOrder:(Pedido *)order;
 - (IBAction)categoryButtonAction:(id)sender;
 - (IBAction)saveQuantity:(id)sender;
 - (IBAction)segmentSortChanged:(id)sender;
