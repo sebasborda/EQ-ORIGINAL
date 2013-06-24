@@ -7,8 +7,12 @@
 //
 
 #import "EQSalesViewController.h"
+#import "EQSalesViewModel.h"
 
 @interface EQSalesViewController ()
+
+@property (nonatomic, strong) EQSalesViewModel *viewModel;
+@property (nonatomic, assign) BOOL hideDetails;
 
 @end
 
@@ -29,9 +33,11 @@
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self notImplemented];
+//    [self.viewModel initializeData];
+//    [self.viewModel loadData];
 }
 
 - (void)didReceiveMemoryWarning

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12C3103</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -173,7 +173,7 @@
 							<object class="IBUILabel" id="193525868">
 								<reference key="NSNextResponder" ref="1028399648"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{532, 7}, {75, 30}}</string>
+								<string key="NSFrame">{{541, 7}, {75, 30}}</string>
 								<reference key="NSSuperview" ref="1028399648"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="749059973"/>
@@ -196,7 +196,7 @@
 							<object class="IBUILabel" id="749059973">
 								<reference key="NSNextResponder" ref="1028399648"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{607, 7}, {75, 30}}</string>
+								<string key="NSFrame">{{621, 7}, {70, 30}}</string>
 								<reference key="NSSuperview" ref="1028399648"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="455888523"/>
@@ -214,12 +214,12 @@
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-								<double key="preferredMaxLayoutWidth">75</double>
+								<double key="preferredMaxLayoutWidth">70</double>
 							</object>
 							<object class="IBUILabel" id="455888523">
 								<reference key="NSNextResponder" ref="1028399648"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{684, 7}, {74, 30}}</string>
+								<string key="NSFrame">{{698, 7}, {60, 30}}</string>
 								<reference key="NSSuperview" ref="1028399648"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -236,7 +236,7 @@
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-								<double key="preferredMaxLayoutWidth">74</double>
+								<double key="preferredMaxLayoutWidth">60</double>
 							</object>
 						</array>
 						<string key="NSFrameSize">{758, 43}</string>

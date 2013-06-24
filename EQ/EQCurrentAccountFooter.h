@@ -12,5 +12,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *clientLabel;
 @property (strong, nonatomic) IBOutlet UILabel *grossLabel;
 @property (strong, nonatomic) IBOutlet UILabel *netLabel;
+@property (strong, nonatomic) IBOutlet UILabel *perceptionLabel;
 
 @end

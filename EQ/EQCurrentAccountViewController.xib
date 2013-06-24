@@ -40,7 +40,7 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIView" id="619878751">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">310</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIImageView" id="47855273">
 								<reference key="NSNextResponder" ref="619878751"/>
@@ -511,7 +511,7 @@
 							</object>
 							<object class="IBUILabel" id="639344954">
 								<reference key="NSNextResponder" ref="359542279"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{542, 14}, {90, 21}}</string>
 								<reference key="NSSuperview" ref="359542279"/>
 								<reference key="NSWindow"/>
@@ -625,7 +625,7 @@
 							</object>
 							<object class="IBUIButton" id="157721991">
 								<reference key="NSNextResponder" ref="359542279"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{542, 34}, {90, 31}}</string>
 								<reference key="NSSuperview" ref="359542279"/>
 								<reference key="NSWindow"/>
@@ -1875,7 +1875,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">557</int>
+			<int key="maxID">969</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

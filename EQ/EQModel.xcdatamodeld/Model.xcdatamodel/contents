@@ -17,7 +17,7 @@
         <relationship name="disponibilidad" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Disponibilidad" inverseName="articulos" inverseEntity="Disponibilidad" syncable="YES"/>
         <relationship name="itemsPedido" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemPedido" inverseName="articulo" inverseEntity="ItemPedido" indexed="YES" syncable="YES"/>
         <relationship name="precio" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Precio" inverseName="articulo" inverseEntity="Precio" indexed="YES" syncable="YES"/>
-        <relationship name="ventas" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Venta" inverseName="articulos" inverseEntity="Venta" indexed="YES" syncable="YES"/>
+        <relationship name="ventas" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Venta" inverseName="articulo" inverseEntity="Venta" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Cliente" representedClassName="Cliente" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -176,7 +176,7 @@
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <relationship name="articulos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Articulo" inverseName="ventas" inverseEntity="Articulo" indexed="YES" syncable="YES"/>
+        <relationship name="articulo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Articulo" inverseName="ventas" inverseEntity="Articulo" indexed="YES" syncable="YES"/>
         <relationship name="cliente" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Cliente" inverseName="venta" inverseEntity="Cliente" indexed="YES" syncable="YES"/>
         <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="venta" inverseEntity="Vendedor" indexed="YES" syncable="YES"/>
     </entity>

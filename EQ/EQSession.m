@@ -32,9 +32,6 @@
 
 - (void)updateData{
     [[EQDataManager sharedInstance] updateDataShowLoading:NO];
-    
-    //Modify last update date
-    [self dataUpdated];
 }
 
 - (void)regiteredUser:(Usuario *)user{

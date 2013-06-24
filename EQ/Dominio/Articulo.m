@@ -2,7 +2,7 @@
 //  Articulo.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/24/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 

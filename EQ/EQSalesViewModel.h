@@ -10,4 +10,18 @@
 
 @interface EQSalesViewModel : EQBaseViewModel
 
+@property (nonatomic,strong) NSArray *salesList;
+@property (nonatomic,strong) NSArray *sortFields;
+@property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic,assign) BOOL onlySubTotalAvailable;
+
+- (void)loadData;
+- (void)changeSortOrder:(int)index;
+- (NSArray *)clients;
+- (NSArray *)groupsName;
+- (NSArray *)totals;
+- (void)filterByGroup:(NSString *)Group;
+- (void)filterByClient:(NSString *)client;
+- (BOOL)isSortingByClient;
+- (void)initializeData;
 @end

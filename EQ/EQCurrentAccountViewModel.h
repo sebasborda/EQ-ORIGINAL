@@ -13,7 +13,7 @@
 @property (nonatomic,strong) NSArray *currentAccountList;
 @property (nonatomic,strong) NSArray *sortFields;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
-@property (nonatomic,assign) BOOL grouped;
+@property (nonatomic,assign) BOOL onlySubTotalAvailable;
 
 - (void)loadData;
 - (void)changeSortOrder:(int)index;
@@ -25,5 +25,6 @@
 - (void)filterBylocality:(NSString *)locality;
 - (void)filterByClient:(NSString *)client;
 - (NSDictionary *)resume;
+- (BOOL)isSortingByClient;
 
 @end

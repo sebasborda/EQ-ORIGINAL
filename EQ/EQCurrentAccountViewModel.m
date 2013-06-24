@@ -59,6 +59,10 @@
     }
 }
 
+- (BOOL)isSortingByClient {
+    return [self.sortDescriptor.key isEqualToString:@"cliente.nombre"];
+}
+
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
     self.currentAccountList = [[EQDataAccessLayer sharedInstance] objectListForClass:[CtaCte class]];
@@ -85,8 +89,8 @@
     
     NSArray *result = [self.currentAccountList sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
     NSMutableArray *accounts = [NSMutableArray new];
-    if([self.sortDescriptor.key isEqualToString:@"cliente.nombre"]){
-        self.grouped = YES;
+    self.onlySubTotalAvailable = [self isSortingByClient] && !self.ActiveClient;
+    if([self isSortingByClient]){
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
         for (CtaCte *ctacte in result) {
@@ -101,7 +105,6 @@
             [currentArray addObject:ctacte];
         }
     } else {
-        self.grouped = NO;
         [accounts addObject:result];
     }
     
@@ -167,7 +170,7 @@
 }
 
 - (NSArray *)totals{
-    return [NSArray arrayWithObjects:@"Total", @"Subtotal", nil];
+    return [NSArray arrayWithObjects:@"Todo", @"Subtotal", nil];
 }
 
 - (void)filterByClient:(NSString *)client{

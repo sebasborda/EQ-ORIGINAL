@@ -16,6 +16,7 @@
 @interface EQCurrentAccountViewController ()
 
 @property (nonatomic, strong) EQCurrentAccountViewModel *viewModel;
+@property (nonatomic, assign) BOOL hideDetails;
 
 @end
 
@@ -43,6 +44,7 @@
 -(void)modelDidUpdateData{
     [super modelDidUpdateData];
     [self.tableView reloadData];
+    self.totalButton.enabled = self.viewModel.onlySubTotalAvailable;
 }
 
 - (IBAction)companyButtonAction:(id)sender {
@@ -72,28 +74,56 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
+        return 1;
+    }
+    
     return [[self.viewModel currentAccountList] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int rows = [[self.viewModel.currentAccountList objectAtIndex:section] count];
-    return rows;
+    if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
+        return [self.viewModel.currentAccountList count];
+    }
+
+    return [[self.viewModel.currentAccountList objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     EQCurrentAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.clientLabel.text = ctaCte.cliente.nombre;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
-    cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];
-    cell.delayLabel.text = ctaCte.diasDeAtraso;
-    cell.voucherLabel.text = ctaCte.comprobante;
-    cell.conditionLabel.text = ctaCte.condicionDeVenta;
-    cell.persepLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importePercepcion ? [ctaCte.importePercepcion integerValue] : 0];
-    cell.amountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importe ? [ctaCte.importe integerValue] : 0];
-    cell.discountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importeConDescuento ? [ctaCte.importeConDescuento integerValue] : 0];
+    if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
+        NSArray *accounts = [self.viewModel.currentAccountList objectAtIndex:indexPath.row];
+        int gross = 0;
+        int net = 0;
+        int percept = 0;
+        for (CtaCte *account in accounts) {
+            gross += [account.importe integerValue];
+            net += [account.importeConDescuento integerValue];
+            percept += [account.importePercepcion integerValue];
+        }
+        CtaCte *ctacte = [accounts lastObject];
+        cell.clientLabel.text = ctacte.cliente.nombre;
+        cell.dateLabel.text = @"";
+        cell.delayLabel.text = @"";
+        cell.voucherLabel.text = @"";
+        cell.conditionLabel.text = @"";
+        cell.persepLabel.text = [NSString stringWithFormat:@"$%i", percept];
+        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", net];
+        cell.discountLabel.text = [NSString stringWithFormat:@"$%i", net];
+    } else {
+        CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        cell.clientLabel.text = ctaCte.cliente.nombre;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+        cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];
+        cell.delayLabel.text = ctaCte.diasDeAtraso;
+        cell.voucherLabel.text = ctaCte.comprobante;
+        cell.conditionLabel.text = ctaCte.condicionDeVenta;
+        cell.persepLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importePercepcion ? [ctaCte.importePercepcion integerValue] : 0];
+        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importe ? [ctaCte.importe integerValue] : 0];
+        cell.discountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importeConDescuento ? [ctaCte.importeConDescuento integerValue] : 0];
+    }
     
     return cell;
 }
@@ -105,15 +135,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (self.viewModel.grouped) {
-        return 50;
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || ![self.viewModel isSortingByClient]) {
+        return 0;
     }
     
-    return 0;
+    return 50;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (self.viewModel.grouped) {
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || ![self.viewModel isSortingByClient]) {
+        return nil;
+    }
+    
     NSArray *accounts = [self.viewModel.currentAccountList objectAtIndex:section];
     NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"EQCurrentAccountFooter" owner:nil options:nil];
     EQCurrentAccountFooter *footer = (EQCurrentAccountFooter *)[nibObjects objectAtIndex:0];
@@ -121,16 +154,17 @@
     footer.clientLabel.text = ctacte.cliente.nombre;
     int gross = 0;
     int net = 0;
+    int percept = 0;
     for (CtaCte *account in accounts) {
         gross += [account.importe integerValue];
         net += [account.importeConDescuento integerValue];
+        percept += [account.importePercepcion integerValue];
     }
     footer.grossLabel.text = [NSString stringWithFormat:@"$%i",gross];
     footer.netLabel.text = [NSString stringWithFormat:@"$%i",net];
-    return footer;
-    }
+    footer.perceptionLabel.text = [NSString stringWithFormat:@"$%i",percept];
     
-    return nil;
+    return footer;
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
@@ -147,8 +181,9 @@
         [self.viewModel filterByCompany:selectedData];
         [self closePopover];
     } else if ([self.popoverOwner isEqual:self.totalButton]) {
-        [self.viewModel changeSortOrder:rowNumber];
+        self.hideDetails = [selectedData isEqualToString:@"Subtotal"];
         [self closePopover];
+        [self.tableView reloadData];
     }
     
     NSString *buttonText = [NSString stringWithFormat:@"  %@", selectedData];
