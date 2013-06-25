@@ -51,9 +51,9 @@
     
     if (post) {
         [params removeObjectForKey:@"POST"];        
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@BASE_URL]];
+        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:queryString]];
         httpClient.parameterEncoding = AFJSONParameterEncoding;
-        request = [httpClient requestWithMethod:@"POST" path:@BASE_URL parameters:params];
+        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:params];
     } else {
         for (NSString *key in params.allKeys) {
             NSString *value = [NSString stringWithFormat:@"%@",params[key]];

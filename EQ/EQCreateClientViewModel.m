@@ -69,10 +69,10 @@
     self.client.codigo2 = clientDictionary[@"code2"];
     self.client.codigoPostal = clientDictionary[@"zipcode"];
     self.client.cuit = clientDictionary[@"cuit"];
-    self.client.descuento1 = clientDictionary[@"discount1"];
-    self.client.descuento2 = clientDictionary[@"discount2"];
-    self.client.descuento3 = clientDictionary[@"discount3"];
-    self.client.descuento4 = clientDictionary[@"discount4"];
+    self.client.descuento1 = [clientDictionary[@"discount1"] number];
+    self.client.descuento2 = [clientDictionary[@"discount2"] number];
+    self.client.descuento3 = [clientDictionary[@"discount3"] number];
+    self.client.descuento4 = [clientDictionary[@"discount4"] number];
     self.client.diasDePago = clientDictionary[@"collectionDays"];
     self.client.domicilio = clientDictionary[@"address"];
     self.client.domicilioDeEnvio = clientDictionary[@"deliveryAddress"];

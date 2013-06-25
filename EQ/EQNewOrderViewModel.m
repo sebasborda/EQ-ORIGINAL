@@ -107,6 +107,9 @@
     [dictionary setValue:@"a1e3bdcb8199fe7383816c65076a11a7" forKey:@"password"];
     [dictionary setValue:@300 forKey:@"total"];
     [dictionary setValue:@345 forKey:@"subtotal"];
+    
+    
+    
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:nil failRequestBlock:nil];
     [EQNetworkManager makeRequest:request];
 }
