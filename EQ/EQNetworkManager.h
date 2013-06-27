@@ -11,6 +11,5 @@
 @interface EQNetworkManager : NSObject
 
 + (void)makeRequest:(EQRequest *)request;
-+ (void)makeRequest:(EQRequest *)request showLoading:(BOOL)show;
 
 @end

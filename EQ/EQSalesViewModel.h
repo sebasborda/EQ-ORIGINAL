@@ -12,6 +12,8 @@
 
 @property (nonatomic,strong) NSArray *salesList;
 @property (nonatomic,strong) NSArray *sortFields;
+@property (nonatomic,strong) NSDate *periodStart;
+@property (nonatomic,strong) NSDate *periodEnd;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic,assign) BOOL onlySubTotalAvailable;
 

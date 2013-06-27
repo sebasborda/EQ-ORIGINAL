@@ -34,8 +34,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     if (self.startDate && self.endDate) {
-        self.startDatePicker.date = self.startDate;
-        self.endDatePicker.date = self.endDate;
+        [self setPickerStartDate:self.startDate];
+        [self setPickerEndDate:self.endDate];
     } else {
         self.startDatePicker.date = self.startDatePicker.minimumDate;
         self.endDatePicker.date = [NSDate date];
@@ -49,10 +49,27 @@
 }
 
 - (IBAction)saveButtonAction:(id)sender {
-        [self.delegate dateFilter:self didSelectStartDate:self.startDatePicker.date endDate:self.endDatePicker.date];
+        [self.delegate dateFilter:self didSelectStartDate:[self getPickerStartDate] endDate:[self getPickerEndDate]];
 }
 
 - (IBAction)allDatesButtonAction:(id)sender {
     [self.delegate dateFilter:self didSelectStartDate:nil endDate:nil];
 }
+
+- (NSDate *)getPickerStartDate{
+    return self.startDatePicker.date;
+}
+
+- (NSDate *)getPickerEndDate{
+    return self.endDatePicker.date;
+}
+
+- (void)setPickerStartDate:(NSDate *)startDate{
+    self.startDatePicker.date = startDate;
+}
+
+- (void)setPickerEndDate:(NSDate *)endDate{
+    self.endDatePicker.date = endDate;
+}
+
 @end

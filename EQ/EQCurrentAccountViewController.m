@@ -108,7 +108,7 @@
         cell.voucherLabel.text = @"";
         cell.conditionLabel.text = @"";
         cell.persepLabel.text = [NSString stringWithFormat:@"$%i", percept];
-        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", net];
+        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", gross];
         cell.discountLabel.text = [NSString stringWithFormat:@"$%i", net];
     } else {
         CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];

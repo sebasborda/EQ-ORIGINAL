@@ -13,8 +13,7 @@
 - (id)filterInvalidEntry:(NSString *)key
 {
     if([self objectForKey:key] != Nil &&
-       ![[self objectForKey:key] isKindOfClass:[NSNull class]] &&
-       [self objectForKey:key] != nil){
+       ![[self objectForKey:key] isKindOfClass:[NSNull class]]){
         return [self objectForKey:key];
     }
     

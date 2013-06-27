@@ -51,6 +51,7 @@
         sharedInstance.failBlock = ^(NSError *error){
             sharedInstance.running = NO;
             NSLog(@"EQRequest fail error:%@ UserInfo:%@",error ,error.userInfo);
+            [APP_DELEGATE hideLoadingView];
         };
     });
     return sharedInstance;
@@ -81,16 +82,48 @@
     return credentials;
 }
 
+- (void)updatePageCompleted:(NSNumber *)page ForClass:(Class)class{
+    NSString *className = NSStringFromClass(class);
+    NSString *key = [className stringByAppendingString:@"PageUpdated"];
+    NSString *keyDate = [className stringByAppendingString:@"PageUpdatedDate"];
+    [[NSUserDefaults standardUserDefaults] setObject:page forKey:key];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:keyDate];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (self.showLoading) {
+        [APP_DELEGATE hideLoadingView];
+    }
+}
+
+- (int)obtainNextPageForClass:(Class)class{
+    NSString *className = NSStringFromClass(class);
+    NSString *key = [className stringByAppendingString:@"PageUpdated"];
+    NSString *keyDate = [className stringByAppendingString:@"PageUpdatedDate"];
+    NSString *keyObject = [className stringByAppendingString:@"LastUpdate"];
+    
+    NSNumber *pageNumber = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    NSDate *lastPageSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:keyDate];
+    NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:keyObject];
+    
+    //lastPageSyncDate mas reciente que lastSyncDate
+    BOOL pageUpdateimcompleted = [lastPageSyncDate compare:lastSyncDate] == NSOrderedDescending;
+    return !lastSyncDate || pageUpdateimcompleted ? [pageNumber intValue] + 1 : 1;
+}
+
 - (void)updateCompletedFor:(Class)class{
     NSString *className = NSStringFromClass(class);
-    NSString *key = [className stringByAppendingString:@"LasUpdate"];
+    NSString *key = [className stringByAppendingString:@"LastUpdate"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (self.showLoading) {
+        [APP_DELEGATE hideLoadingView];
+    }
 }
 
 - (NSMutableDictionary *)obtainLastUpdateFor:(Class)class{
     NSString *className = NSStringFromClass(class);
-    NSString *key = [className stringByAppendingString:@"LasUpdate"];
+    NSString *key = [className stringByAppendingString:@"LastUpdate"];
     NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSMutableDictionary *lastUpdate = [NSMutableDictionary dictionary];
     if (lastSyncDate) {
@@ -104,8 +137,24 @@
     return lastUpdate;
 }
 
+- (void)executeRequestWithParameters:(NSMutableDictionary *)parameters successBlock:(SuccessRequest)success failBlock:(FailRequest)fail{
+    if (self.showLoading) {
+        NSString *object = [[parameters[@"object"] stringByReplacingOccurrencesOfString:@"_" withString:@" "] uppercaseString];
+        NSString *message = [NSString stringWithFormat:@"CARGANDO %@",object];
+        if ([[parameters allKeys] containsObject:@"page"]) {
+            message = [message stringByAppendingFormat:@" - PAGINA %@",parameters[@"page"]];
+        }
+        [APP_DELEGATE showLoadingViewWithMessage:message];
+    }
+    
+    fail = fail ? fail : self.failBlock;
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:success failRequestBlock:fail];
+    [EQNetworkManager makeRequest:request];
+}
+
 - (void)updateCost{
-    [self updateCostPage:1];
+    int page = [self obtainNextPageForClass:[Precio class]];
+    [self updateCostPage:page];
 }
 
 - (void)updateCostPage:(int)page{
@@ -132,6 +181,7 @@
             
             [adl saveContext];
             int nextPage = page + 1;
+            [self updatePageCompleted:dictionary[@"page"] ForClass:[Precio class]];
             [self updateCostPage:nextPage];
         } else {
             [self updateCompletedFor:[Precio class]];
@@ -139,8 +189,7 @@
         }
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
 
 - (void)updateNotifications{
@@ -152,11 +201,11 @@
     
     SuccessRequest success = ^(NSArray *jsonArray){
         //TODO: implementar
+        [self updateCompletedFor:[NSObject class]];
         [self updateGroups];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
 
 - (void)updateOrders{
@@ -179,7 +228,7 @@
             pedido.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
             pedido.activo = [dictionary[@"activo"] number];
             pedido.descuento = [dictionary[@"descuento"] number];
-            pedido.estado = dictionary[@"estado"];
+            pedido.estado = [dictionary filterInvalidEntry:@"estado"] != nil ? [dictionary[@"estado"] lowercaseString] : @"pendiente";
             pedido.subTotal = [dictionary[@"subtotal"] number];
             pedido.latitud = [dictionary filterInvalidEntry:@"ubicacion_gps_lat"];
             pedido.longitud = [dictionary filterInvalidEntry:@"ubicacion_gps_lng"];
@@ -199,8 +248,7 @@
         [self updateCurrentAccount];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
 
 - (void)updateCurrentAccount{
@@ -235,8 +283,7 @@
         [self updateNotifications];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:params successRequestBlock:success failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:params successBlock:success failBlock:nil];
 }
 
 - (void)updatePaymentCondition{
@@ -264,8 +311,7 @@
         [self updateKindTaxes];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
 }
 
 - (void)updateKindSales{
@@ -293,12 +339,12 @@
         [self updateExpress];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
 }
 
 - (void)updateSales{
-    [self updateSalesPage:1];//TODO: volver a 1
+    int page = [self obtainNextPageForClass:[Venta class]];
+    [self updateSalesPage:page];
 }
 
 - (void)updateSalesPage:(int)page{
@@ -335,6 +381,7 @@
             
             [dal saveContext];
             int nextPage = page + 1;
+            [self updatePageCompleted:dictionary[@"page"] ForClass:[Venta class]];
             [self updateSalesPage:nextPage];
         } else {
             [self updateCompletedFor:[Venta class]];
@@ -343,8 +390,7 @@
         
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:success failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
 
 - (void)updateShippingArea{
@@ -372,8 +418,7 @@
         [self updateProvince];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:successBlock failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
 }
 
 - (void)updateClients{
@@ -433,8 +478,7 @@
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Cliente class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
 
 - (void)updateProducts{
@@ -485,8 +529,7 @@
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
 
 - (void)updateSellers{
@@ -516,8 +559,7 @@
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Vendedor class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
 
 - (void)updateExpress{
@@ -545,8 +587,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Expreso class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 - (void)updateProvince{
@@ -574,8 +615,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Provincia class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 - (void)updateKindTaxes{
@@ -602,8 +642,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[TipoIvas class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 - (void)updateUsers{
@@ -634,8 +673,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 - (void)updateGroups{
@@ -664,8 +702,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Grupo class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 - (void)updateAvailability{
@@ -691,8 +728,7 @@
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
     [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Disponibilidad class]]];
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:self.failBlock];
-    [EQNetworkManager makeRequest:request showLoading:self.showLoading];
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
 #pragma mark - update server

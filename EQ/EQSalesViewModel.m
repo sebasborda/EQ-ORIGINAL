@@ -78,6 +78,16 @@
         [subPredicates addObject:predicate];
     }
     
+    if (self.periodStart) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha >= %@",self.periodStart];
+        [subPredicates addObject:predicate];
+    }
+    
+    if (self.periodEnd) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha < %@",self.periodEnd];
+        [subPredicates addObject:predicate];
+    }
+    
     if ([subPredicates count] > 0) {
         NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
         self.salesList = [self.salesList filteredArrayUsingPredicate:predicate];

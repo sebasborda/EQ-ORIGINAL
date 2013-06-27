@@ -87,6 +87,10 @@
     [self.loadingView show];
 }
 
+- (void)showLoadingViewWithMessage:(NSString *)message{
+    [self.loadingView showWithMessage:message];
+}
+
 - (void)hideLoadingView{
     [self.loadingView hide];
 }

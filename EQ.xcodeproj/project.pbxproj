@@ -214,6 +214,11 @@
 		6BA0D6ED176E48A4000F86A0 /* CondPag.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6EC176E48A4000F86A0 /* CondPag.m */; };
 		6BA0D6F3176E85D8000F86A0 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6F2176E85D8000F86A0 /* Grupo.m */; };
 		6BA0D702176F8B08000F86A0 /* Disponibilidad.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D701176F8B08000F86A0 /* Disponibilidad.m */; };
+		6BB3A2ED177A796D0084F777 /* EQSalesFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB3A2EC177A796D0084F777 /* EQSalesFooter.xib */; };
+		6BB3A2F0177A83E70084F777 /* EQSalesFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A2EF177A83E60084F777 /* EQSalesFooter.m */; };
+		6BB3A2F3177AA8050084F777 /* CDatePickerViewEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A2F2177AA8050084F777 /* CDatePickerViewEx.m */; };
+		6BB3A2FB177AA9AB0084F777 /* EQCustomDateFilterPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A2F9177AA9AA0084F777 /* EQCustomDateFilterPopover.m */; };
+		6BB3A2FC177AA9AB0084F777 /* EQCustomDateFilterPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BB3A2FA177AA9AB0084F777 /* EQCustomDateFilterPopover.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -507,6 +512,14 @@
 		6BA0D6F2176E85D8000F86A0 /* Grupo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grupo.m; sourceTree = "<group>"; };
 		6BA0D700176F8B08000F86A0 /* Disponibilidad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disponibilidad.h; sourceTree = "<group>"; };
 		6BA0D701176F8B08000F86A0 /* Disponibilidad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disponibilidad.m; sourceTree = "<group>"; };
+		6BB3A2EC177A796D0084F777 /* EQSalesFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQSalesFooter.xib; sourceTree = "<group>"; };
+		6BB3A2EE177A83E60084F777 /* EQSalesFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSalesFooter.h; sourceTree = "<group>"; };
+		6BB3A2EF177A83E60084F777 /* EQSalesFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSalesFooter.m; sourceTree = "<group>"; };
+		6BB3A2F1177AA8050084F777 /* CDatePickerViewEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDatePickerViewEx.h; sourceTree = "<group>"; };
+		6BB3A2F2177AA8050084F777 /* CDatePickerViewEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDatePickerViewEx.m; sourceTree = "<group>"; };
+		6BB3A2F8177AA9AA0084F777 /* EQCustomDateFilterPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCustomDateFilterPopover.h; sourceTree = "<group>"; };
+		6BB3A2F9177AA9AA0084F777 /* EQCustomDateFilterPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCustomDateFilterPopover.m; sourceTree = "<group>"; };
+		6BB3A2FA177AA9AB0084F777 /* EQCustomDateFilterPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQCustomDateFilterPopover.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -642,6 +655,9 @@
 				2172A93F1746671500C8C446 /* EQDateFilterPopover.h */,
 				2172A9401746671600C8C446 /* EQDateFilterPopover.m */,
 				2172A9411746671700C8C446 /* EQDateFilterPopover.xib */,
+				6BB3A2F8177AA9AA0084F777 /* EQCustomDateFilterPopover.h */,
+				6BB3A2F9177AA9AA0084F777 /* EQCustomDateFilterPopover.m */,
+				6BB3A2FA177AA9AB0084F777 /* EQCustomDateFilterPopover.xib */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -675,11 +691,11 @@
 		21106834171B4B72002C42C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				212A8B70172316FF00F7900A /* Current Account */,
 				212A8B511723143E00F7900A /* Clients */,
 				212A8B501723143100F7900A /* Products */,
 				212A8B4F1723141E00F7900A /* Goals */,
 				212A8B4E172313FA00F7900A /* Comunications */,
+				212A8B70172316FF00F7900A /* Current Account */,
 				212A8B4D172313B900F7900A /* Sales */,
 				212A8B4C172313A800F7900A /* Orders */,
 				212A8B371720EE9100F7900A /* Main Screen */,
@@ -691,6 +707,7 @@
 		21106835171B4B86002C42C0 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				6BB3A2F4177AA80B0084F777 /* CDatePickerView */,
 				211067F71719D784002C42C0 /* TabBar */,
 				21106817171B4B61002C42C0 /* AFNetworking */,
 			);
@@ -1076,8 +1093,20 @@
 				6B58D6DD1777E554003E44B9 /* EQSalesCell.h */,
 				6B58D6DE1777E554003E44B9 /* EQSalesCell.m */,
 				6B58D6E01777E5C8003E44B9 /* EQSalesCell.xib */,
+				6BB3A2EE177A83E60084F777 /* EQSalesFooter.h */,
+				6BB3A2EF177A83E60084F777 /* EQSalesFooter.m */,
+				6BB3A2EC177A796D0084F777 /* EQSalesFooter.xib */,
 			);
 			name = cells;
+			sourceTree = "<group>";
+		};
+		6BB3A2F4177AA80B0084F777 /* CDatePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				6BB3A2F1177AA8050084F777 /* CDatePickerViewEx.h */,
+				6BB3A2F2177AA8050084F777 /* CDatePickerViewEx.m */,
+			);
+			name = CDatePickerView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1252,6 +1281,8 @@
 				6B58D6CB17749AF0003E44B9 /* deleteItem.png in Resources */,
 				6B58D6CC17749AF0003E44B9 /* deleteItem@2x.png in Resources */,
 				6B58D6E11777E5C8003E44B9 /* EQSalesCell.xib in Resources */,
+				6BB3A2ED177A796D0084F777 /* EQSalesFooter.xib in Resources */,
+				6BB3A2FC177AA9AB0084F777 /* EQCustomDateFilterPopover.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1341,6 +1372,9 @@
 				6B58D6DF1777E554003E44B9 /* EQSalesCell.m in Sources */,
 				6B7C7DF4177801AD00B420D4 /* Articulo.m in Sources */,
 				6B7C7DF7177801AE00B420D4 /* Venta.m in Sources */,
+				6BB3A2F0177A83E70084F777 /* EQSalesFooter.m in Sources */,
+				6BB3A2F3177AA8050084F777 /* CDatePickerViewEx.m in Sources */,
+				6BB3A2FB177AA9AB0084F777 /* EQCustomDateFilterPopover.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,8 +1404,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sebastian Borda (86X25987CU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sebastian Borda (86X25987CU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1405,8 +1439,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sebastian Borda (845Q8JGR85)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sebastian Borda (845Q8JGR85)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1414,8 +1448,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "A9907136-F1E6-4016-AAD3-C29F89E3E337";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A9907136-F1E6-4016-AAD3-C29F89E3E337";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -1425,15 +1459,15 @@
 		214A590016FFB88A005D787D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sebastian Borda (86X25987CU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sebastian Borda (86X25987CU)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EQ/EQ-Prefix.pch";
 				INFOPLIST_FILE = "EQ/EQ-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1BABC84C-54F7-4B6D-8469-89A3E2BAC45E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1BABC84C-54F7-4B6D-8469-89A3E2BAC45E";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1441,15 +1475,15 @@
 		214A590116FFB88A005D787D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sebastian Borda (845Q8JGR85)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sebastian Borda (845Q8JGR85)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EQ/EQ-Prefix.pch";
 				INFOPLIST_FILE = "EQ/EQ-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A9907136-F1E6-4016-AAD3-C29F89E3E337";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A9907136-F1E6-4016-AAD3-C29F89E3E337";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

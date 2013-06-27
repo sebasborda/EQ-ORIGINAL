@@ -12,11 +12,9 @@
 
 @implementation EQNetworkManager
 
-+ (void)makeRequest:(EQRequest *)request showLoading:(BOOL)show{
++ (void)makeRequest:(EQRequest *)request{
     @synchronized (self) {
-        if (show) {
-            [APP_DELEGATE showLoadingView];
-        }
+
         [AFJSONRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"text/html"]];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
             NSArray *jsonArray = nil;
@@ -45,25 +43,13 @@
                 request.failBlock([NSError errorWithDomain:@"EQ-Server" code:9999 userInfo:[NSDictionary dictionaryWithObject:message forKey:@"message"]]);
             }
             
-            if (show) {
-                [APP_DELEGATE hideLoadingView];
-            }
-            
         } failure:^(NSURLRequest *urlRequest , NSURLResponse *response , NSError *error , id JSON)
                                              {
                                                  NSLog(@"Failed: %@ for request %@",[error localizedDescription], [[urlRequest URL] absoluteString]);
                                                  request.failBlock(error);
-                                                 
-                                                 if (show) {
-                                                     [APP_DELEGATE hideLoadingView];
-                                                 }
                                              }];
         [operation start];
     }
-}
-
-+ (void)makeRequest:(EQRequest *)request{
-    [EQNetworkManager makeRequest:request showLoading:YES];
 }
 
 @end

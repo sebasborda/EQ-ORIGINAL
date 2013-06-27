@@ -20,8 +20,8 @@
 @property (nonatomic, retain) NSDate * fecha;
 @property (nonatomic, retain) NSNumber * identifier;
 @property (nonatomic, retain) NSNumber * importe;
-@property (nonatomic, retain) Articulo *articulo;
-@property (nonatomic, retain) Cliente *cliente;
-@property (nonatomic, retain) Vendedor *vendedor;
+@property (nonatomic, retain) Articulo * articulo;
+@property (nonatomic, retain) Cliente * cliente;
+@property (nonatomic, retain) Vendedor * vendedor;
 
 @end

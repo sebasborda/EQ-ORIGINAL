@@ -12,6 +12,7 @@
 
 - (id)initViewWithSize:(CGSize)loadingSize showLargeImage:(BOOL)largeImage;
 - (void)show;
+- (void)showWithMessage:(NSString *)message;
 - (void)hide;
 
 @end

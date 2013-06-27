@@ -18,6 +18,7 @@
 
 - (void)pushTabBarAtIndex:(int)index;
 - (void)reStartNavigation;
+- (void)showLoadingViewWithMessage:(NSString *)message;
 - (void)showLoadingView;
 - (void)hideLoadingView;
 @end

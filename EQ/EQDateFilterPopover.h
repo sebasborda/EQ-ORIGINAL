@@ -16,6 +16,10 @@
 
 - (IBAction)saveButtonAction:(id)sender;
 - (IBAction)allDatesButtonAction:(id)sender;
+- (NSDate *)getPickerStartDate;
+- (NSDate *)getPickerEndDate;
+- (void)setPickerStartDate:(NSDate *)startDate;
+- (void)setPickerEndDate:(NSDate *)endDate;
 
 @property (strong, nonatomic) IBOutlet UIDatePicker *startDatePicker;
 @property (strong, nonatomic) IBOutlet UIDatePicker *endDatePicker;

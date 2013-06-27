@@ -46,22 +46,22 @@
 
 - (void)loadStatusStyle:(NSString *)estado{
     NSString *imageName = nil;
-    if ([estado isEqualToString:@"Pendiente"]) {
+    if ([estado isEqualToString:@"pendiente"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.pendiente.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;
         self.cloneButton.hidden = YES;
-    } else if ([estado isEqualToString:@"Facturado"]) {
+    } else if ([estado isEqualToString:@"facturado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.facturado.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;
         self.cloneButton.hidden = YES;
-    } else if ([estado isEqualToString:@"Presupuestado"]) {
+    } else if ([estado isEqualToString:@"presupuestado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.sin.facturar.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;
         self.cloneButton.hidden = NO;
-    } else if ([estado isEqualToString:@"Anulado"]) {
+    } else if ([estado isEqualToString:@"anulado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.cancelado.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;

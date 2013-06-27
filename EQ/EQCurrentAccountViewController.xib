@@ -658,7 +658,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUILineBreakMode">2</int>
-								<string key="IBUINormalTitle">  Fecha</string>
+								<string key="IBUINormalTitle">  Cliente</string>
 								<reference key="IBUIHighlightedTitleColor" ref="574513523"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>

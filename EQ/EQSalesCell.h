@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface EQSalesCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UILabel *periodLabel;
+@property (strong, nonatomic) IBOutlet UILabel *clientLabel;
+@property (strong, nonatomic) IBOutlet UILabel *articleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *quantityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 
 @end
