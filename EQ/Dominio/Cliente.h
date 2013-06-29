@@ -2,14 +2,14 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CondPag, CtaCte, Expreso, LineaVTA, Pedido, Provincia, TipoIvas, Vendedor, Venta, ZonaEnvio;
+@class CtaCte, Pedido, Vendedor;
 
 @interface Cliente : NSManagedObject
 
@@ -40,17 +40,16 @@
 @property (nonatomic, retain) NSNumber * sucursal;
 @property (nonatomic, retain) NSString * telefono;
 @property (nonatomic, retain) NSString * web;
+@property (nonatomic, retain) NSNumber * ivaID;
+@property (nonatomic, retain) NSNumber * condicionDePagoID;
+@property (nonatomic, retain) NSNumber * expresoID;
+@property (nonatomic, retain) NSNumber * lineaDeVentaID;
+@property (nonatomic, retain) NSNumber * provinciaID;
+@property (nonatomic, retain) NSNumber * zonaEnvioID;
 @property (nonatomic, retain) Vendedor *cobrador;
-@property (nonatomic, retain) CondPag *condicionDePago;
 @property (nonatomic, retain) NSSet *ctaCte;
-@property (nonatomic, retain) Expreso *expreso;
-@property (nonatomic, retain) TipoIvas *iva;
-@property (nonatomic, retain) LineaVTA *lineaDeVenta;
 @property (nonatomic, retain) NSSet *pedidos;
 @property (nonatomic, retain) Vendedor *vendedor;
-@property (nonatomic, retain) NSSet *venta;
-@property (nonatomic, retain) Provincia *zona;
-@property (nonatomic, retain) ZonaEnvio *zonaEnvio;
 @end
 
 @interface Cliente (CoreDataGeneratedAccessors)
@@ -64,10 +63,5 @@
 - (void)removePedidosObject:(Pedido *)value;
 - (void)addPedidos:(NSSet *)values;
 - (void)removePedidos:(NSSet *)values;
-
-- (void)addVentaObject:(Venta *)value;
-- (void)removeVentaObject:(Venta *)value;
-- (void)addVenta:(NSSet *)values;
-- (void)removeVenta:(NSSet *)values;
 
 @end

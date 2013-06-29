@@ -2,14 +2,14 @@
 //  Articulo.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/24/13.
+//  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Disponibilidad, ItemPedido, Precio, Venta;
+@class ItemPedido;
 
 @interface Articulo : NSManagedObject
 
@@ -26,10 +26,8 @@
 @property (nonatomic, retain) NSNumber * multiploPedido;
 @property (nonatomic, retain) NSString * nombre;
 @property (nonatomic, retain) NSString * tipo;
-@property (nonatomic, retain) Disponibilidad *disponibilidad;
+@property (nonatomic, retain) NSNumber * disponibilidadID;
 @property (nonatomic, retain) NSSet *itemsPedido;
-@property (nonatomic, retain) Precio *precio;
-@property (nonatomic, retain) NSSet *ventas;
 @end
 
 @interface Articulo (CoreDataGeneratedAccessors)
@@ -38,10 +36,5 @@
 - (void)removeItemsPedidoObject:(ItemPedido *)value;
 - (void)addItemsPedido:(NSSet *)values;
 - (void)removeItemsPedido:(NSSet *)values;
-
-- (void)addVentasObject:(Venta *)value;
-- (void)removeVentasObject:(Venta *)value;
-- (void)addVentas:(NSSet *)values;
-- (void)removeVentas:(NSSet *)values;
 
 @end

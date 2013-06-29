@@ -30,6 +30,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *orderLabel;
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *orderClientLabel;
+@property (strong, nonatomic) IBOutlet UITextView *observationTextView;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segmentStatus;
 
 - (id)initWithOrder:(Pedido *)order;
 - (id)initWithClonedOrder:(Pedido *)order;

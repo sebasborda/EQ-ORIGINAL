@@ -7,9 +7,18 @@
 //
 
 #import "ItemPedido.h"
+@class Pedido;
+@class Articulo;
 
 @interface ItemPedido (extra)
 
-- (CGFloat)subTotal;
+@property (nonatomic, strong) NSArray* articulos;
+@property (nonatomic, strong) NSArray* pedidos;
+
+- (CGFloat)totalConDescuento;
+- (CGFloat)totalSinDescuento;
+- (Articulo *)articulo;
+- (Pedido *)pedido;
 
 @end
+

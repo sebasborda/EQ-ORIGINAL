@@ -13,7 +13,8 @@
 #import "EQTablePopover.h"
 #import "Grupo.h"
 #import "Disponibilidad.h"
-#import "Precio+Cliente.h"
+#import "Precio+extra.h"
+#import "Articulo+extra.h"
 
 @interface EQProductsViewController ()
 
@@ -90,8 +91,8 @@
     cell.productNameLabel.text = art.nombre;
     cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
-    CGFloat precio = art.precio.importe ? [art.precio importeConDescuento] : 0;
-    cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precio];
+    CGFloat precioFloat = art.precio.importe ? [art.precio importeConDescuento] : 0;
+    cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precioFloat];
     cell.productCodeLabel.text = art.codigo;
     if([art.disponibilidad.identifier integerValue] > 1){
         cell.productStatusLabel.hidden = YES;
@@ -164,10 +165,8 @@
             [self.viewModel defineSelectedCategory3:rowNumber];
             [self.groupThreeButton setTitle:title forState:UIControlStateNormal];
         }
-        
         [self.viewModel loadData];
     }
-
     [self closePopover];
 }
 

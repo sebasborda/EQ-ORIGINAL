@@ -18,7 +18,7 @@
         [AFJSONRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"text/html"]];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
             NSArray *jsonArray = nil;
-            BOOL error = false;
+            BOOL error = JSON == nil;
             NSString *message = nil;
             
             if ([JSON isKindOfClass:[NSDictionary class]]) {
@@ -39,8 +39,8 @@
             if (!error) {
                 request.successBlock(jsonArray);
             } else {
-                NSLog(@"Failed: %@ for request %@",message, [[urlRequest URL] absoluteString]);
-                request.failBlock([NSError errorWithDomain:@"EQ-Server" code:9999 userInfo:[NSDictionary dictionaryWithObject:message forKey:@"message"]]);
+                NSLog(@"Failed: null response for %@", [[urlRequest URL] absoluteString]);
+                request.failBlock([NSError errorWithDomain:@"EQ-Server" code:9999 userInfo:[NSDictionary dictionaryWithObject:@"El server no devolvio ningun dato" forKey:@"message"]]);
             }
             
         } failure:^(NSURLRequest *urlRequest , NSURLResponse *response , NSError *error , id JSON)

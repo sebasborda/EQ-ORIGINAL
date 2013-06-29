@@ -9,13 +9,30 @@
 #import "ItemPedido+extra.h"
 #import "Articulo.h"
 #import "Precio.h"
-#import "Precio+Cliente.h"
+#import "Precio+extra.h"
+#import "Articulo+extra.h"
 
 @implementation ItemPedido (extra)
 
-- (CGFloat)subTotal{
-    CGFloat subTotal = [self.articulo.precio importeConDescuento] * [self.cantidad intValue];
-    return subTotal;
+@dynamic pedidos;
+@dynamic articulos;
+
+- (CGFloat)totalConDescuento{
+    CGFloat total = [self.articulo.precio importeConDescuento] * [self.cantidad intValue];
+    return total;
+}
+
+- (CGFloat)totalSinDescuento{
+    CGFloat total = [self.articulo.precio.importe floatValue] * [self.cantidad intValue];
+    return total;
+}
+
+- (Articulo *)articulo{
+    return [self.articulos lastObject];
+}
+
+- (Pedido *)pedido{
+    return [self.pedidos lastObject];
 }
 
 @end

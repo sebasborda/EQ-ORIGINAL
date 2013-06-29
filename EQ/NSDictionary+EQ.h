@@ -11,5 +11,6 @@
 @interface NSDictionary (EQ)
 
 - (id)filterInvalidEntry:(NSString *)key;
+- (NSString *)toJSON;
 
 @end

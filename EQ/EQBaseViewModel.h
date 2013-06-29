@@ -19,6 +19,7 @@
 - (NSString *)clientName;
 - (NSString *)clientStatus;
 - (Cliente *)ActiveClient;
+- (Vendedor *)currentSeller;
 
 @end
 

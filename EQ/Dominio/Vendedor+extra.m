@@ -1,17 +1,16 @@
 //
-//  Disponibilidad.m
+//  Vendedor+extra.m
 //  EQ
 //
 //  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "Disponibilidad.h"
+#import "Vendedor+extra.h"
 
+@implementation Vendedor (extra)
 
-@implementation Disponibilidad
-
-@dynamic descripcion;
-@dynamic identifier;
+@dynamic ventas;
+@dynamic pedidos;
 
 @end

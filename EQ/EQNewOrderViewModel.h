@@ -7,7 +7,7 @@
 //
 
 #import "EQBaseViewModel.h"
-#import "Pedido.h"
+#import "Pedido+extra.h"
 #import "Articulo.h"
 
 @protocol EQNewOrderViewModelDelegate <EQBaseViewModelDelegate>
@@ -41,6 +41,7 @@
 - (void)defineSelectedGroup1:(int)index;
 - (void)defineSelectedGroup2:(int)index;
 - (void)defineSelectedArticle:(int)index;
+- (void)defineOrderStatus:(int)index;
 - (void)addItemQuantity:(int)quantity;
 - (NSNumber *)itemsQuantity;
 - (NSNumber *)subTotal;
@@ -48,5 +49,7 @@
 - (int)discountValue;
 - (float)total;
 - (NSArray *)items;
+- (int)orderStatusIndex;
+- (NSDate *)date;
 
 @end

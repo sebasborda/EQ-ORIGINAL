@@ -9,8 +9,8 @@
 #import "EQOrdersViewModel.h"
 #import "EQSession.h"
 #import "Usuario.h"
-#import "Vendedor.h"
-#import "Pedido.h"
+#import "Vendedor+extra.h"
+#import "Pedido+extra.h"
 #import "Cliente.h"
 
 @interface EQOrdersViewModel()
@@ -34,7 +34,7 @@
 
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    NSArray *results = [[EQSession sharedInstance].user.vendedor.pedidos allObjects];
+    NSArray *results = [EQSession sharedInstance].user.vendedor.pedidos;
     NSMutableArray *subPredicates = [NSMutableArray new];
     if ([self.client length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.client];

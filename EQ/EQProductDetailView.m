@@ -10,8 +10,9 @@
 #import "EQProductCell.h"
 #import "Precio.h"
 #import "Disponibilidad.h"
-#import "Grupo.h"
-#import "Precio+Cliente.h"
+#import "Grupo+extra.h"
+#import "Precio+extra.h"
+#import "Articulo+extra.h"
 
 @interface EQProductDetailView()
 
@@ -33,9 +34,7 @@
     self.statusLabel.text = article.disponibilidad.descripcion;
     CGFloat precio = article.precio.importe ? [article.precio importeConDescuento] : 0;
     self.PriceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
-    EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-    Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:article.grupoID];
-    self.group1Label.text = [grupo nombre];
+    self.group1Label.text = [article.grupo nombre];
     [self LoadGridData:article];
 }
 
@@ -86,11 +85,8 @@
 }
 
 - (void)LoadGridData:(Articulo *)article{
-    EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.grupoID = %@",article.grupoID];
-    self.articles = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
-    Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:article.grupoID];
-    self.group1Label.text = [grupo nombre];
+    self.articles = article.grupo.articulos;
+    self.group1Label.text = [article.grupo nombre];
     [self.productsCollectionView reloadData];
 }
 @end

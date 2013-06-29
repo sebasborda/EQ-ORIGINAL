@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "Pedido.h"
+#import "Pedido+extra.h"
 
 @protocol EQOrderCellDelegate <NSObject>
 

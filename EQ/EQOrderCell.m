@@ -33,6 +33,7 @@
 - (void)loadOrder:(Pedido *)pedido{
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
+    self.pedido = pedido;
     [self loadStatusStyle:pedido.estado];
     self.syncDateLabel.text = [dateFormat stringFromDate:pedido.sincronizacion];
     self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fecha];

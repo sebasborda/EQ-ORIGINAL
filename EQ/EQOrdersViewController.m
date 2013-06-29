@@ -25,6 +25,7 @@
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQOrderCell" bundle: nil];
     [self.ordersTable registerNib:nib forCellReuseIdentifier:@"OrderCell"];
+    
     [super viewDidLoad];
 }
 

@@ -13,7 +13,7 @@
 #import "EQSession.h"
 #import "EQNetworkManager.h"
 #import "EQDataAccessLayer.h"
-#import "Articulo.h"
+#import "Articulo+extra.h"
 #import "CondPag.h"
 #import "Vendedor.h"
 #import "Expreso.h"
@@ -23,11 +23,12 @@
 #import "TipoIvas.h"
 #import "Usuario.h"
 #import "CtaCte.h"
-#import "Precio.h"
-#import "Pedido.h"
+#import "Precio+extra.h"
+#import "Pedido+extra.h"
 #import "Venta.h"
 #import "Grupo.h"
 #import "Disponibilidad.h"
+#import "ItemPedido+extra.h"
 
 
 @interface EQDataManager()
@@ -47,11 +48,16 @@
         sharedInstance = [[EQDataManager alloc] init];
         sharedInstance.showLoading = YES;
         sharedInstance.running = NO;
-        
+        __weak EQDataManager *weakSelf = sharedInstance;
         sharedInstance.failBlock = ^(NSError *error){
             sharedInstance.running = NO;
-            NSLog(@"EQRequest fail error:%@ UserInfo:%@",error ,error.userInfo);
-            [APP_DELEGATE hideLoadingView];
+            NSString *errorMessage = [NSString stringWithFormat:@"EQRequest fail error:%@ UserInfo:%@ \n Reinicie la aplicacion para terminar la carga de datos correctamente.",error ,error.userInfo];
+            NSLog(@"%@",errorMessage);
+            if (weakSelf.showLoading) {
+                [APP_DELEGATE hideLoadingView];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hubo un error en la carga de datos" message:errorMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
         };
     });
     return sharedInstance;
@@ -168,15 +174,24 @@
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         if ([jsonArray count] > 0) {
-            NSMutableArray *auxArray = [NSMutableArray array];
+            int firstId = 10000 * (page - 1);
+            NSArray *pricesArray = [adl objectListForClass:[Precio class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier >= %i", firstId]];
             for (NSDictionary *priceDictionary in jsonArray) {
-                Precio *price = (Precio *)[adl objectForClass:[Precio class] withId:[[priceDictionary objectForKey:@"id"] number]];
+                Precio *price = nil;
+                if ([pricesArray count] > 0) {
+                    NSNumber *priceID = [[priceDictionary objectForKey:@"id"] number];
+                    price = [[pricesArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Precio *evaluatedObject, NSDictionary *bindings) {
+                        return [evaluatedObject.identifier isEqualToNumber:priceID];
+                    }]] lastObject];
+                }
+
+                
+                price = price ? price : (Precio *)[adl createManagedObject:@"Precio"];
+                
                 price.identifier = [[priceDictionary filterInvalidEntry:@"id"] number];
                 price.importe = [[priceDictionary filterInvalidEntry:@"importe"] number];
                 price.numero = [priceDictionary filterInvalidEntry:@"numero"];
-                price.articulo = (Articulo *)[adl objectForClass:[Articulo class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[priceDictionary filterInvalidEntry:@"articulo_id"] number]]];
-                
-                [auxArray addObject:price];
+                price.articuloID = [[priceDictionary filterInvalidEntry:@"articulo_id"] number];
             }
             
             [adl saveContext];
@@ -236,8 +251,8 @@
             pedido.observaciones = [dictionary filterInvalidEntry:@"observaciones"];
             pedido.descuento3 = [dictionary[@"descuento3"] number];
             pedido.descuento4 = [dictionary[@"descuento4"] number];
-            pedido.cliente = (Cliente *)[adl objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"cliente_id"] number]]];
-            pedido.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"vendedor_id"] number]]];
+            pedido.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
+            pedido.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
             pedido.sincronizacion = [NSDate date];
             
             [objectsList addObject:pedido];
@@ -358,10 +373,19 @@
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
         if ([jsonArray count] > 0) {
-            NSMutableArray *objectsList = [NSMutableArray array];
+            int firstId = 10000 * (page - 1);
+            NSArray *salesArray = [dal objectListForClass:[Venta class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier >= %i", firstId]];
+
             for (NSDictionary *dictionary in jsonArray) {
                 NSNumber *identifier = [dictionary[@"id"] number];
-                Venta *venta = (Venta *)[dal objectForClass:[Venta class] withId:[dictionary objectForKey:@"id"]];
+                Venta *venta = nil;
+                if ([salesArray count] > 0) {
+                    venta = [[salesArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Venta *evaluatedObject, NSDictionary *bindings) {
+                        return [evaluatedObject.identifier isEqualToNumber:identifier];
+                    }]] lastObject];
+                }
+                
+                venta = venta ? venta : (Venta *)[dal createManagedObject:@"Venta"];
                 if (![venta.identifier isEqualToNumber:identifier]) {
                     venta.identifier = identifier;
                     venta.importe = [dictionary[@"importe"] number];
@@ -371,11 +395,9 @@
                     venta.cantidad =  [dictionary[@"cantidad"] number];
                     venta.comprobante =  dictionary[@"comprobante"];
                     venta.empresa =  dictionary[@"empresa"];
-                    venta.cliente = (Cliente *)[dal objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"cliente_id"] number]]];
-                    venta.vendedor = (Vendedor *)[dal objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"vendedor_id"] number]]];
-                    venta.articulo =  (Articulo *)[dal objectForClass:[Articulo class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[dictionary filterInvalidEntry:@"articulo_id"] number]]];
-                    
-                    [objectsList addObject:venta];
+                    venta.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
+                    venta.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
+                    venta.articuloID =  [[dictionary filterInvalidEntry:@"articulo_id"] number];
                 }
             }
             
@@ -432,7 +454,7 @@
             client.codigoPostal = [clienteDictionary filterInvalidEntry:@"cod_postal"];
             client.codigo1 = [clienteDictionary filterInvalidEntry:@"codigo1"];
             client.codigo2 = [clienteDictionary filterInvalidEntry:@"codigo2"];
-            client.condicionDePago = (CondPag *)[adl objectForClass:[CondPag class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number]]];
+            client.condicionDePagoID = [[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number];
             client.cuit = [clienteDictionary filterInvalidEntry:@"cuit"];
             client.descuento1 = [[clienteDictionary filterInvalidEntry:@"descuento1"] number];
             client.descuento2 = [[clienteDictionary filterInvalidEntry:@"descuento2"] number];
@@ -443,23 +465,23 @@
             client.domicilioDeEnvio = [clienteDictionary filterInvalidEntry:@"domicilio_envio"];
             client.propietario = [clienteDictionary filterInvalidEntry:@"dueno"];
             client.encCompras = [clienteDictionary filterInvalidEntry:@"enc_compras"];
-            client.expreso = (Expreso *)[adl objectForClass:[Expreso class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"expreso_id"] number]]];
+            client.expresoID = [[clienteDictionary filterInvalidEntry:@"expreso_id"] number];
             client.horario = [clienteDictionary filterInvalidEntry:@"horario"];
-            client.lineaDeVenta = (LineaVTA *)[adl objectForClass:[LineaVTA class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"linea_venta_id"] number]]];
+            client.lineaDeVentaID = [[clienteDictionary filterInvalidEntry:@"linea_venta_id"] number];
             client.localidad = [clienteDictionary filterInvalidEntry:@"localidad"];
             client.mail = [clienteDictionary filterInvalidEntry:@"mail"];
             client.nombre = [clienteDictionary filterInvalidEntry:@"nombre"];
             client.nombreDeFantasia = [clienteDictionary filterInvalidEntry:@"nombre_fantasia"];
             client.observaciones = [clienteDictionary filterInvalidEntry:@"observaciones"];
-            client.zona = (Provincia *)[adl objectForClass:[Provincia class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"provincia_id"] number]]];
+            client.provinciaID = [[clienteDictionary filterInvalidEntry:@"provincia_id"] number];
             client.sucursal = [[clienteDictionary filterInvalidEntry:@"sucursal"] number];
             client.telefono = [clienteDictionary filterInvalidEntry:@"telefono"];
-            client.iva = (TipoIvas *)[adl objectForClass:[TipoIvas class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number]]];
+            client.ivaID = [[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number];
             client.latitud = [clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"];
             client.longitud = [clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"];
             Vendedor *seller = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"vendedor_id"] number]]];
             client.vendedor = seller;
-            client.zonaEnvio = (ZonaEnvio *)[adl objectForClass:[ZonaEnvio class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number]]];
+            client.zonaEnvioID = [[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number];
             client.web = [clienteDictionary filterInvalidEntry:@"web"];
             client.actualizado = [NSNumber numberWithBool:YES];
             client.activo = [[clienteDictionary filterInvalidEntry:@"activo"] number];
@@ -502,9 +524,7 @@
             NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
             art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
             art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.identifier == %@", [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number]];
-            Disponibilidad *disponibilidad = (Disponibilidad *)[adl objectForClass:[Disponibilidad class] withPredicate:predicate];
-            art.disponibilidad = disponibilidad;
+            art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
             
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -770,7 +790,7 @@
     [dictionary setNotEmptyStringEscaped:client.codigoPostal forKey:@"atributos[cod_postal]"];
     [dictionary setNotEmptyStringEscaped:client.codigo1 forKey:@"atributos[codigo1]"];
     [dictionary setNotEmptyStringEscaped:client.codigo2 forKey:@"atributos[codigo2]"];
-    [dictionary setNotNilObject:client.condicionDePago.identifier forKey:@"atributos[condicion_pago_id]"];
+    [dictionary setNotNilObject:client.condicionDePagoID forKey:@"atributos[condicion_pago_id]"];
     [dictionary setNotEmptyStringEscaped:client.cuit forKey:@"atributos[cuit]"];
     [dictionary setObject:client.descuento1 forKey:@"atributos[descuento1]"];
     [dictionary setObject:client.descuento2 forKey:@"atributos[descuento2]"];
@@ -781,26 +801,96 @@
     [dictionary setNotEmptyStringEscaped:client.domicilioDeEnvio forKey:@"atributos[domicilio_envio]"];
     [dictionary setNotEmptyStringEscaped:client.propietario forKey:@"atributos[dueno]"];
     [dictionary setNotEmptyStringEscaped:client.encCompras forKey:@"atributos[enc_compras]"];
-    [dictionary setNotNilObject:client.expreso.identifier forKey:@"atributos[expreso_id]"];
+    [dictionary setNotNilObject:client.expresoID forKey:@"atributos[expreso_id]"];
     [dictionary setNotEmptyStringEscaped:client.horario forKey:@"atributos[horario]"];
-    [dictionary setNotNilObject:client.lineaDeVenta.identifier forKey:@"atributos[linea_venta_id]"];
+    [dictionary setNotNilObject:client.lineaDeVentaID forKey:@"atributos[linea_venta_id]"];
     [dictionary setNotEmptyStringEscaped:client.localidad forKey:@"atributos[localidad]"];
     [dictionary setNotEmptyStringEscaped:client.mail forKey:@"atributos[mail]"];
     [dictionary setNotEmptyStringEscaped:client.nombre forKey:@"atributos[nombre]"];
     [dictionary setNotEmptyStringEscaped:client.nombreDeFantasia forKey:@"atributos[nombre_fantasia]"];
     [dictionary setNotEmptyStringEscaped:client.observaciones forKey:@"atributos[observaciones]"];
-    [dictionary setNotNilObject:client.zona.identifier forKey:@"atributos[provincia_id]"];
+    [dictionary setNotNilObject:client.provinciaID forKey:@"atributos[provincia_id]"];
     [dictionary setNotNilObject:client.sucursal forKey:@"atributos[sucursal]"];
     [dictionary setNotEmptyStringEscaped:client.telefono forKey:@"atributos[telefono]"];
-    [dictionary setNotNilObject:client.iva.identifier forKey:@"atributos[tipo_iva_id]"];
+    [dictionary setNotNilObject:client.ivaID forKey:@"atributos[tipo_iva_id]"];
     [dictionary setNotEmptyStringEscaped:client.latitud forKey:@"atributos[ubicacion_gps_lat]"];
     [dictionary setNotEmptyStringEscaped:client.longitud forKey:@"atributos[ubicacion_gps_lng]"];
     [dictionary setNotNilObject:client.vendedor.identifier forKey:@"atributos[vendedor_id]"];
-    [dictionary setNotNilObject:client.zonaEnvio.identifier forKey:@"atributos[zona_envio_id]"];
+    [dictionary setNotNilObject:client.zonaEnvioID forKey:@"atributos[zona_envio_id]"];
     [dictionary setNotEmptyStringEscaped:client.web forKey:@"atributos[web]"];
     [dictionary setObject:client.activo forKey:@"atributos[activo]"];
     
     return dictionary;
+}
+
+- (void)sendOrder:(Pedido *)order{
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setNotNilObject:@"pedido" forKey:@"object"];
+    [dictionary setNotNilObject:[order.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary addEntriesFromDictionary:[self parseOrder:order]];
+    [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
+    
+    __block Pedido *newOrder = order;
+    SuccessRequest block = ^(NSDictionary *clientDictionary){
+        NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+        if (identifier) {
+            newOrder.identifier = identifier;
+        }
+        
+        newOrder.sincronizacion = [NSDate date];
+        newOrder.actualizado = [NSNumber numberWithBool:YES];
+        [[EQDataAccessLayer sharedInstance] saveContext];
+    };
+    
+    FailRequest failBlock = ^(NSError *error){
+        NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
+         newOrder.actualizado = [NSNumber numberWithBool:NO];
+        [[EQDataAccessLayer sharedInstance] saveContext];
+    };
+    
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
+    [EQNetworkManager makeRequest:request];
+}
+
+- (NSMutableDictionary *)parseOrder:(Pedido *)order{
+    NSMutableArray *items = [NSMutableArray array];
+    for (ItemPedido *item in order.items) {
+        NSMutableDictionary *itemDictionary = [NSMutableDictionary dictionary];
+        float descuento = [item totalSinDescuento] - [item totalConDescuento];
+        [itemDictionary setObject:item.articuloID forKey:@"articulo_id"];
+        [itemDictionary setObject:item.cantidad forKey:@"cantidad_pedida"];
+        [itemDictionary setObject:item.pedido.cliente.descuento1 forKey:@"descuento1"];
+        [itemDictionary setObject:item.pedido.cliente.descuento2 forKey:@"descuento2"];
+        [itemDictionary setObject:[NSNumber numberWithFloat:descuento] forKey:@"descuento_monto"];
+        [itemDictionary setObject:[NSNumber numberWithFloat:[item totalConDescuento]] forKey:@"importe_final"];
+        [itemDictionary setObject:[NSNumber numberWithFloat:[item.articulo.precio importeConDescuento]] forKey:@"precio_con_descuento"];
+        [itemDictionary setObject:item.articulo.precio.importe forKey:@"precio_unitario"];
+        
+        [items addObject:itemDictionary];
+    }
+    
+    NSMutableDictionary *orderDictionary = [NSMutableDictionary dictionary];
+    if([order.identifier intValue] > 0) {
+        [orderDictionary setNotNilObject:order.identifier forKey:@"id"];
+    }
+    [orderDictionary setValue:order.clienteID forKey:@"cliente_id"];
+    [orderDictionary setValue:order.vendedorID forKey:@"vendedor_id"];
+    [orderDictionary setValue:order.latitud forKey:@"ubicacion_gps_lat"];
+    [orderDictionary setValue:order.longitud forKey:@"ubicacion_gps_lng"];
+    [orderDictionary setValue:order.observaciones forKey:@"observaciones"];
+    [orderDictionary setValue:order.activo forKey:@"activo"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+    [orderDictionary setValue:[dateFormatter stringFromDate:order.fecha] forKey:@"fecha"];
+    [orderDictionary setValue:items forKey:@"articulos"];
+    [orderDictionary setValue:[order total] forKey:@"total"];
+    [orderDictionary setValue:[order subTotal] forKey:@"subtotal"];
+    [orderDictionary setValue:order.estado forKey:@"estado"];
+    [orderDictionary setValue:order.descuento forKey:@"descuento"];
+    
+    return orderDictionary;
 }
 
 @end

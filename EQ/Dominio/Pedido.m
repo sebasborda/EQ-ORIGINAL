@@ -2,14 +2,12 @@
 //  Pedido.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/29/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Pedido.h"
-#import "Cliente.h"
 #import "ItemPedido.h"
-#import "Vendedor.h"
 
 
 @implementation Pedido
@@ -28,8 +26,8 @@
 @dynamic sincronizacion;
 @dynamic subTotal;
 @dynamic total;
-@dynamic cliente;
+@dynamic clienteID;
+@dynamic vendedorID;
 @dynamic items;
-@dynamic vendedor;
 
 @end

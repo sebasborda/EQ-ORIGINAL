@@ -1,17 +1,15 @@
 //
-//  Disponibilidad.m
+//  Grupo+extra.m
 //  EQ
 //
 //  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "Disponibilidad.h"
+#import "Grupo+extra.h"
 
+@implementation Grupo (extra)
 
-@implementation Disponibilidad
-
-@dynamic descripcion;
-@dynamic identifier;
+@dynamic articulos;
 
 @end

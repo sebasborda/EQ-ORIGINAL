@@ -2,16 +2,14 @@
 //  Vendedor.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/16/13.
+//  Created by Sebastian Borda on 6/29/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Vendedor.h"
 #import "Cliente.h"
 #import "CtaCte.h"
-#import "Pedido.h"
 #import "Usuario.h"
-#import "Venta.h"
 
 
 @implementation Vendedor
@@ -23,8 +21,6 @@
 @dynamic clienteCobrador;
 @dynamic clienteVendedor;
 @dynamic ctaCte;
-@dynamic pedidos;
 @dynamic usuario;
-@dynamic venta;
 
 @end

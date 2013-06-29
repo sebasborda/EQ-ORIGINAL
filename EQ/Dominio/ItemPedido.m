@@ -2,19 +2,23 @@
 //  ItemPedido.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/16/13.
+//  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "ItemPedido.h"
-#import "Articulo.h"
-#import "Pedido.h"
 
 
 @implementation ItemPedido
 
 @dynamic cantidad;
-@dynamic articulo;
-@dynamic pedido;
+@dynamic articuloID;
+@dynamic pedidoID;
+@dynamic descuento1;
+@dynamic descuento2;
+@dynamic descuentoMonto;
+@dynamic importeFinal;
+@dynamic importeConDescuento;
+@dynamic precioUnitario;
 
 @end

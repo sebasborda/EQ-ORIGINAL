@@ -467,7 +467,7 @@
 								<string key="NSFrame">{{349, 14}, {90, 21}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="872424424"/>
+								<reference key="NSNextKeyView" ref="810864970"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -556,7 +556,7 @@
 								<string key="NSFrame">{{167, 34}, {157, 31}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="405572176"/>
+								<reference key="NSNextKeyView" ref="872424424"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -579,7 +579,7 @@
 								<string key="NSFrame">{{344, 34}, {169, 31}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="810864970"/>
+								<reference key="NSNextKeyView" ref="405572176"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -631,7 +631,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<string key="IBUINormalTitle">  Fecha</string>
+								<string key="IBUINormalTitle">  Cliente</string>
 								<reference key="IBUIHighlightedTitleColor" ref="591509271"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
@@ -711,6 +711,7 @@
 								<string key="NSFrame">{{263, 79}, {94, 22}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="270871553"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -824,7 +825,7 @@
 								<string key="NSFrame">{{542, 797}, {53, 11}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="798255358"/>
+								<reference key="NSNextKeyView" ref="272389265"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -839,6 +840,7 @@
 								<string key="NSFrame">{{623, 820}, {134, 21}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -865,10 +867,10 @@
 							<object class="IBUILabel" id="272389265">
 								<reference key="NSNextResponder" ref="72626201"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{386, 830}, {60, 21}}</string>
+								<string key="NSFrame">{{363, 830}, {106, 21}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="117781208"/>
+								<reference key="NSNextKeyView" ref="798255358"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -881,14 +883,14 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">Arial-BoldMT</string>
-									<string key="family">Arial</string>
+									<string key="name">HelveticaNeue-Bold</string>
+									<string key="family">Helvetica Neue</string>
 									<int key="traits">2</int>
-									<double key="pointSize">11</double>
+									<double key="pointSize">14</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Arial-BoldMT</string>
-									<double key="NSSize">11</double>
+									<string key="NSName">HelveticaNeue-Bold</string>
+									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -899,7 +901,7 @@
 								<string key="NSFrame">{{381, 811}, {71, 21}}</string>
 								<reference key="NSSuperview" ref="72626201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="272389265"/>
+								<reference key="NSNextKeyView" ref="117781208"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -912,14 +914,14 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">ArialMT</string>
-									<string key="family">Arial</string>
+									<string key="name">HelveticaNeue-Medium</string>
+									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
-									<double key="pointSize">11</double>
+									<double key="pointSize">13</double>
 								</object>
 								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">ArialMT</string>
-									<double key="NSSize">11</double>
+									<string key="NSName">HelveticaNeue-Medium</string>
+									<double key="NSSize">13</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -1230,7 +1232,6 @@
 							<reference ref="805277489"/>
 							<reference ref="1041965937"/>
 							<reference ref="798255358"/>
-							<reference ref="272389265"/>
 							<reference ref="148092596"/>
 							<reference ref="360384689"/>
 							<reference ref="896376747"/>
@@ -1238,6 +1239,7 @@
 							<reference ref="405572176"/>
 							<reference ref="270871553"/>
 							<reference ref="527067894"/>
+							<reference ref="272389265"/>
 						</array>
 						<reference key="parent" ref="830817197"/>
 						<string key="objectName">View - Body</string>

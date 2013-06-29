@@ -1948,6 +1948,22 @@
 					<int key="connectionID">1159</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">observationTextView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="778755590"/>
+					</object>
+					<int key="connectionID">1166</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">segmentStatus</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="734434635"/>
+					</object>
+					<int key="connectionID">1167</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">pendingOrdersAction:</string>
 						<reference key="source" ref="704740874"/>
@@ -2740,7 +2756,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1165</int>
+			<int key="maxID">1167</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2872,12 +2888,14 @@
 						<string key="dateLabel">UILabel</string>
 						<string key="discountLabel">UILabel</string>
 						<string key="itemsLabel">UILabel</string>
+						<string key="observationTextView">UITextView</string>
 						<string key="orderClientLabel">UILabel</string>
 						<string key="orderLabel">UILabel</string>
 						<string key="quantityTextField">UITextField</string>
 						<string key="segmentArticles">UISegmentedControl</string>
 						<string key="segmentGroup1">UISegmentedControl</string>
 						<string key="segmentGroup2">UISegmentedControl</string>
+						<string key="segmentStatus">UISegmentedControl</string>
 						<string key="subTotalLabel">UILabel</string>
 						<string key="tableGroup1">UITableView</string>
 						<string key="tableGroup2">UITableView</string>
@@ -2902,6 +2920,10 @@
 							<string key="name">itemsLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="observationTextView">
+							<string key="name">observationTextView</string>
+							<string key="candidateClassName">UITextView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="orderClientLabel">
 							<string key="name">orderClientLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -2924,6 +2946,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="segmentGroup2">
 							<string key="name">segmentGroup2</string>
+							<string key="candidateClassName">UISegmentedControl</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="segmentStatus">
+							<string key="name">segmentStatus</string>
 							<string key="candidateClassName">UISegmentedControl</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="subTotalLabel">

@@ -42,4 +42,8 @@
     return [EQSession sharedInstance].selectedClient;
 }
 
+- (Vendedor *)currentSeller{
+    return [EQSession sharedInstance].user.vendedor;
+}
+
 @end

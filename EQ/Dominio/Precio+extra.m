@@ -1,15 +1,18 @@
 //
-//  Precio+Cliente.m
+//  Precio+extra.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/27/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "Precio+Cliente.h"
+#import "Precio+extra.h"
 #import "EQSession.h"
 #import "Cliente.h"
-@implementation Precio (Cliente)
+
+@implementation Precio (extra)
+
+@dynamic articulo;
 
 - (CGFloat)importeConDescuento {
     Cliente *cliente = [EQSession sharedInstance].selectedClient;

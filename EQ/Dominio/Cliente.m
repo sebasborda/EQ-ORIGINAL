@@ -2,21 +2,14 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/28/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Cliente.h"
-#import "CondPag.h"
 #import "CtaCte.h"
-#import "Expreso.h"
-#import "LineaVTA.h"
 #import "Pedido.h"
-#import "Provincia.h"
-#import "TipoIvas.h"
 #import "Vendedor.h"
-#import "Venta.h"
-#import "ZonaEnvio.h"
 
 
 @implementation Cliente
@@ -48,16 +41,15 @@
 @dynamic sucursal;
 @dynamic telefono;
 @dynamic web;
+@dynamic ivaID;
+@dynamic condicionDePagoID;
+@dynamic expresoID;
+@dynamic lineaDeVentaID;
+@dynamic provinciaID;
+@dynamic zonaEnvioID;
 @dynamic cobrador;
-@dynamic condicionDePago;
 @dynamic ctaCte;
-@dynamic expreso;
-@dynamic iva;
-@dynamic lineaDeVenta;
 @dynamic pedidos;
 @dynamic vendedor;
-@dynamic venta;
-@dynamic zona;
-@dynamic zonaEnvio;
 
 @end

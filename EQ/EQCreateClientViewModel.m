@@ -21,7 +21,7 @@
 #import "NSString+Number.h"
 #import "EQSession.h"
 #import "Usuario.h"
-
+#import "Cliente+extra.h"
 @interface EQCreateClientViewModel()
 
 @property(nonatomic,assign) int selectedTaxAtIndex;
@@ -93,21 +93,21 @@
     if (self.selectedCollectorAtIndex >= 0 )
         self.client.cobrador = [self obtainCollectorList][self.selectedCollectorAtIndex];
     if (self.selectedPaymentConditionAtIndex >= 0 )
-        self.client.condicionDePago = [self obtainPaymentConditionList][self.selectedPaymentConditionAtIndex];
+        self.client.condicionDePagoID = ((CondPag *)[self obtainPaymentConditionList][self.selectedPaymentConditionAtIndex]).identifier;
     if (self.selectedExpressAtIndex >= 0 )
-        self.client.expreso = [self obtainExpressList][self.selectedExpressAtIndex];
+        self.client.expresoID = ((Expreso *)[self obtainExpressList][self.selectedExpressAtIndex]).identifier;
     if (self.selectedTaxAtIndex >= 0 )
-        self.client.iva = [self obtainTaxesList][self.selectedTaxAtIndex];
+        self.client.ivaID = ((TipoIvas *)[self obtainTaxesList][self.selectedTaxAtIndex]).identifier;
     if (self.selectedSalesLineAtIndex >= 0 )
-        self.client.lineaDeVenta = [self obtainSalesLineList][self.selectedSalesLineAtIndex];
+        self.client.lineaDeVentaID = ((LineaVTA *)[self obtainSalesLineList][self.selectedSalesLineAtIndex]).identifier;
     if (self.selectedSellerAtIndex >= 0 )
         self.client.vendedor = [self obtainSellersList][self.selectedSellerAtIndex];
     else
         self.client.vendedor = [EQSession sharedInstance].user.vendedor;
     if (self.selectedProvinceAtIndex >= 0 )
-        self.client.zona = [self obtainProvinces][self.selectedProvinceAtIndex];
+        self.client.provinciaID = ((Provincia *)[self obtainProvinces][self.selectedProvinceAtIndex]).identifier;
     if (self.selectedDeliveryAreaAtIndex >= 0 )
-        self.client.zonaEnvio = [self obtainDeliveryAreaList][self.selectedDeliveryAreaAtIndex];
+        self.client.zonaEnvioID = ((ZonaEnvio *)[self obtainDeliveryAreaList][self.selectedDeliveryAreaAtIndex]).identifier;
     
     [[EQDataManager sharedInstance] sendClient:self.client];
 }
@@ -186,7 +186,7 @@
 }
 
 - (NSString *)obtainSelectedProvince{
-    return [self.client.zona.descripcion length] > 0 ? self.client.zona.descripcion : @SELECTION_TEXT;
+    return [self.client.provincia.descripcion length] > 0 ? self.client.provincia.descripcion : @SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedDeliveryArea{

@@ -8,6 +8,7 @@
 
 #import "EQRequest.h"
 #import "AFNetworking.h"
+#import "NSDictionary+EQ.h"
 
 @implementation EQRequest
 
@@ -50,10 +51,10 @@
     [params removeObjectForKey:@"password"];
     
     if (post) {
-        [params removeObjectForKey:@"POST"];        
+        [params removeObjectForKey:@"POST"];
         AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:queryString]];
-        httpClient.parameterEncoding = AFJSONParameterEncoding;
-        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:params];
+        httpClient.parameterEncoding = AFFormURLParameterEncoding;
+        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:@{@"atributos":[params toJSON]}];
     } else {
         for (NSString *key in params.allKeys) {
             NSString *value = [NSString stringWithFormat:@"%@",params[key]];

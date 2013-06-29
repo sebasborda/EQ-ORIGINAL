@@ -15,8 +15,9 @@
 #import "ItemPedido.h"
 #import "ItemPedido+extra.h"
 #import "Precio.h"
-#import "Precio+Cliente.h"
+#import "Precio+extra.h"
 #import "ItemPedido+extra.h"
+#import "Pedido+extra.h"
 
 @interface EQNewOrderViewController ()
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
@@ -93,11 +94,12 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
     self.orderClientLabel.text = self.clientNameLabel.text;
-    self.orderLabel.text = self.viewModel.order.identifier ? @"": [self.viewModel.order.identifier stringValue];
+    self.orderLabel.text = !self.viewModel.order.identifier ? @"": [self.viewModel.order.identifier stringValue];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
-    self.dateLabel.text = [dateFormat stringFromDate:[NSDate date]];
+    self.dateLabel.text = [dateFormat stringFromDate:[self.viewModel date]];
     [self.viewModel loadData];
 }
 
@@ -120,7 +122,8 @@
 }
 
 - (IBAction)segmentStatusChange:(id)sender {
-    [self notImplemented];
+    UISegmentedControl *control = (UISegmentedControl *)sender;
+    [self.viewModel defineOrderStatus:control.selectedSegmentIndex];
 }
 
 - (IBAction)quantityButtonAction:(id)sender {
@@ -195,7 +198,7 @@
         cell.codeLabel.text = item.articulo.codigo;
         cell.productNameLabel.text = item.articulo.nombre;
         cell.quantityLabel.text = [item.cantidad stringValue];
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f",[item subTotal]];
+        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f",[item totalConDescuento]];
         return cell;
     }
     
@@ -246,6 +249,7 @@
         }
     } else if([alertView isEqual:self.saveOrderAlert]){
         if (buttonIndex != alertView.cancelButtonIndex) {
+            self.viewModel.order.observaciones = self.observationTextView.text;
             [self.viewModel save];
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -284,16 +288,13 @@
 - (void)loadQuantity{
     int minimum = [self.viewModel.articleSelected.minimoPedido intValue];
     int multiplicity = [self.viewModel.articleSelected.multiploPedido intValue];
-    int base = minimum;
+    int base = 0;
     for (int index = 0; [self.quantityButtons count] > index; index++) {
         UIButton *button = self.quantityButtons[index];
         if (self.viewModel.articleSelected) {
-            if (index > 0 || base == 0) {
-                do {
-                    base += multiplicity;
-                } while ((base % 2) != 0);
-            }
-            
+            do {
+                base += multiplicity;
+            } while ((base % 2) != 0 && base > minimum);
             NSString *text = [NSString stringWithFormat:@"%i",base];
             [button setTitle:text forState:UIControlStateNormal];
             button.hidden = NO;

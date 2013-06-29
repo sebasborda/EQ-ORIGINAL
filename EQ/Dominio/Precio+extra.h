@@ -1,14 +1,16 @@
 //
-//  Precio+Cliente.h
+//  Precio+extra.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/27/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Precio.h"
 
-@interface Precio (Cliente)
+@interface Precio (extra)
+
+@property (nonatomic,strong) NSArray *articulo;
 
 - (CGFloat)importeConDescuento;
 

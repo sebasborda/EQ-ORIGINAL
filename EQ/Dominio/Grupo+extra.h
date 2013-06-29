@@ -1,5 +1,5 @@
 //
-//  Grupo.m
+//  Grupo+extra.h
 //  EQ
 //
 //  Created by Sebastian Borda on 6/28/13.
@@ -8,13 +8,8 @@
 
 #import "Grupo.h"
 
+@interface Grupo (extra)
 
-@implementation Grupo
-
-@dynamic count;
-@dynamic descripcion;
-@dynamic identifier;
-@dynamic nombre;
-@dynamic parentID;
+@property (nonatomic,strong) NSArray *articulos;
 
 @end

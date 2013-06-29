@@ -1,0 +1,21 @@
+//
+//  Pedido+extra.h
+//  EQ
+//
+//  Created by Sebastian Borda on 6/29/13.
+//  Copyright (c) 2013 Sebastian Borda. All rights reserved.
+//
+
+#import "Pedido.h"
+@class Cliente;
+@class Vendedor;
+
+@interface Pedido (extra)
+
+@property (nonatomic,strong) NSArray *clientes;
+@property (nonatomic,strong) NSArray *vendedores;
+
+- (Cliente *)cliente;
+- (Vendedor *)vendedor;
+
+@end

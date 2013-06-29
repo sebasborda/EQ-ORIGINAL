@@ -12,6 +12,7 @@
 #import "Venta.h"
 #import "Articulo.h"
 #import "EQSalesFooter.h"
+#import "Venta+extra.h"
 
 #define cellIdentifier @"SalesCell"
 
@@ -104,8 +105,18 @@
             quantity += [sale.cantidad integerValue];
         }
         Venta *sale = [sales lastObject];
-        cell.clientLabel.text = sale.cliente.nombre;
-        cell.periodLabel.text = @"";
+        if ([self.viewModel isSortingByClient]) {
+            cell.clientLabel.text = sale.cliente.nombre;
+            cell.periodLabel.text = @"";
+        } else {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy.MM"];
+            dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+            cell.clientLabel.text = @"";
+            cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
+        }
+        
+
         cell.articleLabel.text = @"";
         cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f", gross];
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
@@ -131,7 +142,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || ![self.viewModel isSortingByClient]) {
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod])) {
         return 0;
     }
     
@@ -159,7 +170,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || ![self.viewModel isSortingByClient]) {
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod])) {
         return nil;
     }
     
@@ -167,7 +178,15 @@
     NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"EQSalesFooter" owner:nil options:nil];
     EQSalesFooter *footer = (EQSalesFooter *)[nibObjects objectAtIndex:0];
     Venta *sale = [sales lastObject];
-    footer.groupedFieldLabel.text = sale.cliente.nombre;
+    if ([self.viewModel isSortingByClient]) {
+        footer.groupedFieldLabel.text = sale.cliente.nombre;
+    } else {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy.MM"];
+        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+        footer.groupedFieldLabel.text = [dateFormatter stringFromDate:sale.fecha];
+    }
+    
     float gross = 0;
     int quantity = 0;
     for (Venta *sale in sales) {
@@ -184,6 +203,8 @@
     [super modelDidUpdateData];
     [self.tableView reloadData];
     self.modeButton.enabled = self.viewModel.onlySubTotalAvailable;
+    self.articlesLabel.text = [NSString stringWithFormat:@"%i",self.viewModel.articlesQuantity];
+    self.totalLabel.text =  [NSString stringWithFormat:@"%.2f",self.viewModel.articlesPrice];
 }
 
 - (void)dateFilter:(EQDateFilterPopover *)sender didSelectStartDate:(NSDate *)startDate endDate:(NSDate *)endDate{

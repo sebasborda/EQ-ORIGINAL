@@ -2,14 +2,14 @@
 //  Pedido.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/21/13.
+//  Created by Sebastian Borda on 6/29/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Cliente, ItemPedido, Vendedor;
+@class ItemPedido;
 
 @interface Pedido : NSManagedObject
 
@@ -27,9 +27,9 @@
 @property (nonatomic, retain) NSDate * sincronizacion;
 @property (nonatomic, retain) NSNumber * subTotal;
 @property (nonatomic, retain) NSNumber * total;
-@property (nonatomic, retain) Cliente *cliente;
+@property (nonatomic, retain) NSNumber * clienteID;
+@property (nonatomic, retain) NSNumber * vendedorID;
 @property (nonatomic, retain) NSSet *items;
-@property (nonatomic, retain) Vendedor *vendedor;
 @end
 
 @interface Pedido (CoreDataGeneratedAccessors)

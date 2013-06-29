@@ -9,6 +9,10 @@
 #import "EQSalesViewModel.h"
 #import "Venta.h"
 #import "Grupo.h"
+#import "Articulo.h"
+#import "Precio+extra.h"
+#import "Venta+extra.h"
+#import "Vendedor+extra.h"
 
 @interface EQSalesViewModel()
 
@@ -34,7 +38,6 @@
 
 - (void)initializeData{
     self.groupsList = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]];
-    self.originalSalesList = [[EQDataAccessLayer sharedInstance] objectListForClass:[Venta class]];
 }
 
 - (NSString *)salesFieldByIndex:(int)index{
@@ -46,7 +49,7 @@
             return @"cliente.nombre";
             break;
         case 2:
-            return @"articulo.grupoID"; //TODO: arreglar esto
+            return @"articulo.grupo.nombre";
             break;
         case 3:
             return @"cantidad";
@@ -64,9 +67,13 @@
     return [self.sortDescriptor.key isEqualToString:@"cliente.nombre"];
 }
 
+- (BOOL)isSortingByPeriod {
+    return [self.sortDescriptor.key isEqualToString:@"fecha"];
+}
+
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    self.salesList = [self.originalSalesList copy];
+    self.salesList = [self.currentSeller.ventas copy];
     NSMutableArray *subPredicates = [NSMutableArray new];
     if (self.clientName) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
@@ -95,7 +102,7 @@
     
     NSArray *result = [self.salesList sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
     NSMutableArray *sales = [NSMutableArray new];
-    self.onlySubTotalAvailable = [self isSortingByClient] && !self.ActiveClient;
+    self.onlySubTotalAvailable = ([self isSortingByClient] || [self isSortingByPeriod])  && !self.ActiveClient;
     if([self isSortingByClient]){
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
@@ -110,7 +117,25 @@
             lastClient = sale.cliente;
             [currentArray addObject:sale];
         }
-    } else {
+    } else if ([self isSortingByPeriod]){
+        NSString *lastPeriod = nil;
+        NSMutableArray *currentArray = nil;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy.MM"];
+        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
+        for (Venta *sale in result) {
+            NSString *period = [dateFormatter stringFromDate:sale.fecha];
+            if (![lastPeriod isEqualToString:period] || [sales count] == 0) {
+                currentArray = [NSMutableArray new];
+                [sales addObject:currentArray];
+            } else {
+                currentArray = [sales lastObject];
+            }
+            
+            lastPeriod = period;
+            [currentArray addObject:sale];
+        }
+    }else {
         [sales addObject:result];
     }
     
@@ -176,6 +201,40 @@
         self.Group = nil;
     }
     [self loadData];
+}
+
+- (int)articlesQuantity{
+    int quantity = 0;
+    if ([[self.salesList lastObject] isKindOfClass:[Venta class]]){
+        for (Venta *venta in self.salesList) {
+            quantity += [venta.cantidad intValue];
+        }
+    } else {
+        for (NSArray *array in self.salesList) {
+            for (Venta *venta in array) {
+                quantity += [venta.cantidad intValue];
+            }
+        }
+    }
+    
+    return quantity;
+}
+
+- (float)articlesPrice{
+    float price = 0;
+    if ([[self.salesList lastObject] isKindOfClass:[Venta class]]){
+        for (Venta *venta in self.salesList) {
+            price += [venta.importe floatValue];
+        }
+    } else {
+        for (NSArray *array in self.salesList) {
+            for (Venta *venta in array) {
+                price += [venta.importe floatValue];
+            }
+        }
+    }
+    
+    return price;
 }
 
 @end
