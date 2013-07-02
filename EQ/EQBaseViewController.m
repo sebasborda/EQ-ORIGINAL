@@ -21,32 +21,30 @@
 
 @end
 
-@implementation EQBaseViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@implementation EQBaseViewController 
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:DATA_UPDATED_NOTIFICATION object:nil];
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.frame];
     self.view.frame = CGRectMake(0, 0, self.scroll.frame.size.width, self.scroll.frame.size.height);
     [self.scroll addSubview:self.view];
     self.view = self.scroll;
 	[[self navigationController] setNavigationBarHidden:YES animated:NO];
-    
-    self.sellerNameLabel.text = self.viewModel.sellerName;
-    self.dateLabel.text = self.viewModel.currentDateWithFormat;
-    self.syncDateLabel.text = self.viewModel.lastUpdateWithFormat;
-    self.clientStatusLabel.text = self.viewModel.clientStatus;
-    self.clientNameLabel.text = self.viewModel.clientName;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.viewModel loadTopBarData];
+    [self loadTopBarInfo];
+}
+
+- (void)viewDidUnload{
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardDidShowNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardDidHideNotification];
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
@@ -61,6 +59,22 @@
     [self.scroll setContentOffset:CGPointMake(0, 0) animated:NO];
 }
 
+-(void)dataUpdated:(NSNotification *)notification
+{
+    [self.viewModel loadTopBarData];
+    [self loadTopBarInfo];
+}
+
+- (void)loadTopBarInfo{
+    self.pendingOrdersButton.hidden = [self.viewModel obtainPendigOrdersCount] == 0;
+    [self.pendingOrdersButton setTitle:[NSString stringWithFormat:@"%i",[self.viewModel obtainPendigOrdersCount]] forState:UIControlStateNormal];
+    self.sellerNameLabel.text = self.viewModel.sellerName;
+    self.dateLabel.text = self.viewModel.currentDateWithFormat;
+    self.syncDateLabel.text = self.viewModel.lastUpdateWithFormat;
+    self.clientStatusLabel.text = self.viewModel.clientStatus;
+    self.clientNameLabel.text = self.viewModel.clientName;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -68,7 +82,7 @@
 }
 
 - (IBAction)pendingOrdersAction:(id)sender {
-    [self notImplemented];
+    [APP_DELEGATE selectTabAtIndex:EQTabIndexOrders];
 }
 
 - (IBAction)notificationsAction:(id)sender {
@@ -82,7 +96,17 @@
 - (IBAction)logoutAction:(id)sender {
     self.logoutAlert = [[UIAlertView alloc] initWithTitle:@"" message:@"Esta a punto de cerrar la session, ¿Desea continuar?" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Continuar", nil];
     [self.logoutAlert  show];
-    
+}
+
+- (IBAction)clientsButtonAction:(id)sender {
+    [self.viewModel loadClients];
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel clientsNameList] delegate:self];
+    UIButton *button = (UIButton *)sender;
+    [self presentPopoverInView:button withContent:popover];
+}
+
+- (void)selectedActiveClientAtIndex:(int)index {
+    [self.viewModel selectClientAtIndex:index];
 }
 
 - (void)logout{
@@ -121,6 +145,7 @@
 }
 
 - (void)modelDidUpdateData{
+    
     [self stopLoading];
 }
 
@@ -157,6 +182,19 @@
             [self logout];
         }
     }
+}
+
+- (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
+    if ([self.chooseClientButton isEqual:sender]) {
+        [self.chooseClientButton setTitle:@"" forState:UIControlStateNormal];
+    }
+    [self selectedActiveClientAtIndex:rowNumber];
+    [self clientSelected:selectedData];
+    [self closePopover];
+}
+
+- (void)clientSelected:(NSString *)clientName{
+    self.clientNameLabel.text = clientName;
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Usuario.h"
 #import "EQDataManager.h"
 #import "EQDataAccessLayer.h"
+#import "Cliente+extra.h"
 
 @interface EQSession()
 
@@ -51,6 +52,8 @@
 
 - (void)endSession{
     self.user = nil;
+    [self.selectedClient resetRelevancia];
+    self.selectedClient = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"loggedUser"];
     [defaults synchronize];
@@ -66,6 +69,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
 }
 
 - (BOOL)isUserLogged{
@@ -77,6 +81,11 @@
     }
     
     return userID != nil;
+}
+
+- (void)updateCache{
+    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
+    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user.vendedor mergeChanges:YES];
 }
 
 @end

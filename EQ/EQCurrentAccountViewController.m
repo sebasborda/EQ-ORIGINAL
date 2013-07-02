@@ -170,24 +170,21 @@
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
     if ([self.popoverOwner isEqual:self.sortButton]) {
         [self.viewModel changeSortOrder:rowNumber];
-        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.clientButton]) {
         [self.viewModel filterByClient:selectedData];
-        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.localityButton]) {
         [self.viewModel filterBylocality:selectedData];
-        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.companyButton]) {
         [self.viewModel filterByCompany:selectedData];
-        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.totalButton]) {
         self.hideDetails = [selectedData isEqualToString:@"Subtotal"];
-        [self closePopover];
         [self.tableView reloadData];
     }
     
     NSString *buttonText = [NSString stringWithFormat:@"  %@", selectedData];
     [self.popoverOwner setTitle:buttonText forState:UIControlStateNormal];
+    [self closePopover];
+    [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
 - (IBAction)totalButtonAction:(id)sender {

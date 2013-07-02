@@ -78,6 +78,10 @@
     [self.tabBarController selectTabAtIndex:index];
 }
 
+- (void)selectTabAtIndex:(int)index{
+    [self.tabBarController selectTabAtIndex:index];
+}
+
 - (void)reStartNavigation{
     [self.navigationController popToRootViewControllerAnimated:YES];
     [self.tabBarController reloadControllers];

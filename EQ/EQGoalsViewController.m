@@ -7,8 +7,11 @@
 //
 
 #import "EQGoalsViewController.h"
+#import "EQGoalsViewModel.h"
 
 @interface EQGoalsViewController ()
+
+@property (nonatomic,strong) EQGoalsViewModel *viewModel;
 
 @end
 
@@ -23,10 +26,10 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
+    self.viewModel = [EQGoalsViewModel new];
+    //    self.viewModel.delegate = self;
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning

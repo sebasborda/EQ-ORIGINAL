@@ -12,6 +12,7 @@
 #import "Vendedor+extra.h"
 #import "Pedido+extra.h"
 #import "Cliente.h"
+#import "EQDataManager.h"
 
 @interface EQOrdersViewModel()
 
@@ -34,7 +35,15 @@
 
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    NSArray *results = [EQSession sharedInstance].user.vendedor.pedidos;
+//    NSArray *allOrders = [[EQDataAccessLayer sharedInstance] objectListForClass:[Pedido class]];
+//    NSMutableArray *resultsMutable = [NSMutableArray array];
+//    for (Pedido *pedido in allOrders) {
+//        if ([pedido.vendedorID isEqualToNumber:self.currentSeller.identifier]) {
+//            [resultsMutable addObject:pedido];
+//        }
+//    }
+    NSArray *results = self.currentSeller.pedidos;
+    
     NSMutableArray *subPredicates = [NSMutableArray new];
     if ([self.client length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.client];
@@ -110,9 +119,23 @@
             return @"neto";
             break;
         default:
-            return @"cliente.nombre";
+            return @"sincronizacion";
             break;
     }
+}
+
+- (float)total {
+    float total = 0;
+    for (Pedido *order in self.orders) {
+        total += [order.total floatValue];
+    }
+    
+    return total;
+}
+
+- (void)cancelOrder:(Pedido *)order {
+    order.estado = @"anulado";
+    [[EQDataManager sharedInstance] sendOrder:order];
 }
 
 - (void)changeSortOrder:(int)index{
@@ -140,5 +163,6 @@
     
     [self loadData];
 }
+
 
 @end

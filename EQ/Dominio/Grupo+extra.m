@@ -11,5 +11,10 @@
 @implementation Grupo (extra)
 
 @dynamic articulos;
+@dynamic parents;
+
+- (Grupo *)parent{
+    return [self.parents lastObject];
+}
 
 @end

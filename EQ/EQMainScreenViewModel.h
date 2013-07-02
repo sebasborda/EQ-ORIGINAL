@@ -13,9 +13,6 @@
 @property (nonatomic,strong) NSArray *clients;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 
-- (void)loadData;
-- (void)selectClientAtIndex:(NSUInteger)index;
-- (NSArray *)clientsNameList;
 - (NSString *)loggedUserName;
 
 @end

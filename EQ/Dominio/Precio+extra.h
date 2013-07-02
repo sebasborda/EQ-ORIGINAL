@@ -7,11 +7,13 @@
 //
 
 #import "Precio.h"
+#import "Cliente.h"
 
 @interface Precio (extra)
 
 @property (nonatomic,strong) NSArray *articulo;
 
-- (CGFloat)importeConDescuento;
+- (CGFloat)priceForActiveClient;
+- (CGFloat)priceForClient:(Cliente *)client;
 
 @end

@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
 
 + (EQDataAccessLayer *)sharedInstance;
++ (EQDataAccessLayer *)sharedInstanceForBatch;
 - (void)saveContext;
 - (NSArray *)objectListForClass:(Class)objectClass;
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate;

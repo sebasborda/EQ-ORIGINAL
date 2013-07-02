@@ -32,7 +32,7 @@
     self.quantityLabel.text = [article.minimoPedido stringValue];
     self.multipleLabel.text = [article.multiploPedido stringValue];
     self.statusLabel.text = article.disponibilidad.descripcion;
-    CGFloat precio = article.precio.importe ? [article.precio importeConDescuento] : 0;
+    CGFloat precio = article.precio.importe ? [article.precio priceForActiveClient] : 0;
     self.PriceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
     self.group1Label.text = [article.grupo nombre];
     [self LoadGridData:article];
@@ -55,7 +55,7 @@
     cell.productNameLabel.text = art.nombre;
     cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
-    CGFloat precio = art.precio.importe ? [art.precio importeConDescuento] : 0;
+    CGFloat precio = art.precio.importe ? [art.precio priceForActiveClient] : 0;
     cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precio];
     cell.productCodeLabel.text = art.codigo;
     

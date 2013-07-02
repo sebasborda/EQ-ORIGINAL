@@ -11,5 +11,8 @@
 @interface Grupo (extra)
 
 @property (nonatomic,strong) NSArray *articulos;
+@property (nonatomic,strong) NSArray *parents;
+
+- (Grupo *)parent;
 
 @end

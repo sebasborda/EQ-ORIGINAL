@@ -342,6 +342,26 @@
 								<reference key="IBUIFontDescription" ref="139139478"/>
 								<reference key="IBUIFont" ref="777316727"/>
 							</object>
+							<object class="IBUIButton" id="280930674">
+								<reference key="NSNextResponder" ref="916255109"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{374, 0}, {37, 44}}</string>
+								<reference key="NSSuperview" ref="916255109"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIHighlightedTitleColor" ref="60920910"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="738223075"/>
+								<reference key="IBUIFontDescription" ref="572086960"/>
+								<reference key="IBUIFont" ref="1014876620"/>
+							</object>
 						</array>
 						<string key="NSFrameSize">{768, 44}</string>
 						<reference key="NSSuperview" ref="139324216"/>
@@ -1303,6 +1323,14 @@
 					<int key="connectionID">813</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">chooseClientButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="280930674"/>
+					</object>
+					<int key="connectionID">863</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">logoutAction:</string>
 						<reference key="source" ref="509166013"/>
@@ -1511,6 +1539,15 @@
 					</object>
 					<int key="connectionID">855</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">clientsButtonAction:</string>
+						<reference key="source" ref="280930674"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">862</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1569,6 +1606,7 @@
 							<reference ref="522039833"/>
 							<reference ref="480082846"/>
 							<reference ref="603922249"/>
+							<reference ref="280930674"/>
 						</array>
 						<reference key="parent" ref="139324216"/>
 						<string key="objectName">View - Top Bar</string>
@@ -1911,6 +1949,11 @@
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="160276879"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">861</int>
+						<reference key="object" ref="280930674"/>
+						<reference key="parent" ref="916255109"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1974,12 +2017,13 @@
 				<string key="799.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="804.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="861.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">860</int>
+			<int key="maxID">863</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1987,12 +2031,17 @@
 					<string key="className">EQBaseViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="clientsButtonAction:">id</string>
 						<string key="goalsAction:">id</string>
 						<string key="logoutAction:">id</string>
 						<string key="notificationsAction:">id</string>
 						<string key="pendingOrdersAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="clientsButtonAction:">
+							<string key="name">clientsButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="goalsAction:">
 							<string key="name">goalsAction:</string>
 							<string key="candidateClassName">id</string>
@@ -2011,6 +2060,7 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="chooseClientButton">UIButton</string>
 						<string key="clientNameLabel">UILabel</string>
 						<string key="clientStatusLabel">UILabel</string>
 						<string key="dateLabel">UILabel</string>
@@ -2021,6 +2071,10 @@
 						<string key="syncDateLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="chooseClientButton">
+							<string key="name">chooseClientButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="clientNameLabel">
 							<string key="name">clientNameLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -2225,6 +2279,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/UICollectionViewFlowLayout.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">UICollectionViewLayout</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/UICollectionViewLayout.h</string>
 					</object>
 				</object>
 			</array>

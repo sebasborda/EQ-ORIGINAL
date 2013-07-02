@@ -24,5 +24,7 @@
 - (void)changeSortOrder:(int)index;
 - (void)defineClient:(NSString *)client;
 - (void)defineStatus:(NSString *)status;
+- (void)cancelOrder:(Pedido *)order;
+- (float)total;
 
 @end

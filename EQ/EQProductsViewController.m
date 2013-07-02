@@ -91,7 +91,7 @@
     cell.productNameLabel.text = art.nombre;
     cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
-    CGFloat precioFloat = art.precio.importe ? [art.precio importeConDescuento] : 0;
+    CGFloat precioFloat = art.precio.importe ? [art.precio priceForActiveClient] : 0;
     cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precioFloat];
     cell.productCodeLabel.text = art.codigo;
     if([art.disponibilidad.identifier integerValue] > 1){
@@ -168,6 +168,7 @@
         [self.viewModel loadData];
     }
     [self closePopover];
+    [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
 @end

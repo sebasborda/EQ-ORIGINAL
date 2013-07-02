@@ -9,8 +9,10 @@
 #import "EQBaseViewController.h"
 #import "EQNewOrderViewModel.h"
 #import "EQTablePopover.h" 
+#import "EQEditOrderDetailCell.h"
+#import "EQProductDetailView.h"
 
-@interface EQNewOrderViewController : EQBaseViewController<EQNewOrderViewModelDelegate, UITableViewDelegate, UITableViewDataSource, EQTablePopoverDelegate, UIAlertViewDelegate>
+@interface EQNewOrderViewController : EQBaseViewController<EQNewOrderViewModelDelegate, UITableViewDelegate, UITableViewDataSource, EQTablePopoverDelegate, UIAlertViewDelegate, EQEditOrderDetailCellDelegate, EQProductDetailViewDelegate>
 
 @property (strong, nonatomic) IBOutletCollection(UISegmentedControl) NSArray *segmentedControls;
 @property (strong, nonatomic) IBOutlet UIButton *categoryButton;
@@ -32,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *orderClientLabel;
 @property (strong, nonatomic) IBOutlet UITextView *observationTextView;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentStatus;
+@property (strong, nonatomic) IBOutlet EQProductDetailView *productDetailView;
 
 - (id)initWithOrder:(Pedido *)order;
 - (id)initWithClonedOrder:(Pedido *)order;

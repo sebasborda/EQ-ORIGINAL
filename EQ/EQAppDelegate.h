@@ -17,6 +17,7 @@
 @property (strong, nonatomic) UINavigationController *navigationController;
 
 - (void)pushTabBarAtIndex:(int)index;
+- (void)selectTabAtIndex:(int)index;
 - (void)reStartNavigation;
 - (void)showLoadingViewWithMessage:(NSString *)message;
 - (void)showLoadingView;

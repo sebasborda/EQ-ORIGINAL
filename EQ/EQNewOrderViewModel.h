@@ -8,7 +8,7 @@
 
 #import "EQBaseViewModel.h"
 #import "Pedido+extra.h"
-#import "Articulo.h"
+#import "Articulo+extra.h"
 
 @protocol EQNewOrderViewModelDelegate <EQBaseViewModelDelegate>
 
@@ -34,6 +34,7 @@
 @property (nonatomic,assign) int categorySelected;
 @property (nonatomic,assign) int group1Selected;
 @property (nonatomic,assign) int group2Selected;
+@property (nonatomic,assign) int articleSelectedIndex;
 
 @property (nonatomic,assign) BOOL newOrder;
 
@@ -51,5 +52,11 @@
 - (NSArray *)items;
 - (int)orderStatusIndex;
 - (NSDate *)date;
-
+- (void)removeItem:(ItemPedido *)item;
+- (void)editItem:(ItemPedido *)item;
+- (NSNumber *)quantityOfCurrentArticle;
+- (void)cancelOrder;
+- (void)sortArticlesByIndex:(int)index;
+- (void)sortGroup2ByIndex:(int)index;
+- (void)sortGroup1ByIndex:(int)index;
 @end

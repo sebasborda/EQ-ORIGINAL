@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ItemPedido+extra.h"
+
+@protocol EQEditOrderDetailCellDelegate;
 
 @interface EQEditOrderDetailCell : UITableViewCell
+
+@property (assign, nonatomic) id<EQEditOrderDetailCellDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UILabel *codeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *quantityLabel;
@@ -16,5 +20,13 @@
 
 - (IBAction)editButtonAction:(id)sender;
 - (IBAction)deleteButtonAction:(id)sender;
+- (void)loadItem:(ItemPedido *)item;
+
+@end
+
+@protocol EQEditOrderDetailCellDelegate <NSObject>
+
+- (void)editItem:(ItemPedido *)item;
+- (void)removeItem:(ItemPedido *)item;
 
 @end

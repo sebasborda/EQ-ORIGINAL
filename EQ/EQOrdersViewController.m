@@ -35,7 +35,12 @@
 }
 
 - (IBAction)newOrderButtonAction:(id)sender {
-    [self.navigationController pushViewController:[EQNewOrderViewController new] animated:YES];
+    if (self.viewModel.ActiveClient) {
+        [self.navigationController pushViewController:[EQNewOrderViewController new] animated:YES];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Para crear un pedido debe tener un cliente seleccionado." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (IBAction)clientFilterAction:(id)sender {
@@ -93,26 +98,33 @@
 }
 
 - (void)copyOrder:(Pedido *)order{
-    EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithClonedOrder:order];
-    [self.navigationController pushViewController:newOrderController animated:YES];
+    if ([order.clienteID intValue] > 0) {
+        EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithClonedOrder:[order copy]];
+        [self.navigationController pushViewController:newOrderController animated:YES];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Para crear un pedido debe tener un cliente seleccionado." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)cancelOrder:(Pedido *)pedido{
-    
+    [self.viewModel cancelOrder:pedido];
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
     if ([self.popoverOwner isEqual:self.clientFilterButton]) {
         [self.viewModel defineClient:selectedData];
+        [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
     } else if ([self.popoverOwner isEqual:self.statusFilterButton]) {
         [self.viewModel defineStatus:selectedData];
+        [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
     } else if ([self.popoverOwner isEqual:self.orderFilterButton]) {
         [self.viewModel changeSortOrder:rowNumber];
+        [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
     }
     
-    [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
-    
     [self closePopover];
+    [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
 - (void)dateFilter:(EQDateFilterPopover *)sender didSelectStartDate:(NSDate *)startDate endDate:(NSDate *)endDate{
@@ -139,7 +151,13 @@
 
 - (void)modelDidUpdateData{
     [self.ordersTable reloadData];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     [super modelDidUpdateData];
+}
+
+- (void)dataUpdated:(NSNotification *)notification{
+    [super dataUpdated:notification];
+    [self.viewModel loadData];
 }
 
 @end

@@ -8,7 +8,6 @@
 
 #import "EQNewOrderViewController.h"
 #import "EQArticleCell.h"
-#import "EQEditOrderDetailCell.h"
 #import "Articulo.h"
 #import "EQImageView.h"
 #import "Grupo.h"
@@ -88,15 +87,14 @@
     
     UINib *nibDetail = [UINib nibWithNibName:@"EQEditOrderDetailCell" bundle: nil];
     [self.tableOrderDetail registerNib:nibDetail forCellReuseIdentifier:@"EditOrderDetailCell"];
-    
-    [self loadQuantity];
+    self.productDetailView.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
     self.orderClientLabel.text = self.clientNameLabel.text;
-    self.orderLabel.text = !self.viewModel.order.identifier ? @"": [self.viewModel.order.identifier stringValue];
+    self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
     self.dateLabel.text = [dateFormat stringFromDate:[self.viewModel date]];
@@ -128,7 +126,8 @@
 
 - (IBAction)quantityButtonAction:(id)sender {
     UIButton *button = (UIButton *)sender;
-    self.quantityTextField.text = button.titleLabel.text;
+    int quantity = [button.titleLabel.text intValue];
+    self.quantityTextField.text = [NSString stringWithFormat:@"%i",quantity];
 }
 
 - (IBAction)categoryButtonAction:(id)sender {
@@ -145,11 +144,28 @@
 }
 
 - (IBAction)segmentSortChanged:(id)sender {
-    [self notImplemented];
+    if ([sender isEqual:self.segmentGroup1]) {
+        [self.viewModel sortGroup1ByIndex:self.segmentGroup1.selectedSegmentIndex];
+    }
+    
+    if ([sender isEqual:self.segmentGroup2]) {
+        [self.viewModel sortGroup2ByIndex:self.segmentGroup2.selectedSegmentIndex];
+    }
+    
+    if ([sender isEqual:self.segmentArticles]) {
+        [self.viewModel sortArticlesByIndex:self.segmentArticles.selectedSegmentIndex];
+    }
 }
 
 - (IBAction)articleDetailButton:(id)sender {
-    [self notImplemented];
+    if (self.viewModel.articleSelected) {
+        [self.productDetailView loadArticle:self.viewModel.articleSelected];
+        if (self.productDetailView.alpha < 1) {
+            [UIView animateWithDuration:0.4 animations:^{
+                self.productDetailView.alpha = 1;
+            }];
+        }
+    }
 }
 
 #pragma mark - Table view data source
@@ -194,11 +210,8 @@
         return cell;
     } else if ([tableView isEqual:self.tableOrderDetail]) {
         EQEditOrderDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EditOrderDetailCell" forIndexPath:indexPath];
-        ItemPedido *item = [self.viewModel items][indexPath.row];
-        cell.codeLabel.text = item.articulo.codigo;
-        cell.productNameLabel.text = item.articulo.nombre;
-        cell.quantityLabel.text = [item.cantidad stringValue];
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f",[item totalConDescuento]];
+        cell.delegate = self;
+        [cell loadItem:[self.viewModel items][indexPath.row]];
         return cell;
     }
     
@@ -214,9 +227,6 @@
         [self.viewModel defineSelectedGroup2:indexPath.row];
     } else if ([tableView isEqual:self.tableGroup3]) {
         [self.viewModel defineSelectedArticle:indexPath.row];
-        [self loadQuantity];
-    } else if ([tableView isEqual:self.tableOrderDetail]) {
-        
     }
 }
 
@@ -237,14 +247,15 @@
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
     [self.viewModel defineSelectedCategory:rowNumber];
     [self.viewModel loadData];
-    [self loadQuantity];
     [self.categoryButton setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
     [self closePopover];
+    [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ([alertView isEqual:self.cancelOrderAlert]) {
         if (buttonIndex == alertView.cancelButtonIndex) {
+            [self.viewModel cancelOrder];
             [self.navigationController popViewControllerAnimated:YES];
         }
     } else if([alertView isEqual:self.saveOrderAlert]){
@@ -257,18 +268,19 @@
 }
 
 - (void)modelDidUpdateData{
-    self.discountLabel.text = [NSString stringWithFormat:@"%i%% (%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    self.discountLabel.text = [NSString stringWithFormat:@"%i%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     
-    NSIndexPath *table1IndexPath = self.viewModel.group1Selected >=0 ? [self.tableGroup1 indexPathForSelectedRow] : nil;
-    NSIndexPath *table2IndexPath = self.viewModel.group2Selected >=0 ? [self.tableGroup2 indexPathForSelectedRow] : nil;
-    NSIndexPath *table3IndexPath = self.viewModel.articleSelected ? [self.tableGroup3 indexPathForSelectedRow] : nil;
+    NSIndexPath *table1IndexPath = self.viewModel.group1Selected >=0 ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
+    NSIndexPath *table2IndexPath = self.viewModel.group2Selected >=0 ? [NSIndexPath indexPathForRow:self.viewModel.group2Selected inSection:0] : nil;
+    NSIndexPath *table3IndexPath = self.viewModel.articleSelected ? [NSIndexPath indexPathForRow:self.viewModel.articleSelectedIndex inSection:0] : nil;
     
     [self.tableGroup1 reloadData];
     [self.tableGroup2 reloadData];
     [self.tableGroup3 reloadData];
+    [self.tableOrderDetail reloadData];
     
     if (table1IndexPath) {
         [self.tableGroup1 selectRowAtIndexPath:table1IndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
@@ -282,6 +294,7 @@
         [self.tableGroup3 selectRowAtIndexPath:table3IndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     }
     
+    [self loadQuantity];
     [super modelDidUpdateData];
 }
 
@@ -304,16 +317,58 @@
     }
     
     self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];
+    self.quantityTextField.text = [[self.viewModel quantityOfCurrentArticle] stringValue];
 }
 
 - (void)modelDidAddItem{
     [self.tableOrderDetail reloadData];
+    self.discountLabel.text = [NSString stringWithFormat:@"%i%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    
+    self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
+    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];
 }
 
 - (void)modelAddItemDidFail{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"No se pudo agregar el articulo verifique que la cantidad sea correcta multiplo de 2 y %@ y un minimo de %@",self.viewModel.articleSelected.multiploPedido, self.viewModel.articleSelected.minimoPedido] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
+}
+
+- (void)editItem:(ItemPedido *)item{
+    [self.viewModel editItem:item];
+}
+
+- (void)removeItem:(ItemPedido *)item{
+    [self.viewModel removeItem:item];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    // allow backspace
+    if (!string.length)
+    {
+        return YES;
+    }
+    
+    // remove invalid characters from input, if keyboard is numberpad
+    if (textField.keyboardType == UIKeyboardTypeNumberPad)
+    {
+        if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound)
+        {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (void)productDetailClose{
+    if (self.productDetailView.alpha == 1) {
+        [UIView animateWithDuration:0.4 animations:^{
+            self.productDetailView.alpha = 0;
+        }];
+    }
 }
 
 @end

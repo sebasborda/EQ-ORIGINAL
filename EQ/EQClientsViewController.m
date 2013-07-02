@@ -83,6 +83,7 @@
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
+    [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
     [self.viewModel changeSortOrder:rowNumber];
     self.sortButton.titleLabel.text = selectedData;
     [self closePopover];

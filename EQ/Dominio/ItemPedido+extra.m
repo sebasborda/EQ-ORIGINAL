@@ -11,14 +11,14 @@
 #import "Precio.h"
 #import "Precio+extra.h"
 #import "Articulo+extra.h"
+#import "Pedido+extra.h"
 
 @implementation ItemPedido (extra)
 
-@dynamic pedidos;
 @dynamic articulos;
 
 - (CGFloat)totalConDescuento{
-    CGFloat total = [self.articulo.precio importeConDescuento] * [self.cantidad intValue];
+    CGFloat total = [self.articulo.precio priceForClient:self.pedido.cliente] * [self.cantidad intValue];
     return total;
 }
 
@@ -31,8 +31,12 @@
     return [self.articulos lastObject];
 }
 
-- (Pedido *)pedido{
-    return [self.pedidos lastObject];
-}
+//- (BOOL)isEqual:(id)object{
+//    if ([object isKindOfClass:[ItemPedido class]]) {
+//        ItemPedido *item = object;
+//        return [item.articuloID isEqualToNumber:self.articuloID] && [item.pedido.identifier isEqualToNumber:self.pedido.identifier];
+//    }
+//    return NO;
+//}
 
 @end

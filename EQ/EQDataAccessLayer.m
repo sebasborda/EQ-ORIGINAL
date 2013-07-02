@@ -25,8 +25,20 @@
         sharedInstance = [[EQDataAccessLayer alloc] init];
         sharedInstance.storeCoordinator = [sharedInstance persistentStoreCoordinator];
         sharedInstance.managedObjectContext = [sharedInstance managedObjectContext];
+        [[NSNotificationCenter defaultCenter] addObserver:sharedInstance selector:@selector(contextChanged:) name:NSManagedObjectContextDidSaveNotification object:nil];
     });
     return sharedInstance;
+}
+
++ (EQDataAccessLayer *)sharedInstanceForBatch {
+    __strong static EQDataAccessLayer *sharedInstanceForBatch = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstanceForBatch = [[EQDataAccessLayer alloc] init];
+        sharedInstanceForBatch.storeCoordinator = [sharedInstanceForBatch persistentStoreCoordinator];
+        sharedInstanceForBatch.managedObjectContext = [sharedInstanceForBatch managedObjectContext];
+    });
+    return sharedInstanceForBatch;
 }
 
 #pragma mark - Core Data
@@ -201,6 +213,20 @@
  */
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (void)contextChanged:(NSNotification*)notification
+{
+    if ([notification object] == [self managedObjectContext]) return;
+    
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(contextChanged:) withObject:notification waitUntilDone:YES];
+        return;
+    }
+    
+    [APP_DELEGATE showLoadingView];
+    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+    [APP_DELEGATE hideLoadingView];
 }
 
 @end

@@ -30,6 +30,8 @@
 }
 
 -(void) selectTabAtIndex:(int)index{
+    //DESACTIVA EL ESTADO EL BOTON ANTERIOR
+    [self.selectedButton setSelected:NO];
     for (UIButton *button in self.tabButtons) {
         if (button.tag == index) {
             [button setSelected:YES];

@@ -7,7 +7,7 @@
 //
 
 #import "EQDataAccessLayer.h"
-#import "Cliente.h"
+#import "Cliente+extra.h"
 
 @protocol EQBaseViewModelDelegate;
 
@@ -20,6 +20,11 @@
 - (NSString *)clientStatus;
 - (Cliente *)ActiveClient;
 - (Vendedor *)currentSeller;
+- (void)loadClients;
+- (void)loadTopBarData;
+- (void)selectClientAtIndex:(NSUInteger)index;
+- (NSArray *)clientsNameList;
+- (int)obtainPendigOrdersCount;
 
 @end
 

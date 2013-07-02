@@ -21,3 +21,4 @@ typedef enum{
 #define MAXIMUM_MINUTES_TO_UPDATE 10
 #define BASE_URL "http://eq.gm2dev.com/wp-admin/admin-ajax.php"
 #define SELECTION_TEXT "Elige una"
+#define DATA_UPDATED_NOTIFICATION @"dataUpdatedNotification"

@@ -44,13 +44,6 @@
     [APP_DELEGATE pushTabBarAtIndex:button.tag];
 }
 
-- (IBAction)clientsButtonAction:(id)sender {
-    [self.viewModel loadData];
-    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel clientsNameList] delegate:self];
-    UIButton *button = (UIButton *)sender;
-    [self presentPopoverInView:button withContent:popover];
-}
-
 - (IBAction)createClientButtonAction:(id)sender {
     self.createClient = [EQCreateClientViewController new];
     self.createClient.delegate = self;
@@ -61,9 +54,8 @@
     [self.createClient dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
-    [self.viewModel selectClientAtIndex:rowNumber];
-    self.clientsButton.titleLabel.text = [NSString stringWithFormat:@"  %@",selectedData];
+- (void)clientSelected:(NSString *)clientName{
+    self.clientsButton.titleLabel.text = [NSString stringWithFormat:@"  %@",clientName];
     [self closePopover];
     [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
 }

@@ -23,6 +23,7 @@
 @property (nonatomic,strong) NSArray *ivas;
 @property (nonatomic,strong) NSArray *provincias;
 @property (nonatomic,strong) NSArray *zonasEnvio;
+@property (nonatomic,strong) NSArray *pedidos;
 
 - (Provincia *)provincia;
 - (Expreso *)expreso;
@@ -30,5 +31,6 @@
 - (TipoIvas *)iva;
 - (ZonaEnvio *)zonaEnvio;
 - (CondPag *)condicionDePago;
-
+- (void)calcularRelevancia;
+- (void)resetRelevancia;
 @end

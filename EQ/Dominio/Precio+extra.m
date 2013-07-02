@@ -8,15 +8,18 @@
 
 #import "Precio+extra.h"
 #import "EQSession.h"
-#import "Cliente.h"
 
 @implementation Precio (extra)
 
 @dynamic articulo;
 
-- (CGFloat)importeConDescuento {
+- (CGFloat)priceForActiveClient {
     Cliente *cliente = [EQSession sharedInstance].selectedClient;
-    CGFloat descuento = [cliente.descuento1 floatValue] + [cliente.descuento2 floatValue];
+    return [self priceForClient:cliente];
+}
+
+- (CGFloat)priceForClient:(Cliente *)client {
+    CGFloat descuento = [client.descuento1 floatValue] + [client.descuento2 floatValue];
     CGFloat importeConDescuento = ([self.importe floatValue] * (100 - descuento)) / 100;
     
     return importeConDescuento;

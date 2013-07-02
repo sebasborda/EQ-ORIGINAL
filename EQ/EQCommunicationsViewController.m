@@ -7,8 +7,11 @@
 //
 
 #import "EQCommunicationsViewController.h"
+#import "EQCommunicationsViewModel.h"
 
 @interface EQCommunicationsViewController ()
+
+@property (nonatomic,strong) EQCommunicationsViewModel *viewModel;
 
 @end
 
@@ -18,15 +21,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
+    self.viewModel = [EQCommunicationsViewModel new];
+//    self.viewModel.delegate = self;
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning

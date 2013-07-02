@@ -40,7 +40,7 @@
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = [pedido.identifier stringValue];
     self.grossPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.subTotal floatValue]];
-    self.discountLabel.text = [NSString stringWithFormat:@"%@%%", pedido.descuento];
+    self.discountLabel.text = [NSString stringWithFormat:@"%i%%", [pedido.descuento3 intValue] + [pedido.descuento4 intValue]];
     self.netPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.total floatValue]];
 }
 
@@ -49,14 +49,14 @@
     NSString *imageName = nil;
     if ([estado isEqualToString:@"pendiente"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.pendiente.png";
-        self.editButton.hidden = NO;
-        self.cancelButton .hidden = NO;
-        self.cloneButton.hidden = YES;
+        self.editButton.hidden = YES;
+        self.cancelButton .hidden = YES;
+        self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"facturado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.facturado.png";
-        self.editButton.hidden = NO;
-        self.cancelButton .hidden = NO;
-        self.cloneButton.hidden = YES;
+        self.editButton.hidden = YES;
+        self.cancelButton .hidden = YES;
+        self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"presupuestado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.sin.facturar.png";
         self.editButton.hidden = NO;
@@ -64,9 +64,9 @@
         self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"anulado"]) {
         imageName = @"03.listado.de.pedidos.btn.estado.cancelado.png";
-        self.editButton.hidden = NO;
-        self.cancelButton .hidden = NO;
-        self.cloneButton.hidden = YES;
+        self.editButton.hidden = YES;
+        self.cancelButton .hidden = YES;
+        self.cloneButton.hidden = NO;
         [self.syncDateLabel setTextColor:[UIColor grayColor]];
         [self.billingDateLabel setTextColor:[UIColor grayColor]];
         [self.clienLabel setTextColor:[UIColor grayColor]];
@@ -76,7 +76,7 @@
         [self.netPriceLabel setTextColor:[UIColor grayColor]];
     }
     
-    self.statusImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+    self.statusImageView.image = [UIImage imageNamed:imageName];
 }
 
 @end

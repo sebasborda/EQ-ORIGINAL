@@ -77,6 +77,9 @@
         <fetchedProperty name="lineasDeVenta" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="LineaVTA" predicateString="identifier == $FETCH_SOURCE.lineaDeVentaID"/>
         </fetchedProperty>
+        <fetchedProperty name="pedidos" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="clienteID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
         <fetchedProperty name="provincias" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Provincia" predicateString="identifier == $FETCH_SOURCE.provinciaID"/>
         </fetchedProperty>
@@ -122,8 +125,12 @@
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="nombre" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parentID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="relevancia" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <fetchedProperty name="articulos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="grupoID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
+        <fetchedProperty name="parents" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Grupo" predicateString="$FETCH_SOURCE.parentID == identifier"/>
         </fetchedProperty>
     </entity>
     <entity name="ItemPedido" representedClassName="ItemPedido" syncable="YES">
@@ -134,7 +141,6 @@
         <attribute name="descuentoMonto" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="importeConDescuento" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="importeFinal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="pedidoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="precioUnitario" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="pedido" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Pedido" inverseName="items" inverseEntity="Pedido" syncable="YES"/>
         <fetchedProperty name="articulos" optional="YES" syncable="YES">
@@ -164,7 +170,7 @@
         <attribute name="subTotal" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ItemPedido" inverseName="pedido" inverseEntity="ItemPedido" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ItemPedido" inverseName="pedido" inverseEntity="ItemPedido" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
         </fetchedProperty>
@@ -248,13 +254,13 @@
     </entity>
     <elements>
         <element name="Articulo" positionX="430" positionY="378" width="128" height="329"/>
-        <element name="Cliente" positionX="160" positionY="192" width="128" height="704"/>
+        <element name="Cliente" positionX="160" positionY="192" width="128" height="719"/>
         <element name="CondPag" positionX="160" positionY="192" width="128" height="103"/>
         <element name="CtaCte" positionX="160" positionY="192" width="128" height="210"/>
         <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="73"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="Grupo" positionX="160" positionY="192" width="128" height="149"/>
-        <element name="ItemPedido" positionX="160" positionY="192" width="128" height="224"/>
+        <element name="Grupo" positionX="160" positionY="192" width="128" height="179"/>
+        <element name="ItemPedido" positionX="160" positionY="192" width="128" height="209"/>
         <element name="LineaVTA" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Pedido" positionX="160" positionY="192" width="128" height="344"/>
         <element name="Precio" positionX="432" positionY="199" width="128" height="131"/>
