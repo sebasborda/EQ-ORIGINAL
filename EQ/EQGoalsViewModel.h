@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "EQBaseViewModel.h"
+#import "EQCommunicationsViewModel.h"
 
-@interface EQGoalsViewModel : EQBaseViewModel
+@interface EQGoalsViewModel : EQCommunicationsViewModel
+
+- (void)defineClient:(NSString *)client;
 
 @end

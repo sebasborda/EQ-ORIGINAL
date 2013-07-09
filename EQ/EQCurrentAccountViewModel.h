@@ -14,8 +14,8 @@
 @property (nonatomic,strong) NSArray *sortFields;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic,assign) BOOL onlySubTotalAvailable;
+@property (nonatomic, strong) NSString *clientName;
 
-- (void)loadData;
 - (void)changeSortOrder:(int)index;
 - (NSArray *)clients;
 - (NSArray *)localities;

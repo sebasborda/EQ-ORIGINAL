@@ -7,10 +7,12 @@
 //
 
 #import "Articulo+extra.h"
+#import "Precio+extra.h"
+#import "Cliente+extra.h"
+#import "EQSession.h"
 
 @implementation Articulo (extra)
 
-@dynamic precios;
 @dynamic disponibilidades;
 @dynamic grupos;
 
@@ -18,8 +20,19 @@
     return [self.disponibilidades lastObject];
 }
 
-- (Precio *)precio{
-    return [self.precios lastObject];
+- (Precio *)priceForActiveClient{
+    return [self priceForClient:[EQSession sharedInstance].selectedClient];
+}
+
+- (Precio *)priceForClient:(Cliente *)client{
+    Precio *price = nil;
+    for (Precio *p in client.listaDePrecios) {
+        if([p.articuloID isEqualToNumber:self.identifier]){
+            price = p;
+            break;
+        }
+    }
+    return price;
 }
 
 - (Grupo *)grupo{

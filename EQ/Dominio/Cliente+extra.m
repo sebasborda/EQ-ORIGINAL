@@ -23,6 +23,7 @@
 @dynamic provincias;
 @dynamic zonasEnvio;
 @dynamic pedidos;
+@dynamic listaDePrecios;
 
 - (Provincia *)provincia{
     return [self.provincias lastObject];
@@ -46,14 +47,6 @@
 
 - (CondPag *)condicionDePago{
     return [self.condicionesDePago lastObject];
-}
-
-- (void)resetRelevancia{
-    for (Grupo *grupo in [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]]) {
-        grupo.relevancia = 0;
-    }
-    
-    [[EQDataAccessLayer sharedInstance] saveContext];
 }
 
 - (void)calcularRelevancia{

@@ -31,14 +31,14 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self.viewModel loadData];
 }
 
 -(void)modelDidUpdateData{
-    [super modelDidUpdateData];
     [self.tableView reloadData];
+    [super modelDidUpdateData];
 }
 
 - (IBAction)sortButtonAction:(id)sender {
@@ -85,6 +85,7 @@
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
     [self.viewModel changeSortOrder:rowNumber];
+    [self.tableView reloadData];
     self.sortButton.titleLabel.text = selectedData;
     [self closePopover];
 }
@@ -119,8 +120,13 @@
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)clientCreateClosed{
+- (void)createClientCancelled{
+     [self.createClient dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)clientSaved{
     [self.createClient dismissViewControllerAnimated:YES completion:nil];
+    [APP_DELEGATE selectTabAtIndex:EQTabIndexOrders];
 }
 
 @end

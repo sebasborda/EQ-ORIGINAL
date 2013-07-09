@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *editButton;
 @property (strong, nonatomic) IBOutlet UIButton *cancelButton;
 @property (strong, nonatomic) IBOutlet UIButton *cloneButton;
+@property (nonatomic,strong) Pedido *pedido;
 
 - (IBAction)editButtonAction:(id)sender;
 - (IBAction)cancelButtonAction:(id)sender;

@@ -10,14 +10,15 @@
 @class Disponibilidad;
 @class Precio;
 @class Grupo;
+@class Cliente;
 
 @interface Articulo (extra)
 
-@property (nonatomic,strong) NSArray *precios;
 @property (nonatomic,strong) NSArray *disponibilidades;
 @property (nonatomic,strong) NSArray *grupos;
 
 - (Disponibilidad *)disponibilidad;
-- (Precio *)precio;
+- (Precio *)priceForActiveClient;
+- (Precio *)priceForClient:(Cliente *)client;
 - (Grupo *)grupo;
 @end

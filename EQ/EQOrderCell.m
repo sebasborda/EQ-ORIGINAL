@@ -12,8 +12,6 @@
 
 @interface EQOrderCell()
 
-@property (nonatomic,strong) Pedido *pedido;
-
 @end
 
 @implementation EQOrderCell

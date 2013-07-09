@@ -10,6 +10,8 @@
 #import "EQLoginViewController.h"
 #import "EQLoadingView.h"
 #import "EQImagesManager.h"
+#import "EQOrdersViewController.h"
+#import "EQCommunicationsViewController.h"
 
 @interface EQAppDelegate()
 
@@ -23,7 +25,6 @@
 {
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:[EQLoginViewController new]];
     self.loadingView = [[EQLoadingView alloc] initViewWithSize:CGSizeMake(768, 1024) showLargeImage:YES];
-    [self.navigationController.view addSubview:self.loadingView];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     //initialize image cache
@@ -82,16 +83,33 @@
     [self.tabBarController selectTabAtIndex:index];
 }
 
+- (void)showPendingOrders{
+    [self selectTabAtIndex:EQTabIndexOrders];
+    [((EQOrdersViewController *)self.tabBarController.selectedViewController) changeStatusFilter:@"pendiente"];
+}
+
+- (void)showOperativeCommunications{
+    [self selectTabAtIndex:EQTabIndexCommunications];
+    [((EQCommunicationsViewController *)self.tabBarController.selectedViewController) changeToOperative];
+}
+
+- (void)showCommercialCommunications{
+    [self selectTabAtIndex:EQTabIndexCommunications];
+    [((EQCommunicationsViewController *)self.tabBarController.selectedViewController) changeToCommercial];
+}
+
 - (void)reStartNavigation{
     [self.navigationController popToRootViewControllerAnimated:YES];
     [self.tabBarController reloadControllers];
 }
 
 - (void)showLoadingView{
+    [self.window addSubview:self.loadingView];
     [self.loadingView show];
 }
 
 - (void)showLoadingViewWithMessage:(NSString *)message{
+    [self.window addSubview:self.loadingView];
     [self.loadingView showWithMessage:message];
 }
 

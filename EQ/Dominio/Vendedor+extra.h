@@ -12,5 +12,7 @@
 
 @property (nonatomic,strong) NSArray *ventas;
 @property (nonatomic,strong) NSArray *pedidos;
+@property (nonatomic,strong) NSArray *ctacteList;
+@property (nonatomic,strong) NSArray *comunicaciones;
 
 @end

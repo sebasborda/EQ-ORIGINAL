@@ -8,15 +8,21 @@
 
 #import "EQBaseViewModel.h"
 #import "EQSession.h"
-#import "Usuario.h"
-#import "Vendedor.h"
+#import "Usuario+extra.h"
+#import "Vendedor+extra.h"
 #import "EQDataAccessLayer.h"
 #import "Pedido.h"
+#import "Grupo+extra.h"
+#import "Comunicacion.h"
 
 @interface EQBaseViewModel()
 
-@property (nonatomic,strong) NSArray* clients;
-@property (nonatomic,assign) int pendigOrdersCount;
+@property (nonatomic,strong) NSArray* clientsForSeller;
+@property (nonatomic,assign) int pendingOrdersCount;
+@property (nonatomic,assign) int unreadGoalsCount;
+@property (nonatomic,assign) int unreadOperativesCount;
+@property (nonatomic,assign) int unreadCommercialsCount;
+@property (nonatomic,assign) id<EQBaseViewModelDelegate> delegate;
 
 @end
 
@@ -24,14 +30,38 @@
 
 - (void)loadClients{
     NSArray *results = [[EQSession sharedInstance].user.vendedor.clienteVendedor allObjects];
-    results = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == true "]];
-    self.clients = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
+    results = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == true"]];
+    self.clientsForSeller = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
+    self.clientsName = [self clientsNameList];
 }
 
 - (void)loadTopBarData{
     [[EQSession sharedInstance] updateCache];
-    NSArray *orders = [[EQDataAccessLayer sharedInstance] objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.estado == %@ and SELF.vendedorID == %@",@"pendiente",self.currentSeller.identifier]];
-    self.pendigOrdersCount = [orders count];
+    self.pendingOrdersCount = 0;
+    NSArray *sellerOrders = [NSArray arrayWithArray:self.currentSeller.pedidos];
+    for (Pedido *order in sellerOrders) {
+        if ([order.estado isEqualToString:@"pendiente"]) {
+            self.pendingOrdersCount++;
+        }
+    }
+    
+    self.unreadGoalsCount = 0;
+    self.unreadOperativesCount = 0;
+    self.unreadCommercialsCount = 0;
+    //TODO
+//    NSArray *communications = [EQSession sharedInstance].user.comunicaciones;
+    NSArray *communications = [NSArray arrayWithArray:[[EQDataAccessLayer sharedInstance] objectListForClass:[Comunicacion class]]];
+    for (Comunicacion *communication in communications) {
+        if (communication.leido == nil) {
+            if ([communication.tipo isEqualToString:COMMUNICATION_TYPE_GOAL]) {
+                self.unreadGoalsCount++;
+            } else if ([communication.tipo isEqualToString:COMMUNICATION_TYPE_OPERATIVE]) {
+                self.unreadOperativesCount++;
+            } else if ([communication.tipo isEqualToString:COMMUNICATION_TYPE_COMMERCIAL]) {
+                self.unreadCommercialsCount++;
+            }
+        }
+    }
 }
 
 - (NSString *)sellerName{
@@ -50,7 +80,7 @@
     return  [dateFormat stringFromDate:[NSDate date]];
 }
 
-- (NSString *)clientName{
+- (NSString *)activeClientName{
     return [EQSession sharedInstance].selectedClient.nombre;
 }
 
@@ -67,14 +97,18 @@
 }
 
 - (void)selectClientAtIndex:(NSUInteger)index{
-    Cliente *client = [self.clients objectAtIndex:index];
-    [client calcularRelevancia];
+    Cliente *client = nil;
+    if(index > 0) {
+        client = [self.clientsForSeller objectAtIndex:index - 1];
+    }
+
     [EQSession sharedInstance].selectedClient = client;
 }
 
 - (NSArray *)clientsNameList{
     NSMutableArray *names = [NSMutableArray array];
-    for (Cliente *client in self.clients) {
+    [names addObject:@"Todos"];
+    for (Cliente *client in self.clientsForSeller) {
         [names addObject:client.nombre];
     }
     
@@ -82,7 +116,36 @@
 }
 
 - (int)obtainPendigOrdersCount{
-    return self.pendigOrdersCount;
+    return self.pendingOrdersCount;
+}
+
+- (int)obtainUnreadOperativesCount{
+    return self.unreadOperativesCount;
+}
+
+- (int)obtainUnreadGoalsCount{
+    return self.unreadGoalsCount;
+}
+
+- (int)obtainUnreadCommercialsCount{
+    return self.unreadCommercialsCount;
+}
+
+- (void)loadData{
+    [self.delegate modelWillStartDataLoading];
+    [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
+}
+
+- (void)loadDataInBackGround{
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:YES];
+    } else {
+        [self dataLaded];
+    }
+}
+
+- (void)dataLaded{
+    [self.delegate modelDidUpdateData];
 }
 
 @end

@@ -35,8 +35,8 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self.viewModel loadData];
 }
 
@@ -91,7 +91,7 @@
     cell.productNameLabel.text = art.nombre;
     cell.productStatusLabel.text = art.disponibilidad.descripcion;
     [cell.productImage loadURL:art.imagenURL];
-    CGFloat precioFloat = art.precio.importe ? [art.precio priceForActiveClient] : 0;
+    CGFloat precioFloat = [art priceForActiveClient].importe ? [[art priceForActiveClient] priceForActiveClient] : 0;
     cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precioFloat];
     cell.productCodeLabel.text = art.codigo;
     if([art.disponibilidad.identifier integerValue] > 1){
@@ -157,15 +157,17 @@
             [self.groupOneButton setTitle:title forState:UIControlStateNormal];
             [self.groupTwoButton setTitle:@"  Todas" forState:UIControlStateNormal];
             [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
+            [self.viewModel loadData];
         } else if (sender == self.popoverGroup2) {
             [self.viewModel defineSelectedCategory2:rowNumber];
             [self.groupTwoButton setTitle:title forState:UIControlStateNormal];
             [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
+            [self.viewModel loadData];
         } else if (sender == self.popoverGroup3) {
             [self.viewModel defineSelectedCategory3:rowNumber];
             [self.groupThreeButton setTitle:title forState:UIControlStateNormal];
+            [self.viewModel loadData];
         }
-        [self.viewModel loadData];
     }
     [self closePopover];
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];

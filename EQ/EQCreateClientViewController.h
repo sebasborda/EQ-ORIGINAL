@@ -12,7 +12,8 @@
 
 @protocol EQCreateClientViewControllerDelegate <NSObject>
 
-- (void)clientCreateClosed;
+- (void)createClientCancelled;
+- (void)clientSaved;
 
 @end
 

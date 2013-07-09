@@ -10,11 +10,11 @@
 #import "EQDataAccessLayer.h"
 #import "CtaCte.h"
 #import "Cliente.h"
+#import "Vendedor+extra.h"
 
 @interface EQCurrentAccountViewModel()
 
 @property (nonatomic, strong) NSSortDescriptor *sortDescriptor;
-@property (nonatomic, strong) NSString *clientName;
 @property (nonatomic, strong) NSString *company;
 @property (nonatomic, strong) NSString *locality;
 
@@ -28,9 +28,20 @@
     if (self) {
         self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self ctaCteFieldByIndex:1] ascending:YES];
         self.sortFields = [NSArray arrayWithObjects:@"  Cliente", @"  Fecha", @"  Atraso", @"  Comprobante", @"  Percepcion", @"  Importe", nil];
-        self.clientName = self.ActiveClient.nombre;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
+        if (self.ActiveClient) {
+            self.clientName = self.ActiveClient.nombre;
+        }
     }
     return self;
+}
+
+- (void)activeClientChange:(NSNotification *)notification{
+    Cliente *activeCliente = notification.userInfo[@"activeClient"];
+    self.clientName = activeCliente.nombre;
+    if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexCurrentAccount) {
+        [self loadData];
+    }
 }
 
 - (NSString *)ctaCteFieldByIndex:(int)index{
@@ -63,9 +74,8 @@
     return [self.sortDescriptor.key isEqualToString:@"cliente.nombre"];
 }
 
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
-    self.currentAccountList = [[EQDataAccessLayer sharedInstance] objectListForClass:[CtaCte class]];
+- (void)chargeData{
+    self.currentAccountList = [NSArray arrayWithArray:self.currentSeller.ctacteList];
     NSMutableArray *subPredicates = [NSMutableArray new];
     if (self.clientName) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
@@ -109,11 +119,15 @@
     }
     
     self.currentAccountList = accounts;
-    [self.delegate modelDidUpdateData];
+}
+
+- (void)loadDataInBackGround{
+    [self chargeData];
+    [super loadDataInBackGround];
 }
 
 - (void)changeSortOrder:(int)index{
-    BOOL ascending = index != 2;// is not delay (Atraso)
+    BOOL ascending = index != 2;// if is not delay (Atraso)
     self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self ctaCteFieldByIndex:index] ascending:ascending];
     [self loadData];
 }
@@ -202,12 +216,12 @@
 
 - (NSDictionary *)resume{
     NSMutableDictionary *resumeDictionary = [NSMutableDictionary new];
-    int total = 0;
+    float total = 0;
     int thirtyDays = 0;
     int fortyDays = 0;
     int ninetyDays = 0;
     int more90Days = 0;
-    for (CtaCte* account in [[EQDataAccessLayer sharedInstance] objectListForClass:[CtaCte class]]) {
+    for (CtaCte* account in [NSArray arrayWithArray:self.currentSeller.ctacteList]) {
         if ([account.condicionDeVenta integerValue] <= 30) {
             thirtyDays += [account.importeConDescuento floatValue];
         } else if ([account.condicionDeVenta integerValue] <= 45) {
@@ -220,14 +234,13 @@
         total += [account.importeConDescuento floatValue];
     }
     
-    [resumeDictionary setObject:[NSNumber numberWithInt:total] forKey:@"total"];
+    [resumeDictionary setObject:[NSNumber numberWithFloat:total] forKey:@"total"];
     [resumeDictionary setObject:[NSNumber numberWithInt:thirtyDays] forKey:@"30"];
     [resumeDictionary setObject:[NSNumber numberWithInt:fortyDays] forKey:@"45"];
     [resumeDictionary setObject:[NSNumber numberWithInt:ninetyDays] forKey:@"90"];
     [resumeDictionary setObject:[NSNumber numberWithInt:more90Days] forKey:@"+90"];
-
+    
     return resumeDictionary;
 }
-
 
 @end

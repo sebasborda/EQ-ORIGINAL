@@ -2,7 +2,7 @@
 //  Precio.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/28/13.
+//  Created by Sebastian Borda on 7/8/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -11,9 +11,9 @@
 
 @implementation Precio
 
+@dynamic articuloID;
 @dynamic identifier;
 @dynamic importe;
 @dynamic numero;
-@dynamic articuloID;
 
 @end

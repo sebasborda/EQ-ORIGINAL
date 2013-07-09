@@ -38,6 +38,8 @@
 
 - (id)initWithOrder:(Pedido *)order;
 - (id)initWithClonedOrder:(Pedido *)order;
+
+- (void)disableInteraction;
 - (IBAction)categoryButtonAction:(id)sender;
 - (IBAction)saveQuantity:(id)sender;
 - (IBAction)segmentSortChanged:(id)sender;

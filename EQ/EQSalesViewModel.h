@@ -16,8 +16,8 @@
 @property (nonatomic,strong) NSDate *periodEnd;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic,assign) BOOL onlySubTotalAvailable;
+@property (nonatomic, strong) NSString *clientName;
 
-- (void)loadData;
 - (void)changeSortOrder:(int)index;
 - (NSArray *)clients;
 - (NSArray *)groupsName;

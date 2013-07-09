@@ -7,6 +7,7 @@
 //
 
 #import "Grupo+extra.h"
+#import "EQDataAccessLayer.h"
 
 @implementation Grupo (extra)
 
@@ -15,6 +16,15 @@
 
 - (Grupo *)parent{
     return [self.parents lastObject];
+}
+
++ (void)resetRelevancia{
+    NSArray *groups = [NSArray arrayWithArray:[[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]]];
+    for (Grupo *grupo in groups) {
+        grupo.relevancia = 0;
+    }
+    
+    [[EQDataAccessLayer sharedInstance] saveContext];
 }
 
 @end

@@ -38,6 +38,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.viewModel initializeData];
+    if (self.viewModel.clientName) {
+        [self.clientFilterButton setTitle:self.viewModel.clientName forState:UIControlStateNormal];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self.viewModel loadData];
 }
 
@@ -111,7 +118,6 @@
         } else {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy.MM"];
-            dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
             cell.clientLabel.text = @"";
             cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
         }
@@ -126,7 +132,6 @@
         cell.articleLabel.text = sale.articulo.nombre;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];
-        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
         cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
         cell.quantityLabel.text = [sale.cantidad stringValue];
         cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f", sale.importe ? [sale.importe floatValue] : 0];
@@ -181,7 +186,6 @@
     } else {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];
-        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
         footer.groupedFieldLabel.text = [dateFormatter stringFromDate:sale.fecha];
     }
     
@@ -197,12 +201,19 @@
     return footer;
 }
 
+
 -(void)modelDidUpdateData{
     [super modelDidUpdateData];
     [self.tableView reloadData];
     self.modeButton.enabled = self.viewModel.onlySubTotalAvailable;
     self.articlesLabel.text = [NSString stringWithFormat:@"%i",self.viewModel.articlesQuantity];
     self.totalLabel.text =  [NSString stringWithFormat:@"%.2f",self.viewModel.articlesPrice];
+    NSString *clientName = @"  Todos";
+    if (self.viewModel.clientName) {
+        clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
+    }
+    
+    [self.clientFilterButton setTitle:clientName forState:UIControlStateNormal];
 }
 
 - (void)dateFilter:(EQDateFilterPopover *)sender didSelectStartDate:(NSDate *)startDate endDate:(NSDate *)endDate{
@@ -220,8 +231,9 @@
         [self.popoverOwner setTitle:title forState:UIControlStateNormal];
     }
     
-    [self.viewModel loadData];
     [self closePopover];
+    [self.viewModel loadData];
+    
 }
 
 @end

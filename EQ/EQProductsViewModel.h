@@ -16,7 +16,6 @@
 @property (nonatomic,strong) NSArray *category2List;
 @property (nonatomic,strong) NSArray *category3List;
 
-- (void)loadData;
 - (void)defineSelectedCategory1:(int)categoryIndex;
 - (void)defineSelectedCategory2:(int)categoryIndex;
 - (void)defineSelectedCategory3:(int)categoryIndex;

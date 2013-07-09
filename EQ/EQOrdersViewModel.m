@@ -7,16 +7,13 @@
 //
 
 #import "EQOrdersViewModel.h"
-#import "EQSession.h"
 #import "Usuario.h"
 #import "Vendedor+extra.h"
-#import "Pedido+extra.h"
 #import "Cliente.h"
 #import "EQDataManager.h"
 
 @interface EQOrdersViewModel()
 
-@property (nonatomic, strong) NSString* client;
 @property (nonatomic, strong) NSString* status;
 @property (nonatomic, strong) NSSortDescriptor *sortDescriptor;
 
@@ -29,24 +26,27 @@
     if (self) {
         self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self ordersFieldByIndex:0] ascending:YES];
         self.sortFields = [NSArray arrayWithObjects:@"Estado", @"Fecha de sincronizacion", @"Fecha de facturacion", @"Cliente", @"Pedido", @"Importe Bruto", @"Importe Neto", nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
+        if (self.ActiveClient) {
+            self.clientName = self.ActiveClient.nombre;
+        }
     }
     return self;
 }
 
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
-//    NSArray *allOrders = [[EQDataAccessLayer sharedInstance] objectListForClass:[Pedido class]];
-//    NSMutableArray *resultsMutable = [NSMutableArray array];
-//    for (Pedido *pedido in allOrders) {
-//        if ([pedido.vendedorID isEqualToNumber:self.currentSeller.identifier]) {
-//            [resultsMutable addObject:pedido];
-//        }
-//    }
-    NSArray *results = self.currentSeller.pedidos;
-    
+- (void)activeClientChange:(NSNotification *)notification{
+    Cliente *activeCliente = notification.userInfo[@"activeClient"];
+    self.clientName = activeCliente.nombre;
+    if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexOrders) {
+        [self loadData];
+    }
+}
+
+- (void)chargeData{
+    NSArray *results = [NSArray arrayWithArray:self.currentSeller.pedidos];
     NSMutableArray *subPredicates = [NSMutableArray new];
-    if ([self.client length] > 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.client];
+    if ([self.clientName length] > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
         [subPredicates addObject:predicate];
     }
     
@@ -81,8 +81,8 @@
     }
     
     self.orders = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
-    self.clientsList = [NSMutableArray arrayWithObject:@"Todos"];
     self.statusList = [NSMutableArray arrayWithObject:@"Todos"];
+    self.clientsList = [NSMutableArray arrayWithObject:@"Todos"];
     for (Pedido *order in self.orders) {
         if ([order.cliente.nombre length] > 0 && ![self.clientsList containsObject:order.cliente.nombre]) {
             [self.clientsList addObject: order.cliente.nombre];
@@ -92,7 +92,11 @@
             [self.statusList addObject:order.estado];
         }
     }
-    [self.delegate modelDidUpdateData];
+}
+
+- (void)loadDataInBackGround{
+    [self chargeData];
+    [super loadDataInBackGround];
 }
 
 - (NSString *)ordersFieldByIndex:(int)index{
@@ -139,6 +143,7 @@
 }
 
 - (void)changeSortOrder:(int)index{
+    [self.delegate modelWillStartDataLoading];
     self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self ordersFieldByIndex:index] ascending:YES];
     self.orders = [self.orders sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
     [self.delegate modelDidUpdateData];
@@ -146,9 +151,9 @@
 
 - (void)defineClient:(NSString *)client{
     if ([client isEqualToString:@"Todos"]) {
-        self.client = nil;
+        self.clientName = nil;
     } else {
-        self.client = client;
+        self.clientName = client;
     }
     
     [self loadData];

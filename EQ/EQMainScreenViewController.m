@@ -50,12 +50,17 @@
     [self presentViewController:self.createClient animated:YES completion:nil];
 }
 
-- (void)clientCreateClosed{
-    [self.createClient dismissViewControllerAnimated:YES completion:nil];
+- (void)createClientCancelled{
+    [self closePopover];
+}
+
+- (void)clientSaved{
+    [self closePopover];
+    [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
 }
 
 - (void)clientSelected:(NSString *)clientName{
-    self.clientsButton.titleLabel.text = [NSString stringWithFormat:@"  %@",clientName];
+    self.chooseClientButton.titleLabel.text = [NSString stringWithFormat:@"  %@",clientName];
     [self closePopover];
     [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
 }

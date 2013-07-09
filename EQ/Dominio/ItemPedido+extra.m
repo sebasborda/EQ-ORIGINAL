@@ -18,25 +18,17 @@
 @dynamic articulos;
 
 - (CGFloat)totalConDescuento{
-    CGFloat total = [self.articulo.precio priceForClient:self.pedido.cliente] * [self.cantidad intValue];
+    CGFloat total = [[self.articulo priceForClient:self.pedido.cliente] priceForClient:self.pedido.cliente] * [self.cantidad intValue];
     return total;
 }
 
 - (CGFloat)totalSinDescuento{
-    CGFloat total = [self.articulo.precio.importe floatValue] * [self.cantidad intValue];
+    CGFloat total = [[self.articulo priceForClient:self.pedido.cliente].importe floatValue] * [self.cantidad intValue];
     return total;
 }
 
 - (Articulo *)articulo{
     return [self.articulos lastObject];
 }
-
-//- (BOOL)isEqual:(id)object{
-//    if ([object isKindOfClass:[ItemPedido class]]) {
-//        ItemPedido *item = object;
-//        return [item.articuloID isEqualToNumber:self.articuloID] && [item.pedido.identifier isEqualToNumber:self.pedido.identifier];
-//    }
-//    return NO;
-//}
 
 @end

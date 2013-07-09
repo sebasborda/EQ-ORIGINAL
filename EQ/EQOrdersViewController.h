@@ -20,6 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *orderFilterButton;
 @property (strong, nonatomic) IBOutlet UILabel *totalPriceLabel;
 @property (strong, nonatomic) IBOutlet UITableView *ordersTable;
+@property (strong, nonatomic) IBOutlet UILabel *totalMessageLabel;
 
 - (IBAction)newOrderButtonAction:(id)sender;
 - (IBAction)clientFilterAction:(id)sender;
@@ -27,5 +28,6 @@
 - (IBAction)billingFilterAction:(id)sender;
 - (IBAction)statusFilterAction:(id)sender;
 - (IBAction)orderButtonAction:(id)sender;
+- (void)changeStatusFilter:(NSString *)status;
 
 @end

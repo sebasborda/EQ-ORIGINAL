@@ -22,4 +22,7 @@
 - (void)showLoadingViewWithMessage:(NSString *)message;
 - (void)showLoadingView;
 - (void)hideLoadingView;
+- (void)showPendingOrders;
+- (void)showOperativeCommunications;
+- (void)showCommercialCommunications;
 @end

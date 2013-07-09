@@ -51,10 +51,17 @@
     [params removeObjectForKey:@"password"];
     
     if (post) {
+        NSNumber *identifier = [params objectForKey:@"id"];
         [params removeObjectForKey:@"POST"];
+        [params removeObjectForKey:@"id"];
         AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:queryString]];
         httpClient.parameterEncoding = AFFormURLParameterEncoding;
-        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:@{@"atributos":[params toJSON]}];
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"atributos":[params toJSON]}];
+        if (identifier) {
+            [parameters addEntriesFromDictionary:@{@"id":identifier}];
+        }
+        
+        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:parameters];
     } else {
         for (NSString *key in params.allKeys) {
             NSString *value = [NSString stringWithFormat:@"%@",params[key]];

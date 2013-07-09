@@ -13,10 +13,12 @@
 
 @interface EQBaseViewModel : NSObject
 
+@property (nonatomic,strong) NSArray* clientsName;
+
 - (NSString *)sellerName;
 - (NSString *)lastUpdateWithFormat;
 - (NSString *)currentDateWithFormat;
-- (NSString *)clientName;
+- (NSString *)activeClientName;
 - (NSString *)clientStatus;
 - (Cliente *)ActiveClient;
 - (Vendedor *)currentSeller;
@@ -25,7 +27,11 @@
 - (void)selectClientAtIndex:(NSUInteger)index;
 - (NSArray *)clientsNameList;
 - (int)obtainPendigOrdersCount;
-
+- (int)obtainUnreadOperativesCount;
+- (int)obtainUnreadGoalsCount;
+- (int)obtainUnreadCommercialsCount;
+- (void)loadData;
+- (void)loadDataInBackGround;
 @end
 
 @protocol EQBaseViewModelDelegate <NSObject>

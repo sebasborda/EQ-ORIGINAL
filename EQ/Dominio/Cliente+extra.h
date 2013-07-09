@@ -24,7 +24,7 @@
 @property (nonatomic,strong) NSArray *provincias;
 @property (nonatomic,strong) NSArray *zonasEnvio;
 @property (nonatomic,strong) NSArray *pedidos;
-
+@property (nonatomic,strong) NSArray *listaDePrecios;
 - (Provincia *)provincia;
 - (Expreso *)expreso;
 - (LineaVTA *)lineaDeVenta;
@@ -32,5 +32,4 @@
 - (ZonaEnvio *)zonaEnvio;
 - (CondPag *)condicionDePago;
 - (void)calcularRelevancia;
-- (void)resetRelevancia;
 @end

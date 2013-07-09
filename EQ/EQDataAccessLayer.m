@@ -30,33 +30,24 @@
     return sharedInstance;
 }
 
-+ (EQDataAccessLayer *)sharedInstanceForBatch {
-    __strong static EQDataAccessLayer *sharedInstanceForBatch = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstanceForBatch = [[EQDataAccessLayer alloc] init];
-        sharedInstanceForBatch.storeCoordinator = [sharedInstanceForBatch persistentStoreCoordinator];
-        sharedInstanceForBatch.managedObjectContext = [sharedInstanceForBatch managedObjectContext];
-    });
-    return sharedInstanceForBatch;
-}
-
 #pragma mark - Core Data
 
 - (void)saveContext {
-    NSError *error = nil;
-    if (managedObjectContext != nil)
-    {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+    @synchronized (self) {
+        NSError *error = nil;
+        if (managedObjectContext != nil)
         {
-            NSLog(@"error: %@", error.userInfo);
-            /*
-             Replace this implementation with code to handle the error appropriately.
-             
-             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-             */
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+            if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+            {
+                NSLog(@"error: %@", error.userInfo);
+                /*
+                 Replace this implementation with code to handle the error appropriately.
+                 
+                 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+                 */
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
         }
     }
 }
@@ -70,21 +61,23 @@
 }
 
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor{
-    NSString *className = NSStringFromClass(objectClass);
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
-    if (fetchRequest) {
-        fetchRequest.predicate = predicate;
+    @synchronized (self) {
+        NSString *className = NSStringFromClass(objectClass);
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
+        if (fetchRequest) {
+            fetchRequest.predicate = predicate;
+        }
+        
+        if (sortDescriptor) {
+            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+        } else {
+            NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES];
+            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+        }
+        
+        NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+        return managedObjectList;
     }
-    
-    if (sortDescriptor) {
-        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    } else {
-        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES];
-        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-    }
-    
-    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    return managedObjectList;
 }
 
 
@@ -101,27 +94,29 @@
 }
 
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
-    NSString *className = NSStringFromClass(objectClass);
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
-    fetchRequest.predicate = predicate;
-    
-    NSError *error = nil;
-    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    if([managedObjectList count] > 0){
-        return [managedObjectList lastObject];
+    @synchronized (self) {
+        NSString *className = NSStringFromClass(objectClass);
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
+        fetchRequest.predicate = predicate;
+        
+        NSError *error = nil;
+        NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if([managedObjectList count] > 0){
+            return [managedObjectList lastObject];
+        }
+        
+        return nil;
     }
-    
-    return nil;
 }
 
 - (NSManagedObject *)createManagedObject:(NSString*)kind{
     NSEntityDescription *entity = [NSEntityDescription
-                                           entityForName:kind
-                                           inManagedObjectContext:self.managedObjectContext];
+                                   entityForName:kind
+                                   inManagedObjectContext:self.managedObjectContext];
     
     NSManagedObject *newEntity = [[NSManagedObject alloc]
-                                    initWithEntity:entity
-                                    insertIntoManagedObjectContext:self.managedObjectContext];
+                                  initWithEntity:entity
+                                  insertIntoManagedObjectContext:self.managedObjectContext];
     
     return newEntity;
 }
@@ -201,7 +196,7 @@
          */
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
-    }    
+    }
     
     return storeCoordinator;
 }
@@ -224,9 +219,7 @@
         return;
     }
     
-    [APP_DELEGATE showLoadingView];
     [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
-    [APP_DELEGATE hideLoadingView];
 }
 
 @end

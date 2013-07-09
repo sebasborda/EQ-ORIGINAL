@@ -30,21 +30,32 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.viewModel loadData];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     NSDictionary *resume = [self.viewModel resume];
     self.thirtyDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"30"]];
     self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"45"]];
     self.ninetyDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"90"]];
     self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"+90"]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[[resume objectForKey:@"total"] floatValue]];
+    
+    if (self.viewModel.clientName) {
+        [self.clientButton setTitle:self.viewModel.clientName forState:UIControlStateNormal];
+    }
+    
+    [self.viewModel loadData];
 }
 
 -(void)modelDidUpdateData{
     [super modelDidUpdateData];
     [self.tableView reloadData];
     self.totalButton.enabled = self.viewModel.onlySubTotalAvailable;
+    NSString *clientName = @"  Todos";
+    if (self.viewModel.clientName) {
+        clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
+    }
+    
+    [self.clientButton setTitle:clientName forState:UIControlStateNormal];
 }
 
 - (IBAction)companyButtonAction:(id)sender {
@@ -115,7 +126,6 @@
         cell.clientLabel.text = ctaCte.cliente.nombre;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
         cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];
         cell.delayLabel.text = ctaCte.diasDeAtraso;
         cell.voucherLabel.text = ctaCte.comprobante;
@@ -211,5 +221,6 @@
 {
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 @end

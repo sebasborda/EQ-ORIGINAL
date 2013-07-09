@@ -2,13 +2,12 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/28/13.
+//  Created by Sebastian Borda on 7/8/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Cliente.h"
 #import "CtaCte.h"
-#import "Pedido.h"
 #import "Vendedor.h"
 
 
@@ -19,6 +18,7 @@
 @dynamic codigo1;
 @dynamic codigo2;
 @dynamic codigoPostal;
+@dynamic condicionDePagoID;
 @dynamic cuit;
 @dynamic descuento1;
 @dynamic descuento2;
@@ -28,9 +28,12 @@
 @dynamic domicilio;
 @dynamic domicilioDeEnvio;
 @dynamic encCompras;
+@dynamic expresoID;
 @dynamic horario;
 @dynamic identifier;
+@dynamic ivaID;
 @dynamic latitud;
+@dynamic lineaDeVentaID;
 @dynamic localidad;
 @dynamic longitud;
 @dynamic mail;
@@ -38,18 +41,14 @@
 @dynamic nombreDeFantasia;
 @dynamic observaciones;
 @dynamic propietario;
+@dynamic provinciaID;
 @dynamic sucursal;
 @dynamic telefono;
 @dynamic web;
-@dynamic ivaID;
-@dynamic condicionDePagoID;
-@dynamic expresoID;
-@dynamic lineaDeVentaID;
-@dynamic provinciaID;
 @dynamic zonaEnvioID;
+@dynamic listaPrecios;
 @dynamic cobrador;
 @dynamic ctaCte;
-@dynamic pedidos;
 @dynamic vendedor;
 
 @end

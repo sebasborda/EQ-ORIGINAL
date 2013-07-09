@@ -14,5 +14,6 @@
 @property (nonatomic,strong) NSArray *parents;
 
 - (Grupo *)parent;
++ (void)resetRelevancia;
 
 @end

@@ -63,7 +63,6 @@
 }
 
 - (void)loadData{
-    [self.delegate modelWillStartDataLoading];
     if (([self.group2 count] == 0 && self.group1Selected >= 0) || self.group2Selected >= 0) {
         Grupo *group = self.group2Selected >= 0 ? self.group2[self.group2Selected] : self.group1[self.group1Selected];
         self.articles = [group.articulos sortedArrayUsingDescriptors:@[self.sortArticle]];
@@ -92,11 +91,11 @@
     self.order.descuento = [NSNumber numberWithInt:[self discountValue]];
     self.order.activo = [NSNumber numberWithBool:YES];
     self.order.actualizado = [NSNumber numberWithBool:NO];
+    if (self.ActiveClient) {
+        self.order.clienteID = self.ActiveClient.identifier;
+    }
     
     [[EQDataManager sharedInstance] sendOrder:self.order];
-    
-    [self.order.cliente resetRelevancia];
-    [self.order.cliente calcularRelevancia];
     [[EQSession sharedInstance] updateCache];
 }
 

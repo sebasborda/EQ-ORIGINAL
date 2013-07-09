@@ -12,6 +12,7 @@
 #import "EQDataManager.h"
 #import "EQDataAccessLayer.h"
 #import "Cliente+extra.h"
+#import "Grupo+extra.h"
 
 @interface EQSession()
 
@@ -52,7 +53,7 @@
 
 - (void)endSession{
     self.user = nil;
-    [self.selectedClient resetRelevancia];
+    [Grupo resetRelevancia];
     self.selectedClient = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"loggedUser"];
@@ -70,6 +71,7 @@
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+    [self updateCache];
 }
 
 - (BOOL)isUserLogged{
@@ -83,9 +85,22 @@
     return userID != nil;
 }
 
+- (void)setSelectedClient:(Cliente *)selectedClient{
+    [Grupo resetRelevancia];
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+    _selectedClient = selectedClient;
+    if (selectedClient) {
+        [selectedClient calcularRelevancia];
+        [userInfo setObject:selectedClient forKey:@"activeClient"];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil userInfo:userInfo];
+}
+
 - (void)updateCache{
     [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
     [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user.vendedor mergeChanges:YES];
+    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user mergeChanges:YES];
 }
 
 @end

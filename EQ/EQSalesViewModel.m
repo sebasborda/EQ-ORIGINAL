@@ -17,7 +17,6 @@
 @interface EQSalesViewModel()
 
 @property (nonatomic, strong) NSSortDescriptor *sortDescriptor;
-@property (nonatomic, strong) NSString *clientName;
 @property (nonatomic, strong) Grupo *group;
 @property (nonatomic, strong) NSArray *groupsList;
 @property (nonatomic, strong) NSArray *originalSalesList;
@@ -31,9 +30,22 @@
     if (self) {
         self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self salesFieldByIndex:1] ascending:YES];
         self.sortFields = [NSArray arrayWithObjects:@"  Periodo", @"  Cliente", @"  Articulo/Grupo", @"  Cantidad", @"  Importe", nil];
-        self.clientName = self.ActiveClient.nombre;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
+        if (self.ActiveClient) {
+            self.clientName = self.ActiveClient.nombre;
+        }
     }
     return self;
+}
+
+- (void)activeClientChange:(NSNotification *)notification{
+    Cliente *activeCliente = notification.userInfo[@"activeClient"];
+    
+    self.clientName = activeCliente.nombre;
+    if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexSales) {
+        [self loadData];
+    }
+    
 }
 
 - (void)initializeData{
@@ -71,10 +83,10 @@
     return [self.sortDescriptor.key isEqualToString:@"fecha"];
 }
 
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
-    self.salesList = [self.currentSeller.ventas copy];
+- (void)chargeData{
+    self.salesList = [NSArray arrayWithArray:self.currentSeller.ventas];
     NSMutableArray *subPredicates = [NSMutableArray new];
+    
     if (self.clientName) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
         [subPredicates addObject:predicate];
@@ -122,7 +134,6 @@
         NSMutableArray *currentArray = nil;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];
-        dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:-3];
         for (Venta *sale in result) {
             NSString *period = [dateFormatter stringFromDate:sale.fecha];
             if (![lastPeriod isEqualToString:period] || [sales count] == 0) {
@@ -140,7 +151,11 @@
     }
     
     self.salesList = sales;
-    [self.delegate modelDidUpdateData];
+}
+
+- (void)loadDataInBackGround{
+    [self chargeData];
+    [super loadDataInBackGround];
 }
 
 - (void)changeSortOrder:(int)index{
@@ -196,7 +211,7 @@
 
 - (void)filterByGroup:(NSString *)Group{
     if (![Group isEqualToString:@"Todas"] && ![Group isEqual:@"No hay datos"]) {
-        self.Group = (Grupo *)[[EQDataAccessLayer sharedInstance] objectForClass:[Grupo class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.nombre == %@",Group]];
+        self.Group = [[self.groupsList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.nombre == %@",Group]] lastObject];
     } else {
         self.Group = nil;
     }

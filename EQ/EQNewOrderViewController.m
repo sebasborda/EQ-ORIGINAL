@@ -22,6 +22,7 @@
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
 @property (nonatomic,strong) UIAlertView* cancelOrderAlert;
 @property (nonatomic,strong) UIAlertView* saveOrderAlert;
+@property (nonatomic,assign) BOOL isInteractionEnable;
 
 @end
 
@@ -32,6 +33,7 @@
     if (self) {
         self.viewModel = [EQNewOrderViewModel new];
         self.viewModel.delegate = self;
+        self.isInteractionEnable = YES;
     }
     
     return self;
@@ -42,6 +44,7 @@
     if (self) {
         self.viewModel = [[EQNewOrderViewModel alloc] initWithOrder:order];
         self.viewModel.delegate = self;
+        self.isInteractionEnable = YES;
     }
     
     return self;
@@ -53,6 +56,7 @@
         self.viewModel = [[EQNewOrderViewModel alloc] initWithOrder:order];
         self.viewModel.delegate = self;
         self.viewModel.newOrder = NO;
+        self.isInteractionEnable = YES;
     }
     
     return self;
@@ -90,8 +94,8 @@
     self.productDetailView.delegate = self;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
     self.orderClientLabel.text = self.clientNameLabel.text;
     self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
@@ -102,32 +106,43 @@
 }
 
 - (IBAction)saveOrder:(id)sender {
-    self.saveOrderAlert = [[UIAlertView alloc] initWithTitle:@""
-                                                     message:@"¿Desea guardar el pedido?"
-                                                    delegate:self
-                                           cancelButtonTitle:@"Cancelar"
-                                           otherButtonTitles:@"Guardar", nil];
-    [self.saveOrderAlert show];
+    if ([self canExecuteAction]) {
+        self.saveOrderAlert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"¿Desea guardar el pedido?"
+                                                        delegate:self
+                                               cancelButtonTitle:@"Cancelar"
+                                               otherButtonTitles:@"Guardar", nil];
+        [self.saveOrderAlert show];
+    }
 }
 
 - (IBAction)cancelOrder:(id)sender {
-    self.cancelOrderAlert = [[UIAlertView alloc] initWithTitle:@"Cancelar Pedido"
-                                                     message:@"Todo lo cargado se perdera, esta seguro que quiere cancelarlo?"
-                                                    delegate:self
-                                           cancelButtonTitle:@"Si, cancelarlo"
-                                           otherButtonTitles:@"No, seguir cargando", nil];
-    [self.cancelOrderAlert show];
+    if (self.isInteractionEnable) {
+        self.cancelOrderAlert = [[UIAlertView alloc] initWithTitle:@"Cancelar Pedido"
+                                                           message:@"Todo lo cargado se perdera, esta seguro que quiere cancelarlo?"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Si, cancelarlo"
+                                                 otherButtonTitles:@"No, seguir cargando", nil];
+        [self.cancelOrderAlert show];
+    } else {
+        [self.viewModel cancelOrder];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (IBAction)segmentStatusChange:(id)sender {
-    UISegmentedControl *control = (UISegmentedControl *)sender;
-    [self.viewModel defineOrderStatus:control.selectedSegmentIndex];
+    if ([self canExecuteAction]) {
+        UISegmentedControl *control = (UISegmentedControl *)sender;
+        [self.viewModel defineOrderStatus:control.selectedSegmentIndex];
+    }
 }
 
 - (IBAction)quantityButtonAction:(id)sender {
-    UIButton *button = (UIButton *)sender;
-    int quantity = [button.titleLabel.text intValue];
-    self.quantityTextField.text = [NSString stringWithFormat:@"%i",quantity];
+    if ([self canExecuteAction]) {
+        UIButton *button = (UIButton *)sender;
+        int quantity = [button.titleLabel.text intValue];
+        self.quantityTextField.text = [NSString stringWithFormat:@"%i",quantity];
+    }
 }
 
 - (IBAction)categoryButtonAction:(id)sender {
@@ -140,7 +155,9 @@
 }
 
 - (IBAction)saveQuantity:(id)sender {
-    [self.viewModel addItemQuantity:[self.quantityTextField.text intValue]];
+    if ([self canExecuteAction]) {
+        [self.viewModel addItemQuantity:[self.quantityTextField.text intValue]];
+    }
 }
 
 - (IBAction)segmentSortChanged:(id)sender {
@@ -253,6 +270,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
     if ([alertView isEqual:self.cancelOrderAlert]) {
         if (buttonIndex == alertView.cancelButtonIndex) {
             [self.viewModel cancelOrder];
@@ -336,11 +354,15 @@
 }
 
 - (void)editItem:(ItemPedido *)item{
-    [self.viewModel editItem:item];
+    if ([self canExecuteAction]) {
+        [self.viewModel editItem:item];
+    }
 }
 
 - (void)removeItem:(ItemPedido *)item{
-    [self.viewModel removeItem:item];
+    if ([self canExecuteAction]) {
+        [self.viewModel removeItem:item];
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -369,6 +391,22 @@
             self.productDetailView.alpha = 0;
         }];
     }
+}
+
+- (void)disableInteraction{
+    self.isInteractionEnable = NO;
+}
+
+- (BOOL)canExecuteAction{
+    if (!self.isInteractionEnable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para editar el pedido ingrese en modo de edicion" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 @end

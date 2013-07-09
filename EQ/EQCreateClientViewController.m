@@ -17,6 +17,7 @@
 #import "LineaVTA.h"
 #import "TipoIvas.h"
 #import "CondPag.h"
+#import "EQSession.h"
 
 @interface EQCreateClientViewController ()
 
@@ -221,10 +222,12 @@
     [clientDictionary setNotEmptyString:self.discount3TextField.text forKey:@"discount3"];
     [clientDictionary setNotEmptyString:self.discount4TextField.text forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
+    [clientDictionary setNotEmptyString:@"" forKey:@"latitude"]; //TODO
+    [clientDictionary setNotEmptyString:@"" forKey:@"longitude"]; //TODO
     
     if ([self.ErrorMessage length] == 0) {
         [self.viewModel saveClient:clientDictionary];
-        [self.delegate clientCreateClosed];
+        [self.delegate clientSaved];
     } else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Solucione los siguientes errores"
                                                         message:self.ErrorMessage
@@ -236,7 +239,7 @@
 }
 
 - (IBAction)cancelButtonAction:(id)sender {
-    [self.delegate clientCreateClosed];
+    [self.delegate createClientCancelled];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

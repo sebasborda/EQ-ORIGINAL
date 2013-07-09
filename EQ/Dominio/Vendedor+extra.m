@@ -12,5 +12,7 @@
 
 @dynamic ventas;
 @dynamic pedidos;
+@dynamic ctacteList;
+@dynamic comunicaciones;
 
 @end

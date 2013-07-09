@@ -15,7 +15,6 @@
 @property (nonatomic,strong) NSArray *sortFields;
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 
-- (void)loadData;
 - (void)changeSortOrder:(int)index;
 - (void)defineSearchTerm:(NSString *)term;
 - (Cliente *)clientById:(NSNumber *)clientId;

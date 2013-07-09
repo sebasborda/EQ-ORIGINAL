@@ -48,8 +48,7 @@
     }
 }
 
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
+- (void)loadDataInBackGround{
     NSArray *results = [[EQSession sharedInstance].user.vendedor.clienteVendedor allObjects];
     NSPredicate *predicate = nil;
     if ([self.searchTerm length] > 0) {
@@ -64,13 +63,12 @@
     }
     
     self.clients = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
-    [self.delegate modelDidUpdateData];
+    [super loadDataInBackGround];
 }
 
 - (void)changeSortOrder:(int)index{
     self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self clientFieldByIndex:index] ascending:YES];
     self.clients = [self.clients sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
-    [self.delegate modelDidUpdateData];
 }
 
 - (void)defineSearchTerm:(NSString *)term{

@@ -29,8 +29,11 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.viewModel.clientName) {
+        [self.clientFilterButton setTitle:self.viewModel.clientName forState:UIControlStateNormal];
+    }
     [self.viewModel loadData];
 }
 
@@ -87,6 +90,13 @@
 }
 
 #pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    EQOrderCell *cell = (EQOrderCell *)[tableView cellForRowAtIndexPath:indexPath];
+    EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithOrder:cell.pedido];
+    [newOrderController disableInteraction];
+    [self.navigationController pushViewController:newOrderController animated:YES];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50;
@@ -152,12 +162,35 @@
 - (void)modelDidUpdateData{
     [self.ordersTable reloadData];
     self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    NSString *clientName = @"  Todos";
+    if (self.viewModel.clientName) {
+        clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
+        self.totalPriceLabel.hidden = NO;
+        self.totalMessageLabel.hidden = NO;
+        self.totalPriceLabel.text =  [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    } else {
+        self.totalPriceLabel.hidden = YES;
+        self.totalMessageLabel.hidden = YES;
+    }
+    
+    [self.clientFilterButton setTitle:clientName forState:UIControlStateNormal];
     [super modelDidUpdateData];
 }
 
 - (void)dataUpdated:(NSNotification *)notification{
     [super dataUpdated:notification];
-    [self.viewModel loadData];
+    UIViewController *controller = self.tabBarController.selectedViewController;
+    if ([controller isKindOfClass:[UINavigationController class]]) {
+        controller = ((UINavigationController *)controller).topViewController;
+    }
+    if ([controller isKindOfClass:[self class]]) {
+        [self.viewModel loadData];
+    }
+}
+
+- (void)changeStatusFilter:(NSString *)status{
+    [self.statusFilterButton setTitle:[@"  " stringByAppendingString:status] forState:UIControlStateNormal];
+    [self.viewModel defineStatus:status];
 }
 
 @end

@@ -50,6 +50,7 @@
         <attribute name="ivaID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="latitud" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lineaDeVentaID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="listaPrecios" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="localidad" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitud" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mail" optional="YES" attributeType="String" syncable="YES"/>
@@ -77,6 +78,9 @@
         <fetchedProperty name="lineasDeVenta" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="LineaVTA" predicateString="identifier == $FETCH_SOURCE.lineaDeVentaID"/>
         </fetchedProperty>
+        <fetchedProperty name="listaDePrecios" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Precio" predicateString="numero == $FETCH_SOURCE.listaPrecios"/>
+        </fetchedProperty>
         <fetchedProperty name="pedidos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="clienteID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
@@ -88,6 +92,30 @@
         </fetchedProperty>
         <fetchedProperty name="zonasEnvio" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="ZonaEnvio" predicateString="identifier == $FETCH_SOURCE.zonaEnvioID"/>
+        </fetchedProperty>
+    </entity>
+    <entity name="Comunicacion" representedClassName="Comunicacion" syncable="YES">
+        <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="codigoSerial" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creado" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="leido" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="receiverID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="senderID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="threadID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="tipo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="titulo" optional="YES" attributeType="String" syncable="YES"/>
+        <fetchedProperty name="clientes" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
+        </fetchedProperty>
+        <fetchedProperty name="receivers" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.receiverID"/>
+        </fetchedProperty>
+        <fetchedProperty name="senders" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.senderID"/>
         </fetchedProperty>
     </entity>
     <entity name="CondPag" representedClassName="CondPag" syncable="YES">
@@ -106,8 +134,11 @@
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="importeConDescuento" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="importePercepcion" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="cliente" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Cliente" inverseName="ctaCte" inverseEntity="Cliente" indexed="YES" syncable="YES"/>
-        <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="ctaCte" inverseEntity="Vendedor" indexed="YES" syncable="YES"/>
+        <fetchedProperty name="vendedores" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE. vendedorID"/>
+        </fetchedProperty>
     </entity>
     <entity name="Disponibilidad" representedClassName="Disponibilidad" syncable="YES">
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
@@ -182,9 +213,9 @@
         <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="numero" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numero" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <fetchedProperty name="articulo" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID "/>
         </fetchedProperty>
     </entity>
     <entity name="Provincia" representedClassName="Provincia" syncable="YES">
@@ -208,6 +239,9 @@
         <attribute name="nombreDeUsuario" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="usuario" inverseEntity="Vendedor" indexed="YES" syncable="YES"/>
+        <fetchedProperty name="comunicaciones" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
     </entity>
     <entity name="Vendedor" representedClassName="Vendedor" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -216,8 +250,13 @@
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="clienteCobrador" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cliente" inverseName="cobrador" inverseEntity="Cliente" indexed="YES" syncable="YES"/>
         <relationship name="clienteVendedor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Cliente" inverseName="vendedor" inverseEntity="Cliente" indexed="YES" syncable="YES"/>
-        <relationship name="ctaCte" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CtaCte" inverseName="vendedor" inverseEntity="CtaCte" indexed="YES" syncable="YES"/>
         <relationship name="usuario" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Usuario" inverseName="vendedor" inverseEntity="Usuario" indexed="YES" syncable="YES"/>
+        <fetchedProperty name="comunicaciones" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
+        <fetchedProperty name="ctacteList" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="CtaCte" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
         <fetchedProperty name="pedidos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
@@ -254,20 +293,21 @@
     </entity>
     <elements>
         <element name="Articulo" positionX="430" positionY="378" width="128" height="329"/>
-        <element name="Cliente" positionX="160" positionY="192" width="128" height="719"/>
+        <element name="Cliente" positionX="160" positionY="192" width="128" height="749"/>
+        <element name="Comunicacion" positionX="160" positionY="192" width="128" height="299"/>
         <element name="CondPag" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="CtaCte" positionX="160" positionY="192" width="128" height="210"/>
+        <element name="CtaCte" positionX="160" positionY="192" width="128" height="239"/>
         <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="73"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Grupo" positionX="160" positionY="192" width="128" height="179"/>
         <element name="ItemPedido" positionX="160" positionY="192" width="128" height="209"/>
         <element name="LineaVTA" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Pedido" positionX="160" positionY="192" width="128" height="344"/>
-        <element name="Precio" positionX="432" positionY="199" width="128" height="131"/>
+        <element name="Precio" positionX="432" positionY="199" width="128" height="134"/>
         <element name="Provincia" positionX="160" positionY="192" width="128" height="103"/>
         <element name="TipoIvas" positionX="160" positionY="192" width="128" height="131"/>
-        <element name="Usuario" positionX="160" positionY="192" width="128" height="120"/>
-        <element name="Vendedor" positionX="160" positionY="192" width="128" height="209"/>
+        <element name="Usuario" positionX="160" positionY="192" width="128" height="149"/>
+        <element name="Vendedor" positionX="160" positionY="192" width="128" height="224"/>
         <element name="Venta" positionX="160" positionY="192" width="128" height="254"/>
         <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="103"/>
     </elements>

@@ -7,6 +7,8 @@
 //
 
 #import "Cliente.h"
+#import "Comunicacion.h"
+#import "Pedido+extra.h"
 
 @interface EQDataManager : NSObject
 
@@ -14,4 +16,5 @@
 - (void)updateDataShowLoading:(BOOL)show;
 - (void)sendClient:(Cliente *)client;
 - (void)sendOrder:(Pedido *)order;
+- (void)sendCommunication:(Comunicacion *)communication;
 @end

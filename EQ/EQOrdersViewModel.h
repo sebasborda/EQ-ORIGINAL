@@ -7,6 +7,7 @@
 //
 
 #import "EQBaseViewModel.h"
+#import "Pedido+extra.h"
 
 @interface EQOrdersViewModel : EQBaseViewModel
 
@@ -17,10 +18,10 @@
 @property (nonatomic, strong) NSDate *endBillingDate;
 @property (nonatomic, strong) NSDate *startSyncDate;
 @property (nonatomic, strong) NSDate *endSyncDate;
-@property (nonatomic,strong) NSArray *sortFields;
-@property (nonatomic, strong) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic, strong) NSArray *sortFields;
+@property (nonatomic, assign) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic, strong) NSString* clientName;
 
-- (void)loadData;
 - (void)changeSortOrder:(int)index;
 - (void)defineClient:(NSString *)client;
 - (void)defineStatus:(NSString *)status;

@@ -30,12 +30,18 @@
         self.category1SelectedIndex = -1;
         self.category2SelectedIndex = -2;
         self.category3SelectedIndex = -3;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
     }
     return self;
 }
 
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
+- (void)activeClientChange:(NSNotification *)notification{
+    if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexProducts) {
+        [self loadData];
+    }
+}
+
+- (void)loadDataInBackGround{
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     NSMutableArray *subPredicates = [NSMutableArray array];
     if ([self.searchTerm length] > 0) {
@@ -69,7 +75,7 @@
     NSArray *results = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
     self.articles = [NSMutableArray arrayWithArray:results];
     
-    [self.delegate modelDidUpdateData];
+    [super loadDataInBackGround];
 }
 
 - (void)defineSelectedCategory1:(int)categoryIndex{
