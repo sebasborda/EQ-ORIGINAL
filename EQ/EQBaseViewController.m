@@ -219,6 +219,8 @@
 - (void)clientSelected:(NSString *)clientName{
     if (![clientName isEqualToString:@"Todos"]) {
         self.clientNameLabel.text = clientName;
+    } else {
+        self.clientNameLabel.text = @"";
     }
 }
 

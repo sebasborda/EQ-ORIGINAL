@@ -25,14 +25,33 @@
 
 @implementation EQSalesViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)viewDidLoad{
     self.viewModel = [EQSalesViewModel new];
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQSalesCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    self.popoverOwner = self.periodFilterButton;
+    [self dateFilter:nil didSelectStartDate:[self modifyMonths:-2] endDate:[self modifyMonths:1]];
     [super viewDidLoad];
+}
+
+- (NSDate *)modifyMonths:(int)monthDifference{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:[NSDate date]];
+    [components setDay:1];
+    BOOL nextYear = [components month] + monthDifference > 12;
+    BOOL previousYear = [components month] + monthDifference < 1;
+    
+    int yearDifference = 0;
+    int mDifference = [components month] + monthDifference;
+    if (nextYear || previousYear) {
+        yearDifference = nextYear ? 1 : -1;
+        mDifference = nextYear ? [components month] + monthDifference - 12 : [components month] + monthDifference + 12;
+    }
+    [components setMonth:mDifference];
+    [components setYear:components.year + yearDifference];
+    NSDate* newDate = [gregorian dateFromComponents:components];
+    return newDate;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -115,15 +134,18 @@
         if ([self.viewModel isSortingByClient]) {
             cell.clientLabel.text = sale.cliente.nombre;
             cell.periodLabel.text = @"";
-        } else {
+            cell.articleLabel.text = @"";
+        } else if ([self.viewModel isSortingByPeriod]){
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyy.MM"];
             cell.clientLabel.text = @"";
+            cell.articleLabel.text = @"";
             cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
+        } else if ([self.viewModel isSortingByGroup]) {
+            cell.clientLabel.text = @"";
+            cell.periodLabel.text = @"";
+            cell.articleLabel.text = sale.articulo.nombre;
         }
-        
-
-        cell.articleLabel.text = @"";
         cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f", gross];
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
     } else {
@@ -147,7 +169,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod])) {
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod] || [self.viewModel isSortingByGroup])) {
         return 0;
     }
     
@@ -173,7 +195,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod])) {
+    if ((self.viewModel.onlySubTotalAvailable && self.hideDetails) || !([self.viewModel isSortingByClient] || [self.viewModel isSortingByPeriod] || [self.viewModel isSortingByGroup])) {
         return nil;
     }
     
@@ -231,9 +253,10 @@
         [self.popoverOwner setTitle:title forState:UIControlStateNormal];
     }
     
-    [self closePopover];
-    [self.viewModel loadData];
-    
+    if (sender) {
+        [self closePopover];
+        [self.viewModel loadData];
+    }
 }
 
 @end

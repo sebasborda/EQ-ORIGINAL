@@ -26,6 +26,7 @@
 - (void)filterByClient:(NSString *)client;
 - (BOOL)isSortingByClient;
 - (BOOL)isSortingByPeriod;
+- (BOOL)isSortingByGroup;
 - (void)initializeData;
 - (int)articlesQuantity;
 - (float)articlesPrice;

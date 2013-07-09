@@ -9,7 +9,7 @@
 #import "EQSalesViewModel.h"
 #import "Venta.h"
 #import "Grupo.h"
-#import "Articulo.h"
+#import "Articulo+extra.h"
 #import "Precio+extra.h"
 #import "Venta+extra.h"
 #import "Vendedor+extra.h"
@@ -83,6 +83,10 @@
     return [self.sortDescriptor.key isEqualToString:@"fecha"];
 }
 
+- (BOOL)isSortingByGroup{
+    return [self.sortDescriptor.key isEqualToString:@"articulo.grupo.nombre"];
+}
+
 - (void)chargeData{
     self.salesList = [NSArray arrayWithArray:self.currentSeller.ventas];
     NSMutableArray *subPredicates = [NSMutableArray new];
@@ -114,8 +118,8 @@
     
     NSArray *result = [self.salesList sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
     NSMutableArray *sales = [NSMutableArray new];
-    self.onlySubTotalAvailable = ([self isSortingByClient] || [self isSortingByPeriod])  && !self.ActiveClient;
-    if([self isSortingByClient]){
+    self.onlySubTotalAvailable = ([self isSortingByClient] && !self.ActiveClient) || [self isSortingByPeriod] || [self isSortingByGroup];
+    if([self isSortingByClient] && !self.ActiveClient){
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
         for (Venta *sale in result) {
@@ -146,7 +150,21 @@
             lastPeriod = period;
             [currentArray addObject:sale];
         }
-    }else {
+    } else if([self isSortingByGroup]){
+        Grupo *lastGroup = nil;
+        NSMutableArray *currentArray = nil;
+        for (Venta *sale in result) {
+            if (!lastGroup || [sales count] == 0 || ![sale.articulo.grupoID isEqualToNumber:lastGroup.identifier]) {
+                currentArray = [NSMutableArray new];
+                [sales addObject:currentArray];
+            } else {
+                currentArray = [sales lastObject];
+            }
+            
+            lastGroup = sale.articulo.grupo;
+            [currentArray addObject:sale];
+        }
+    } else {
         [sales addObject:result];
     }
     
