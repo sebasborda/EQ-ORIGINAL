@@ -207,7 +207,6 @@
 		6B66E7C71789AF8F007A5E65 /* EQCommunicationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B66E7C61789AF8F007A5E65 /* EQCommunicationCell.m */; };
 		6B66E7CA1789E5A9007A5E65 /* Usuario+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B66E7C91789E5A8007A5E65 /* Usuario+extra.m */; };
 		6B66E7D3178A7D37007A5E65 /* Precio.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B66E7D2178A7D37007A5E65 /* Precio.m */; };
-		6B66E7D6178A7D3B007A5E65 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B66E7D5178A7D39007A5E65 /* Cliente.m */; };
 		6B79FF3217849D3200ACB8A3 /* CtaCte+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */; };
 		6B79FF3517849DE000ACB8A3 /* Vendedor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B79FF3417849DE000ACB8A3 /* Vendedor.m */; };
 		6B79FF3817849DE100ACB8A3 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B79FF3717849DE100ACB8A3 /* CtaCte.m */; };
@@ -235,9 +234,11 @@
 		6BBC0F02177E5A60004C2AA2 /* Grupo+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F01177E5A60004C2AA2 /* Grupo+extra.m */; };
 		6BBC0F08177E6678004C2AA2 /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F07177E6678004C2AA2 /* Venta.m */; };
 		6BBC0F14177E91C0004C2AA2 /* Pedido+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F13177E91C0004C2AA2 /* Pedido+extra.m */; };
-		6BBC0F17177F2FF5004C2AA2 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F16177F2FF5004C2AA2 /* Pedido.m */; };
 		6BC1918D178CBCC50019AA7C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC1918B178CBCC50019AA7C /* icon.png */; };
 		6BC1918E178CBCC50019AA7C /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC1918C178CBCC50019AA7C /* icon@2x.png */; };
+		6BC19190178CF36B0019AA7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC1918F178CF36A0019AA7C /* CoreLocation.framework */; };
+		6BC19193178D22CF0019AA7C /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC19192178D22CF0019AA7C /* Cliente.m */; };
+		6BC19196178D22D30019AA7C /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC19195178D22D10019AA7C /* Pedido.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -516,8 +517,6 @@
 		6B66E7C91789E5A8007A5E65 /* Usuario+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Usuario+extra.m"; sourceTree = "<group>"; };
 		6B66E7D1178A7D36007A5E65 /* Precio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Precio.h; sourceTree = "<group>"; };
 		6B66E7D2178A7D37007A5E65 /* Precio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Precio.m; sourceTree = "<group>"; };
-		6B66E7D4178A7D39007A5E65 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
-		6B66E7D5178A7D39007A5E65 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
 		6B79FF3017849D3200ACB8A3 /* CtaCte+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CtaCte+extra.h"; sourceTree = "<group>"; };
 		6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CtaCte+extra.m"; sourceTree = "<group>"; };
 		6B79FF3317849DE000ACB8A3 /* Vendedor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendedor.h; sourceTree = "<group>"; };
@@ -569,10 +568,13 @@
 		6BBC0F07177E6678004C2AA2 /* Venta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venta.m; sourceTree = "<group>"; };
 		6BBC0F12177E91BF004C2AA2 /* Pedido+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Pedido+extra.h"; sourceTree = "<group>"; };
 		6BBC0F13177E91C0004C2AA2 /* Pedido+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Pedido+extra.m"; sourceTree = "<group>"; };
-		6BBC0F15177F2FF4004C2AA2 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
-		6BBC0F16177F2FF5004C2AA2 /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
 		6BC1918B178CBCC50019AA7C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		6BC1918C178CBCC50019AA7C /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		6BC1918F178CF36A0019AA7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6BC19191178D22CF0019AA7C /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
+		6BC19192178D22CF0019AA7C /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
+		6BC19194178D22D00019AA7C /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
+		6BC19195178D22D10019AA7C /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -580,6 +582,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BC19190178CF36B0019AA7C /* CoreLocation.framework in Frameworks */,
 				2172A913174097DB00C8C446 /* MessageUI.framework in Frameworks */,
 				2144AA21172A23720065D30A /* MobileCoreServices.framework in Frameworks */,
 				2144AA1F172A23650065D30A /* SystemConfiguration.framework in Frameworks */,
@@ -628,8 +631,6 @@
 				6BB3A329177D46520084F777 /* Usuario.m */,
 				6BBC0F06177E6678004C2AA2 /* Venta.h */,
 				6BBC0F07177E6678004C2AA2 /* Venta.m */,
-				6BBC0F15177F2FF4004C2AA2 /* Pedido.h */,
-				6BBC0F16177F2FF5004C2AA2 /* Pedido.m */,
 				6B83527A177F95A6000130F9 /* ItemPedido.h */,
 				6B83527B177F95A6000130F9 /* ItemPedido.m */,
 				6B30279F1782931900CAABC7 /* Grupo.h */,
@@ -640,10 +641,12 @@
 				6B79FF3417849DE000ACB8A3 /* Vendedor.m */,
 				6B66E7BD1788650E007A5E65 /* Comunicacion.h */,
 				6B66E7BE1788650E007A5E65 /* Comunicacion.m */,
-				6B66E7D4178A7D39007A5E65 /* Cliente.h */,
-				6B66E7D5178A7D39007A5E65 /* Cliente.m */,
 				6B66E7D1178A7D36007A5E65 /* Precio.h */,
 				6B66E7D2178A7D37007A5E65 /* Precio.m */,
+				6BC19194178D22D00019AA7C /* Pedido.h */,
+				6BC19195178D22D10019AA7C /* Pedido.m */,
+				6BC19191178D22CF0019AA7C /* Cliente.h */,
+				6BC19192178D22CF0019AA7C /* Cliente.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1043,6 +1046,7 @@
 		214A58D016FFB88A005D787D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BC1918F178CF36A0019AA7C /* CoreLocation.framework */,
 				2172A912174097DA00C8C446 /* MessageUI.framework */,
 				2144AA20172A23720065D30A /* MobileCoreServices.framework */,
 				2144AA1E172A23640065D30A /* SystemConfiguration.framework */,
@@ -1473,7 +1477,6 @@
 				6BBC0F02177E5A60004C2AA2 /* Grupo+extra.m in Sources */,
 				6BBC0F08177E6678004C2AA2 /* Venta.m in Sources */,
 				6BBC0F14177E91C0004C2AA2 /* Pedido+extra.m in Sources */,
-				6BBC0F17177F2FF5004C2AA2 /* Pedido.m in Sources */,
 				6B83527C177F95A6000130F9 /* ItemPedido.m in Sources */,
 				6B30279B1782596700CAABC7 /* EQGoalsViewModel.m in Sources */,
 				6B30279E178259C300CAABC7 /* EQCommunicationsViewModel.m in Sources */,
@@ -1488,7 +1491,8 @@
 				6B66E7C71789AF8F007A5E65 /* EQCommunicationCell.m in Sources */,
 				6B66E7CA1789E5A9007A5E65 /* Usuario+extra.m in Sources */,
 				6B66E7D3178A7D37007A5E65 /* Precio.m in Sources */,
-				6B66E7D6178A7D3B007A5E65 /* Cliente.m in Sources */,
+				6BC19193178D22CF0019AA7C /* Cliente.m in Sources */,
+				6BC19196178D22D30019AA7C /* Pedido.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

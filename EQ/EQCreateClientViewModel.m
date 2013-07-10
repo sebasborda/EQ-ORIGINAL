@@ -78,9 +78,9 @@
     self.client.domicilioDeEnvio = clientDictionary[@"deliveryAddress"];
     self.client.encCompras = clientDictionary[@"purchaseManager"];
     self.client.horario = clientDictionary[@"schedule"];
-    self.client.latitud = clientDictionary[@"latitude"];
+    self.client.latitud = [clientDictionary[@"latitude"] number];
     self.client.localidad = clientDictionary[@"locality"];
-    self.client.longitud = clientDictionary[@"longitude"];
+    self.client.longitud = [clientDictionary[@"longitude"] number];
     self.client.mail = clientDictionary[@"email"];
     self.client.nombre = clientDictionary[@"name"];
     self.client.nombreDeFantasia = clientDictionary[@"alias"];

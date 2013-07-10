@@ -18,7 +18,7 @@ typedef enum{
 }EQTabIndex;
 
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
-#define MAXIMUM_MINUTES_TO_UPDATE 2
+#define MAXIMUM_MINUTES_TO_UPDATE 10
 #define BASE_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
 #define SELECTION_TEXT "Elige una"
 #define DATA_UPDATED_NOTIFICATION @"dataUpdatedNotification"

@@ -2,7 +2,7 @@
 //  Pedido.m
 //  EQ
 //
-//  Created by Sebastian Borda on 6/29/13.
+//  Created by Sebastian Borda on 7/10/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,6 +14,7 @@
 
 @dynamic activo;
 @dynamic actualizado;
+@dynamic clienteID;
 @dynamic descuento;
 @dynamic descuento3;
 @dynamic descuento4;
@@ -26,7 +27,6 @@
 @dynamic sincronizacion;
 @dynamic subTotal;
 @dynamic total;
-@dynamic clienteID;
 @dynamic vendedorID;
 @dynamic items;
 

@@ -90,6 +90,16 @@
     [self.deliveryAreaButton setTitle:[self.viewModel obtainSelectedDeliveryArea] forState:UIControlStateNormal];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[EQSession sharedInstance] startMonitoring];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[EQSession sharedInstance] stopMonitoring];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -222,8 +232,8 @@
     [clientDictionary setNotEmptyString:self.discount3TextField.text forKey:@"discount3"];
     [clientDictionary setNotEmptyString:self.discount4TextField.text forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
-    [clientDictionary setNotEmptyString:@"" forKey:@"latitude"]; //TODO
-    [clientDictionary setNotEmptyString:@"" forKey:@"longitude"]; //TODO
+    [clientDictionary setNotNilObject:[[EQSession sharedInstance] currentLatitude] forKey:@"latitude"];
+    [clientDictionary setNotNilObject:[[EQSession sharedInstance] currentLongitude] forKey:@"longitude"];
     
     if ([self.ErrorMessage length] == 0) {
         [self.viewModel saveClient:clientDictionary];

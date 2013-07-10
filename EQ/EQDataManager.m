@@ -229,7 +229,7 @@
             [self updateCostPage:nextPage];
         } else {
             [self updateCompletedFor:[Precio class]];
-            [self updateOrders];
+            [self updateUsers];
         }
     };
     
@@ -295,8 +295,8 @@
             pedido.descuento = [dictionary[@"descuento"] number];
             pedido.estado = [dictionary filterInvalidEntry:@"estado"] != nil ? [dictionary[@"estado"] lowercaseString] : @"pendiente";
             pedido.subTotal = [dictionary[@"subtotal"] number];
-            pedido.latitud = [dictionary filterInvalidEntry:@"ubicacion_gps_lat"];
-            pedido.longitud = [dictionary filterInvalidEntry:@"ubicacion_gps_lng"];
+            pedido.latitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
+            pedido.longitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
             pedido.total = [dictionary[@"total"] number];
             pedido.observaciones = [dictionary filterInvalidEntry:@"observaciones"];
             pedido.descuento3 = [dictionary[@"descuento3"] number];
@@ -547,8 +547,8 @@
             client.sucursal = [[clienteDictionary filterInvalidEntry:@"sucursal"] number];
             client.telefono = [clienteDictionary filterInvalidEntry:@"telefono"];
             client.ivaID = [[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number];
-            client.latitud = [clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"];
-            client.longitud = [clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"];
+            client.latitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
+            client.longitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
             Vendedor *seller = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[clienteDictionary filterInvalidEntry:@"vendedor_id"] number]]];
             client.vendedor = seller;
             client.zonaEnvioID = [[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number];
@@ -721,34 +721,34 @@
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
-//- (void)updateUsers{
-//    SuccessRequest block = ^(NSArray *jsonArray){
-//        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-//        for (NSDictionary* usuarioDictionary in jsonArray) {
-//            NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
-//            NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
-//            NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
-//            Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
-//            user.identifier = identifier;
-//            user.nombreDeUsuario = usuario;
-//            user.password = password;
-//            user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-//            user.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number]]];
-//        }
-//        
-//        [adl saveContext];
-//        [self updateCompletedFor:[Usuario class]];
-//        [self updateOrders];
-//    };
-//    
-//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    [parameters setObject:@"listar" forKey:@"action"];
-//    [parameters setObject:@"login" forKey:@"object"];
-//    [parameters addEntriesFromDictionary:[self obtainCredentials]];
-//    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
-//    
-//    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
-//}
+- (void)updateUsers{
+    SuccessRequest block = ^(NSArray *jsonArray){
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+        for (NSDictionary* usuarioDictionary in jsonArray) {
+            NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
+            NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
+            NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
+            Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
+            user.identifier = identifier;
+            user.nombreDeUsuario = usuario;
+            user.password = password;
+            user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
+            user.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number]]];
+        }
+        
+        [adl saveContext];
+        [self updateCompletedFor:[Usuario class]];
+        [self updateOrders];
+    };
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setObject:@"listar" forKey:@"action"];
+    [parameters setObject:@"login" forKey:@"object"];
+    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
+    
+    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
+}
 
 - (void)updateGroups{
     SuccessRequest block = ^(NSArray *jsonArray){
@@ -882,8 +882,8 @@
         [dictionary setNotNilObject:client.ivaID forKey:@"atributos[tipo_iva_id]"];
     }
     
-    [dictionary setNotEmptyStringEscaped:client.latitud forKey:@"atributos[ubicacion_gps_lat]"];
-    [dictionary setNotEmptyStringEscaped:client.longitud forKey:@"atributos[ubicacion_gps_lng]"];
+    [dictionary setNotNilObject:client.latitud forKey:@"atributos[ubicacion_gps_lat]"];
+    [dictionary setNotNilObject:client.longitud forKey:@"atributos[ubicacion_gps_lng]"];
     if ([client.vendedor.identifier intValue] > 0) {
         [dictionary setNotNilObject:client.vendedor.identifier forKey:@"atributos[vendedor_id]"];
     }
@@ -972,15 +972,12 @@
         newOrder.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     };
     
     FailRequest failBlock = ^(NSError *error){
         NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
          newOrder.actualizado = [NSNumber numberWithBool:NO];
         [[EQDataAccessLayer sharedInstance] saveContext];
-        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];

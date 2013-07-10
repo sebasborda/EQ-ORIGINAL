@@ -16,7 +16,9 @@
 
 @interface EQSession()
 
-@property (nonatomic,strong) NSTimer* updateTimer;
+@property (strong, nonatomic) NSTimer *updateTimer;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation *currentLocation;
 
 @end
 
@@ -28,12 +30,48 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[EQSession alloc] init];
+        sharedInstance.locationManager = [[CLLocationManager alloc] init];
+        sharedInstance.locationManager.delegate = sharedInstance;
     });
     return sharedInstance;
 }
 
+- (void)startMonitoring{
+    [self.locationManager startMonitoringSignificantLocationChanges];
+}
+
+- (void)stopMonitoring{
+    [self.locationManager stopMonitoringSignificantLocationChanges];
+}
+
+// Delegate method from the CLLocationManagerDelegate protocol.
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations {
+    // If it's a relatively recent event, turn off updates to save power
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (abs(howRecent) < 45.0) {
+        // If the event is recent, do something with it.
+        self.currentLocation = location;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error{
+    NSLog(@"%@", error.localizedDescription);
+}
+
 - (void)updateData{
     [[EQDataManager sharedInstance] updateDataShowLoading:NO];
+}
+
+- (NSNumber *)currentLongitude{
+    return [NSNumber numberWithDouble:self.currentLocation.coordinate.longitude];
+}
+
+- (NSNumber *)currentLatitude{
+    return [NSNumber numberWithDouble:self.currentLocation.coordinate.latitude];
 }
 
 - (void)regiteredUser:(Usuario *)user{

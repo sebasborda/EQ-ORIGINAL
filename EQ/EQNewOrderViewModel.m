@@ -93,6 +93,8 @@
     self.order.actualizado = [NSNumber numberWithBool:NO];
     if (self.ActiveClient && self.newOrder) {
         self.order.clienteID = self.ActiveClient.identifier;
+        self.order.latitud = [[EQSession sharedInstance] currentLatitude];
+        self.order.longitud = [[EQSession sharedInstance] currentLongitude];
     }
     
     [[EQDataManager sharedInstance] sendOrder:self.order];

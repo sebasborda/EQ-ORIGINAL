@@ -6,9 +6,10 @@
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import "Vendedor.h"
 
-@interface EQSession : NSObject
+@interface EQSession : NSObject <CLLocationManagerDelegate>
 
 + (EQSession *)sharedInstance;
 - (NSDate *)lastSyncDate;
@@ -17,8 +18,12 @@
 - (void)dataUpdated;
 - (BOOL)isUserLogged;
 - (void)updateCache;
+- (NSNumber *)currentLongitude;
+- (NSNumber *)currentLatitude;
+- (void)startMonitoring;
+- (void)stopMonitoring;
 
 @property (nonatomic,strong) Cliente *selectedClient;
-@property (nonatomic,strong) Usuario* user;
+@property (nonatomic,strong) Usuario *user;
 
 @end

@@ -2,7 +2,7 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 7/8/13.
+//  Created by Sebastian Borda on 7/10/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -32,10 +32,11 @@
 @property (nonatomic, retain) NSString * horario;
 @property (nonatomic, retain) NSNumber * identifier;
 @property (nonatomic, retain) NSNumber * ivaID;
-@property (nonatomic, retain) NSString * latitud;
+@property (nonatomic, retain) NSNumber * latitud;
 @property (nonatomic, retain) NSNumber * lineaDeVentaID;
+@property (nonatomic, retain) NSNumber * listaPrecios;
 @property (nonatomic, retain) NSString * localidad;
-@property (nonatomic, retain) NSString * longitud;
+@property (nonatomic, retain) NSNumber * longitud;
 @property (nonatomic, retain) NSString * mail;
 @property (nonatomic, retain) NSString * nombre;
 @property (nonatomic, retain) NSString * nombreDeFantasia;
@@ -46,7 +47,6 @@
 @property (nonatomic, retain) NSString * telefono;
 @property (nonatomic, retain) NSString * web;
 @property (nonatomic, retain) NSNumber * zonaEnvioID;
-@property (nonatomic, retain) NSNumber * listaPrecios;
 @property (nonatomic, retain) Vendedor *cobrador;
 @property (nonatomic, retain) NSSet *ctaCte;
 @property (nonatomic, retain) Vendedor *vendedor;

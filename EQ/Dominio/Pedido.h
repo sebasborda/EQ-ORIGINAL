@@ -2,7 +2,7 @@
 //  Pedido.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/29/13.
+//  Created by Sebastian Borda on 7/10/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -15,19 +15,19 @@
 
 @property (nonatomic, retain) NSNumber * activo;
 @property (nonatomic, retain) NSNumber * actualizado;
+@property (nonatomic, retain) NSNumber * clienteID;
 @property (nonatomic, retain) NSNumber * descuento;
 @property (nonatomic, retain) NSNumber * descuento3;
 @property (nonatomic, retain) NSNumber * descuento4;
 @property (nonatomic, retain) NSString * estado;
 @property (nonatomic, retain) NSDate * fecha;
 @property (nonatomic, retain) NSNumber * identifier;
-@property (nonatomic, retain) NSString * latitud;
-@property (nonatomic, retain) NSString * longitud;
+@property (nonatomic, retain) NSNumber * latitud;
+@property (nonatomic, retain) NSNumber * longitud;
 @property (nonatomic, retain) NSString * observaciones;
 @property (nonatomic, retain) NSDate * sincronizacion;
 @property (nonatomic, retain) NSNumber * subTotal;
 @property (nonatomic, retain) NSNumber * total;
-@property (nonatomic, retain) NSNumber * clienteID;
 @property (nonatomic, retain) NSNumber * vendedorID;
 @property (nonatomic, retain) NSSet *items;
 @end

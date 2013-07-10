@@ -17,6 +17,7 @@
 #import "Precio+extra.h"
 #import "ItemPedido+extra.h"
 #import "Pedido+extra.h"
+#import "EQSession.h"
 
 @interface EQNewOrderViewController ()
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
@@ -96,6 +97,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [[EQSession sharedInstance] startMonitoring];
     self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
     self.orderClientLabel.text = self.clientNameLabel.text;
     self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
@@ -103,6 +105,12 @@
     [dateFormat setDateFormat:@"dd.MM.yy"];
     self.dateLabel.text = [dateFormat stringFromDate:[self.viewModel date]];
     [self.viewModel loadData];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[EQSession sharedInstance] stopMonitoring];
 }
 
 - (IBAction)saveOrder:(id)sender {

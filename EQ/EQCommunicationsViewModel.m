@@ -105,7 +105,7 @@
     communication.threadID = self.selectedCommunication.threadID;
     communication.tipo = self.selectedCommunication.tipo;
     communication.senderID = [EQSession sharedInstance].user.identifier;
-    communication.receiverID = communication.senderID == self.selectedCommunication.senderID ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
+    communication.receiverID = [communication.senderID isEqualToNumber:self.selectedCommunication.senderID] ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
     communication.activo = [NSNumber numberWithBool:YES];
     communication.actualizado = [NSNumber numberWithBool:NO];
     communication.creado = [NSDate date];
