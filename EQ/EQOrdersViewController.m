@@ -38,10 +38,10 @@
 }
 
 - (IBAction)newOrderButtonAction:(id)sender {
-    if (self.viewModel.ActiveClient) {
+    if ([self.viewModel canCreateOrder]) {
         [self.navigationController pushViewController:[EQNewOrderViewController new] animated:YES];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Para crear un pedido debe tener un cliente seleccionado." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Para crear un pedido debe tener un cliente seleccionado y este debe tener una lista de precios." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
     }
 }

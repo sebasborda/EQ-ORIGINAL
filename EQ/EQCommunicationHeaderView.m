@@ -16,7 +16,7 @@
 
 - (void)loadCommunications:(NSArray *)communications{
     self.communications = communications;
-    Comunicacion *communication = communications[0];
+    Comunicacion *communication = [communications lastObject];
     self.titleLabel.text = communication.titulo;
     self.bodyLabel.text = communication.descripcion;
     self.unreadMessageImage.hidden = YES;
@@ -57,7 +57,7 @@
 }
 
 - (Comunicacion *)mainCommunication{
-    return [self.communications objectAtIndex:0];
+    return [self.communications lastObject];
 }
 
 @end

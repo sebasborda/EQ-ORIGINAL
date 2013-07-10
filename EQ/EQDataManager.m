@@ -70,10 +70,8 @@
 }
 
 - (void)updateCompleted{
-    [[EQSession sharedInstance] dataUpdated];
-    
     self.running = NO;
-    [self sendPendingData];
+    [[EQSession sharedInstance] performSelectorOnMainThread:@selector(dataUpdated) withObject:nil waitUntilDone:NO];
 }
 
 - (void)sendPendingData{
@@ -231,7 +229,7 @@
             [self updateCostPage:nextPage];
         } else {
             [self updateCompletedFor:[Precio class]];
-            [self updateUsers];
+            [self updateOrders];
         }
     };
     
@@ -723,34 +721,34 @@
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
 
-- (void)updateUsers{
-    SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-        for (NSDictionary* usuarioDictionary in jsonArray) {
-            NSNumber *identifier = [NSNumber numberWithInt:[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] integerValue] + 31];
-            NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
-            NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
-            Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
-            user.identifier = identifier;
-            user.nombreDeUsuario = usuario;
-            user.password = password;
-            user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-            user.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number]]];
-        }
-        
-        [adl saveContext];
-        [self updateCompletedFor:[Usuario class]];
-        [self updateOrders];
-    };
-    
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters setObject:@"listar" forKey:@"action"];
-    [parameters setObject:@"login" forKey:@"object"];
-    [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
-    
-    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
-}
+//- (void)updateUsers{
+//    SuccessRequest block = ^(NSArray *jsonArray){
+//        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+//        for (NSDictionary* usuarioDictionary in jsonArray) {
+//            NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
+//            NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
+//            NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
+//            Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
+//            user.identifier = identifier;
+//            user.nombreDeUsuario = usuario;
+//            user.password = password;
+//            user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
+//            user.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number]]];
+//        }
+//        
+//        [adl saveContext];
+//        [self updateCompletedFor:[Usuario class]];
+//        [self updateOrders];
+//    };
+//    
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    [parameters setObject:@"listar" forKey:@"action"];
+//    [parameters setObject:@"login" forKey:@"object"];
+//    [parameters addEntriesFromDictionary:[self obtainCredentials]];
+//    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
+//    
+//    [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
+//}
 
 - (void)updateGroups{
     SuccessRequest block = ^(NSArray *jsonArray){
@@ -974,7 +972,7 @@
         newOrder.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
-        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -982,7 +980,7 @@
          newOrder.actualizado = [NSNumber numberWithBool:NO];
         [[EQDataAccessLayer sharedInstance] saveContext];
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];

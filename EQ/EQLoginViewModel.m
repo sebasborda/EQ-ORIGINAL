@@ -12,6 +12,7 @@
 #import "EQNetworkManager.h"
 #import "NSDictionary+EQ.h"
 #import "Usuario.h"
+#import "NSString+Number.h"
 
 @implementation EQLoginViewModel
 @synthesize delegate = _delegate;
@@ -29,7 +30,7 @@
         SuccessRequest block = ^(NSArray *jsonArray){
             NSMutableArray *users = [NSMutableArray array];
             for (NSDictionary* usuarioDictionary in jsonArray) {
-                NSNumber *identifier = [NSNumber numberWithInt:[[usuarioDictionary filterInvalidEntry:@"vendedor_id"] integerValue] + 31];
+                NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
                 NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
                 NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
                 Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];

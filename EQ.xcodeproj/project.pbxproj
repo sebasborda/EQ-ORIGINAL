@@ -236,6 +236,8 @@
 		6BBC0F08177E6678004C2AA2 /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F07177E6678004C2AA2 /* Venta.m */; };
 		6BBC0F14177E91C0004C2AA2 /* Pedido+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F13177E91C0004C2AA2 /* Pedido+extra.m */; };
 		6BBC0F17177F2FF5004C2AA2 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F16177F2FF5004C2AA2 /* Pedido.m */; };
+		6BC1918D178CBCC50019AA7C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC1918B178CBCC50019AA7C /* icon.png */; };
+		6BC1918E178CBCC50019AA7C /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC1918C178CBCC50019AA7C /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -569,6 +571,8 @@
 		6BBC0F13177E91C0004C2AA2 /* Pedido+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Pedido+extra.m"; sourceTree = "<group>"; };
 		6BBC0F15177F2FF4004C2AA2 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
 		6BBC0F16177F2FF5004C2AA2 /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
+		6BC1918B178CBCC50019AA7C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		6BC1918C178CBCC50019AA7C /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -791,6 +795,8 @@
 		212A8A9E171FA4F500F7900A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6BC1918B178CBCC50019AA7C /* icon.png */,
+				6BC1918C178CBCC50019AA7C /* icon@2x.png */,
 				6B58D6C717749AF0003E44B9 /* 03.listado.de.pedidos.back.gris@2x.bak.png */,
 				6B58D6C817749AF0003E44B9 /* deleteItem.png */,
 				6B58D6C917749AF0003E44B9 /* deleteItem@2x.png */,
@@ -1374,6 +1380,8 @@
 				6BB3A2FC177AA9AB0084F777 /* EQCustomDateFilterPopover.xib in Resources */,
 				6B66E7BC1787A36F007A5E65 /* EQCommunicationHeaderView.xib in Resources */,
 				6B66E7C41789AE3A007A5E65 /* EQCommunicationCell.xib in Resources */,
+				6BC1918D178CBCC50019AA7C /* icon.png in Resources */,
+				6BC1918E178CBCC50019AA7C /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -68,6 +68,7 @@
     if ([controller isKindOfClass:[self class]]) {
         [self.viewModel loadTopBarData];
         [self loadTopBarInfo];
+        [self.viewModel performSelector:@selector(loadData) withObject:nil afterDelay:.5];
     }
 }
 

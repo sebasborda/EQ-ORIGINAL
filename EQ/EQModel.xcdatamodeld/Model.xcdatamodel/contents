@@ -240,7 +240,7 @@
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="usuario" inverseEntity="Vendedor" indexed="YES" syncable="YES"/>
         <fetchedProperty name="comunicaciones" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier OR senderID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
     </entity>
     <entity name="Vendedor" representedClassName="Vendedor" syncable="YES">

@@ -26,6 +26,7 @@
 - (void)defineClient:(NSString *)client;
 - (void)defineStatus:(NSString *)status;
 - (void)cancelOrder:(Pedido *)order;
+- (BOOL)canCreateOrder;
 - (float)total;
 
 @end

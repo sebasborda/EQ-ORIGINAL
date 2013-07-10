@@ -14,6 +14,7 @@
 
 - (void)modelDidAddItem;
 - (void)modelAddItemDidFail;
+- (void)articleUnavailable;
 
 @end
 

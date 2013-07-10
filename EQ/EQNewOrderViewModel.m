@@ -91,7 +91,7 @@
     self.order.descuento = [NSNumber numberWithInt:[self discountValue]];
     self.order.activo = [NSNumber numberWithBool:YES];
     self.order.actualizado = [NSNumber numberWithBool:NO];
-    if (self.ActiveClient) {
+    if (self.ActiveClient && self.newOrder) {
         self.order.clienteID = self.ActiveClient.identifier;
     }
     
@@ -132,9 +132,14 @@
 }
 
 - (void)defineSelectedArticle:(int)index{
-    self.articleSelectedIndex = index;
-    self.articleSelected = [self.articles objectAtIndex:index];
-    [self.delegate modelDidUpdateData];
+    Articulo *article = [self.articles objectAtIndex:index];
+    if ([self canAddArticle:article]) {
+        self.articleSelected = article;
+        self.articleSelectedIndex = index;
+        [self.delegate modelDidUpdateData];
+    } else {
+        [self.delegate articleUnavailable];
+    }
 }
 
 - (void)defineOrderStatus:(int)index{
@@ -289,6 +294,15 @@
 - (void)sortGroup1ByIndex:(int)index{
     self.sortGroup1 = [NSSortDescriptor sortDescriptorWithKey:index == 0 ? @"relevancia" : @"nombre" ascending:index == 1];
     [self loadData];
+}
+
+- (BOOL)canAddArticle:(Articulo *)article{
+    Cliente *client = self.ActiveClient;
+    if (!self.newOrder) {
+        client = self.order.cliente;
+    }
+    
+    return [article priceForClient:client] != nil && [article.disponibilidadID intValue] == 1;
 }
 
 @end

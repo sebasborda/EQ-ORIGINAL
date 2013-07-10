@@ -33,7 +33,7 @@
 #pragma mark - Core Data
 
 - (void)saveContext {
-    @synchronized (self) {
+    @synchronized (self.managedObjectContext) {
         NSError *error = nil;
         if (managedObjectContext != nil)
         {
@@ -61,7 +61,7 @@
 }
 
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor{
-    @synchronized (self) {
+    @synchronized (self.managedObjectContext) {
         NSString *className = NSStringFromClass(objectClass);
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
         if (fetchRequest) {
@@ -94,7 +94,7 @@
 }
 
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
-    @synchronized (self) {
+    @synchronized (self.managedObjectContext) {
         NSString *className = NSStringFromClass(objectClass);
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
         fetchRequest.predicate = predicate;

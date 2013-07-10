@@ -131,7 +131,7 @@
             [self.viewModel sendResponseWithMessage:self.bodyTextView.text];
             self.editionMode = NO;
             
-            NSIndexPath *newIndex = [NSIndexPath indexPathForRow:[headerView.communications count] - 1 inSection:headerView.section];
+            NSIndexPath *newIndex = [NSIndexPath indexPathForRow:0 inSection:headerView.section];
             [self.tableView beginUpdates];
             [self.tableView insertRowsAtIndexPaths:@[newIndex] withRowAnimation:UITableViewRowAnimationMiddle];
             [self.tableView endUpdates];
@@ -190,7 +190,7 @@
     EQCommunicationHeaderView *view = nil;
     NSNumber *key = [self.viewModel.communications keyAtIndex:section];
     NSArray *communications = [self.viewModel.communications objectForKey:key];
-    Comunicacion *communication = communications[0];
+    Comunicacion *communication = [communications lastObject];
     for (EQCommunicationHeaderView *header in self.headers) {
         if ([header.mainCommunication.threadID isEqualToNumber:communication.threadID]) {
             view = header;

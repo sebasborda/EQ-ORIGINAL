@@ -34,6 +34,10 @@
     return self;
 }
 
+- (BOOL)canCreateOrder{
+    return self.ActiveClient && [self.ActiveClient.listaPrecios init] > 0;
+}
+
 - (void)activeClientChange:(NSNotification *)notification{
     Cliente *activeCliente = notification.userInfo[@"activeClient"];
     self.clientName = activeCliente.nombre;

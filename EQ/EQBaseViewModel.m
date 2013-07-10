@@ -48,9 +48,7 @@
     self.unreadGoalsCount = 0;
     self.unreadOperativesCount = 0;
     self.unreadCommercialsCount = 0;
-    //TODO
-//    NSArray *communications = [EQSession sharedInstance].user.comunicaciones;
-    NSArray *communications = [NSArray arrayWithArray:[[EQDataAccessLayer sharedInstance] objectListForClass:[Comunicacion class]]];
+    NSArray *communications = [NSArray arrayWithArray:[EQSession sharedInstance].user.comunicaciones];
     for (Comunicacion *communication in communications) {
         if (communication.leido == nil) {
             if ([communication.tipo isEqualToString:COMMUNICATION_TYPE_GOAL]) {

@@ -397,9 +397,21 @@
     self.isInteractionEnable = NO;
 }
 
+- (void)articleUnavailable{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"El articulo no esta disponible" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    [alert show];
+}
+
 - (BOOL)canExecuteAction{
     if (!self.isInteractionEnable) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para editar el pedido ingrese en modo de edicion" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+        
+        return NO;
+    } else if (!self.viewModel.ActiveClient && self.viewModel.newOrder){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para crear una nueva orden necesita un cliente activo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
         

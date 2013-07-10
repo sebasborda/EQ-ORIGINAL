@@ -71,6 +71,7 @@
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+    [[EQDataManager sharedInstance] sendPendingData];
     [self updateCache];
 }
 

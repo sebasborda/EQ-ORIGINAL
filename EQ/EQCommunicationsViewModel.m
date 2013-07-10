@@ -21,11 +21,10 @@
 @implementation EQCommunicationsViewModel
 
 -(void)loadDataInBackGround{
-    //TODO
-//    NSArray *result = [NSArray arrayWithArray:[EQSession sharedInstance].user.comunicaciones];
-//    result = [result sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"creado" ascending:NO]]];
+    NSArray *result = [NSArray arrayWithArray:[EQSession sharedInstance].user.comunicaciones];
+    result = [result filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.tipo == %@", self.communicationType]];
+    result = [result sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"creado" ascending:NO]]];
     
-    NSArray *result = [NSArray arrayWithArray:[[EQDataAccessLayer sharedInstance] objectListForClass:[Comunicacion class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.tipo == %@", self.communicationType] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"creado" ascending:NO]]];
     NSMutableArray *subPredicates = [NSMutableArray array];
     if ([self.searchTerm length] > 0) {
         [subPredicates addObject:[NSPredicate predicateWithFormat:@"SELF.titulo beginswith[cd] %@ || SELF.descripcion beginswith[cd] %@ || SELF.descripcion CONTAINS[cd] %@ || SELF.titulo CONTAINS[cd] %@",self.searchTerm,self.searchTerm,self.searchTerm,self.searchTerm]];
@@ -105,7 +104,7 @@
     communication.descripcion = message;
     communication.threadID = self.selectedCommunication.threadID;
     communication.tipo = self.selectedCommunication.tipo;
-    communication.senderID = [EQSession sharedInstance].user.identifier; //TODO
+    communication.senderID = [EQSession sharedInstance].user.identifier;
     communication.receiverID = communication.senderID == self.selectedCommunication.senderID ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
     communication.activo = [NSNumber numberWithBool:YES];
     communication.actualizado = [NSNumber numberWithBool:NO];
@@ -115,7 +114,7 @@
     [[EQDataAccessLayer sharedInstance] saveContext];
     
     NSMutableArray *communications = self.communications[communication.threadID];
-    [communications addObject:communication];
+    [communications insertObject:communication atIndex:0];
     
     [[EQDataManager sharedInstance] sendCommunication:communication];
 }
