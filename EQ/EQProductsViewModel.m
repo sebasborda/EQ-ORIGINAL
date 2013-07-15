@@ -8,7 +8,8 @@
 
 #import "EQProductsViewModel.h"
 #import "Articulo.h"
-#import "Grupo.h"
+#import "Grupo+extra.h"
+#import "EQDataAccessLayer.h"
 
 @interface EQProductsViewModel()
 
@@ -41,6 +42,11 @@
     }
 }
 
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.articles = nil;
+}
+
 - (void)loadDataInBackGround{
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     NSMutableArray *subPredicates = [NSMutableArray array];
@@ -50,24 +56,22 @@
         [subPredicates addObject:searchPredicate];
     }
     
-    NSPredicate *categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %i", 0];
+    NSPredicate *categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID == %i", 0];
     self.category1List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
     
     if (self.category1SelectedIndex >= 0) {
         Grupo *grupo = [self.category1List objectAtIndex:self.category1SelectedIndex];
-        categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %@", grupo.identifier];
-        self.category2List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+        self.category2List = [NSArray arrayWithArray:grupo.subGrupos];
     }
     
     if (self.category2SelectedIndex >= 0) {
         Grupo *grupo = [self.category2List objectAtIndex:self.category2SelectedIndex];
-        categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID = %@", grupo.identifier];
-        self.category3List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+        self.category3List = [NSArray arrayWithArray:grupo.subGrupos];
     }
     
     if (([self.category3List count] == 0 && self.category2SelectedIndex >= 0) || self.category3SelectedIndex >= 0) {
         Grupo *grupo = [self.category3List count] > 0 ? [self.category3List objectAtIndex:self.category3SelectedIndex] : [self.category2List objectAtIndex:self.category2SelectedIndex];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.grupoID = %@",grupo.identifier];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.grupoID == %@",grupo.identifier];
         [subPredicates addObject:predicate];
     }
 

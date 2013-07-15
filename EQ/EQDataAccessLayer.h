@@ -16,13 +16,13 @@
 @property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
 
 + (EQDataAccessLayer *)sharedInstance;
++ (EQDataAccessLayer *)sharedInstanceForBatch;
 - (void)saveContext;
 - (NSArray *)objectListForClass:(Class)objectClass;
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate;
-- (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor;
+- (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor limit:(int)limit ;
 - (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue;
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate;
 - (NSManagedObject *)createManagedObject:(NSString*)kind;
-
 
 @end

@@ -70,7 +70,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.tableView = nil;
 }
 
 - (IBAction)periodFilterButtonAction:(id)sender {

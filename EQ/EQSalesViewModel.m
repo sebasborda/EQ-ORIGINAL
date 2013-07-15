@@ -13,6 +13,7 @@
 #import "Precio+extra.h"
 #import "Venta+extra.h"
 #import "Vendedor+extra.h"
+#import "EQDataAccessLayer.h"
 
 @interface EQSalesViewModel()
 
@@ -38,14 +39,17 @@
     return self;
 }
 
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.salesList = nil;
+}
+
 - (void)activeClientChange:(NSNotification *)notification{
     Cliente *activeCliente = notification.userInfo[@"activeClient"];
-    
     self.clientName = activeCliente.nombre;
     if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexSales) {
         [self loadData];
     }
-    
 }
 
 - (void)initializeData{
@@ -107,7 +111,7 @@
     }
     
     if (self.periodEnd) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha < %@",self.periodEnd];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha <= %@",self.periodEnd];
         [subPredicates addObject:predicate];
     }
     

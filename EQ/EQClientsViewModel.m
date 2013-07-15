@@ -10,7 +10,6 @@
 #import "EQSession.h"
 #import "Usuario.h"
 #import "NSString+Number.h"
-#import "EQDataAccessLayer.h"
 
 @interface EQClientsViewModel()
 
@@ -48,8 +47,13 @@
     }
 }
 
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.clients = nil;
+}
+
 - (void)loadDataInBackGround{
-    NSArray *results = [[EQSession sharedInstance].user.vendedor.clienteVendedor allObjects];
+    NSArray *results = [NSArray arrayWithArray:[EQSession sharedInstance].user.vendedor.clientesVendedor];
     NSPredicate *predicate = nil;
     if ([self.searchTerm length] > 0) {
         

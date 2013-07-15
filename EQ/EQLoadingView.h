@@ -15,4 +15,5 @@
 - (void)showWithMessage:(NSString *)message;
 - (void)hide;
 
+@property (nonatomic, strong) UIView *ownerView;
 @end

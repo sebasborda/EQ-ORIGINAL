@@ -8,6 +8,8 @@
 
 #import <CoreLocation/CoreLocation.h>
 #import "Vendedor.h"
+#import "Cliente+extra.h"
+#import "Usuario+extra.h"
 
 @interface EQSession : NSObject <CLLocationManagerDelegate>
 

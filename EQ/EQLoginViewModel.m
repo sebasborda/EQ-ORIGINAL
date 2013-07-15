@@ -13,6 +13,7 @@
 #import "NSDictionary+EQ.h"
 #import "Usuario.h"
 #import "NSString+Number.h"
+#import "EQDataAccessLayer.h"
 
 @implementation EQLoginViewModel
 @synthesize delegate = _delegate;
@@ -38,8 +39,7 @@
                 user.nombreDeUsuario = usuario;
                 user.password = password;
                 user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-                NSNumber *vendedorID = [usuarioDictionary filterInvalidEntry:@"vendedor_id"];
-                user.vendedor = (Vendedor *)[adl objectForClass:[Vendedor class] withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@", vendedorID]];
+                user.vendedorID = [[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number];
                 if ([userNameCopy isEqualToString:usuario] && [hashedPassword isEqualToString:password]) {
                     currentUser = user;
                 }
@@ -47,7 +47,12 @@
             }
             
             [adl saveContext];
-            [self loginDidCompleteWithUser:currentUser];
+            if (currentUser) {
+                [self loginDidCompleteWithUser:currentUser];
+            } else {
+                [self.delegate loginFail];
+            }
+        
         };
         
         FailRequest failBlock = ^(NSError *error){

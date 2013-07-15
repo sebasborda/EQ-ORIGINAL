@@ -8,12 +8,23 @@
 
 #import "ALTabBarView.h"
 
+#define TAB_ORIGIN_FRAME 974
 
 @implementation ALTabBarView
 
 @synthesize delegate;
 @synthesize selectedButton;
 @synthesize tabButtons;
+
+- (id)initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        CGRect frame = self.frame;
+        frame.origin.y = TAB_ORIGIN_FRAME;
+        self.frame = frame;
+    }
+    return self;
+}
 
 //Let the delegate know that a tab has been touched
 -(IBAction) touchButton:(id)sender {

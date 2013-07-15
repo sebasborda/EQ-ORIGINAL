@@ -63,6 +63,7 @@
 }
 
 - (void)loadData{
+    [self.delegate modelWillStartDataLoading];
     if (([self.group2 count] == 0 && self.group1Selected >= 0) || self.group2Selected >= 0) {
         Grupo *group = self.group2Selected >= 0 ? self.group2[self.group2Selected] : self.group1[self.group1Selected];
         self.articles = [group.articulos sortedArrayUsingDescriptors:@[self.sortArticle]];
@@ -81,8 +82,14 @@
     [self.undoManager endUndoGrouping];
     if (self.newOrder) {
         self.order.fecha = [NSDate date];
+        self.order.latitud = [[EQSession sharedInstance] currentLatitude];
+        self.order.longitud = [[EQSession sharedInstance] currentLongitude];
         if ([self.order.estado length] == 0) {
             self.order.estado = @"pendiente";
+        }
+        
+        if (self.ActiveClient) {
+            self.order.clienteID = self.ActiveClient.identifier;
         }
     }
     
@@ -91,11 +98,6 @@
     self.order.descuento = [NSNumber numberWithInt:[self discountValue]];
     self.order.activo = [NSNumber numberWithBool:YES];
     self.order.actualizado = [NSNumber numberWithBool:NO];
-    if (self.ActiveClient && self.newOrder) {
-        self.order.clienteID = self.ActiveClient.identifier;
-        self.order.latitud = [[EQSession sharedInstance] currentLatitude];
-        self.order.longitud = [[EQSession sharedInstance] currentLongitude];
-    }
     
     [[EQDataManager sharedInstance] sendOrder:self.order];
     [[EQSession sharedInstance] updateCache];
@@ -103,7 +105,7 @@
 
 - (void)defineSelectedCategory:(int)index{
     self.categorySelected = index;
-    self.group1Selected = self.group2Selected = -1;
+    self.group1Selected = self.group2Selected = NSNotFound;
     Grupo *grupo = self.categories[self.categorySelected];
     self.group1 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
     self.group1 = [self.group1 sortedArrayUsingDescriptors:@[self.sortGroup1]];
@@ -118,7 +120,7 @@
     Grupo *grupo = self.group1[self.group1Selected];
     self.group2 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
     self.group2 = [self.group2 sortedArrayUsingDescriptors:@[self.sortGroup2]];
-    self.group2Selected = -1;
+    self.group2Selected = NSNotFound;
     self.articles = nil;
     self.articleSelected = nil;
     if ([self.group2 count] == 0) {
@@ -130,6 +132,8 @@
 
 - (void)defineSelectedGroup2:(int)index{
     self.group2Selected = index;
+    self.articleSelected = nil;
+    self.articleSelectedIndex = NSNotFound;
     [self loadData];
 }
 

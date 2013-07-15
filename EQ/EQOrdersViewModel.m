@@ -35,15 +35,22 @@
 }
 
 - (BOOL)canCreateOrder{
-    return self.ActiveClient && [self.ActiveClient.listaPrecios init] > 0;
+    return self.ActiveClient && [self.ActiveClient.listaPrecios integerValue] > 0;
 }
 
 - (void)activeClientChange:(NSNotification *)notification{
-    Cliente *activeCliente = notification.userInfo[@"activeClient"];
+     Cliente *activeCliente = notification.userInfo[@"activeClient"];
     self.clientName = activeCliente.nombre;
     if ([APP_DELEGATE tabBarController].selectedIndex == EQTabIndexOrders) {
         [self loadData];
     }
+}
+
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.orders = nil;
+    self.statusList = nil;
+    self.clientsList = nil;
 }
 
 - (void)chargeData{
@@ -70,12 +77,12 @@
     }
     
     if (self.startSyncDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion <= %@",self.startSyncDate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion >= %@",self.startSyncDate];
         [subPredicates addObject:predicate];
     }
     
     if (self.endSyncDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion >= %@",self.endSyncDate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion <= %@",self.endSyncDate];
         [subPredicates addObject:predicate];
     }
     
@@ -121,10 +128,10 @@
             return @"identifier";
             break;
         case 5:
-            return @"importe";
+            return @"subTotal";
             break;
         case 6:
-            return @"neto";
+            return @"total";
             break;
         default:
             return @"sincronizacion";

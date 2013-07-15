@@ -2,14 +2,13 @@
 //  CtaCte.h
 //  EQ
 //
-//  Created by Sebastian Borda on 7/3/13.
+//  Created by Sebastian Borda on 7/13/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Cliente;
 
 @interface CtaCte : NSManagedObject
 
@@ -23,6 +22,6 @@
 @property (nonatomic, retain) NSNumber * importeConDescuento;
 @property (nonatomic, retain) NSNumber * importePercepcion;
 @property (nonatomic, retain) NSNumber * vendedorID;
-@property (nonatomic, retain) Cliente *cliente;
+@property (nonatomic, retain) NSNumber * clienteID;
 
 @end

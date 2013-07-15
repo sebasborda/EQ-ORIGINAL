@@ -838,9 +838,9 @@
 						<string key="label">pendingOrdersAction:</string>
 						<reference key="source" ref="434213010"/>
 						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">4</int>
+						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">312</int>
+					<int key="connectionID">324</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1165,7 +1165,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">323</int>
+			<int key="maxID">324</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

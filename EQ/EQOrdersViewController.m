@@ -15,6 +15,7 @@
 @interface EQOrdersViewController ()
 
 @property (nonatomic, strong) EQOrdersViewModel *viewModel;
+@property (nonatomic, assign) bool viewLoaded;
 
 @end
 
@@ -34,7 +35,22 @@
     if (self.viewModel.clientName) {
         [self.clientFilterButton setTitle:self.viewModel.clientName forState:UIControlStateNormal];
     }
-    [self.viewModel loadData];
+    if (!self.viewLoaded) {
+        [self.viewModel loadData];
+    }
+    
+    self.viewLoaded = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.viewLoaded = NO;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    self.ordersTable = nil;
 }
 
 - (IBAction)newOrderButtonAction:(id)sender {
@@ -125,15 +141,17 @@
     if ([self.popoverOwner isEqual:self.clientFilterButton]) {
         [self.viewModel defineClient:selectedData];
         [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
+        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.statusFilterButton]) {
         [self.viewModel defineStatus:selectedData];
         [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
+        [self closePopover];
     } else if ([self.popoverOwner isEqual:self.orderFilterButton]) {
         [self.viewModel changeSortOrder:rowNumber];
         [self.popoverOwner setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
+        [self closePopover];
     }
     
-    [self closePopover];
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
@@ -177,20 +195,10 @@
     [super modelDidUpdateData];
 }
 
-- (void)dataUpdated:(NSNotification *)notification{
-    [super dataUpdated:notification];
-    UIViewController *controller = self.tabBarController.selectedViewController;
-    if ([controller isKindOfClass:[UINavigationController class]]) {
-        controller = ((UINavigationController *)controller).topViewController;
-    }
-    if ([controller isKindOfClass:[self class]]) {
-        [self.viewModel loadData];
-    }
-}
-
 - (void)changeStatusFilter:(NSString *)status{
     [self.statusFilterButton setTitle:[@"  " stringByAppendingString:status] forState:UIControlStateNormal];
     [self.viewModel defineStatus:status];
+    self.viewLoaded = YES;
 }
 
 @end

@@ -15,21 +15,18 @@
 
 @synthesize customTabBarView;
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self hideExistingTabBar];
     
     NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"TabBarView" owner:self options:nil];
     self.customTabBarView = [nibObjects objectAtIndex:0];
-    UIViewController *controller = [self.viewControllers objectAtIndex:0];
-    int y = controller.view.frame.size.height + TOP_BAR_HEIGHT;
-    int h = self.customTabBarView.frame.size.height;
-    int w = self.customTabBarView.frame.size.width;
-    [self.customTabBarView setFrame:CGRectMake(0, y, w, h)];
     self.customTabBarView.delegate = self;
     
     UINavigationController *nav = [self.viewControllers objectAtIndex:0];
-    [nav pushViewController:[EQOrdersViewController new] animated:NO];
+    if ([nav.viewControllers count] == 0) {
+        [nav pushViewController:[EQOrdersViewController new] animated:NO];
+    }
     
     [self.view addSubview:self.customTabBarView];
 }
@@ -44,7 +41,9 @@
 }
 
 -(void) selectTabAtIndex:(int)index{
-    [self.customTabBarView selectTabAtIndex:index];
+    if (self.selectedIndex != index) {
+        [self.customTabBarView selectTabAtIndex:index];
+    }
 }
 
 - (void)reloadControllers{
@@ -53,6 +52,7 @@
         [controllers addObject:[[controller class] new]];
     }
     
+    self.viewControllers = nil;
     self.viewControllers = controllers;
 }
 

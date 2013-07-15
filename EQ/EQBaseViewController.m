@@ -35,16 +35,10 @@
 	[[self navigationController] setNavigationBarHidden:YES animated:NO];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.viewModel loadTopBarData];
-    [self loadTopBarInfo];
-}
-
-- (void)viewDidUnload{
-    [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardDidShowNotification];
-    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardDidHideNotification];
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.viewModel = nil;
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
@@ -66,9 +60,7 @@
         controller = ((UINavigationController *)controller).topViewController;
     }
     if ([controller isKindOfClass:[self class]]) {
-        [self.viewModel loadTopBarData];
-        [self loadTopBarInfo];
-        [self.viewModel performSelector:@selector(loadData) withObject:nil afterDelay:.5];
+        [self.viewModel loadData];
     }
 }
 
@@ -92,7 +84,13 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIViewController *controller = self.tabBarController.selectedViewController;
+    if ([controller isKindOfClass:[UINavigationController class]]) {
+        controller = ((UINavigationController *)controller).topViewController;
+    }
+    if (![controller isKindOfClass:[self class]]) {
+        [self.viewModel releaseUnusedMemory];
+    }
 }
 
 - (IBAction)pendingOrdersAction:(id)sender {
@@ -128,16 +126,24 @@
 }
 
 - (void)logout{
-    [[EQSession sharedInstance] endSession];
     [APP_DELEGATE reStartNavigation];
+    [[EQSession sharedInstance] endSession];
 }
 
 - (void)startLoading{
-    [APP_DELEGATE showLoadingView];
+    if (![NSThread isMainThread]) {
+        [APP_DELEGATE performSelectorOnMainThread:@selector(showLoadingView) withObject:nil waitUntilDone:YES];
+    } else {
+        [APP_DELEGATE showLoadingView];
+    }
 }
 
 - (void)stopLoading{
-    [APP_DELEGATE hideLoadingView];
+    if (![NSThread isMainThread]) {
+        [APP_DELEGATE performSelectorOnMainThread:@selector(hideLoadingView) withObject:nil waitUntilDone:YES];
+    } else {
+        [APP_DELEGATE hideLoadingView];
+    }
 }
 
 - (void)presentPopoverInView:(UIButton *)view withContent:(UIViewController *)content{
@@ -163,6 +169,7 @@
 }
 
 - (void)modelDidUpdateData{
+    [self loadTopBarInfo];
     [self stopLoading];
 }
 
@@ -194,7 +201,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (self.logoutAlert == alertView) {
+    if ([self.logoutAlert isEqual:alertView]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self logout];
         }

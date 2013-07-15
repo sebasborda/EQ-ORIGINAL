@@ -100,12 +100,6 @@
     [[EQSession sharedInstance] stopMonitoring];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)addMessageError:(NSMutableString *)messageError {
     if ([self.ErrorMessage length] > 0) {
         [self.ErrorMessage appendString:@"\n"];
@@ -122,6 +116,23 @@
     }
     
     return textField.text;
+}
+
+- (void)validateValue:(NSString *)value forRelation:(NSString *)relation{
+    if ([value isEqualToString:SELECTION_TEXT]) {
+        [self addMessageError:[NSMutableString stringWithFormat:@"Debe seleccionar un valor para %@.", relation]];
+    }
+}
+
+-(NSString *)validateOnlyNumbers:(NSString*)inputString withName:(NSString *)name{
+    NSCharacterSet *alphaNumbersSet = [NSCharacterSet decimalDigitCharacterSet];
+    NSCharacterSet *stringSet = [NSCharacterSet characterSetWithCharactersInString:inputString];
+    if([alphaNumbersSet isSupersetOfSet:stringSet]){
+        return inputString;
+    } else {
+        [self addMessageError:[NSMutableString stringWithFormat:@"%@ solo acepta numeros.", name]];
+         return @"";
+    }
 }
 
 -(BOOL) validEmail:(NSString*) emailString {
@@ -221,9 +232,9 @@
     [clientDictionary setNotEmptyString:self.purchaseManagerTextField.text forKey:@"purchaseManager"];
     
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.deliveryAddressTextField withName:@"Domicilio de entrega"] forKey:@"deliveryAddress"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.branchTextField withName:@"Sucursal"] forKey:@"branch"];
+    [clientDictionary setNotEmptyString:[self validateOnlyNumbers:self.branchTextField.text withName:@"Sucursal"] forKey:@"branch"];
     [clientDictionary setNotEmptyString:self.scheduleTextField.text forKey:@"schedule"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.CUITTextField withName:@"CUIT"] forKey:@"cuit"];
+    [clientDictionary setNotEmptyString:[self validateOnlyNumbers:self.CUITTextField.text withName:@"CUIT"] forKey:@"cuit"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code1TextField withName:@"Codigo 1"] forKey:@"code1"];
     [clientDictionary setNotEmptyString:self.code2TextField.text forKey:@"code2"];
     [clientDictionary setNotEmptyString:self.collectionDaysTextField.text forKey:@"collectionDays"];
@@ -232,8 +243,15 @@
     [clientDictionary setNotEmptyString:self.discount3TextField.text forKey:@"discount3"];
     [clientDictionary setNotEmptyString:self.discount4TextField.text forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
-    [clientDictionary setNotNilObject:[[EQSession sharedInstance] currentLatitude] forKey:@"latitude"];
-    [clientDictionary setNotNilObject:[[EQSession sharedInstance] currentLongitude] forKey:@"longitude"];
+    
+    [self validateValue:self.paymentConditionButton.titleLabel.text forRelation:@"Condicion de pago"];
+    [self validateValue:self.provinceButton.titleLabel.text forRelation:@"Provincia"];
+    [self validateValue:self.deliveryAreaButton.titleLabel.text forRelation:@"Zona de envio"];
+    [self validateValue:self.expressButton.titleLabel.text forRelation:@"Expreso"];
+    [self validateValue:self.sellerButton.titleLabel.text forRelation:@"Vendedor"];
+    [self validateValue:self.collectorButton.titleLabel.text forRelation:@"Cobrador"];
+    [self validateValue:self.salesLineButton.titleLabel.text forRelation:@"Linea de ventas"];
+    [self validateValue:self.taxesButton.titleLabel.text forRelation:@"Tipo ivas"];
     
     if ([self.ErrorMessage length] == 0) {
         [self.viewModel saveClient:clientDictionary];

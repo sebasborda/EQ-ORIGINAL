@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
-#import "EQDataAccessLayer.h"
 #import "Cliente+extra.h"
+#import "Vendedor+extra.h"
 
 @protocol EQBaseViewModelDelegate;
 
@@ -32,6 +32,8 @@
 - (int)obtainUnreadCommercialsCount;
 - (void)loadData;
 - (void)loadDataInBackGround;
+- (void)releaseUnusedMemory;
+
 @end
 
 @protocol EQBaseViewModelDelegate <NSObject>

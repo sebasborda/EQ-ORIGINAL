@@ -2,14 +2,13 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 7/10/13.
+//  Created by Sebastian Borda on 7/13/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CtaCte, Vendedor;
 
 @interface Cliente : NSManagedObject
 
@@ -47,16 +46,7 @@
 @property (nonatomic, retain) NSString * telefono;
 @property (nonatomic, retain) NSString * web;
 @property (nonatomic, retain) NSNumber * zonaEnvioID;
-@property (nonatomic, retain) Vendedor *cobrador;
-@property (nonatomic, retain) NSSet *ctaCte;
-@property (nonatomic, retain) Vendedor *vendedor;
-@end
-
-@interface Cliente (CoreDataGeneratedAccessors)
-
-- (void)addCtaCteObject:(CtaCte *)value;
-- (void)removeCtaCteObject:(CtaCte *)value;
-- (void)addCtaCte:(NSSet *)values;
-- (void)removeCtaCte:(NSSet *)values;
+@property (nonatomic, retain) NSNumber * cobradorID;
+@property (nonatomic, retain) NSNumber * vendedorID;
 
 @end

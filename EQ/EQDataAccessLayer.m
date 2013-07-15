@@ -10,7 +10,11 @@
 
 
 @interface EQDataAccessLayer ()
+
+@property (nonatomic,strong) NSPredicate *objectIDPredicate;
+
 - (NSURL *)applicationDocumentsDirectory;
+
 @end
 
 @implementation EQDataAccessLayer
@@ -25,15 +29,29 @@
         sharedInstance = [[EQDataAccessLayer alloc] init];
         sharedInstance.storeCoordinator = [sharedInstance persistentStoreCoordinator];
         sharedInstance.managedObjectContext = [sharedInstance managedObjectContext];
+        sharedInstance.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
         [[NSNotificationCenter defaultCenter] addObserver:sharedInstance selector:@selector(contextChanged:) name:NSManagedObjectContextDidSaveNotification object:nil];
     });
     return sharedInstance;
 }
 
++ (EQDataAccessLayer *)sharedInstanceForBatch {
+    __strong static EQDataAccessLayer *sharedInstanceForBatch = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstanceForBatch = [[EQDataAccessLayer alloc] init];
+        sharedInstanceForBatch.storeCoordinator = [sharedInstanceForBatch persistentStoreCoordinator];
+        sharedInstanceForBatch.managedObjectContext = [sharedInstanceForBatch managedObjectContext];
+        sharedInstanceForBatch.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
+        [sharedInstanceForBatch.managedObjectContext setUndoManager:nil];
+    });
+    return sharedInstanceForBatch;
+}
+
 #pragma mark - Core Data
 
 - (void)saveContext {
-    @synchronized (self.managedObjectContext) {
+    @synchronized (self) {
         NSError *error = nil;
         if (managedObjectContext != nil)
         {
@@ -53,17 +71,18 @@
 }
 
 - (NSArray *)objectListForClass:(Class)objectClass{
-    return [self objectListForClass:objectClass filterByPredicate:nil sortBy:nil];
+    return [self objectListForClass:objectClass filterByPredicate:nil sortBy:nil limit:0];
 }
 
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate{
-    return [self objectListForClass:objectClass filterByPredicate:predicate sortBy:nil];
+    return [self objectListForClass:objectClass filterByPredicate:predicate sortBy:nil limit:0];
 }
 
-- (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor{
-    @synchronized (self.managedObjectContext) {
+- (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor limit:(int)limit {
+    @synchronized (self) {
         NSString *className = NSStringFromClass(objectClass);
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
+        [fetchRequest setFetchLimit:limit];
         if (fetchRequest) {
             fetchRequest.predicate = predicate;
         }
@@ -83,7 +102,8 @@
 
 - (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue{
     if (idValue) {
-        NSManagedObject *object = [self objectForClass:objectClass withPredicate:[NSPredicate predicateWithFormat:@"SELF.identifier == %@",idValue]];
+        NSPredicate* localPredicate = [self.objectIDPredicate predicateWithSubstitutionVariables:@{@"OBJECT_ID":idValue}];
+        NSManagedObject *object = [self objectForClass:objectClass withPredicate:localPredicate];
         if (object) {
             return object;
         }
@@ -94,7 +114,7 @@
 }
 
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
-    @synchronized (self.managedObjectContext) {
+    @synchronized (self) {
         NSString *className = NSStringFromClass(objectClass);
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
         fetchRequest.predicate = predicate;

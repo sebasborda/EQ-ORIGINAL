@@ -8,7 +8,7 @@
 
 #import "EQCurrentAccountViewController.h"
 #import "EQCurrentAccountCell.h"
-#import "CtaCte.h"
+#import "CtaCte+extra.h"
 #import "Cliente.h"
 #import "EQCurrentAccountFooter.h"
 #define cellIdentifier @"CurrentAccountCell"
@@ -80,6 +80,12 @@
     EQTablePopover *popover = [[EQTablePopover alloc] initWithData:[self.viewModel localities] delegate:self];
     UIButton *button = (UIButton *)sender;
     [self presentPopoverInView:button withContent:popover];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    self.tableView = nil;
 }
 
 #pragma mark - Table view data source
@@ -204,15 +210,20 @@
 }
 
 - (IBAction)emailButtonAction:(id)sender {
-    MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];
-    compose.mailComposeDelegate = self;
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd/MM/yyyy"];
-    [compose setSubject:[NSString stringWithFormat:@"Listado Cuenta Corriente %@",[dateFormat stringFromDate:[NSDate date]]]];
-    UIImage* image = [self captureView:self.tableView];
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-    [compose addAttachmentData:imageData mimeType:@"image/jpeg" fileName:[NSString stringWithFormat:@"CuentaCorriente.jpg"]];
-    [self presentViewController:compose animated:YES completion:nil];
+    if ([MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];
+        compose.mailComposeDelegate = self;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd/MM/yyyy"];
+        [compose setSubject:[NSString stringWithFormat:@"Listado Cuenta Corriente %@",[dateFormat stringFromDate:[NSDate date]]]];
+        UIImage* image = [self captureView:self.tableView];
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+        [compose addAttachmentData:imageData mimeType:@"image/jpeg" fileName:[NSString stringWithFormat:@"CuentaCorriente.jpg"]];
+        [self presentViewController:compose animated:YES completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"El mail no puede ser enviado" message:@"Verifique que su iPad tiene una cuenta de mail configurada" delegate:nil cancelButtonTitle:@"Continuar" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller

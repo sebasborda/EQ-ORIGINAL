@@ -25,6 +25,7 @@
 {
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:[EQLoginViewController new]];
     self.loadingView = [[EQLoadingView alloc] initViewWithSize:CGSizeMake(768, 1024) showLargeImage:YES];
+    self.loadingView.ownerView = self.window;
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     //initialize image cache
@@ -85,7 +86,8 @@
 
 - (void)showPendingOrders{
     [self selectTabAtIndex:EQTabIndexOrders];
-    [((EQOrdersViewController *)self.tabBarController.selectedViewController) changeStatusFilter:@"pendiente"];
+    EQOrdersViewController *controller = (EQOrdersViewController *)((UINavigationController *)self.tabBarController.selectedViewController).topViewController;
+    [controller changeStatusFilter:@"pendiente"];
 }
 
 - (void)showOperativeCommunications{
@@ -104,12 +106,10 @@
 }
 
 - (void)showLoadingView{
-    [self.window addSubview:self.loadingView];
     [self.loadingView show];
 }
 
 - (void)showLoadingViewWithMessage:(NSString *)message{
-    [self.window addSubview:self.loadingView];
     [self.loadingView showWithMessage:message];
 }
 

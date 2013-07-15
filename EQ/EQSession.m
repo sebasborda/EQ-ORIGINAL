@@ -7,11 +7,8 @@
 //
 
 #import "EQSession.h"
-#import "EQDefines.h"
-#import "Usuario.h"
 #import "EQDataManager.h"
 #import "EQDataAccessLayer.h"
-#import "Cliente+extra.h"
 #import "Grupo+extra.h"
 
 @interface EQSession()
@@ -91,8 +88,7 @@
 
 - (void)endSession{
     self.user = nil;
-    [Grupo resetRelevancia];
-    self.selectedClient = nil;
+    _selectedClient = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"loggedUser"];
     [defaults synchronize];
@@ -108,7 +104,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     [[EQDataManager sharedInstance] sendPendingData];
     [self updateCache];
 }

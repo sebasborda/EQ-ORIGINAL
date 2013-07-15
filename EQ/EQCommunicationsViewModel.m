@@ -20,6 +20,12 @@
 
 @implementation EQCommunicationsViewModel
 
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.clientsList = nil;
+    self.communications = nil;
+}
+
 -(void)loadDataInBackGround{
     NSArray *result = [NSArray arrayWithArray:[EQSession sharedInstance].user.comunicaciones];
     result = [result filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.tipo == %@", self.communicationType]];

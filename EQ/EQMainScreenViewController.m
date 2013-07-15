@@ -39,12 +39,6 @@
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)sectionButtonAction:(id)sender{
     UIButton *button = (UIButton *)sender;
     [APP_DELEGATE pushTabBarAtIndex:button.tag];
@@ -57,11 +51,11 @@
 }
 
 - (void)createClientCancelled{
-    [self closePopover];
+    [self.createClient dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)clientSaved{
-    [self closePopover];
+    [self.createClient dismissViewControllerAnimated:YES completion:nil];
     [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
 }
 

@@ -8,11 +8,14 @@
 
 #import "CtaCte.h"
 @class Vendedor;
+@class Cliente;
 
 @interface CtaCte (extra)
 
 @property (nonatomic,strong) NSArray *vendedores;
+@property (nonatomic,strong) NSArray *clientes;
 
 - (Vendedor *)vendedor;
+- (Cliente *)cliente;
 
 @end

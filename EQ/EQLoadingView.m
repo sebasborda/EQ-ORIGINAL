@@ -48,11 +48,10 @@
 - (void)showWithMessage:(NSString *)message{
     self.loadingMessage.text = message;
     if (self.counter == 0) {
-        [UIView animateWithDuration:.5 animations:^{
-            if (![self.activityIndicator isAnimating]) {
-                [self.activityIndicator startAnimating];
-            }
-        }];
+        if (![self.activityIndicator isAnimating]) {
+            [self.ownerView addSubview:self];
+            [self.activityIndicator startAnimating];
+        }
     }
     self.counter++;
 }
@@ -66,10 +65,11 @@
         [UIView animateWithDuration:.5 animations:^{
             if ([self.activityIndicator isAnimating]) {
                 [self.activityIndicator stopAnimating];
+                [self removeFromSuperview];
             }
         }];
-        
-        [self removeFromSuperview];
+    } else {
+        NSLog(@"%i",self.counter);
     }
 }
 

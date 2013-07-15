@@ -107,6 +107,10 @@
     [self.viewModel loadData];
 }
 
+- (void)didReceiveMemoryWarning{
+    [super didReceiveMemoryWarning];
+    self.productDetailView = nil;
+}
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -139,14 +143,14 @@
 }
 
 - (IBAction)segmentStatusChange:(id)sender {
-    if ([self canExecuteAction]) {
+    if ([self canEdit]) {
         UISegmentedControl *control = (UISegmentedControl *)sender;
         [self.viewModel defineOrderStatus:control.selectedSegmentIndex];
     }
 }
 
 - (IBAction)quantityButtonAction:(id)sender {
-    if ([self canExecuteAction]) {
+    if ([self canEdit]) {
         UIButton *button = (UIButton *)sender;
         int quantity = [button.titleLabel.text intValue];
         self.quantityTextField.text = [NSString stringWithFormat:@"%i",quantity];
@@ -163,7 +167,7 @@
 }
 
 - (IBAction)saveQuantity:(id)sender {
-    if ([self canExecuteAction]) {
+    if ([self canEdit]) {
         [self.viewModel addItemQuantity:[self.quantityTextField.text intValue]];
     }
 }
@@ -270,10 +274,13 @@
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
-    [self.viewModel defineSelectedCategory:rowNumber];
-    [self.viewModel loadData];
-    [self.categoryButton setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
-    [self closePopover];
+    if ([self.popoverOwner isEqual:self.categoryButton]) {
+        [self.viewModel defineSelectedCategory:rowNumber];
+        [self.viewModel loadData];
+        [self.categoryButton setTitle:[NSString stringWithFormat:@"  %@",selectedData] forState:UIControlStateNormal];
+        [self closePopover];
+    }
+
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
 }
 
@@ -299,8 +306,8 @@
     self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     
-    NSIndexPath *table1IndexPath = self.viewModel.group1Selected >=0 ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
-    NSIndexPath *table2IndexPath = self.viewModel.group2Selected >=0 ? [NSIndexPath indexPathForRow:self.viewModel.group2Selected inSection:0] : nil;
+    NSIndexPath *table1IndexPath = self.viewModel.group1Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
+    NSIndexPath *table2IndexPath = self.viewModel.group2Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group2Selected inSection:0] : nil;
     NSIndexPath *table3IndexPath = self.viewModel.articleSelected ? [NSIndexPath indexPathForRow:self.viewModel.articleSelectedIndex inSection:0] : nil;
     
     [self.tableGroup1 reloadData];
@@ -362,13 +369,13 @@
 }
 
 - (void)editItem:(ItemPedido *)item{
-    if ([self canExecuteAction]) {
+    if ([self canEdit]) {
         [self.viewModel editItem:item];
     }
 }
 
 - (void)removeItem:(ItemPedido *)item{
-    if ([self canExecuteAction]) {
+    if ([self canEdit]) {
         [self.viewModel removeItem:item];
     }
 }
@@ -411,15 +418,29 @@
     [alert show];
 }
 
-- (BOOL)canExecuteAction{
-    if (!self.isInteractionEnable) {
+- (BOOL)canEdit{
+    if (![self isInteractionEnable]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para editar el pedido ingrese en modo de edicion" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
         
         return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)canExecuteAction{
+    if (![self canEdit]) {
+        return NO;
     } else if (!self.viewModel.ActiveClient && self.viewModel.newOrder){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para crear una nueva orden necesita un cliente activo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+        
+        return NO;
+    } else if ([[self.viewModel itemsQuantity] integerValue] == 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Para crear una nueva orden debe agregar al menos un articulo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
         

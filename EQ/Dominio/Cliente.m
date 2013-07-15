@@ -2,13 +2,11 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 7/10/13.
+//  Created by Sebastian Borda on 7/13/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Cliente.h"
-#import "CtaCte.h"
-#import "Vendedor.h"
 
 
 @implementation Cliente
@@ -47,8 +45,7 @@
 @dynamic telefono;
 @dynamic web;
 @dynamic zonaEnvioID;
-@dynamic cobrador;
-@dynamic ctaCte;
-@dynamic vendedor;
+@dynamic cobradorID;
+@dynamic vendedorID;
 
 @end

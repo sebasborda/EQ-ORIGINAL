@@ -40,6 +40,13 @@
     [self.viewModel loadData];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    self.productsCollectionView = nil;
+    self.productDetailView = nil;
+}
+
 - (NSMutableArray *)obtainGroupNames:(NSArray *)group{
     NSMutableArray *names = [NSMutableArray new];
     for (Grupo *groupItem in group) {

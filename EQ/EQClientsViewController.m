@@ -36,6 +36,12 @@
     [self.viewModel loadData];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    self.tableView = nil;
+}
+
 -(void)modelDidUpdateData{
     [self.tableView reloadData];
     [super modelDidUpdateData];
@@ -83,11 +89,13 @@
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{
+    if (self.popoverOwner == self.sortButton) {
+        [self.viewModel changeSortOrder:rowNumber];
+        [self.tableView reloadData];
+        self.sortButton.titleLabel.text = selectedData;
+        [self closePopover];
+    }
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
-    [self.viewModel changeSortOrder:rowNumber];
-    [self.tableView reloadData];
-    self.sortButton.titleLabel.text = selectedData;
-    [self closePopover];
 }
 
 #pragma mark - search bar delegate
@@ -106,11 +114,16 @@
 }
 
 - (void)mailToClientWithID:(NSNumber *)clientID{
-    Cliente *cliente = [self.viewModel clientById:clientID];
-    MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];
-    [compose setToRecipients:[NSArray arrayWithObject:cliente.mail]];
-    compose.mailComposeDelegate = self;
-    [self presentViewController:compose animated:YES completion:nil];
+    if ([MFMailComposeViewController canSendMail]){
+        Cliente *cliente = [self.viewModel clientById:clientID];
+        MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];
+        [compose setToRecipients:[NSArray arrayWithObject:cliente.mail]];
+        compose.mailComposeDelegate = self;
+        [self presentViewController:compose animated:YES completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"El mail no puede ser enviado" message:@"Verifique que su iPad tiene una cuenta de mail configurada" delegate:nil cancelButtonTitle:@"Continuar" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller

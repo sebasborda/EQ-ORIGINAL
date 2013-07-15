@@ -12,6 +12,7 @@
 
 @property (nonatomic,strong) NSArray *articulos;
 @property (nonatomic,strong) NSArray *parents;
+@property (nonatomic,strong) NSArray *subGrupos;
 
 - (Grupo *)parent;
 + (void)resetRelevancia;

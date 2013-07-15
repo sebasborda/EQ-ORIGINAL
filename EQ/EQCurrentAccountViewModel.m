@@ -8,7 +8,7 @@
 
 #import "EQCurrentAccountViewModel.h"
 #import "EQDataAccessLayer.h"
-#import "CtaCte.h"
+#import "CtaCte+extra.h"
 #import "Cliente.h"
 #import "Vendedor+extra.h"
 
@@ -74,6 +74,11 @@
     return [self.sortDescriptor.key isEqualToString:@"cliente.nombre"];
 }
 
+- (void)releaseUnusedMemory{
+    [super releaseUnusedMemory];
+    self.currentAccountList = nil;
+}
+
 - (void)chargeData{
     self.currentAccountList = [NSArray arrayWithArray:self.currentSeller.ctacteList];
     NSMutableArray *subPredicates = [NSMutableArray new];
@@ -104,7 +109,7 @@
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
         for (CtaCte *ctacte in result) {
-            if (![lastClient.identifier isEqualToNumber:ctacte.cliente.identifier] || [accounts count] == 0) {
+            if (![lastClient.identifier isEqualToNumber:ctacte.clienteID] || [accounts count] == 0) {
                 currentArray = [NSMutableArray new];
                 [accounts addObject:currentArray];
             } else {

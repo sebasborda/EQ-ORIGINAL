@@ -11,5 +11,10 @@
 @implementation Usuario (extra)
 
 @dynamic comunicaciones;
+@dynamic vendedores;
+
+- (Vendedor *)vendedor{
+    return [self.vendedores lastObject];
+}
 
 @end

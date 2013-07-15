@@ -7,6 +7,7 @@
 //
 
 #import "Vendedor.h"
+#import "Usuario.h"
 
 @interface Vendedor (extra)
 
@@ -14,5 +15,10 @@
 @property (nonatomic,strong) NSArray *pedidos;
 @property (nonatomic,strong) NSArray *ctacteList;
 @property (nonatomic,strong) NSArray *comunicaciones;
+@property (nonatomic,strong) NSArray *clientesVendedor;
+@property (nonatomic,strong) NSArray *clientesCobrador;
+@property (nonatomic, strong) NSArray *usuarios;
+
+- (Usuario *)usuario;
 
 @end

@@ -13,6 +13,7 @@
 
 @dynamic articulos;
 @dynamic parents;
+@dynamic subGrupos;
 
 - (Grupo *)parent{
     return [self.parents lastObject];

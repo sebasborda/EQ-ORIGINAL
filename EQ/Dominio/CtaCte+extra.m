@@ -11,9 +11,14 @@
 @implementation CtaCte (extra)
 
 @dynamic vendedores;
+@dynamic clientes;
 
 - (Vendedor *)vendedor{
     return [self.vendedores lastObject];
+}
+
+- (Cliente *)cliente{
+    return [self.clientes lastObject];
 }
 
 @end

@@ -24,6 +24,8 @@
 @dynamic zonasEnvio;
 @dynamic pedidos;
 @dynamic listaDePrecios;
+@dynamic cobradores;
+@dynamic vendedores;
 
 - (Provincia *)provincia{
     return [self.provincias lastObject];
@@ -47,6 +49,14 @@
 
 - (CondPag *)condicionDePago{
     return [self.condicionesDePago lastObject];
+}
+
+- (Vendedor *)vendedor{
+    return [self.vendedores lastObject];
+}
+
+- (Vendedor *)cobrador{
+    return [self.cobradores lastObject];
 }
 
 - (void)calcularRelevancia{

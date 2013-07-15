@@ -13,6 +13,7 @@
 @class TipoIvas;
 @class ZonaEnvio;
 @class CondPag;
+@class Vendedor;
 
 @interface Cliente (extra)
 
@@ -25,11 +26,16 @@
 @property (nonatomic,strong) NSArray *zonasEnvio;
 @property (nonatomic,strong) NSArray *pedidos;
 @property (nonatomic,strong) NSArray *listaDePrecios;
+@property (nonatomic,strong) NSArray *cobradores;
+@property (nonatomic,strong) NSArray *vendedores;
+
 - (Provincia *)provincia;
 - (Expreso *)expreso;
 - (LineaVTA *)lineaDeVenta;
 - (TipoIvas *)iva;
 - (ZonaEnvio *)zonaEnvio;
 - (CondPag *)condicionDePago;
+- (Vendedor *)vendedor;
+- (Vendedor *)cobrador;
 - (void)calcularRelevancia;
 @end

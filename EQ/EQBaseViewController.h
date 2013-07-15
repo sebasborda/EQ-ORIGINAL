@@ -35,6 +35,7 @@
 - (void)notImplemented;
 - (UIImage *)captureView:(UIView *)view;
 - (void)selectedActiveClientAtIndex:(int)index;
+- (void)loadTopBarInfo;
 - (void)dataUpdated:(NSNotification *)notification;
 
 @end

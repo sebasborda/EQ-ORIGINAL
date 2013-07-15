@@ -78,9 +78,9 @@
     self.client.domicilioDeEnvio = clientDictionary[@"deliveryAddress"];
     self.client.encCompras = clientDictionary[@"purchaseManager"];
     self.client.horario = clientDictionary[@"schedule"];
-    self.client.latitud = [clientDictionary[@"latitude"] number];
+    self.client.latitud = [[EQSession sharedInstance] currentLatitude];
     self.client.localidad = clientDictionary[@"locality"];
-    self.client.longitud = [clientDictionary[@"longitude"] number];
+    self.client.longitud = [[EQSession sharedInstance] currentLongitude];
     self.client.mail = clientDictionary[@"email"];
     self.client.nombre = clientDictionary[@"name"];
     self.client.nombreDeFantasia = clientDictionary[@"alias"];
@@ -91,7 +91,7 @@
     self.client.web = clientDictionary[@"web"];
     self.client.activo = [NSNumber numberWithBool:YES];
     if (self.selectedCollectorAtIndex >= 0 )
-        self.client.cobrador = [self obtainCollectorList][self.selectedCollectorAtIndex];
+        self.client.cobradorID = ((Vendedor *)[self obtainCollectorList][self.selectedCollectorAtIndex]).identifier;
     if (self.selectedPaymentConditionAtIndex >= 0 )
         self.client.condicionDePagoID = ((CondPag *)[self obtainPaymentConditionList][self.selectedPaymentConditionAtIndex]).identifier;
     if (self.selectedExpressAtIndex >= 0 )
@@ -101,9 +101,9 @@
     if (self.selectedSalesLineAtIndex >= 0 )
         self.client.lineaDeVentaID = ((LineaVTA *)[self obtainSalesLineList][self.selectedSalesLineAtIndex]).identifier;
     if (self.selectedSellerAtIndex >= 0 )
-        self.client.vendedor = [self obtainSellersList][self.selectedSellerAtIndex];
+        self.client.vendedorID = ((Vendedor *)[self obtainSellersList][self.selectedSellerAtIndex]).identifier;
     else
-        self.client.vendedor = [EQSession sharedInstance].user.vendedor;
+        self.client.vendedorID = [EQSession sharedInstance].user.vendedorID;
     if (self.selectedProvinceAtIndex >= 0 )
         self.client.provinciaID = ((Provincia *)[self obtainProvinces][self.selectedProvinceAtIndex]).identifier;
     if (self.selectedDeliveryAreaAtIndex >= 0 )
@@ -183,31 +183,31 @@
 }
 
 - (NSString *)obtainSelectedCollector{
-    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : @SELECTION_TEXT;
+    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedProvince{
-    return [self.client.provincia.descripcion length] > 0 ? self.client.provincia.descripcion : @SELECTION_TEXT;
+    return [self.client.provincia.descripcion length] > 0 ? self.client.provincia.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedDeliveryArea{
-    return [self.client.zonaEnvio.descripcion length] > 0 ? self.client.zonaEnvio.descripcion : @SELECTION_TEXT;
+    return [self.client.zonaEnvio.descripcion length] > 0 ? self.client.zonaEnvio.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedPaymentCondition{
-    return [self.client.condicionDePago.descripcion length] > 0 ? self.client.condicionDePago.descripcion : @SELECTION_TEXT;
+    return [self.client.condicionDePago.descripcion length] > 0 ? self.client.condicionDePago.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedExpress{
-    return [self.client.expreso.descripcion length] > 0 ? self.client.expreso.descripcion : @SELECTION_TEXT;
+    return [self.client.expreso.descripcion length] > 0 ? self.client.expreso.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedTaxes{
-    return [self.client.iva.descripcion length] > 0 ? self.client.iva.descripcion : @SELECTION_TEXT;
+    return [self.client.iva.descripcion length] > 0 ? self.client.iva.descripcion : SELECTION_TEXT;
 }
 
 - (NSString *)obtainSelectedSalesLine{
-    return [self.client.lineaDeVenta.descripcion length] > 0 ? self.client.lineaDeVenta.descripcion : @SELECTION_TEXT;
+    return [self.client.lineaDeVenta.descripcion length] > 0 ? self.client.lineaDeVenta.descripcion : SELECTION_TEXT;
 }
 
 @end

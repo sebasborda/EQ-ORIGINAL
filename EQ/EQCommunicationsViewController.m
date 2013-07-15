@@ -44,10 +44,15 @@
     [self.viewModel loadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.viewLoaded = NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.tableView = nil;
 }
 
 - (IBAction)notificationKindChange:(id)sender {
@@ -130,11 +135,13 @@
             
             [self.viewModel sendResponseWithMessage:self.bodyTextView.text];
             self.editionMode = NO;
+            [self finalizeEdition];
             
             NSIndexPath *newIndex = [NSIndexPath indexPathForRow:0 inSection:headerView.section];
             [self.tableView beginUpdates];
             [self.tableView insertRowsAtIndexPaths:@[newIndex] withRowAnimation:UITableViewRowAnimationMiddle];
             [self.tableView endUpdates];
+            [self.tableView selectRowAtIndexPath:newIndex animated:YES scrollPosition:YES                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ];
         }
     }
 }
@@ -285,13 +292,13 @@
 }
 
 - (void)openCommunication:(Comunicacion *)communication atIndex:(NSIndexPath *)indexPath{
-    [self finalizeEdition];
     self.titleLabel.text = communication.titulo;
     self.bodyTextView.text = communication.descripcion;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
     self.dateLabel.text = [dateFormatter stringFromDate:communication.creado];
     if (communication) {
+        [self finalizeEdition];
         self.viewModel.selectedCommunication = communication;
         [self markHeaderAsRead];
         if ([self.viewModel.communicationType isEqualToString:COMMUNICATION_TYPE_OPERATIVE]) {
@@ -303,7 +310,16 @@
             self.messageHeader.text = [NSString stringWithFormat:@"%i de %i",indexPath.row + 1,[[self.viewModel.communications objectForKey:key] count]];
             self.finishButton.hidden = NO;
             self.replyButton.hidden = NO;
+            if (![communication.activo boolValue]) {
+                self.finishButton.hidden = YES;
+                self.replyButton.hidden = YES;
+            } else {
+                self.finishButton.hidden = NO;
+                self.replyButton.hidden = NO;
+            }
         }
+        [self.viewModel loadTopBarData];
+        [self loadTopBarInfo];
     } else {
         self.viewModel.selectedCommunication = nil;
         self.finishButton.hidden = YES;

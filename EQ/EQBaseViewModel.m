@@ -10,7 +10,6 @@
 #import "EQSession.h"
 #import "Usuario+extra.h"
 #import "Vendedor+extra.h"
-#import "EQDataAccessLayer.h"
 #import "Pedido.h"
 #import "Grupo+extra.h"
 #import "Comunicacion.h"
@@ -29,10 +28,19 @@
 @implementation EQBaseViewModel
 
 - (void)loadClients{
-    NSArray *results = [[EQSession sharedInstance].user.vendedor.clienteVendedor allObjects];
+    NSArray *results = [EQSession sharedInstance].user.vendedor.clientesVendedor;
     results = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == true"]];
     self.clientsForSeller = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
     self.clientsName = [self clientsNameList];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)releaseUnusedMemory{
+    self.clientsForSeller = nil;
+    self.clientsName = nil;
 }
 
 - (void)loadTopBarData{
@@ -60,6 +68,24 @@
             }
         }
     }
+}
+
+- (void)loadData{
+    [self.delegate modelWillStartDataLoading];
+    [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
+}
+
+- (void)loadDataInBackGround{
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:YES];
+    } else {
+        [self dataLaded];
+    }
+}
+
+- (void)dataLaded{
+    [self loadTopBarData];
+    [self.delegate modelDidUpdateData];
 }
 
 - (NSString *)sellerName{
@@ -127,23 +153,6 @@
 
 - (int)obtainUnreadCommercialsCount{
     return self.unreadCommercialsCount;
-}
-
-- (void)loadData{
-    [self.delegate modelWillStartDataLoading];
-    [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
-}
-
-- (void)loadDataInBackGround{
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:YES];
-    } else {
-        [self dataLaded];
-    }
-}
-
-- (void)dataLaded{
-    [self.delegate modelDidUpdateData];
 }
 
 @end
