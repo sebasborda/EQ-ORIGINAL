@@ -12,14 +12,15 @@
 
 - (NSNumber *)number{
     NSString *stringNumber = self;
+    NSNumber *number = nil;
     if (stringNumber && [stringNumber length] > 0) {
         NSNumberFormatter *formater = [[NSNumberFormatter alloc] init];
         [formater setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSNumber *number = [formater numberFromString:stringNumber];
-        return number;
+        [formater setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+        number = [formater numberFromString:stringNumber];
     }
     
-    return nil;
+    return number;
 }
 
 @end

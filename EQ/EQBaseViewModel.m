@@ -72,7 +72,11 @@
 
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
+    if ([NSThread isMainThread]) {
+        [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
+    } else {
+        [self loadDataInBackGround];
+    }
 }
 
 - (void)loadDataInBackGround{

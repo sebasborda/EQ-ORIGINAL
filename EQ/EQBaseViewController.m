@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self loadTopBarInfo];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:DATA_UPDATED_NOTIFICATION object:nil];

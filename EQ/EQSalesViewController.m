@@ -31,7 +31,7 @@
     UINib *nib = [UINib nibWithNibName:@"EQSalesCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
     self.popoverOwner = self.periodFilterButton;
-    [self dateFilter:nil didSelectStartDate:[self modifyMonths:-2] endDate:[self modifyMonths:1]];
+    [self dateFilter:nil didSelectStartDate:[self modifyMonths:-1] endDate:[self modifyMonths:1]];
     [super viewDidLoad];
 }
 

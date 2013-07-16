@@ -81,7 +81,7 @@
 
 - (void)updateCompleted{
     self.running = NO;
-    [[EQSession sharedInstance] performSelectorOnMainThread:@selector(dataUpdated) withObject:nil waitUntilDone:NO];
+    [[EQSession sharedInstance] dataUpdated];
     if (self.dataUpdated) {
         [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
     }
@@ -515,7 +515,7 @@
             [self updateSalesPage:nextPage];
         } else {
             [self updateCompletedFor:[Venta class]];
-            [self updateCompleted];
+            [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
         }
         
     };

@@ -54,7 +54,6 @@
 }
 
 - (void)chargeData{
-    NSArray *results = [NSArray arrayWithArray:self.currentSeller.pedidos];
     NSMutableArray *subPredicates = [NSMutableArray new];
     if ([self.clientName length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
@@ -87,8 +86,11 @@
     }
     
     NSPredicate *predicate = [subPredicates count] > 0 ? [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates] : nil;
+    NSArray *results = nil;
     if (predicate) {
-        results = [results filteredArrayUsingPredicate:predicate];
+        results = [self.currentSeller.pedidos filteredArrayUsingPredicate:predicate];
+    } else {
+        results = [NSArray arrayWithArray:self.currentSeller.pedidos];
     }
     
     self.orders = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];

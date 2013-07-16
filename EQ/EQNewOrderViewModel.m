@@ -64,8 +64,8 @@
 
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    if (([self.group2 count] == 0 && self.group1Selected >= 0) || self.group2Selected >= 0) {
-        Grupo *group = self.group2Selected >= 0 ? self.group2[self.group2Selected] : self.group1[self.group1Selected];
+    if (([self.group2 count] == 0 && self.group1Selected != NSNotFound) || self.group2Selected != NSNotFound) {
+        Grupo *group = self.group2Selected != NSNotFound ? self.group2[self.group2Selected] : self.group1[self.group1Selected];
         self.articles = [group.articulos sortedArrayUsingDescriptors:@[self.sortArticle]];
     }
     if ([self.group1 count] > 0) {

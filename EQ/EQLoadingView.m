@@ -54,6 +54,9 @@
         }
     }
     self.counter++;
+    if (self.counter > 1) {
+        NSLog(@"cantidad %i  %@",self.counter, [NSThread callStackSymbols]);
+    }
 }
 
 - (void)hide{
