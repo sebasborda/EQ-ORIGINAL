@@ -33,8 +33,6 @@
 		2116C5C11739EF8100C47451 /* EQCurrentAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2116C5C01739EF8100C47451 /* EQCurrentAccountCell.xib */; };
 		2116C5C41739EFBE00C47451 /* EQCurrentAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116C5C31739EFBE00C47451 /* EQCurrentAccountCell.m */; };
 		212A8A53171F887100F7900A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 212A8A51171F865400F7900A /* QuartzCore.framework */; };
-		212A8AE9171FA4F500F7900A /* 01.login.background.png in Resources */ = {isa = PBXBuildFile; fileRef = 212A8A9F171FA4F500F7900A /* 01.login.background.png */; };
-		212A8AEA171FA4F500F7900A /* 01.login.background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 212A8AA0171FA4F500F7900A /* 01.login.background@2x.png */; };
 		212A8AEB171FA4F500F7900A /* 02.seleccion.de.cliente.back.png in Resources */ = {isa = PBXBuildFile; fileRef = 212A8AA1171FA4F500F7900A /* 02.seleccion.de.cliente.back.png */; };
 		212A8AEC171FA4F500F7900A /* 02.seleccion.de.cliente.back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 212A8AA2171FA4F500F7900A /* 02.seleccion.de.cliente.back@2x.png */; };
 		212A8AED171FA4F500F7900A /* 02.seleccion.de.cliente.btn.clientes.png in Resources */ = {isa = PBXBuildFile; fileRef = 212A8AA3171FA4F500F7900A /* 02.seleccion.de.cliente.btn.clientes.png */; };
@@ -239,6 +237,10 @@
 		6BC19190178CF36B0019AA7C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC1918F178CF36A0019AA7C /* CoreLocation.framework */; };
 		6BC19196178D22D30019AA7C /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BC19195178D22D10019AA7C /* Pedido.m */; };
 		6BD929CC17937393005048D6 /* InfoPlist-es.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929CE17937393005048D6 /* InfoPlist-es.strings */; };
+		6BD929D31795F068005048D6 /* loginBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929CF1795F068005048D6 /* loginBackGround.png */; };
+		6BD929D41795F068005048D6 /* loginBackGround@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929D01795F068005048D6 /* loginBackGround@2x.png */; };
+		6BD929D51795F068005048D6 /* loginButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929D11795F068005048D6 /* loginButtonPressed.png */; };
+		6BD929D61795F068005048D6 /* loginButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929D21795F068005048D6 /* loginButtonPressed@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -289,8 +291,6 @@
 		2116C5C21739EFBE00C47451 /* EQCurrentAccountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCurrentAccountCell.h; sourceTree = "<group>"; };
 		2116C5C31739EFBE00C47451 /* EQCurrentAccountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCurrentAccountCell.m; sourceTree = "<group>"; };
 		212A8A51171F865400F7900A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		212A8A9F171FA4F500F7900A /* 01.login.background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 01.login.background.png; sourceTree = "<group>"; };
-		212A8AA0171FA4F500F7900A /* 01.login.background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01.login.background@2x.png"; sourceTree = "<group>"; };
 		212A8AA1171FA4F500F7900A /* 02.seleccion.de.cliente.back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 02.seleccion.de.cliente.back.png; sourceTree = "<group>"; };
 		212A8AA2171FA4F500F7900A /* 02.seleccion.de.cliente.back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "02.seleccion.de.cliente.back@2x.png"; sourceTree = "<group>"; };
 		212A8AA3171FA4F500F7900A /* 02.seleccion.de.cliente.btn.clientes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 02.seleccion.de.cliente.btn.clientes.png; sourceTree = "<group>"; };
@@ -574,7 +574,11 @@
 		6BC1918F178CF36A0019AA7C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		6BC19194178D22D00019AA7C /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
 		6BC19195178D22D10019AA7C /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
-		6BD929CD17937393005048D6 /* es */ = {isa = PBXFileReference; lastKnownFileType = file; name = es; path = "es.lproj/InfoPlist-es.strings"; sourceTree = "<group>"; };
+		6BD929CD17937393005048D6 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = "es.lproj/InfoPlist-es.strings"; sourceTree = "<group>"; };
+		6BD929CF1795F068005048D6 /* loginBackGround.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBackGround.png; sourceTree = "<group>"; };
+		6BD929D01795F068005048D6 /* loginBackGround@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBackGround@2x.png"; sourceTree = "<group>"; };
+		6BD929D11795F068005048D6 /* loginButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginButtonPressed.png; sourceTree = "<group>"; };
+		6BD929D21795F068005048D6 /* loginButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginButtonPressed@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -798,6 +802,10 @@
 		212A8A9E171FA4F500F7900A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6BD929CF1795F068005048D6 /* loginBackGround.png */,
+				6BD929D01795F068005048D6 /* loginBackGround@2x.png */,
+				6BD929D11795F068005048D6 /* loginButtonPressed.png */,
+				6BD929D21795F068005048D6 /* loginButtonPressed@2x.png */,
 				6BC1918B178CBCC50019AA7C /* icon.png */,
 				6BC1918C178CBCC50019AA7C /* icon@2x.png */,
 				6B58D6C717749AF0003E44B9 /* 03.listado.de.pedidos.back.gris@2x.bak.png */,
@@ -826,8 +834,6 @@
 				212A8B4317222B6500F7900A /* selectionArea@2x.png */,
 				212A8B33171FA60D00F7900A /* loginButton.png */,
 				212A8B34171FA60D00F7900A /* loginZone@2x.png */,
-				212A8A9F171FA4F500F7900A /* 01.login.background.png */,
-				212A8AA0171FA4F500F7900A /* 01.login.background@2x.png */,
 				212A8AA1171FA4F500F7900A /* 02.seleccion.de.cliente.back.png */,
 				212A8AA2171FA4F500F7900A /* 02.seleccion.de.cliente.back@2x.png */,
 				212A8AA3171FA4F500F7900A /* 02.seleccion.de.cliente.btn.clientes.png */,
@@ -1267,8 +1273,6 @@
 				211067FE1719D915002C42C0 /* MainWindow.xib in Resources */,
 				211068041719DD72002C42C0 /* EQLoginViewController.xib in Resources */,
 				21106816171B4B36002C42C0 /* TabBarView.xib in Resources */,
-				212A8AE9171FA4F500F7900A /* 01.login.background.png in Resources */,
-				212A8AEA171FA4F500F7900A /* 01.login.background@2x.png in Resources */,
 				212A8AEB171FA4F500F7900A /* 02.seleccion.de.cliente.back.png in Resources */,
 				212A8AEC171FA4F500F7900A /* 02.seleccion.de.cliente.back@2x.png in Resources */,
 				212A8AED171FA4F500F7900A /* 02.seleccion.de.cliente.btn.clientes.png in Resources */,
@@ -1387,6 +1391,10 @@
 				6BC1918D178CBCC50019AA7C /* icon.png in Resources */,
 				6BC1918E178CBCC50019AA7C /* icon@2x.png in Resources */,
 				6BD929CC17937393005048D6 /* InfoPlist-es.strings in Resources */,
+				6BD929D31795F068005048D6 /* loginBackGround.png in Resources */,
+				6BD929D41795F068005048D6 /* loginBackGround@2x.png in Resources */,
+				6BD929D51795F068005048D6 /* loginButtonPressed.png in Resources */,
+				6BD929D61795F068005048D6 /* loginButtonPressed@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
