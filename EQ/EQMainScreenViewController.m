@@ -30,7 +30,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.loggedUserLabel.text = [self.viewModel loggedUserName];
+    self.loggedUserLabel.text = [[self.viewModel loggedUserName] uppercaseString];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 

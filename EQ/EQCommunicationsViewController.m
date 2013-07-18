@@ -190,6 +190,10 @@
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
     cell.dateLabel.text = [dateFormatter stringFromDate:communication.creado];
     cell.communication = communication;
+    float red = 239./255.;
+    float green = 240./255.;
+    float blue = 249./255.;
+    cell.contentView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
     return cell;
 }
 
