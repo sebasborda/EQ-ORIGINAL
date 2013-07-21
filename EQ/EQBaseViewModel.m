@@ -30,7 +30,7 @@
 - (void)loadClients{
     NSArray *results = [EQSession sharedInstance].user.vendedor.clientesVendedor;
     results = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == true"]];
-    self.clientsForSeller = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
+    self.clientsForSeller = [results sortedArrayUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"nombre" ascending:YES]]];
     self.clientsName = [self clientsNameList];
 }
 

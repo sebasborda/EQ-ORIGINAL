@@ -47,8 +47,8 @@
 - (void)addItemQuantity:(int)quantity;
 - (NSNumber *)itemsQuantity;
 - (NSNumber *)subTotal;
-- (int)discountPercentage;
-- (int)discountValue;
+- (float)discountPercentage;
+- (float)discountValue;
 - (float)total;
 - (NSArray *)items;
 - (int)orderStatusIndex;

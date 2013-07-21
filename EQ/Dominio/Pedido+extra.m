@@ -23,6 +23,11 @@
     return [self.vendedores lastObject];
 }
 
+- (float)porcentajeDescuento{
+    CGFloat descuento = (1 - (1 - ([self.descuento3 floatValue] / 100)) * (1 - ([self.descuento4 floatValue] / 100))) * 100;
+    return descuento;
+}
+
 - (Pedido *)copy{
     Pedido *order = (Pedido *)[[EQDataAccessLayer sharedInstance] createManagedObject:@"Pedido"];
     order.activo = self.activo;

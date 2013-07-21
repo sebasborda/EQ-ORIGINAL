@@ -301,7 +301,8 @@
 }
 
 - (void)modelDidUpdateData{
-    self.discountLabel.text = [NSString stringWithFormat:@"%i%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    NSString *discountText = [NSString stringWithFormat:@"%.0f%% ($%.0f)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    self.discountLabel.text = discountText;
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
@@ -355,11 +356,18 @@
 
 - (void)modelDidAddItem{
     [self.tableOrderDetail reloadData];
-    self.discountLabel.text = [NSString stringWithFormat:@"%i%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+//    self.discountLabel.text = [NSString stringWithFormat:@"%.0f%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    NSString *discountText = [NSString stringWithFormat:@"%.0f%% ($%.0f)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    self.discountLabel.text = discountText;
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];
+    
+//    self.discountLabel.text = [NSString stringWithFormat:@"%.0f%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+//    
+//    self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
+//    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
 }
 
 - (void)modelAddItemDidFail{

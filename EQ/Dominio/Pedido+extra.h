@@ -7,7 +7,7 @@
 //
 
 #import "Pedido.h"
-@class Cliente;
+#import "Cliente.h"
 @class Vendedor;
 
 @interface Pedido (extra)
@@ -17,5 +17,6 @@
 
 - (Cliente *)cliente;
 - (Vendedor *)vendedor;
+- (float)porcentajeDescuento;
 
 @end

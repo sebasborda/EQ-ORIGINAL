@@ -38,7 +38,14 @@
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = [pedido.identifier stringValue];
     self.grossPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.subTotal floatValue]];
-    self.discountLabel.text = [NSString stringWithFormat:@"%i%%", [pedido.descuento3 intValue] + [pedido.descuento4 intValue]];
+    float discount = [pedido porcentajeDescuento];
+    int intPart = (int)discount;
+    if (discount - intPart > 0.001) {
+        self.discountLabel.text = [NSString stringWithFormat:@"%.2f%%", discount];
+    } else {
+        self.discountLabel.text = [NSString stringWithFormat:@"%i%%", intPart];
+    }
+    
     self.netPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.total floatValue]];
 }
 

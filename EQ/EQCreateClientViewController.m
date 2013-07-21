@@ -100,12 +100,12 @@
     [[EQSession sharedInstance] stopMonitoring];
 }
 
-- (void)addMessageError:(NSMutableString *)messageError {
+- (void)addMessageError:(NSString *)messageError {
     if ([self.ErrorMessage length] > 0) {
         [self.ErrorMessage appendString:@"\n"];
         [self.ErrorMessage appendString:messageError];
     } else{
-        self.ErrorMessage = messageError;
+        self.ErrorMessage = [NSMutableString stringWithString:messageError];
     }
 }
 
@@ -136,18 +136,41 @@
 }
 
 -(BOOL) validEmail:(NSString*) emailString {
-    if ([emailString length] > 0) {
-        NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
-        NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
-        NSUInteger regExMatches = [regEx numberOfMatchesInString:emailString options:0 range:NSMakeRange(0, [emailString length])];
-        NSLog(@"%i", regExMatches);
-        if (regExMatches == 0) {
-            [self addMessageError:[NSMutableString stringWithString:@"Email invalido"]];
-            return NO;
-        }
+    NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
+    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSUInteger regExMatches = [regEx numberOfMatchesInString:emailString options:0 range:NSMakeRange(0, [emailString length])];
+    NSLog(@"%i", regExMatches);
+    if (regExMatches == 0) {
+        [self addMessageError:[NSMutableString stringWithString:@"Email invalido"]];
+        return NO;
     }
 
     return YES;
+}
+
+-(NSString *)validateCUIT:(NSString*)cuit{
+    cuit = [self validateOnlyNumbers:cuit withName:@"CUIT"];
+    if ([cuit length] == 11) {
+        NSArray *numbers = @[@5,@4,@3,@2,@7,@6,@5,@4,@3,@2];
+        int total = 0;
+        for (int i = 0; i < [numbers count]; i++) {
+            int part = [[cuit substringWithRange:NSMakeRange(i, 1)] intValue] ;
+            total += part * [numbers[i] integerValue];
+        }
+        
+        int resto = total % 11;
+        int validationNumber = resto == 0 ? 0 : resto == 1 ? 9 : 11 - resto;
+        
+        
+        int digito = [[cuit substringWithRange:NSMakeRange(10, 1)] intValue];
+        if(validationNumber == digito){
+            return cuit;
+        }
+    }
+
+    [self addMessageError:@"CUIT invalido"];
+    return @"";
+    
 }
 
 - (NSArray *)descriptions:(NSArray *)values{
@@ -218,30 +241,30 @@
 - (IBAction)saveButtonAction:(id)sender {
     NSMutableDictionary *clientDictionary = [NSMutableDictionary new];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientNameTextField withName:@"Nombre"] forKey:@"name"];
-    [clientDictionary setNotEmptyString:self.clientAliasTextField.text forKey:@"alias"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientAddressTextField withName:@"Domicilio"] forKey:@"address"];
-    [clientDictionary setNotEmptyString:self.clientZipCodeTextField.text forKey:@"zipcode"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientNameTextField withName:@"Nombre"] forKey:@"alias"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientAliasTextField withName:@"Nombre de fantasia"] forKey:@"address"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientZipCodeTextField withName:@"Codigo postal"] forKey:@"zipcode"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientLocalityTextField withName:@"Localidad"] forKey:@"locality"];
     if ([self validEmail:self.clientEmailTextField.text]) {
         [clientDictionary setNotEmptyString:self.clientEmailTextField.text forKey:@"email"];
     }
     
-    [clientDictionary setNotEmptyString:self.ownerNameTextField.text forKey:@"owner"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.ownerNameTextField withName:@"Dueño"] forKey:@"owner"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientPhoneTextField withName:@"Telefono"] forKey:@"phone"];
-    [clientDictionary setNotEmptyString:self.clientWebTextField.text forKey:@"web"];
-    [clientDictionary setNotEmptyString:self.purchaseManagerTextField.text forKey:@"purchaseManager"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientWebTextField withName:@"Web"] forKey:@"web"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.purchaseManagerTextField withName:@"Enc. Compras"] forKey:@"purchaseManager"];
     
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.deliveryAddressTextField withName:@"Domicilio de entrega"] forKey:@"deliveryAddress"];
     [clientDictionary setNotEmptyString:[self validateOnlyNumbers:self.branchTextField.text withName:@"Sucursal"] forKey:@"branch"];
-    [clientDictionary setNotEmptyString:self.scheduleTextField.text forKey:@"schedule"];
-    [clientDictionary setNotEmptyString:[self validateOnlyNumbers:self.CUITTextField.text withName:@"CUIT"] forKey:@"cuit"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.scheduleTextField withName:@"Horario"] forKey:@"schedule"];
+    [clientDictionary setNotEmptyString:[self validateCUIT:self.CUITTextField.text] forKey:@"cuit"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code1TextField withName:@"Codigo 1"] forKey:@"code1"];
-    [clientDictionary setNotEmptyString:self.code2TextField.text forKey:@"code2"];
-    [clientDictionary setNotEmptyString:self.collectionDaysTextField.text forKey:@"collectionDays"];
-    [clientDictionary setNotEmptyString:self.discount1TextField.text forKey:@"discount1"];
-    [clientDictionary setNotEmptyString:self.discount2TextField.text forKey:@"discount2"];
-    [clientDictionary setNotEmptyString:self.discount3TextField.text forKey:@"discount3"];
-    [clientDictionary setNotEmptyString:self.discount4TextField.text forKey:@"discount4"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code2TextField withName:@"Codigo 2"] forKey:@"code2"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.collectionDaysTextField withName:@"Dias de pago"] forKey:@"collectionDays"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount1TextField withName:@"Descuento 1"] forKey:@"discount1"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount2TextField withName:@"Descuento 2"] forKey:@"discount2"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount3TextField withName:@"Descuento 3"] forKey:@"discount3"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount4TextField withName:@"Descuento 4"] forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
     
     [self validateValue:self.paymentConditionButton.titleLabel.text forRelation:@"Condicion de pago"];

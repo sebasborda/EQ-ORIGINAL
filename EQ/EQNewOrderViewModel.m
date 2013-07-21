@@ -198,13 +198,13 @@
     return [NSNumber numberWithFloat:subtotal];
 }
 
-- (int)discountPercentage{
-    return [self.order.descuento3 intValue] + [self.order.descuento4 intValue];
+- (float)discountPercentage{
+    return [self.order porcentajeDescuento];
 }
 
 
-- (int)discountValue{
-    return  ([[self subTotal] intValue] * [self discountPercentage]) / 100;
+- (float)discountValue{
+    return  ([[self subTotal] floatValue] * [self discountPercentage]) / 100;
 }
 
 - (float)total{

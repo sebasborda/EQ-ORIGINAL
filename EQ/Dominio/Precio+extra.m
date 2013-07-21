@@ -19,10 +19,12 @@
 }
 
 - (CGFloat)priceForClient:(Cliente *)client {
-    CGFloat descuento = [client.descuento1 floatValue] + [client.descuento2 floatValue];
-    CGFloat importeConDescuento = ([self.importe floatValue] * (100 - descuento)) / 100;
+    CGFloat descuento = (1 - (1 - ([client.descuento1 floatValue] / 100)) * (1 - ([client.descuento2 floatValue] / 100)));
+    if (descuento > 0) {
+        return [self.importe floatValue] * descuento;
+    }
     
-    return importeConDescuento;
+    return [self.importe floatValue];
 }
 
 @end
