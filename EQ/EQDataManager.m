@@ -626,15 +626,17 @@
                 art.descripcion = [articuloDictionary filterInvalidEntry:@"descripcion"];
                 
                 NSDictionary *images = [articuloDictionary filterInvalidEntry:@"attachments"];
-                NSString *file = [images filterInvalidEntry:@"file"];
-                NSRange range = [file rangeOfString:@"/" options:NSBackwardsSearch];
-                NSString *path = [file substringToIndex:NSMaxRange(range)];
-                
-                NSDictionary *sizes = [images filterInvalidEntry:@"sizes"];
-                NSDictionary *bigImage = [sizes filterInvalidEntry:@"items_detail_2"];
-                bigImage = bigImage ? bigImage : [sizes filterInvalidEntry:@"thumbnail"];
-                
-                art.imagenURL = [path stringByAppendingString:[bigImage filterInvalidEntry:@"file"]];
+                if (images) {
+                    NSString *file = [images filterInvalidEntry:@"file"];
+                    NSRange range = [file rangeOfString:@"/" options:NSBackwardsSearch];
+                    NSString *path = [file substringToIndex:NSMaxRange(range)];
+                    
+                    NSDictionary *sizes = [images filterInvalidEntry:@"sizes"];
+                    NSDictionary *bigImage = [sizes filterInvalidEntry:@"items_detail_2"];
+                    bigImage = bigImage ? bigImage : [sizes filterInvalidEntry:@"thumbnail"];
+                    art.imagenURL = [path stringByAppendingString:[bigImage filterInvalidEntry:@"file"]];
+                }
+
                 art.tipo = [articuloDictionary filterInvalidEntry:@"tipo"];
                 NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
                 art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
@@ -661,8 +663,9 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
+
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
@@ -978,7 +981,7 @@
     };
     
     FailRequest failBlock = ^(NSError *error){
-        NSLog(@"send comunication fail error:%@ UserInfo:%@",error ,error.userInfo);
+        NSLog(@"send communication fail error:%@ UserInfo:%@",error ,error.userInfo);
         newCommunication.actualizado = [NSNumber numberWithBool:NO];
         [[EQDataAccessLayer sharedInstance] saveContext];
     };
