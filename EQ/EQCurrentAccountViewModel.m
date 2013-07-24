@@ -65,7 +65,7 @@
             return @"importe";
             break;
         default:
-            return @"cliente.nombre";
+            return @"fecha";
             break;
     }
 }
@@ -222,21 +222,21 @@
 - (NSDictionary *)resume{
     NSMutableDictionary *resumeDictionary = [NSMutableDictionary new];
     float total = 0;
-    int thirtyDays = 0;
-    int fortyDays = 0;
-    int ninetyDays = 0;
-    int more90Days = 0;
+    float thirtyDays = 0;
+    float fortyDays = 0;
+    float ninetyDays = 0;
+    float more90Days = 0;
     for (CtaCte* account in [NSArray arrayWithArray:self.currentSeller.ctacteList]) {
-        if ([account.condicionDeVenta integerValue] <= 30) {
-            thirtyDays += [account.importeConDescuento floatValue];
-        } else if ([account.condicionDeVenta integerValue] <= 45) {
-            fortyDays += [account.importeConDescuento floatValue];
-        } else if ([account.condicionDeVenta integerValue] <= 90) {
-            ninetyDays += [account.importeConDescuento floatValue];
+        if ([account.diasDeAtraso integerValue] <= 30) {
+            thirtyDays += [account.importe floatValue];
+        } else if ([account.diasDeAtraso integerValue] <= 45) {
+            fortyDays += [account.importe floatValue];
+        } else if ([account.diasDeAtraso integerValue] <= 90) {
+            ninetyDays += [account.importe floatValue];
         } else {
-            more90Days += [account.importeConDescuento floatValue];
+            more90Days += [account.importe floatValue];
         }
-        total += [account.importeConDescuento floatValue];
+        total += [account.importe floatValue];
     }
     
     [resumeDictionary setObject:[NSNumber numberWithFloat:total] forKey:@"total"];

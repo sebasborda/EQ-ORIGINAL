@@ -33,10 +33,10 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     NSDictionary *resume = [self.viewModel resume];
-    self.thirtyDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"30"]];
-    self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"45"]];
-    self.ninetyDaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"90"]];
-    self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"$%@",[resume objectForKey:@"+90"]];
+    self.thirtyDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"30"] integerValue]];
+    self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"45"] integerValue]];
+    self.ninetyDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"90"] integerValue]];
+    self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"+90"] integerValue]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[[resume objectForKey:@"total"] floatValue]];
     
     if (self.viewModel.clientName) {
@@ -110,13 +110,13 @@
     EQCurrentAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
         NSArray *accounts = [self.viewModel.currentAccountList objectAtIndex:indexPath.row];
-        int gross = 0;
-        int net = 0;
-        int percept = 0;
+        float gross = 0;
+        float net = 0;
+        float percept = 0;
         for (CtaCte *account in accounts) {
-            gross += [account.importe integerValue];
-            net += [account.importeConDescuento integerValue];
-            percept += [account.importePercepcion integerValue];
+            gross += [account.importe floatValue];
+            net += [account.importeConDescuento floatValue];
+            percept += [account.importePercepcion floatValue];
         }
         CtaCte *ctacte = [accounts lastObject];
         cell.clientLabel.text = ctacte.cliente.nombre;
@@ -124,9 +124,9 @@
         cell.delayLabel.text = @"";
         cell.voucherLabel.text = @"";
         cell.conditionLabel.text = @"";
-        cell.persepLabel.text = [NSString stringWithFormat:@"$%i", percept];
-        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", gross];
-        cell.discountLabel.text = [NSString stringWithFormat:@"$%i", net];
+        cell.persepLabel.text = [NSString stringWithFormat:@"$%.0f", percept];
+        cell.amountLabel.text = [NSString stringWithFormat:@"$%.0f", gross];
+        cell.discountLabel.text = [NSString stringWithFormat:@"$%.0f", net];
     } else {
         CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         cell.clientLabel.text = ctaCte.cliente.nombre;
@@ -168,17 +168,17 @@
     EQCurrentAccountFooter *footer = (EQCurrentAccountFooter *)[nibObjects objectAtIndex:0];
     CtaCte *ctacte = [accounts lastObject];
     footer.clientLabel.text = ctacte.cliente.nombre;
-    int gross = 0;
-    int net = 0;
-    int percept = 0;
+    float gross = 0;
+    float net = 0;
+    float percept = 0;
     for (CtaCte *account in accounts) {
-        gross += [account.importe integerValue];
-        net += [account.importeConDescuento integerValue];
-        percept += [account.importePercepcion integerValue];
+        gross += [account.importe floatValue];
+        net += [account.importeConDescuento floatValue];
+        percept += [account.importePercepcion floatValue];
     }
-    footer.grossLabel.text = [NSString stringWithFormat:@"$%i",gross];
-    footer.netLabel.text = [NSString stringWithFormat:@"$%i",net];
-    footer.perceptionLabel.text = [NSString stringWithFormat:@"$%i",percept];
+    footer.grossLabel.text = [NSString stringWithFormat:@"$%.0f",gross];
+    footer.netLabel.text = [NSString stringWithFormat:@"$%.0f",net];
+    footer.perceptionLabel.text = [NSString stringWithFormat:@"$%.0f",percept];
     
     return footer;
 }

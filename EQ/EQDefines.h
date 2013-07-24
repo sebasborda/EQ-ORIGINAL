@@ -19,6 +19,7 @@ typedef enum{
 
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
 #define MAXIMUM_MINUTES_TO_UPDATE 10
+#define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
 #define BASE_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
 #define SELECTION_TEXT @"Elige una"
 #define DATA_UPDATED_NOTIFICATION @"dataUpdatedNotification"

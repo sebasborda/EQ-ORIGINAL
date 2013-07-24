@@ -28,6 +28,7 @@
 #import "Grupo.h"
 #import "Disponibilidad.h"
 #import "ItemPedido+extra.h"
+#import "EQImagesManager.h"
 
 #define OBJECTS_PER_PAGE 5000
 
@@ -611,39 +612,48 @@
 
 - (void)updateProducts{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* articuloDictionary in jsonArray) {
-            Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
-            art.identifier = [[articuloDictionary filterInvalidEntry:@"id"] number];
-            NSMutableString *codigo = [NSMutableString stringWithString:[articuloDictionary filterInvalidEntry:@"codigo1"]];
-            [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo2"]];
-            [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo3"]];
-            art.codigo = codigo;
-            art.nombre = [articuloDictionary filterInvalidEntry:@"post_title"];
-            art.descripcion = [articuloDictionary filterInvalidEntry:@"descripcion"];
-            art.imagenURL = [articuloDictionary filterInvalidEntry:@"foto"];
-            if(art.imagenURL){
-                NSLog(@"producto: %@ url: %@", art.nombre, art.imagenURL);
+        if ([jsonArray count] > 0) {
+            EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+            [[EQImagesManager sharedInstance] clearCache];
+            for (NSDictionary* articuloDictionary in jsonArray) {
+                Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
+                art.identifier = [[articuloDictionary filterInvalidEntry:@"id"] number];
+                NSMutableString *codigo = [NSMutableString stringWithString:[articuloDictionary filterInvalidEntry:@"codigo1"]];
+                [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo2"]];
+                [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo3"]];
+                art.codigo = codigo;
+                art.nombre = [articuloDictionary filterInvalidEntry:@"post_title"];
+                art.descripcion = [articuloDictionary filterInvalidEntry:@"descripcion"];
+                
+                NSDictionary *images = [articuloDictionary filterInvalidEntry:@"attachments"];
+                NSString *file = [images filterInvalidEntry:@"file"];
+                NSRange range = [file rangeOfString:@"/" options:NSBackwardsSearch];
+                NSString *path = [file substringToIndex:NSMaxRange(range)];
+                
+                NSDictionary *sizes = [images filterInvalidEntry:@"sizes"];
+                NSDictionary *bigImage = [sizes filterInvalidEntry:@"items_detail_2"];
+                bigImage = bigImage ? bigImage : [sizes filterInvalidEntry:@"thumbnail"];
+                
+                art.imagenURL = [path stringByAppendingString:[bigImage filterInvalidEntry:@"file"]];
+                art.tipo = [articuloDictionary filterInvalidEntry:@"tipo"];
+                NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
+                art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
+                art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
+                art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
+                
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                art.creado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"creado"]];
+                art.modificado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"modificado"]];
+                
+                art.cantidadPredeterminada = [[articuloDictionary filterInvalidEntry:@"cant_predeterm"] number];
+                art.activo = [[articuloDictionary filterInvalidEntry:@"activo"] number];
+                art.grupoID = [[articuloDictionary filterInvalidEntry:@"term_id"] number];
+                self.dataUpdated = YES;
             }
-            art.tipo = [articuloDictionary filterInvalidEntry:@"tipo"];
-            NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
-            art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
-            art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
-            art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
-            
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            art.creado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"creado"]];
-            art.modificado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"modificado"]];
-            
-            art.cantidadPredeterminada = [[articuloDictionary filterInvalidEntry:@"cant_predeterm"] number];
-            art.activo = [[articuloDictionary filterInvalidEntry:@"activo"] number];
-            art.grupoID = [[articuloDictionary filterInvalidEntry:@"term_id"] number];
-            self.dataUpdated = YES;
+            [adl saveContext];
+            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Articulo class]];
         [self updateSellers];
     };

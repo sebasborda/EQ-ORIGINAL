@@ -214,7 +214,7 @@
     float gross = 0;
     int quantity = 0;
     for (Venta *sale in sales) {
-        gross += [sale.importe integerValue];
+        gross += [sale.importe floatValue];
         quantity += [sale.cantidad integerValue];
     }
     footer.priceLabel.text = [NSString stringWithFormat:@"$%.2f",gross];

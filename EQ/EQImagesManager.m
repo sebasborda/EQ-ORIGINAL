@@ -60,7 +60,8 @@ NSString * CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
         // Save Image
         NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, NSHomeDirectory(), name];
         NSData *imageData = UIImageJPEGRepresentation(image, 90);
-        if ([imageData writeToFile:filePath atomically:YES]) {
+        NSError *error = nil;
+        if ([imageData writeToFile:filePath options:NSDataWritingAtomic error:&error]) {
             [self.cacheDictionary setObject:image forKey:name];
             return YES;
         }
