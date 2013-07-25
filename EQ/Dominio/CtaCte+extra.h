@@ -17,5 +17,6 @@
 
 - (Vendedor *)vendedor;
 - (Cliente *)cliente;
+- (int)diasDeAtraso;
 
 @end

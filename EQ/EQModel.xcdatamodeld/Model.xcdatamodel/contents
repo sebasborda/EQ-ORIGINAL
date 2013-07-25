@@ -136,7 +136,6 @@
         <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="comprobante" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="condicionDeVenta" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="diasDeAtraso" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="empresa" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -320,7 +319,7 @@
         <element name="Cliente" positionX="160" positionY="192" width="128" height="779"/>
         <element name="Comunicacion" positionX="160" positionY="192" width="128" height="299"/>
         <element name="CondPag" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="CtaCte" positionX="160" positionY="192" width="128" height="254"/>
+        <element name="CtaCte" positionX="160" positionY="192" width="128" height="239"/>
         <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="73"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Grupo" positionX="160" positionY="192" width="128" height="194"/>

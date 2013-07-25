@@ -227,11 +227,11 @@
     float ninetyDays = 0;
     float more90Days = 0;
     for (CtaCte* account in [NSArray arrayWithArray:self.currentSeller.ctacteList]) {
-        if ([account.diasDeAtraso integerValue] <= 30) {
+        if (account.diasDeAtraso <= 30) {
             thirtyDays += [account.importe floatValue];
-        } else if ([account.diasDeAtraso integerValue] <= 45) {
+        } else if (account.diasDeAtraso <= 45) {
             fortyDays += [account.importe floatValue];
-        } else if ([account.diasDeAtraso integerValue] <= 90) {
+        } else if (account.diasDeAtraso <= 90) {
             ninetyDays += [account.importe floatValue];
         } else {
             more90Days += [account.importe floatValue];

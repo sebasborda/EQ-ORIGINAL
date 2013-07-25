@@ -133,7 +133,7 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];
-        cell.delayLabel.text = ctaCte.diasDeAtraso;
+        cell.delayLabel.text = [NSString stringWithFormat:@"%i",ctaCte.diasDeAtraso];
         cell.voucherLabel.text = ctaCte.comprobante;
         cell.conditionLabel.text = ctaCte.condicionDeVenta;
         cell.persepLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importePercepcion ? [ctaCte.importePercepcion integerValue] : 0];

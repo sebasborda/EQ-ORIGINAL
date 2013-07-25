@@ -21,4 +21,10 @@
     return [self.clientes lastObject];
 }
 
+- (int)diasDeAtraso{
+    float days = [self.fecha timeIntervalSinceNow] * -1 / 86400; //86400 = 60*60*24
+    float module = days / 1;
+    return module > 0 ? days + 1 : days;
+}
+
 @end
