@@ -41,9 +41,7 @@
 }
 
 -(void) selectTabAtIndex:(int)index{
-    if (self.selectedIndex != index) {
-        [self.customTabBarView selectTabAtIndex:index];
-    }
+    [self.customTabBarView selectTabAtIndex:index];
 }
 
 - (void)reloadControllers{

@@ -51,7 +51,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">tabBarBackground.png</string>
+							<string key="NSResourceName">fondoSolapas.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="844380455">
@@ -77,13 +77,14 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="862710764">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.pedido.b.png</string>
+							<string key="NSResourceName">buttonSolapasPedidosHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="862710764"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.pedido.a.png</string>
+							<string key="NSResourceName">buttonSolapasPedidos.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="427584577">
 							<string key="name">Helvetica-Bold</string>
@@ -115,13 +116,14 @@
 							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="1043532350">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.cta.b.png</string>
+							<string key="NSResourceName">buttonSolapasCuentaCorrienteHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="1043532350"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.cta.a.png</string>
+							<string key="NSResourceName">buttonSolapasCuentaCorriente.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -144,13 +146,14 @@
 							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="263664830">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.info.b.png</string>
+							<string key="NSResourceName">buttonSolapasInformacionDeVentasHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="263664830"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.info.a.png</string>
+							<string key="NSResourceName">buttonSolapasInformacionDeVentas.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -173,13 +176,14 @@
 							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="220249216">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.comu.b.png</string>
+							<string key="NSResourceName">buttonSolapasComunicacionHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="220249216"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.comu.a.png</string>
+							<string key="NSResourceName">buttonSolapasComunicacion.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -202,13 +206,14 @@
 							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="257244896">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.objetivos.b.png</string>
+							<string key="NSResourceName">buttonSolapasObjetivosHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="257244896"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.objetivos.a.png</string>
+							<string key="NSResourceName">buttonSolapasObjetivos.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -231,13 +236,14 @@
 							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="987251475">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.produc.b.png</string>
+							<string key="NSResourceName">buttonSolapasProductosHighlighted.png</string>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+						<reference key="IBUISelectedImage" ref="987251475"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.produc.a.png</string>
+							<string key="NSResourceName">buttonSolapasProductos.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -256,16 +262,18 @@
 						<reference key="IBUIHighlightedTitleColor" ref="1054564066"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC43NTY4NjI3NDUxIDEgMAA</bytes>
+							<bytes key="NSRGB">MC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEgMC45Njg2Mjc0NTEAA</bytes>
+							<string key="IBUIColorCocoaTouchKeyPath">tableCellGroupedBackgroundColor</string>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="764031175"/>
-						<object class="NSCustomResource" key="IBUISelectedBackgroundImage">
+						<object class="NSCustomResource" key="IBUIHighlightedImage" id="188792796">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.clientes.b.png</string>
+							<string key="NSResourceName">buttonSolapasClientesHighlighted.png</string>
 						</object>
+						<reference key="IBUISelectedImage" ref="188792796"/>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">03.listado.de.pedidos.barra.footer.btn.clientes.a.png</string>
+							<string key="NSResourceName">buttonSolapasClientes.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="427584577"/>
 						<reference key="IBUIFont" ref="769120756"/>
@@ -574,20 +582,20 @@
 						</object>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
+					<real value="2"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="0.0"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
+					<real value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="1"/>
+					<real value="2"/>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -648,21 +656,21 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>03.listado.de.pedidos.barra.footer.btn.clientes.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.clientes.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.comu.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.comu.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.cta.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.cta.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.info.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.info.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.objetivos.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.objetivos.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.pedido.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.pedido.b.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.produc.a.png</string>
-				<string>03.listado.de.pedidos.barra.footer.btn.produc.b.png</string>
-				<string>tabBarBackground.png</string>
+				<string>buttonSolapasClientes.png</string>
+				<string>buttonSolapasClientesHighlighted.png</string>
+				<string>buttonSolapasComunicacion.png</string>
+				<string>buttonSolapasComunicacionHighlighted.png</string>
+				<string>buttonSolapasCuentaCorriente.png</string>
+				<string>buttonSolapasCuentaCorrienteHighlighted.png</string>
+				<string>buttonSolapasInformacionDeVentas.png</string>
+				<string>buttonSolapasInformacionDeVentasHighlighted.png</string>
+				<string>buttonSolapasObjetivos.png</string>
+				<string>buttonSolapasObjetivosHighlighted.png</string>
+				<string>buttonSolapasPedidos.png</string>
+				<string>buttonSolapasPedidosHighlighted.png</string>
+				<string>buttonSolapasProductos.png</string>
+				<string>buttonSolapasProductosHighlighted.png</string>
+				<string>fondoSolapas.png</string>
 			</object>
 			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
@@ -680,7 +688,7 @@
 				<string>{75, 50}</string>
 				<string>{75, 50}</string>
 				<string>{75, 50}</string>
-				<string>{768, 51}</string>
+				<string>{768, 50}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">2083</string>

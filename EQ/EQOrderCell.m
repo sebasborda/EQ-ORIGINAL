@@ -53,22 +53,22 @@
 - (void)loadStatusStyle:(NSString *)estado{
     NSString *imageName = nil;
     if ([estado isEqualToString:@"pendiente"]) {
-        imageName = @"03.listado.de.pedidos.btn.estado.pendiente.png";
+        imageName = @"pedidoReferenciaPendiente.png";
         self.editButton.hidden = YES;
         self.cancelButton .hidden = YES;
         self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"facturado"]) {
-        imageName = @"03.listado.de.pedidos.btn.estado.facturado.png";
+        imageName = @"pedidoReferenciaSincronizado.png";
         self.editButton.hidden = YES;
         self.cancelButton .hidden = YES;
         self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"presupuestado"]) {
-        imageName = @"03.listado.de.pedidos.btn.estado.sin.facturar.png";
+        imageName = @"pedidoReferenciaPresupuestado.png";
         self.editButton.hidden = NO;
         self.cancelButton .hidden = NO;
         self.cloneButton.hidden = NO;
     } else if ([estado isEqualToString:@"anulado"]) {
-        imageName = @"03.listado.de.pedidos.btn.estado.cancelado.png";
+        imageName = @"pedidoReferenciaCancelado.png";
         self.editButton.hidden = YES;
         self.cancelButton .hidden = YES;
         self.cloneButton.hidden = NO;

@@ -14,7 +14,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *notificationDateLabel;
 @property (strong, nonatomic) IBOutlet UITextView *bodyTextView;
 @property (strong, nonatomic) IBOutlet UILabel *notificationsTitleLabel;
 @property (strong, nonatomic) IBOutlet UIButton *finishButton;

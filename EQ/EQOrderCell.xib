@@ -44,7 +44,7 @@
 							<object class="IBUIImageView" id="658325435">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{30, 49}</string>
+								<string key="NSFrame">{{4, 5}, {23, 38}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="606195497"/>
@@ -53,7 +53,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">03.listado.de.pedidos.btn.estado.sin.facturar.png</string>
+									<string key="NSResourceName">pedidoReferenciaPresupuestado.png</string>
 								</object>
 							</object>
 							<object class="IBUILabel" id="606195497">
@@ -245,7 +245,7 @@
 							<object class="IBUIButton" id="464053873">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{586, 9}, {35, 30}}</string>
+								<string key="NSFrame">{{586, 9}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="321914927"/>
@@ -263,9 +263,13 @@
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">buttonEditarHighlighted.png</string>
+								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">editar.png</string>
+									<string key="NSResourceName">buttonEditar.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="912138806">
 									<int key="type">2</int>
@@ -280,7 +284,7 @@
 							<object class="IBUIButton" id="321914927">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{641, 9}, {35, 30}}</string>
+								<string key="NSFrame">{{641, 9}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="991820849"/>
@@ -295,9 +299,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="5737544"/>
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">buttonEliminarHighlighted.png</string>
+								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">deleteItem.png</string>
+									<string key="NSResourceName">buttonEliminar.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="912138806"/>
 								<reference key="IBUIFont" ref="904898000"/>
@@ -305,7 +313,7 @@
 							<object class="IBUIButton" id="991820849">
 								<reference key="NSNextResponder" ref="96116575"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{697, 9}, {35, 30}}</string>
+								<string key="NSFrame">{{697, 9}, {30, 31}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -319,9 +327,13 @@
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="5737544"/>
+								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">buttonDuplicarHighlighted.png</string>
+								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">03.listado.de.pedidos.btn.duplicar.png</string>
+									<string key="NSResourceName">buttonDuplicar.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="912138806"/>
 								<reference key="IBUIFont" ref="904898000"/>
@@ -348,6 +360,10 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="96116575"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">2</int>
+					<bytes key="NSRGB">MC44MjM1Mjk0ODE5IDAuODIzNTI5NDgxOSAwLjgyMzUyOTQ4MTkAA</bytes>
+				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 				<reference key="IBUIContentView" ref="96116575"/>
 				<string key="IBUIReuseIdentifier">OrderCell</string>
@@ -588,8 +604,11 @@
 				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="1" key="83.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="1" key="84.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="1" key="85.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -692,10 +711,13 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="03.listado.de.pedidos.btn.duplicar.png">{35, 30}</string>
-			<string key="03.listado.de.pedidos.btn.estado.sin.facturar.png">{30, 49}</string>
-			<string key="deleteItem.png">{36, 32}</string>
-			<string key="editar.png">{35, 30}</string>
+			<string key="buttonDuplicar.png">{31, 31}</string>
+			<string key="buttonDuplicarHighlighted.png">{31, 31}</string>
+			<string key="buttonEditar.png">{31, 31}</string>
+			<string key="buttonEditarHighlighted.png">{31, 31}</string>
+			<string key="buttonEliminar.png">{31, 31}</string>
+			<string key="buttonEliminarHighlighted.png">{31, 31}</string>
+			<string key="pedidoReferenciaPresupuestado.png">{23, 38}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
