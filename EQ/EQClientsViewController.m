@@ -10,6 +10,7 @@
 #import "EQClientsViewModel.h"
 #import "Cliente.h"
 #import "EQTablePopover.h"
+#import "UIColor+EQ.h"
 
 #define cellIdentifier @"ClientCell"
 
@@ -79,6 +80,7 @@
     cell.clientID = cliente.identifier;
     [cell hasEmail:[cliente.mail length] > 0];
     cell.delegate = self;
+    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? [UIColor grayForCell] : [UIColor whiteColor];
     return cell;
 }
 

@@ -298,6 +298,7 @@
 		6BD92A2817974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929FE17974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png */; };
 		6BD92A2917974DB9005048D6 /* inicioFondo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929FF17974DB9005048D6 /* inicioFondo.png */; };
 		6BD92A2A17974DB9005048D6 /* inicioFondo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD92A0017974DB9005048D6 /* inicioFondo@2x.png */; };
+		6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -693,6 +694,8 @@
 		6BD929FE17974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioButtonSeleccionarUnClienteHighlighted@2x.png"; sourceTree = "<group>"; };
 		6BD929FF17974DB9005048D6 /* inicioFondo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inicioFondo.png; sourceTree = "<group>"; };
 		6BD92A0017974DB9005048D6 /* inicioFondo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioFondo@2x.png"; sourceTree = "<group>"; };
+		6BF02CEB17AEFB4200AB788B /* UIColor+EQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+EQ.h"; sourceTree = "<group>"; };
+		6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+EQ.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -836,6 +839,8 @@
 				6BB3A2F8177AA9AA0084F777 /* EQCustomDateFilterPopover.h */,
 				6BB3A2F9177AA9AA0084F777 /* EQCustomDateFilterPopover.m */,
 				6BB3A2FA177AA9AB0084F777 /* EQCustomDateFilterPopover.xib */,
+				6BF02CEB17AEFB4200AB788B /* UIColor+EQ.h */,
+				6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1730,6 +1735,7 @@
 				6B7923D91791F39900847731 /* Vendedor.m in Sources */,
 				6B7923DC1791F39C00847731 /* Usuario.m in Sources */,
 				6BCD639D17A09B1400A039FF /* CtaCte.m in Sources */,
+				6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

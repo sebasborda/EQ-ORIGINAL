@@ -9,6 +9,7 @@
 #import "EQOrdersViewController.h"
 #import "EQNewOrderViewController.h"
 #import "EQOrdersViewModel.h"
+#import "UIColor+EQ.h"
 
 #define cellIdentifier @"OrderCell"
 
@@ -101,10 +102,7 @@
     EQOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
     [cell loadOrder:[self.viewModel.orders objectAtIndex:indexPath.row]];
-    float red = 210.f / 255.f;
-    float green = 210.f / 255.f;
-    float blue = 210.f / 255.f;
-    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? [UIColor colorWithRed:red green:green blue:blue alpha:1] : [UIColor whiteColor];
+    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? [UIColor grayForCell] : [UIColor whiteColor];
     return cell;
 }
 

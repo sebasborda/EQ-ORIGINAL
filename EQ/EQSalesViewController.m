@@ -229,7 +229,7 @@
     [self.tableView reloadData];
     self.modeButton.enabled = self.viewModel.onlySubTotalAvailable;
     self.articlesLabel.text = [NSString stringWithFormat:@"%i",self.viewModel.articlesQuantity];
-    self.totalLabel.text =  [NSString stringWithFormat:@"%.2f",self.viewModel.articlesPrice];
+    self.totalLabel.text =  [NSString stringWithFormat:@"$%.2f",self.viewModel.articlesPrice];
     NSString *clientName = @"  Todos";
     if (self.viewModel.clientName) {
         clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
