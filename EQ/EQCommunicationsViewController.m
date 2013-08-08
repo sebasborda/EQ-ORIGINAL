@@ -300,7 +300,7 @@
     self.bodyTextView.text = communication.descripcion;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
-    self.dateLabel.text = [dateFormatter stringFromDate:communication.creado];
+    self.notificationDateLabel.text = [dateFormatter stringFromDate:communication.creado];
     if (communication) {
         [self finalizeEdition];
         self.viewModel.selectedCommunication = communication;

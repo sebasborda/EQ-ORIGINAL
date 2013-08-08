@@ -183,6 +183,7 @@
         <attribute name="descuento1" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="descuento2" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="descuentoMonto" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="fechaFacturado" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="importeConDescuento" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="importeFinal" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="precioUnitario" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -323,7 +324,7 @@
         <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="73"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Grupo" positionX="160" positionY="192" width="128" height="194"/>
-        <element name="ItemPedido" positionX="160" positionY="192" width="128" height="209"/>
+        <element name="ItemPedido" positionX="160" positionY="192" width="128" height="224"/>
         <element name="LineaVTA" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Pedido" positionX="160" positionY="192" width="128" height="359"/>
         <element name="Precio" positionX="432" positionY="199" width="128" height="134"/>

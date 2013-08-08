@@ -226,17 +226,19 @@
     float fortyDays = 0;
     float ninetyDays = 0;
     float more90Days = 0;
-    for (CtaCte* account in [NSArray arrayWithArray:self.currentSeller.ctacteList]) {
-        if (account.diasDeAtraso <= 30) {
-            thirtyDays += [account.importe floatValue];
-        } else if (account.diasDeAtraso <= 45) {
-            fortyDays += [account.importe floatValue];
-        } else if (account.diasDeAtraso <= 90) {
-            ninetyDays += [account.importe floatValue];
-        } else {
-            more90Days += [account.importe floatValue];
+    for (NSArray *array in self.currentAccountList) {
+        for (CtaCte* account in array) {
+            if (account.diasDeAtraso <= 30) {
+                thirtyDays += [account.importe floatValue];
+            } else if (account.diasDeAtraso <= 45) {
+                fortyDays += [account.importe floatValue];
+            } else if (account.diasDeAtraso <= 90) {
+                ninetyDays += [account.importe floatValue];
+            } else {
+                more90Days += [account.importe floatValue];
+            }
+            total += [account.importe floatValue];
         }
-        total += [account.importe floatValue];
     }
     
     [resumeDictionary setObject:[NSNumber numberWithFloat:total] forKey:@"total"];

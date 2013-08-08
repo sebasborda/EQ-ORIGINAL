@@ -25,7 +25,7 @@
     self = [super init];
     if (self) {
         self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self ordersFieldByIndex:0] ascending:YES];
-        self.sortFields = [NSArray arrayWithObjects:@"Estado", @"Fecha de sincronizacion", @"Fecha de facturacion", @"Cliente", @"Pedido", @"Importe Bruto", @"Importe Neto", nil];
+        self.sortFields = [NSArray arrayWithObjects:@"Estado", @"Fecha de creacion", @"Fecha de facturacion", @"Cliente", @"Pedido", @"Importe Bruto", @"Importe Neto", nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
         if (self.ActiveClient) {
             self.clientName = self.ActiveClient.nombre;
@@ -118,10 +118,10 @@
             return @"estado";
             break;
         case 1:
-            return @"sincronizacion";
+            return @"fecha";
             break;
         case 2:
-            return @"fecha";
+            return @"fechaFacturacion";
             break;
         case 3:
             return @"cliente.nombre";
@@ -136,7 +136,7 @@
             return @"total";
             break;
         default:
-            return @"sincronizacion";
+            return @"fecha";
             break;
     }
 }

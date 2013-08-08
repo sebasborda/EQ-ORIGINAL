@@ -10,6 +10,7 @@
 #import "EQNewOrderViewController.h"
 #import "EQOrdersViewModel.h"
 #import "UIColor+EQ.h"
+#import "NSNumber+EQ.h"
 
 #define cellIdentifier @"OrderCell"
 
@@ -26,7 +27,7 @@
     self.viewModel = [EQOrdersViewModel new];
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQOrderCell" bundle: nil];
-    [self.ordersTable registerNib:nib forCellReuseIdentifier:@"OrderCell"];
+    [self.ordersTable registerNib:nib forCellReuseIdentifier:cellIdentifier];
     
     [super viewDidLoad];
 }
@@ -125,8 +126,10 @@
 }
 
 - (void)copyOrder:(Pedido *)order{
-    if ([order.clienteID intValue] > 0) {
-        EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithClonedOrder:[order copy]];
+    if ([self.viewModel canCreateOrder]) {
+        Pedido *newOrder = [order copy];
+        newOrder.clienteID = self.viewModel.ActiveClient.identifier;
+        EQNewOrderViewController *newOrderController = [[EQNewOrderViewController alloc] initWithClonedOrder:newOrder];
         [self.navigationController pushViewController:newOrderController animated:YES];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Para crear un pedido debe tener un cliente seleccionado." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -180,16 +183,10 @@
 
 - (void)modelDidUpdateData{
     [self.ordersTable reloadData];
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[self.viewModel total]] currencyString]];
     NSString *clientName = @"  Todos";
     if (self.viewModel.clientName) {
         clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
-        self.totalPriceLabel.hidden = NO;
-        self.totalMessageLabel.hidden = NO;
-        self.totalPriceLabel.text =  [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
-    } else {
-        self.totalPriceLabel.hidden = YES;
-        self.totalMessageLabel.hidden = YES;
     }
     
     [self.clientFilterButton setTitle:clientName forState:UIControlStateNormal];

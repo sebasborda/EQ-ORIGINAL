@@ -68,10 +68,7 @@
         self.clientLocalityTextField.text = client.localidad;
         self.ownerNameTextField.text = client.propietario;
         self.purchaseManagerTextField.text = client.encCompras;
-        self.branchTextField.text = [client.sucursal stringValue];
         self.scheduleTextField.text = client.horario;
-        self.code1TextField.text = client.codigo1;
-        self.code2TextField.text = client.codigo2;
         self.collectionDaysTextField.text = client.diasDePago;
         self.discount1TextField.text = [client.descuento1 stringValue];
         self.discount2TextField.text = [client.descuento2 stringValue];
@@ -240,8 +237,8 @@
 - (IBAction)saveButtonAction:(id)sender {
     NSMutableDictionary *clientDictionary = [NSMutableDictionary new];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientNameTextField withName:@"Nombre"] forKey:@"name"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientNameTextField withName:@"Nombre"] forKey:@"alias"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientAliasTextField withName:@"Nombre de fantasia"] forKey:@"address"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientAliasTextField withName:@"Nombre de fantasia"] forKey:@"alias"];
+    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientAddressTextField withName:@"Domicilio Fiscal"] forKey:@"address"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientZipCodeTextField withName:@"Codigo postal"] forKey:@"zipcode"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.clientLocalityTextField withName:@"Localidad"] forKey:@"locality"];
     if ([self validEmail:self.clientEmailTextField.text]) {
@@ -254,11 +251,8 @@
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.purchaseManagerTextField withName:@"Enc. Compras"] forKey:@"purchaseManager"];
     
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.deliveryAddressTextField withName:@"Domicilio de entrega"] forKey:@"deliveryAddress"];
-    [clientDictionary setNotEmptyString:[self validateOnlyNumbers:self.branchTextField.text withName:@"Sucursal"] forKey:@"branch"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.scheduleTextField withName:@"Horario"] forKey:@"schedule"];
     [clientDictionary setNotEmptyString:[self validateCUIT:self.CUITTextField.text] forKey:@"cuit"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code1TextField withName:@"Codigo 1"] forKey:@"code1"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.code2TextField withName:@"Codigo 2"] forKey:@"code2"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.collectionDaysTextField withName:@"Dias de pago"] forKey:@"collectionDays"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount1TextField withName:@"Descuento 1"] forKey:@"discount1"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount2TextField withName:@"Descuento 2"] forKey:@"discount2"];

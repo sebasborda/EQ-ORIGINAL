@@ -698,7 +698,7 @@
 									<object class="IBUILabel" id="80572372">
 										<reference key="NSNextResponder" ref="920487246"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{376, 89}, {41, 22}}</string>
+										<string key="NSFrame">{{404, 89}, {41, 22}}</string>
 										<reference key="NSSuperview" ref="920487246"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="486061969"/>
@@ -719,7 +719,7 @@
 									<object class="IBUILabel" id="486061969">
 										<reference key="NSNextResponder" ref="920487246"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{463, 89}, {45, 22}}</string>
+										<string key="NSFrame">{{456, 89}, {45, 22}}</string>
 										<reference key="NSSuperview" ref="920487246"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="409095125"/>
@@ -740,7 +740,7 @@
 									<object class="IBUILabel" id="409095125">
 										<reference key="NSNextResponder" ref="920487246"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{516, 89}, {45, 22}}</string>
+										<string key="NSFrame">{{547, 89}, {45, 22}}</string>
 										<reference key="NSSuperview" ref="920487246"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="454678519"/>
@@ -937,7 +937,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<string key="IBUINormalTitle">  Sincronizacion</string>
+								<string key="IBUINormalTitle">  Estado</string>
 								<reference key="IBUIHighlightedTitleColor" ref="15664757"/>
 								<object class="NSColor" key="IBUINormalTitleColor">
 									<int key="NSColorSpace">1</int>
@@ -982,7 +982,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Sincro.</string>
+								<string key="IBUIText">Fecha</string>
 								<reference key="IBUITextColor" ref="144778720"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -1059,7 +1059,7 @@
 							<object class="IBUILabel" id="1019250617">
 								<reference key="NSNextResponder" ref="907047359"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{618, 812}, {145, 21}}</string>
+								<string key="NSFrame">{{618, 812}, {139, 21}}</string>
 								<reference key="NSSuperview" ref="907047359"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -1072,6 +1072,7 @@
 								<reference key="IBUITextColor" ref="144778720"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
+								<int key="IBUITextAlignment">2</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">Arial-BoldMT</string>
 									<string key="family">Arial</string>

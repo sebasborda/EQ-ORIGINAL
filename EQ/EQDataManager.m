@@ -309,7 +309,7 @@
             Pedido *pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary objectForKey:@"id"] number]];;
             pedido.identifier = identifier;
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             pedido.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
             pedido.activo = [dictionary[@"activo"] number];
             pedido.descuento = [dictionary[@"descuento"] number];
@@ -342,7 +342,7 @@
     [dictionary setObject:@"pedido_articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class]]];
+//    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
@@ -353,6 +353,10 @@
                 item = (ItemPedido *)[adl createManagedObject:@"ItemPedido"];
             }
             
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *fecha_facturado = [dictionary filterInvalidEntry:@"fecha_facturado"];
+            item.fechaFacturado = [dateFormatter dateFromString:fecha_facturado];
             item.articuloID = [[dictionary filterInvalidEntry:@"articulo_id"] number];
             item.cantidad = [[dictionary filterInvalidEntry:@"cantidad_pedida"] number];
             item.descuento1 = [[dictionary filterInvalidEntry:@"descuento1"] number];
@@ -1076,7 +1080,7 @@
     [orderDictionary setValue:order.observaciones forKey:@"observaciones"];
     [orderDictionary setValue:order.activo forKey:@"activo"];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     [orderDictionary setValue:[dateFormatter stringFromDate:order.fecha] forKey:@"fecha"];
     [orderDictionary setValue:items forKey:@"articulos"];
     [orderDictionary setValue:[order total] forKey:@"total"];

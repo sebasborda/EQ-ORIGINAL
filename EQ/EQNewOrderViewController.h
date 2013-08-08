@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentGroup2;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentArticles;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *quantityButtons;
+@property (strong, nonatomic) IBOutlet UILabel *orderDate;
 @property (strong, nonatomic) IBOutlet UITextField *quantityTextField;
 @property (strong, nonatomic) IBOutlet UILabel *itemsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *discountLabel;
@@ -35,6 +36,10 @@
 @property (strong, nonatomic) IBOutlet UITextView *observationTextView;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *segmentStatus;
 @property (strong, nonatomic) IBOutlet EQProductDetailView *productDetailView;
+@property (strong, nonatomic) IBOutlet UIButton *cancelOrderButton;
+@property (strong, nonatomic) IBOutlet UIButton *finishOrderButton;
+@property (strong, nonatomic) IBOutlet UILabel *itemsQuantityLabel;
+@property (strong, nonatomic) IBOutlet UILabel *orderSyncDate;
 
 - (id)initWithOrder:(Pedido *)order;
 - (id)initWithClonedOrder:(Pedido *)order;

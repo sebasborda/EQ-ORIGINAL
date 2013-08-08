@@ -18,6 +18,7 @@
 #import "ItemPedido+extra.h"
 #import "Pedido+extra.h"
 #import "EQSession.h"
+#import "NSNumber+EQ.h"
 
 @interface EQNewOrderViewController ()
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
@@ -93,6 +94,10 @@
     UINib *nibDetail = [UINib nibWithNibName:@"EQEditOrderDetailCell" bundle: nil];
     [self.tableOrderDetail registerNib:nibDetail forCellReuseIdentifier:@"EditOrderDetailCell"];
     self.productDetailView.delegate = self;
+    if (!self.isInteractionEnable) {
+        [self.finishOrderButton setTitle:@"Volver" forState:UIControlStateNormal];
+        self.cancelOrderButton.hidden = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -103,7 +108,8 @@
     self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
-    self.dateLabel.text = [dateFormat stringFromDate:[self.viewModel date]];
+    self.orderDate.text = [dateFormat stringFromDate:[self.viewModel date]];
+    self.orderSyncDate.text = [dateFormat stringFromDate:self.viewModel.order.sincronizacion];
     [self.viewModel loadData];
 }
 
@@ -118,27 +124,29 @@
 }
 
 - (IBAction)saveOrder:(id)sender {
-    if ([self canExecuteAction]) {
-        self.saveOrderAlert = [[UIAlertView alloc] initWithTitle:@""
-                                                         message:@"¿Desea guardar el pedido?"
-                                                        delegate:self
-                                               cancelButtonTitle:@"Cancelar"
-                                               otherButtonTitles:@"Guardar", nil];
-        [self.saveOrderAlert show];
+    if (self.isInteractionEnable) {
+        if ([self canExecuteAction]) {
+            self.saveOrderAlert = [[UIAlertView alloc] initWithTitle:@""
+                                                             message:@"¿Desea guardar el pedido?"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancelar"
+                                                   otherButtonTitles:@"Guardar", nil];
+            [self.saveOrderAlert show];
+        }
+    } else {
+        [self.viewModel cancelOrder];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
 - (IBAction)cancelOrder:(id)sender {
     if (self.isInteractionEnable) {
         self.cancelOrderAlert = [[UIAlertView alloc] initWithTitle:@"Cancelar Pedido"
-                                                           message:@"Todo lo cargado se perdera, esta seguro que quiere cancelarlo?"
+                                                           message:@"Todo lo cargado se perdera, ¿esta seguro que quiere cancelarlo?"
                                                           delegate:self
                                                  cancelButtonTitle:@"Si, cancelarlo"
                                                  otherButtonTitles:@"No, seguir cargando", nil];
         [self.cancelOrderAlert show];
-    } else {
-        [self.viewModel cancelOrder];
-        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -152,8 +160,7 @@
 - (IBAction)quantityButtonAction:(id)sender {
     if ([self canEdit]) {
         UIButton *button = (UIButton *)sender;
-        int quantity = [button.titleLabel.text intValue];
-        self.quantityTextField.text = [NSString stringWithFormat:@"%i",quantity];
+        [self.viewModel addItemQuantity:[button.titleLabel.text intValue]];
     }
 }
 
@@ -301,10 +308,10 @@
 }
 
 - (void)modelDidUpdateData{
-    NSString *discountText = [NSString stringWithFormat:@"%.0f%% ($%.0f)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    NSString *discountText = [NSString stringWithFormat:@"(%.0f%%) %@",[self.viewModel discountPercentage], [[NSNumber numberWithFloat:[self.viewModel discountValue]] currencyString]];
     self.discountLabel.text = discountText;
     
-    self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
+    self.subTotalLabel.text = [NSString stringWithFormat:@"%@",[[self.viewModel subTotal] currencyString]];
     self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
     
     NSIndexPath *table1IndexPath = self.viewModel.group1Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
@@ -350,24 +357,20 @@
         }
     }
     
-    self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];
+    self.itemsQuantityLabel.text = [self.viewModel.itemsQuantity stringValue];
+    self.itemsLabel.text = [NSString stringWithFormat:@"%i",[self.viewModel.order.items count]];
     self.quantityTextField.text = [[self.viewModel quantityOfCurrentArticle] stringValue];
 }
 
 - (void)modelDidAddItem{
     [self.tableOrderDetail reloadData];
-//    self.discountLabel.text = [NSString stringWithFormat:@"%.0f%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
-    NSString *discountText = [NSString stringWithFormat:@"%.0f%% ($%.0f)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
+    NSString *discountText = [NSString stringWithFormat:@"(%.2f%%) %@",[self.viewModel discountPercentage], [[NSNumber numberWithFloat:[self.viewModel discountValue]] currencyString]];
     self.discountLabel.text = discountText;
     
-    self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
-    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
-    self.itemsLabel.text = [self.viewModel.itemsQuantity stringValue];
-    
-//    self.discountLabel.text = [NSString stringWithFormat:@"%.0f%% ($%i)",[self.viewModel discountPercentage], [self.viewModel discountValue]];
-//    
-//    self.subTotalLabel.text = [NSString stringWithFormat:@"$%.2f",[[self.viewModel subTotal] floatValue]];
-//    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    self.subTotalLabel.text = [NSString stringWithFormat:@"%@",[[self.viewModel subTotal] currencyString]];
+    self.totalLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[self.viewModel total]] currencyString]];
+    self.itemsQuantityLabel.text = [self.viewModel.itemsQuantity stringValue];
+    self.itemsLabel.text = [NSString stringWithFormat:@"%i",[self.viewModel.order.items count]];
 }
 
 - (void)modelAddItemDidFail{

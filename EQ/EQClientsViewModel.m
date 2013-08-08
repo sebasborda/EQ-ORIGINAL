@@ -59,7 +59,7 @@
         
         NSString *searchTerm = [self.searchTerm stringByAppendingString:@"*"];
         searchTerm = [@"*" stringByAppendingString:searchTerm];
-        predicate = [NSPredicate predicateWithFormat:@"(SELF.nombre like[cd] %@ || SELF.domicilio like[cd] %@ || SELF.localidad like[cd] %@)",searchTerm , searchTerm, searchTerm];
+        predicate = [NSPredicate predicateWithFormat:@"(SELF.nombre like[cd] %@ || SELF.nombreDeFantasia loke[cd] %@ || SELF.propietario like[cd] %@ || SELF.domicilio like[cd] %@ || SELF.localidad like[cd] %@)",searchTerm , searchTerm, searchTerm, searchTerm, searchTerm];
     }
     
     if (predicate) {

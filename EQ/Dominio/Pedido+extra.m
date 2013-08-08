@@ -42,9 +42,16 @@
     order.total = self.total;
     order.clienteID = self.clienteID;
     order.vendedorID = self.vendedorID;
-    order.items = self.items;
+    for (ItemPedido *item in self.items) {
+        [order addItemsObject:[item copy]];
+    }
     
     return order;
+}
+
+- (NSDate *)fechaFacturacion{
+    ItemPedido *item = [self.items anyObject];
+    return item.fechaFacturado;
 }
 
 @end

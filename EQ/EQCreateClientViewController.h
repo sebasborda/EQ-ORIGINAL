@@ -31,11 +31,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *clientEmailTextField;
 @property (strong, nonatomic) IBOutlet UITextField *clientWebTextField;
 @property (strong, nonatomic) IBOutlet UITextField *deliveryAddressTextField;
-@property (strong, nonatomic) IBOutlet UITextField *branchTextField;
 @property (strong, nonatomic) IBOutlet UITextField *scheduleTextField;
 @property (strong, nonatomic) IBOutlet UITextField *CUITTextField;
-@property (strong, nonatomic) IBOutlet UITextField *code1TextField;
-@property (strong, nonatomic) IBOutlet UITextField *code2TextField;
 @property (strong, nonatomic) IBOutlet UITextField *collectionDaysTextField;
 @property (strong, nonatomic) IBOutlet UITextField *discount1TextField;
 @property (strong, nonatomic) IBOutlet UITextField *discount2TextField;

@@ -9,6 +9,7 @@
 #import "EQOrderCell.h"
 #import "Cliente.h"
 #import "EQImageView.h"
+#import "NSNumber+EQ.h"
 
 @interface EQOrderCell()
 
@@ -33,25 +34,26 @@
     [dateFormat setDateFormat:@"dd.MM.yy"];
     self.pedido = pedido;
     [self loadStatusStyle:pedido.estado];
-    self.syncDateLabel.text = [dateFormat stringFromDate:pedido.sincronizacion];
-    self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
+    self.creationDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
+    self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fechaFacturacion];
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = [pedido.identifier stringValue];
-    self.grossPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.subTotal floatValue]];
+    self.grossPriceLabel.text = [NSString stringWithFormat:@"%@", [pedido.subTotal currencyString]];
     float discount = [pedido porcentajeDescuento];
-    int intPart = (int)discount;
-    if (discount - intPart > 0.001) {
-        self.discountLabel.text = [NSString stringWithFormat:@"%.2f%%", discount];
-    } else {
-        self.discountLabel.text = [NSString stringWithFormat:@"%i%%", intPart];
-    }
-    
-    self.netPriceLabel.text = [NSString stringWithFormat:@"$%.2f", [pedido.total floatValue]];
+    self.discountLabel.text = [NSString stringWithFormat:@"%.2f%%", discount];
+    self.netPriceLabel.text = [NSString stringWithFormat:@"%@", [pedido.total currencyString]];
 }
 
 
 - (void)loadStatusStyle:(NSString *)estado{
     NSString *imageName = nil;
+    [self.creationDateLabel setTextColor:[UIColor blackColor]];
+    [self.billingDateLabel setTextColor:[UIColor blackColor]];
+    [self.clienLabel setTextColor:[UIColor blackColor]];
+    [self.orderNumberLabel setTextColor:[UIColor blackColor]];
+    [self.grossPriceLabel setTextColor:[UIColor blackColor]];
+    [self.discountLabel setTextColor:[UIColor blackColor]];
+    [self.netPriceLabel setTextColor:[UIColor blackColor]];
     if ([estado isEqualToString:@"pendiente"]) {
         imageName = @"pedidoReferenciaPendiente.png";
         self.editButton.hidden = YES;
@@ -72,7 +74,7 @@
         self.editButton.hidden = YES;
         self.cancelButton .hidden = YES;
         self.cloneButton.hidden = NO;
-        [self.syncDateLabel setTextColor:[UIColor grayColor]];
+        [self.creationDateLabel setTextColor:[UIColor grayColor]];
         [self.billingDateLabel setTextColor:[UIColor grayColor]];
         [self.clienLabel setTextColor:[UIColor grayColor]];
         [self.orderNumberLabel setTextColor:[UIColor grayColor]];

@@ -18,5 +18,6 @@
 - (Cliente *)cliente;
 - (Vendedor *)vendedor;
 - (float)porcentajeDescuento;
+- (NSDate *)fechaFacturacion;
 
 @end

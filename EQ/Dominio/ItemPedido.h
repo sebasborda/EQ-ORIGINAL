@@ -2,7 +2,7 @@
 //  ItemPedido.h
 //  EQ
 //
-//  Created by Sebastian Borda on 6/29/13.
+//  Created by Sebastian Borda on 8/7/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSNumber * importeConDescuento;
 @property (nonatomic, retain) NSNumber * importeFinal;
 @property (nonatomic, retain) NSNumber * precioUnitario;
+@property (nonatomic, retain) NSDate * fechaFacturado;
 @property (nonatomic, retain) Pedido *pedido;
 
 @end

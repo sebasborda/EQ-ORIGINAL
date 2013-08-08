@@ -11,6 +11,7 @@
 #import "CtaCte+extra.h"
 #import "Cliente.h"
 #import "EQCurrentAccountFooter.h"
+#import "NSNumber+EQ.h"
 #define cellIdentifier @"CurrentAccountCell"
 
 @interface EQCurrentAccountViewController ()
@@ -33,11 +34,11 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     NSDictionary *resume = [self.viewModel resume];
-    self.thirtyDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"30"] integerValue]];
-    self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"45"] integerValue]];
-    self.ninetyDaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"90"] integerValue]];
-    self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"$%i",[[resume objectForKey:@"+90"] integerValue]];
-    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[[resume objectForKey:@"total"] floatValue]];
+    self.thirtyDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"30"] currencyString]];
+    self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"45"] currencyString]];
+    self.ninetyDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"90"] currencyString]];
+    self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"+90"] currencyString]];
+    self.totalLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"total"] currencyString]];
     
     if (self.viewModel.clientName) {
         [self.clientButton setTitle:self.viewModel.clientName forState:UIControlStateNormal];
@@ -54,6 +55,13 @@
     if (self.viewModel.clientName) {
         clientName = [@"  " stringByAppendingString:self.viewModel.clientName];
     }
+    
+    NSDictionary *resume = [self.viewModel resume];
+    self.thirtyDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"30"] currencyString]];
+    self.fortyFiveDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"45"] currencyString]];
+    self.ninetyDaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"90"] currencyString]];
+    self.moreThan90DaysLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"+90"] currencyString]];
+    self.totalLabel.text = [NSString stringWithFormat:@"%@",[[resume objectForKey:@"total"] currencyString]];
     
     [self.clientButton setTitle:clientName forState:UIControlStateNormal];
 }
@@ -124,9 +132,9 @@
         cell.delayLabel.text = @"";
         cell.voucherLabel.text = @"";
         cell.conditionLabel.text = @"";
-        cell.persepLabel.text = [NSString stringWithFormat:@"$%.0f", percept];
-        cell.amountLabel.text = [NSString stringWithFormat:@"$%.0f", gross];
-        cell.discountLabel.text = [NSString stringWithFormat:@"$%.0f", net];
+        cell.persepLabel.text = [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:percept] currencyString]];
+        cell.amountLabel.text = [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:gross] currencyString]];
+        cell.discountLabel.text = [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:net] currencyString]];
     } else {
         CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         cell.clientLabel.text = ctaCte.cliente.nombre;
@@ -136,9 +144,9 @@
         cell.delayLabel.text = [NSString stringWithFormat:@"%i",ctaCte.diasDeAtraso];
         cell.voucherLabel.text = ctaCte.comprobante;
         cell.conditionLabel.text = ctaCte.condicionDeVenta;
-        cell.persepLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importePercepcion ? [ctaCte.importePercepcion integerValue] : 0];
-        cell.amountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importe ? [ctaCte.importe integerValue] : 0];
-        cell.discountLabel.text = [NSString stringWithFormat:@"$%i", ctaCte.importeConDescuento ? [ctaCte.importeConDescuento integerValue] : 0];
+        cell.persepLabel.text = [NSString stringWithFormat:@"%@", ctaCte.importePercepcion ? [ctaCte.importePercepcion currencyString] : [@0 currencyString]];
+        cell.amountLabel.text = [NSString stringWithFormat:@"%@", ctaCte.importe ? [ctaCte.importe currencyString] : [@0 currencyString]];
+        cell.discountLabel.text = [NSString stringWithFormat:@"%@", ctaCte.importeConDescuento ? [ctaCte.importeConDescuento currencyString] : [@0 currencyString]];
     }
     
     return cell;
@@ -176,9 +184,9 @@
         net += [account.importeConDescuento floatValue];
         percept += [account.importePercepcion floatValue];
     }
-    footer.grossLabel.text = [NSString stringWithFormat:@"$%.0f",gross];
-    footer.netLabel.text = [NSString stringWithFormat:@"$%.0f",net];
-    footer.perceptionLabel.text = [NSString stringWithFormat:@"$%.0f",percept];
+    footer.grossLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:gross] currencyString]];
+    footer.netLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:net] currencyString]];
+    footer.perceptionLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:percept] currencyString]];
     
     return footer;
 }

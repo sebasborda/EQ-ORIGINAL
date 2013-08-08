@@ -20,7 +20,7 @@
 
 @property (assign, nonatomic) id<EQOrderCellDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UIImageView *statusImageView;
-@property (strong, nonatomic) IBOutlet UILabel *syncDateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *creationDateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *billingDateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *clienLabel;
 @property (strong, nonatomic) IBOutlet UILabel *orderNumberLabel;

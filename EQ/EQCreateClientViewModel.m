@@ -65,8 +65,6 @@
         self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Cliente class])];
     }
     
-    self.client.codigo1 = clientDictionary[@"code1"];
-    self.client.codigo2 = clientDictionary[@"code2"];
     self.client.codigoPostal = clientDictionary[@"zipcode"];
     self.client.cuit = clientDictionary[@"cuit"];
     self.client.descuento1 = [clientDictionary[@"discount1"] number];
@@ -86,7 +84,6 @@
     self.client.nombreDeFantasia = clientDictionary[@"alias"];
     self.client.observaciones = clientDictionary[@"observations"];
     self.client.propietario = clientDictionary[@"owner"];
-    self.client.sucursal = [clientDictionary[@"branch"] number];
     self.client.telefono = clientDictionary[@"phone"];
     self.client.web = clientDictionary[@"web"];
     self.client.activo = [NSNumber numberWithBool:YES];

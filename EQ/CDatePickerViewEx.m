@@ -255,8 +255,8 @@ const NSInteger numberOfComponents = 2;
 -(NSString *)currentMonthName
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"es_AR"];
-    [formatter setLocale:usLocale];
+    NSLocale *argLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"es_AR"];
+    [formatter setLocale:argLocale];
     [formatter setDateFormat:@"MMMM"];
     return [formatter stringFromDate:_date];
 }
