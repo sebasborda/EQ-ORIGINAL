@@ -151,7 +151,7 @@
 							<object class="IBUIButton" id="806987679">
 								<reference key="NSNextResponder" ref="1040942591"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{666, 10}, {35, 31}}</string>
+								<string key="NSFrame">{{666, 10}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="1040942591"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="371187899"/>
@@ -172,7 +172,7 @@
 								</object>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">editar.png</string>
+									<string key="NSResourceName">buttonEditar.png</string>
 								</object>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="238969665">
 									<int key="type">2</int>
@@ -187,9 +187,10 @@
 							<object class="IBUIButton" id="371187899">
 								<reference key="NSNextResponder" ref="1040942591"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{719, 10}, {35, 31}}</string>
+								<string key="NSFrame">{{719, 10}, {31, 31}}</string>
 								<reference key="NSSuperview" ref="1040942591"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -204,7 +205,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="80960174"/>
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">mail.png</string>
+									<string key="NSResourceName">buttonEmail.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="238969665"/>
 								<reference key="IBUIFont" ref="327434777"/>
@@ -446,8 +447,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="editar.png">{35, 30}</string>
-			<string key="mail.png">{70, 62}</string>
+			<string key="buttonEditar.png">{31, 31}</string>
+			<string key="buttonEmail.png">{31, 31}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

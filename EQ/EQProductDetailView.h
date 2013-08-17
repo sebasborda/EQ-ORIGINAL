@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *quantityLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UILabel *repositionDate;
+@property (strong, nonatomic) IBOutlet UIImageView *unavailableImage;
 @property (weak, nonatomic) id<EQProductDetailViewDelegate> delegate;
 
 - (void)loadArticle:(Articulo *)article;

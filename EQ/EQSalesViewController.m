@@ -13,6 +13,8 @@
 #import "Articulo.h"
 #import "EQSalesFooter.h"
 #import "Venta+extra.h"
+#import "NSNumber+EQ.h"
+#import "UIColor+EQ.h"
 
 #define cellIdentifier @"SalesCell"
 
@@ -31,7 +33,7 @@
     UINib *nib = [UINib nibWithNibName:@"EQSalesCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
     self.popoverOwner = self.periodFilterButton;
-    [self dateFilter:nil didSelectStartDate:[self modifyMonths:-1] endDate:[self modifyMonths:1]];
+    [self dateFilter:nil didSelectStartDate:[self modifyMonths:-2] endDate:[self modifyMonths:1]];
     [super viewDidLoad];
 }
 
@@ -146,7 +148,7 @@
             cell.periodLabel.text = @"";
             cell.articleLabel.text = sale.articulo.nombre;
         }
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f", gross];
+        cell.priceLabel.text = [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:gross] currencyString]];
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
     } else {
         Venta *sale = [[self.viewModel.salesList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -156,9 +158,10 @@
         [dateFormatter setDateFormat:@"yyyy.MM"];
         cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
         cell.quantityLabel.text = [sale.cantidad stringValue];
-        cell.priceLabel.text = [NSString stringWithFormat:@"$%.2f", sale.importe ? [sale.importe floatValue] : 0];
+        cell.priceLabel.text = [NSString stringWithFormat:@"%@", sale.importe ? [sale.importe currencyString] : @"$0.00"];
     }
-
+    
+    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? [UIColor grayForCell] : [UIColor whiteColor];
     return cell;
 }
 
@@ -217,7 +220,7 @@
         gross += [sale.importe floatValue];
         quantity += [sale.cantidad integerValue];
     }
-    footer.priceLabel.text = [NSString stringWithFormat:@"$%.2f",gross];
+    footer.priceLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:gross] currencyString]];
     footer.quantityLabel.text = [NSString stringWithFormat:@"%i",quantity];
     
     return footer;
@@ -229,7 +232,7 @@
     [self.tableView reloadData];
     self.modeButton.enabled = self.viewModel.onlySubTotalAvailable;
     self.articlesLabel.text = [NSString stringWithFormat:@"%i",self.viewModel.articlesQuantity];
-    self.totalLabel.text =  [NSString stringWithFormat:@"$%.2f",self.viewModel.articlesPrice];
+    self.totalLabel.text =  [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:self.viewModel.articlesPrice] currencyString]];
     NSString *clientName = @"  Todos";
     if (self.viewModel.clientName) {
         clientName = [@"  " stringByAppendingString:self.viewModel.clientName];

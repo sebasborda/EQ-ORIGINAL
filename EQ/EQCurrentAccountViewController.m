@@ -12,6 +12,8 @@
 #import "Cliente.h"
 #import "EQCurrentAccountFooter.h"
 #import "NSNumber+EQ.h"
+#import "UIColor+EQ.h"
+
 #define cellIdentifier @"CurrentAccountCell"
 
 @interface EQCurrentAccountViewController ()
@@ -116,6 +118,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     EQCurrentAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? [UIColor grayForCell] : [UIColor whiteColor];
     if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
         NSArray *accounts = [self.viewModel.currentAccountList objectAtIndex:indexPath.row];
         float gross = 0;

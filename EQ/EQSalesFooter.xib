@@ -49,10 +49,9 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">cliente o fecha</string>
-						<object class="NSColor" key="IBUITextColor" id="815430845">
+						<object class="NSColor" key="IBUITextColor" id="842268725">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MCAwIDAAA</bytes>
-							<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
 						<object class="NSColor" key="IBUIHighlightedColor" id="226085997">
 							<int key="NSColorSpace">3</int>
@@ -88,7 +87,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">1000000</string>
-						<reference key="IBUITextColor" ref="815430845"/>
+						<reference key="IBUITextColor" ref="842268725"/>
 						<reference key="IBUIHighlightedColor" ref="226085997"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
@@ -112,7 +111,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">$160,000,000.00</string>
-						<reference key="IBUITextColor" ref="815430845"/>
+						<reference key="IBUITextColor" ref="842268725"/>
 						<reference key="IBUIHighlightedColor" ref="226085997"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
@@ -129,8 +128,8 @@
 				<reference key="NSNextKeyView" ref="748134814"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MC4xMDE5NjA3ODQzIDAuMTAxOTYwNzg0MyAwLjEwMTk2MDc4NDMAA</bytes>
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>

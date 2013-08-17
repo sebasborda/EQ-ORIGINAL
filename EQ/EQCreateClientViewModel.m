@@ -180,31 +180,31 @@
 }
 
 - (NSString *)obtainSelectedCollector{
-    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : SELECTION_TEXT;
+    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : @"Seleccione un cobrador";
 }
 
 - (NSString *)obtainSelectedProvince{
-    return [self.client.provincia.descripcion length] > 0 ? self.client.provincia.descripcion : SELECTION_TEXT;
+    return [self.client.provincia.descripcion length] > 0 ? self.client.provincia.descripcion : @"Seleccione una zona";
 }
 
 - (NSString *)obtainSelectedDeliveryArea{
-    return [self.client.zonaEnvio.descripcion length] > 0 ? self.client.zonaEnvio.descripcion : SELECTION_TEXT;
+    return [self.client.zonaEnvio.descripcion length] > 0 ? self.client.zonaEnvio.descripcion : @"Seleccione una zona de envio";
 }
 
 - (NSString *)obtainSelectedPaymentCondition{
-    return [self.client.condicionDePago.descripcion length] > 0 ? self.client.condicionDePago.descripcion : SELECTION_TEXT;
+    return [self.client.condicionDePago.descripcion length] > 0 ? self.client.condicionDePago.descripcion : @"seleccione una condición de pago";
 }
 
 - (NSString *)obtainSelectedExpress{
-    return [self.client.expreso.descripcion length] > 0 ? self.client.expreso.descripcion : SELECTION_TEXT;
+    return [self.client.expreso.descripcion length] > 0 ? self.client.expreso.descripcion : @"Seleccione un expreso";
 }
 
 - (NSString *)obtainSelectedTaxes{
-    return [self.client.iva.descripcion length] > 0 ? self.client.iva.descripcion : SELECTION_TEXT;
+    return [self.client.iva.descripcion length] > 0 ? self.client.iva.descripcion : @"Seleccione un tipo de IVA";
 }
 
 - (NSString *)obtainSelectedSalesLine{
-    return [self.client.lineaDeVenta.descripcion length] > 0 ? self.client.lineaDeVenta.descripcion : SELECTION_TEXT;
+    return [self.client.lineaDeVenta.descripcion length] > 0 ? self.client.lineaDeVenta.descripcion : @"Seleccione una línea de venta";
 }
 
 @end

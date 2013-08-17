@@ -7,6 +7,7 @@
 //
 
 #import "EQImageView.h"
+#import "Articulo+extra.h"
 
 @interface EQProductCell : UICollectionViewCell
 
@@ -15,5 +16,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *productCodeLabel;
 @property (nonatomic, strong) IBOutlet UILabel *productCostLabel;
 @property (nonatomic, strong) IBOutlet UILabel *productStatusLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *agotadoImage;
+
+- (void)loadArticle:(Articulo *)art;
 
 @end

@@ -95,19 +95,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     EQProductCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductCell" forIndexPath:indexPath];
     Articulo *art = [self.viewModel.articles objectAtIndex:indexPath.item];
-    cell.productNameLabel.text = art.nombre;
-    cell.productStatusLabel.text = art.disponibilidad.descripcion;
-    [cell.productImage loadURL:art.imagenURL];
-    CGFloat precioFloat = [art priceForActiveClient].importe ? [[art priceForActiveClient] priceForActiveClient] : 0;
-    cell.productCostLabel.text = [NSString stringWithFormat:@"$%.2f",precioFloat];
-    cell.productCodeLabel.text = art.codigo;
-    if([art.disponibilidad.identifier integerValue] > 1){
-        cell.productStatusLabel.hidden = YES;
-    } else {
-        cell.productStatusLabel.hidden = NO;
-        cell.productStatusLabel.text = art.disponibilidad.descripcion;
-    }
-    
+    [cell loadArticle:art];
     return cell;
 }
 
@@ -118,9 +106,9 @@
 }
 
 - (void)productDetailClose{
-    if (self.productDetailView.alpha == 1) {
+    if (!self.productDetailView.isHidden) {
         [UIView animateWithDuration:0.4 animations:^{
-            self.productDetailView.alpha = 0;
+            self.productDetailView.hidden = YES;
         }];
     }
 }
@@ -129,9 +117,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.productDetailView loadArticle:[self.viewModel.articles objectAtIndex:indexPath.item]];
-    if (self.productDetailView.alpha < 1) {
+    if (self.productDetailView.isHidden) {
         [UIView animateWithDuration:0.4 animations:^{
-            self.productDetailView.alpha = 1;
+            self.productDetailView.hidden = NO;
         }];
     }
 }
@@ -139,11 +127,11 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(182, 170);
+    return CGSizeMake(183, 218);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(5, 3, 5, 3);
 }
 
 #pragma mark - search bar delegate

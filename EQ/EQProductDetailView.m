@@ -9,7 +9,7 @@
 #import "EQProductDetailView.h"
 #import "EQProductCell.h"
 #import "Precio.h"
-#import "Disponibilidad.h"
+#import "Disponibilidad+extra.h"
 #import "Grupo+extra.h"
 #import "Precio+extra.h"
 #import "Articulo+extra.h"
@@ -31,7 +31,11 @@
     self.codelabel.text = article.codigo;
     self.quantityLabel.text = [article.minimoPedido stringValue];
     self.multipleLabel.text = [article.multiploPedido stringValue];
-    self.statusLabel.text = article.disponibilidad.descripcion;
+    if ([article.disponibilidad isAvailable]) {
+        self.statusLabel.hidden = YES;
+        self.unavailableImage.hidden = YES;
+    }
+
     CGFloat precio = [article priceForActiveClient].importe ? [[article priceForActiveClient] priceForActiveClient] : 0;
     self.PriceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
     self.group1Label.text = [article.grupo nombre];
@@ -72,11 +76,11 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(182, 170);
+    return CGSizeMake(183, 218);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(9, 15, 9, 15);
+    return UIEdgeInsetsMake(9, 5, 9, 5);
 }
 
 

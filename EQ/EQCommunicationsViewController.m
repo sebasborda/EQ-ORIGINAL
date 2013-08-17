@@ -55,21 +55,10 @@
     self.tableView = nil;
 }
 
-- (IBAction)notificationKindChange:(id)sender {
-    self.openedSections = [NSMutableArray array];
-    [self openCommunication:nil atIndex:nil];
-    
-    UISegmentedControl *control = sender;
-    if (control.selectedSegmentIndex == 0) {
-        [self changeToOperative];
-    } else {
-        [self changeToCommercial];
-    }
-}
-
 - (void)changeToOperative{
     self.viewModel.communicationType = COMMUNICATION_TYPE_OPERATIVE;
-    self.segmentCommunicationType.selectedSegmentIndex = 0;
+    self.operativesButton.selected = YES;
+    self.oportunitiesButton.selected = NO;
     if (self.viewLoaded) {
         [self.viewModel loadData];
     }
@@ -77,11 +66,24 @@
 
 - (void)changeToCommercial{
     self.viewModel.communicationType = COMMUNICATION_TYPE_COMMERCIAL;
-    self.segmentCommunicationType.selectedSegmentIndex = 1;
+    self.operativesButton.selected = NO;
+    self.oportunitiesButton.selected = YES;
     if (self.viewLoaded) {
         [self.viewModel loadData];
     }
 
+}
+
+- (IBAction)operativesAction:(id)sender {
+    self.openedSections = [NSMutableArray array];
+     [self openCommunication:nil atIndex:nil];
+    [self changeToOperative];
+}
+
+- (IBAction)oportunitiesAction:(id)sender {
+    self.openedSections = [NSMutableArray array];
+     [self openCommunication:nil atIndex:nil];
+    [self changeToCommercial];
 }
 
 
@@ -190,9 +192,9 @@
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
     cell.dateLabel.text = [dateFormatter stringFromDate:communication.creado];
     cell.communication = communication;
-    float red = 239./255.;
-    float green = 240./255.;
-    float blue = 249./255.;
+    float red = 242./255.;
+    float green = 242./255.;
+    float blue = 242./255.;
     cell.contentView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
     return cell;
 }
@@ -300,7 +302,6 @@
     self.bodyTextView.text = communication.descripcion;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd.MM.yyyy"];
-    self.notificationDateLabel.text = [dateFormatter stringFromDate:communication.creado];
     if (communication) {
         [self finalizeEdition];
         self.viewModel.selectedCommunication = communication;

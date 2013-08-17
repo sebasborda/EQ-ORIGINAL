@@ -104,12 +104,14 @@
     [super viewDidAppear:animated];
     [[EQSession sharedInstance] startMonitoring];
     self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
-    self.orderClientLabel.text = self.clientNameLabel.text;
+    self.orderClientLabel.text = [self.clientNameLabel.text length] > 0 ? self.clientNameLabel.text : self.viewModel.order.cliente.nombre;
     self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
     self.orderDate.text = [dateFormat stringFromDate:[self.viewModel date]];
     self.orderSyncDate.text = [dateFormat stringFromDate:self.viewModel.order.sincronizacion];
+    
+    [self.viewModel loadTopBarData];
     [self.viewModel loadData];
 }
 
@@ -312,7 +314,7 @@
     self.discountLabel.text = discountText;
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"%@",[[self.viewModel subTotal] currencyString]];
-    self.totalLabel.text = [NSString stringWithFormat:@"%.2f",[self.viewModel total]];
+    self.totalLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[self.viewModel total]] currencyString]];
     
     NSIndexPath *table1IndexPath = self.viewModel.group1Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
     NSIndexPath *table2IndexPath = self.viewModel.group2Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group2Selected inSection:0] : nil;
@@ -374,7 +376,11 @@
 }
 
 - (void)modelAddItemDidFail{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"No se pudo agregar el articulo verifique que la cantidad sea correcta multiplo de 2 y %@ y un minimo de %@",self.viewModel.articleSelected.multiploPedido, self.viewModel.articleSelected.minimoPedido] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    NSString *message = [NSString stringWithFormat:@"No se pudo agregar el articulo verifique que la cantidad sea correcta multiplo de 2, %@ y un minimo de %@",self.viewModel.articleSelected.multiploPedido, self.viewModel.articleSelected.minimoPedido];
+    if (!self.viewModel.articleSelected) {
+        message = @"Debe tener un articulo seleccionado";
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
 }

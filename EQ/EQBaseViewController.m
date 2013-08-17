@@ -233,4 +233,8 @@
     }
 }
 
+- (IBAction)synchronizeAction:(id)sender{
+    [[EQSession sharedInstance] forceSynchronization];
+}
+
 @end

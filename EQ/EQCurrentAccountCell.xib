@@ -165,6 +165,7 @@
 								<reference key="IBUIHighlightedColor" ref="834196881"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -188,6 +189,7 @@
 								<reference key="IBUIHighlightedColor" ref="834196881"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUITextAlignment">2</int>
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -211,6 +213,7 @@
 								<reference key="IBUIHighlightedColor" ref="834196881"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUITextAlignment">2</int>
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -222,7 +225,6 @@
 								<string key="NSFrame">{{698, 7}, {60, 30}}</string>
 								<reference key="NSSuperview" ref="1028399648"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -234,13 +236,14 @@
 								<reference key="IBUIHighlightedColor" ref="834196881"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUITextAlignment">2</int>
 								<reference key="IBUIFontDescription" ref="1022357518"/>
 								<reference key="IBUIFont" ref="447851190"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<double key="preferredMaxLayoutWidth">60</double>
 							</object>
 						</array>
-						<string key="NSFrameSize">{758, 43}</string>
+						<string key="NSFrameSize">{768, 43}</string>
 						<reference key="NSSuperview" ref="627532591"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="333707889"/>
@@ -256,7 +259,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{758, 44}</string>
+				<string key="NSFrameSize">{768, 44}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1028399648"/>

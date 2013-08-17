@@ -22,10 +22,10 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Grupo" predicateString="identifier == $FETCH_SOURCE.grupoID"/>
         </fetchedProperty>
         <fetchedProperty name="precios" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Precio" predicateString="articuloID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Precio" predicateString="articuloID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>
         </fetchedProperty>
         <fetchedProperty name="ventas" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="articuloID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="articuloID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>
         </fetchedProperty>
     </entity>
     <entity name="Cliente" representedClassName="Cliente" syncable="YES">
@@ -96,7 +96,7 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.vendedorID"/>
         </fetchedProperty>
         <fetchedProperty name="ventas" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="clienteID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="clienteID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>
         </fetchedProperty>
         <fetchedProperty name="zonasEnvio" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="ZonaEnvio" predicateString="identifier == $FETCH_SOURCE.zonaEnvioID"/>
@@ -224,6 +224,7 @@
         </fetchedProperty>
     </entity>
     <entity name="Precio" representedClassName="Precio" syncable="YES">
+        <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
@@ -285,10 +286,11 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.usuarioID"/>
         </fetchedProperty>
         <fetchedProperty name="ventas" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="vendedorID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>
         </fetchedProperty>
     </entity>
     <entity name="Venta" representedClassName="Venta" syncable="YES">
+        <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="cantidad" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -327,12 +329,12 @@
         <element name="ItemPedido" positionX="160" positionY="192" width="128" height="224"/>
         <element name="LineaVTA" positionX="160" positionY="192" width="128" height="103"/>
         <element name="Pedido" positionX="160" positionY="192" width="128" height="359"/>
-        <element name="Precio" positionX="432" positionY="199" width="128" height="134"/>
+        <element name="Precio" positionX="432" positionY="199" width="128" height="149"/>
         <element name="Provincia" positionX="160" positionY="192" width="128" height="103"/>
         <element name="TipoIvas" positionX="160" positionY="192" width="128" height="131"/>
         <element name="Usuario" positionX="160" positionY="192" width="128" height="164"/>
         <element name="Vendedor" positionX="160" positionY="192" width="128" height="239"/>
-        <element name="Venta" positionX="160" positionY="192" width="128" height="254"/>
+        <element name="Venta" positionX="160" positionY="192" width="128" height="269"/>
         <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="103"/>
     </elements>
 </model>

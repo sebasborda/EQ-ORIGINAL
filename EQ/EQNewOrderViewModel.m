@@ -157,7 +157,8 @@
 }
 
 - (void)addItemQuantity:(int)quantity{
-    if (quantity % 2 == 0 && quantity % [self.articleSelected.multiploPedido intValue] == 0 && quantity >= [self.articleSelected.minimoPedido intValue]) {
+    int multiplicity = [self.articleSelected.multiploPedido intValue] <= 2 ? [self.articleSelected.multiploPedido intValue] : [self.articleSelected.multiploPedido intValue] * 2;
+    if (self.articleSelected && quantity % multiplicity == 0 && quantity >= [self.articleSelected.minimoPedido intValue]) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
         for (ItemPedido *item in self.order.items) {

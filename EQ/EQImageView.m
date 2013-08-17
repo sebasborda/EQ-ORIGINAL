@@ -33,7 +33,7 @@
         }
 
     } else {
-        [self setImage:[UIImage imageNamed:@"noDisponible.jpg"]];
+        [self setImage:[UIImage imageNamed:@"catalogoFotoProductoInexistente.png"]];
     }
 }
 

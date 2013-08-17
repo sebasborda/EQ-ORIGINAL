@@ -11,6 +11,7 @@
 #import "Vendedor+extra.h"
 #import "Cliente.h"
 #import "EQDataManager.h"
+#import "EQSession.h"
 
 @interface EQOrdersViewModel()
 
@@ -54,6 +55,7 @@
 }
 
 - (void)chargeData{
+    [[EQSession sharedInstance] updateCache];
     NSMutableArray *subPredicates = [NSMutableArray new];
     if ([self.clientName length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];

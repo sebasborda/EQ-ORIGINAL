@@ -51,21 +51,19 @@
 #pragma mark - Core Data
 
 - (void)saveContext {
-    @synchronized (self) {
-        NSError *error = nil;
-        if (managedObjectContext != nil)
+    NSError *error = nil;
+    if (managedObjectContext != nil)
+    {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
         {
-            if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
-            {
-                NSLog(@"error: %@", error.userInfo);
-                /*
-                 Replace this implementation with code to handle the error appropriately.
-                 
-                 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-                 */
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
+            NSLog(@"error: %@", error.userInfo);
+            /*
+             Replace this implementation with code to handle the error appropriately.
+             
+             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+             */
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
         }
     }
 }
@@ -79,24 +77,22 @@
 }
 
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor limit:(int)limit {
-    @synchronized (self) {
-        NSString *className = NSStringFromClass(objectClass);
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
-        [fetchRequest setFetchLimit:limit];
-        if (fetchRequest) {
-            fetchRequest.predicate = predicate;
-        }
-        
-        if (sortDescriptor) {
-            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-        } else {
-            NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES];
-            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        }
-        
-        NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-        return managedObjectList;
+    NSString *className = NSStringFromClass(objectClass);
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
+    [fetchRequest setFetchLimit:limit];
+    if (fetchRequest) {
+        fetchRequest.predicate = predicate;
     }
+    
+    if (sortDescriptor) {
+        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    } else {
+        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES];
+        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    }
+    
+    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    return managedObjectList;
 }
 
 
@@ -114,19 +110,17 @@
 }
 
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
-    @synchronized (self) {
-        NSString *className = NSStringFromClass(objectClass);
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
-        fetchRequest.predicate = predicate;
-        
-        NSError *error = nil;
-        NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        if([managedObjectList count] > 0){
-            return [managedObjectList lastObject];
-        }
-        
-        return nil;
+    NSString *className = NSStringFromClass(objectClass);
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
+    fetchRequest.predicate = predicate;
+    
+    NSError *error = nil;
+    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if([managedObjectList count] > 0){
+        return [managedObjectList lastObject];
     }
+    
+    return nil;
 }
 
 - (NSManagedObject *)createManagedObject:(NSString*)kind{
@@ -157,6 +151,7 @@
     {
         self.managedObjectContext = [[NSManagedObjectContext alloc] init];
         [managedObjectContext setPersistentStoreCoordinator:storeCoordinator];
+        [managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
     }
     return managedObjectContext;
 }
@@ -230,16 +225,14 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-- (void)contextChanged:(NSNotification*)notification
-{
-    if ([notification object] == [self managedObjectContext]) return;
-    
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(contextChanged:) withObject:notification waitUntilDone:YES];
-        return;
+- (void)contextChanged:(NSNotification*)notification {
+    if ([notification object] != [self managedObjectContext]) {
+        if (![NSThread isMainThread]) {
+            [self performSelectorOnMainThread:@selector(contextChanged:) withObject:notification waitUntilDone:YES];
+        } else{
+            [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+        }
     }
-    
-    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
 }
 
 @end

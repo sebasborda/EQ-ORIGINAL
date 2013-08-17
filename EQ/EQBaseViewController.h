@@ -26,6 +26,7 @@
 - (IBAction)goalsAction:(id)sender;
 - (IBAction)logoutAction:(id)sender;
 - (IBAction)clientsButtonAction:(id)sender;
+- (IBAction)synchronizeAction:(id)sender;
 - (BOOL)isButtonPopoverOwner:(UIButton *)button;
 
 - (void)presentPopoverInView:(UIButton *)view withContent:(UIViewController *)content;

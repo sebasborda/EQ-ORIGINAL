@@ -24,6 +24,7 @@
 - (NSNumber *)currentLatitude;
 - (void)startMonitoring;
 - (void)stopMonitoring;
+- (void)forceSynchronization;
 
 @property (nonatomic,strong) Cliente *selectedClient;
 @property (nonatomic,strong) Usuario *user;
