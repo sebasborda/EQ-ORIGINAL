@@ -17,4 +17,14 @@
     return [self.vendedores lastObject];
 }
 
++ (Usuario *)currentUser{
+    NSNumber *userID = [[NSUserDefaults standardUserDefaults] objectForKey:@"loggedUser"];
+    if (userID) {
+        Usuario *currentUser = [Usuario findWithIdentifier:userID];
+        return currentUser;
+    }
+    
+    return nil;
+}
+
 @end

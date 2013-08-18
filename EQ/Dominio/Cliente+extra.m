@@ -11,7 +11,6 @@
 #import "Pedido+extra.h"
 #import "Articulo+extra.h"
 #import "Grupo+extra.h"
-#import "EQDataAccessLayer.h"
 
 @implementation Cliente (extra)
 
@@ -60,24 +59,28 @@
 }
 
 - (void)calcularRelevancia{
-    for (Pedido *pedido in self.pedidos) {
-        for (ItemPedido *item in pedido.items) {
-            Grupo *grupo = item.articulo.grupo;
-            grupo.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo.relevancia intValue]];
-            
-            if (![grupo.parentID isEqualToNumber:@0]) {
-                Grupo *grupo2 = grupo.parent;
-                grupo2.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo2.relevancia intValue]];
-                
-                if(![grupo2.parentID isEqualToNumber:@0]){
-                    Grupo *grupo3 = grupo2.parent;
-                    grupo3.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo3.relevancia intValue]];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            for (Pedido *pedido in self.pedidos) {
+                for (ItemPedido *item in pedido.items) {
+                    Grupo *grupo = item.articulo.grupo;
+                    grupo.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo.relevancia intValue]];
                     
+                    if (![grupo.parentID isEqualToNumber:@0]) {
+                        Grupo *grupo2 = grupo.parent;
+                        grupo2.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo2.relevancia intValue]];
+                        
+                        if(![grupo2.parentID isEqualToNumber:@0]){
+                            Grupo *grupo3 = grupo2.parent;
+                            grupo3.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo3.relevancia intValue]];
+                            
+                        }
+                    }
                 }
             }
-        }
-    }
-    [[EQDataAccessLayer sharedInstance] saveContext];
+
+        });
+    }];
 }
 
 @end

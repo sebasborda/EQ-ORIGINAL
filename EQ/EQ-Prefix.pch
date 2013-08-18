@@ -14,4 +14,7 @@
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import "EQDefines.h"
+    #import "CoreData+MagicalRecord.h"
+    #import "NSManagedObject+EQ.h"
+
 #endif

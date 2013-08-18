@@ -7,7 +7,6 @@
 //
 
 #import "EQCommunicationsViewModel.h"
-#import "EQDataAccessLayer.h"
 #import "EQSession.h"
 #import "Usuario+extra.h"
 #import "EQDataManager.h"
@@ -87,42 +86,49 @@
     NSArray *communications = [self.communications objectForKey:self.selectedCommunication.threadID];
     for (Comunicacion *communication in communications) {
         if ([communication.activo boolValue]) {
-            communication.activo = @0;
-            [[EQDataAccessLayer sharedInstance] saveContext];
-            [[EQSession sharedInstance] updateCache];
-            [[EQDataManager sharedInstance] sendCommunication:communication];
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+                Comunicacion *communicationInContext = [communication MR_inContext:localContext];
+                communicationInContext.activo = @0;
+            } completion:^(BOOL success, NSError *error) {
+                [[EQSession sharedInstance] updateCache];
+                [[EQDataManager sharedInstance] sendCommunication:communication];
+            }];
         }
     }
 }
 
 - (void)didReadCommunication{
     if (self.selectedCommunication.leido == nil) {
-        self.selectedCommunication.leido = [NSDate date];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
-        [[EQDataManager sharedInstance] sendCommunication:self.selectedCommunication];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+            Comunicacion *communicationInContext = [self.selectedCommunication MR_inContext:localContext];
+            communicationInContext.leido = [NSDate date];
+        } completion:^(BOOL success, NSError *error) {
+            [[EQSession sharedInstance] updateCache];
+            [[EQDataManager sharedInstance] sendCommunication:self.selectedCommunication];
+        }];
     }
 }
 
 - (void)sendResponseWithMessage:(NSString *)message{
-    Comunicacion *communication = (Comunicacion *)[[EQDataAccessLayer sharedInstance] createManagedObject:@"Comunicacion"];
-    communication.titulo = self.selectedCommunication.titulo;
-    communication.descripcion = message;
-    communication.threadID = self.selectedCommunication.threadID;
-    communication.tipo = self.selectedCommunication.tipo;
-    communication.senderID = [EQSession sharedInstance].user.identifier;
-    communication.receiverID = [communication.senderID isEqualToNumber:self.selectedCommunication.senderID] ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
-    communication.activo = [NSNumber numberWithBool:YES];
-    communication.actualizado = [NSNumber numberWithBool:NO];
-    communication.creado = [NSDate date];
-    communication.leido = nil;
-    communication.codigoSerial = self.selectedCommunication.codigoSerial;
-    [[EQDataAccessLayer sharedInstance] saveContext];
-    
-    NSMutableArray *communications = self.communications[communication.threadID];
-    [communications insertObject:communication atIndex:0];
-    
-    [[EQDataManager sharedInstance] sendCommunication:communication];
+    __block Comunicacion *communication = nil;
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+        Comunicacion *communication = [Comunicacion MR_createEntity];
+        communication.titulo = self.selectedCommunication.titulo;
+        communication.descripcion = message;
+        communication.threadID = self.selectedCommunication.threadID;
+        communication.tipo = self.selectedCommunication.tipo;
+        communication.senderID = [EQSession sharedInstance].user.identifier;
+        communication.receiverID = [communication.senderID isEqualToNumber:self.selectedCommunication.senderID] ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
+        communication.activo = [NSNumber numberWithBool:YES];
+        communication.actualizado = [NSNumber numberWithBool:NO];
+        communication.creado = [NSDate date];
+        communication.leido = nil;
+        communication.codigoSerial = self.selectedCommunication.codigoSerial;
+    } completion:^(BOOL success, NSError *error) {
+        NSMutableArray *communications = self.communications[communication.threadID];
+        [communications insertObject:communication atIndex:0];
+        [[EQDataManager sharedInstance] sendCommunication:communication];
+    }];
 }
 
 @end

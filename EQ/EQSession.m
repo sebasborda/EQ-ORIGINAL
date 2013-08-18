@@ -8,7 +8,7 @@
 
 #import "EQSession.h"
 #import "EQDataManager.h"
-#import "EQDataAccessLayer.h"
+ 
 #import "Grupo+extra.h"
 
 @interface EQSession()
@@ -72,7 +72,6 @@
 }
 
 - (void)regiteredUser:(Usuario *)user{
-    self.user = user;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:user.identifier forKey:@"loggedUser"];
     [defaults synchronize];
@@ -91,7 +90,6 @@
 }
 
 - (void)endSession{
-    self.user = nil;
     _selectedClient = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"loggedUser"];
@@ -116,11 +114,15 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *userID = [defaults objectForKey:@"loggedUser"];
     if (userID && !self.user) {
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-        [self regiteredUser:(Usuario *)[adl objectForClass:[Usuario class] withId:userID]];
+        Usuario *loggedUser = [Usuario findWithIdentifier:userID];
+        [self regiteredUser:loggedUser];
     }
     
     return userID != nil;
+}
+
+- (Usuario *)user {
+    return [Usuario currentUser];
 }
 
 - (void)setSelectedClient:(Cliente *)selectedClient{
@@ -136,9 +138,7 @@
 }
 
 - (void)updateCache{
-    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
-    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user.vendedor mergeChanges:YES];
-    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user mergeChanges:YES];
+//    [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
 }
 
 @end

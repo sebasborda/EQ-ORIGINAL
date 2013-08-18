@@ -12,7 +12,7 @@
 #import "NSString+Number.h"
 #import "EQSession.h"
 #import "EQNetworkManager.h"
-#import "EQDataAccessLayer.h"
+
 #import "Articulo+extra.h"
 #import "CondPag.h"
 #import "Vendedor.h"
@@ -39,7 +39,6 @@
 @property (nonatomic,assign) BOOL running;
 @property (nonatomic,strong) FailRequest failBlock;
 @property (nonatomic,assign) BOOL dataUpdated;
-@property (nonatomic,strong) NSPredicate *objectIDPredicate;
 
 @end
 
@@ -56,7 +55,6 @@
         sharedInstance = [[EQDataManager alloc] init];
         sharedInstance.showLoading = YES;
         sharedInstance.running = NO;
-        sharedInstance.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
         __weak EQDataManager *weakSelf = sharedInstance;
         sharedInstance.failBlock = ^(NSError *error){
             sharedInstance.running = NO;
@@ -96,8 +94,7 @@
 }
 
 - (void)sendPendingCommunications{
-    EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *communications = [dal objectListForClass:[Comunicacion class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
+    NSArray *communications = [Comunicacion MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
     for (Comunicacion *communication in communications) {
         [self sendCommunication:communication];
         [NSThread sleepForTimeInterval:5];
@@ -105,8 +102,7 @@
 }
 
 - (void)sendPendingOrders{
-    EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *orders = [dal objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
+    NSArray *orders = [Pedido MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
     for (Pedido *order in orders) {
         [self sendOrder:order];
         [NSThread sleepForTimeInterval:5];
@@ -114,8 +110,7 @@
 }
 
 - (void)sendPendingClients{
-    EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *clients = [dal objectListForClass:[Cliente class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
+    NSArray *clients = [Cliente MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
     for (Cliente *client in clients) {
         [self sendClient:client];
         [NSThread sleepForTimeInterval:5];
@@ -217,15 +212,15 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Precio class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
         NSNumber *active = [NSNumber numberWithBool:!override];
         if ([jsonArray count] > 0) {
             @autoreleasepool {
                 int count = 0;
+                NSManagedObjectContext *context = [NSManagedObjectContext MR_contextForCurrentThread];
                 for (NSDictionary *priceDictionary in jsonArray) {
                     count++;
                     NSNumber *priceID = [[priceDictionary objectForKey:@"id"] number];
-                    Precio *price = (Precio *)[adl createManagedObject:@"Precio"];
+                    Precio *price = [Precio MR_createEntity];
                     price.identifier = priceID;
                     price.importe = [[priceDictionary filterInvalidEntry:@"importe"] number];
                     price.numero = [[priceDictionary filterInvalidEntry:@"numero"] number];
@@ -233,12 +228,11 @@
                     price.activo = active;
                     self.dataUpdated = YES;
                     if (count % 200 == 0 || count == [jsonArray count]) {
-                        [adl saveContext];
-                        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
+                        [context save:nil];
+                        [context reset];
                     }
                 }
             }
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
             int nextPage = page + 1;
             [self updatePageCompleted:dictionary[@"page"] ForClass:[Precio class]];
             [self updateCostPage:nextPage forceOverride:override];
@@ -255,28 +249,15 @@
 }
 
 - (void)changePricesList{
-    NSManagedObjectContext *context = [EQDataAccessLayer sharedInstanceForBatch].managedObjectContext;
-    NSError *error = nil;
     @autoreleasepool {
-        NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Precio"];
-        //Get old prices
-        allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:YES]];
-        NSArray *objects = [context executeFetchRequest:allRequest error:&error];
-        //Delete old prices
-        for (Precio *price in objects) {
-            [context deleteObject:price];
-        }
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [Precio MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:YES]]];
     }
-
+    
     @autoreleasepool {
-        NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Precio"];
-        allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]];
-        //fetch new prices
-        NSArray *newObjects = [context executeFetchRequest:allRequest error:&error];
-        [newObjects setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
-        //now save your changes back.
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            NSArray *newPrices = [Precio MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]]];
+            [newPrices setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
+        }];
     }
 }
 
@@ -288,34 +269,32 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Comunicacion class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary *dictionary in jsonArray) {
-            NSNumber *identifier = [dictionary[@"id"] number];
-            Comunicacion *notification = (Comunicacion *)[adl objectForClass:[Comunicacion class] withId:[[dictionary objectForKey:@"id"] number]];
-            notification.identifier = identifier;
-            notification.titulo = dictionary[@"titulo"];
-            notification.descripcion = dictionary[@"descripcion"];
-            notification.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
-            notification.senderID = [dictionary[@"sender_id"] number];
-            notification.receiverID = [dictionary[@"receiver_id"] number];
-            notification.threadID = [dictionary[@"thread_id"] number];
-            notification.tipo = dictionary[@"tipo"];
-            if (dictionary[@"leido"] != [NSNull null]) {
-                notification.leido = [NSDate dateWithTimeIntervalSince1970:[[dictionary[@"leido"] number] doubleValue]];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary *dictionary in jsonArray) {
+                Comunicacion *notification = [Comunicacion findOrCreateWithIdentifier:[[dictionary objectForKey:@"id"] number]];
+                notification.titulo = dictionary[@"titulo"];
+                notification.descripcion = dictionary[@"descripcion"];
+                notification.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
+                notification.senderID = [dictionary[@"sender_id"] number];
+                notification.receiverID = [dictionary[@"receiver_id"] number];
+                notification.threadID = [dictionary[@"thread_id"] number];
+                notification.tipo = dictionary[@"tipo"];
+                if (dictionary[@"leido"] != [NSNull null]) {
+                    notification.leido = [NSDate dateWithTimeIntervalSince1970:[[dictionary[@"leido"] number] doubleValue]];
+                }
+                notification.activo = [dictionary[@"activo"] number];
+                notification.actualizado = [NSNumber numberWithBool:YES];
+                notification.codigoSerial = [dictionary[@"codigo_serial"] number];
+                NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                notification.creado = [dateFormatter dateFromString:dictionary[@"creado"]];
+                self.dataUpdated = YES;
             }
-            notification.activo = [dictionary[@"activo"] number];
-            notification.actualizado = [NSNumber numberWithBool:YES];
-            notification.codigoSerial = [dictionary[@"codigo_serial"] number];
-            NSDateFormatter *dateFormatter = DATE_FORMATTER;
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            notification.creado = [dateFormatter dateFromString:dictionary[@"creado"]];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Comunicacion class]];
-        [self updateGroups];
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Comunicacion class]];
+            [self updateGroups];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
@@ -329,35 +308,33 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Pedido class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary *dictionary in jsonArray) {
-            NSNumber *identifier = [dictionary[@"id"] number];
-            Pedido *pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary objectForKey:@"id"] number]];;
-            pedido.identifier = identifier;
-            NSDateFormatter *dateFormatter = DATE_FORMATTER;
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            pedido.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
-            pedido.activo = [dictionary[@"activo"] number];
-            pedido.descuento = [dictionary[@"descuento"] number];
-            pedido.estado = [dictionary filterInvalidEntry:@"estado"] != nil ? [dictionary[@"estado"] lowercaseString] : @"pendiente";
-            pedido.subTotal = [dictionary[@"subtotal"] number];
-            pedido.latitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
-            pedido.longitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
-            pedido.total = [dictionary[@"total"] number];
-            pedido.observaciones = [dictionary filterInvalidEntry:@"observaciones"];
-            pedido.descuento3 = [dictionary[@"descuento3"] number];
-            pedido.descuento4 = [dictionary[@"descuento4"] number];
-            pedido.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
-            pedido.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
-            pedido.actualizado = [NSNumber numberWithBool:YES];
-            pedido.sincronizacion = [NSDate date];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Pedido class]];
-        [self updateItemPedido];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary *dictionary in jsonArray) {
+                Pedido *pedido = [Pedido findOrCreateWithIdentifier:[[dictionary objectForKey:@"id"] number]];
+                NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                pedido.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
+                pedido.activo = [dictionary[@"activo"] number];
+                pedido.descuento = [dictionary[@"descuento"] number];
+                pedido.estado = [dictionary filterInvalidEntry:@"estado"] != nil ? [dictionary[@"estado"] lowercaseString] : @"pendiente";
+                pedido.subTotal = [dictionary[@"subtotal"] number];
+                pedido.latitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
+                pedido.longitud = [[dictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
+                pedido.total = [dictionary[@"total"] number];
+                pedido.observaciones = [dictionary filterInvalidEntry:@"observaciones"];
+                pedido.descuento3 = [dictionary[@"descuento3"] number];
+                pedido.descuento4 = [dictionary[@"descuento4"] number];
+                pedido.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
+                pedido.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
+                pedido.actualizado = [NSNumber numberWithBool:YES];
+                pedido.sincronizacion = [NSDate date];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Pedido class]];
+            [self updateItemPedido];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
@@ -371,34 +348,34 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
         NSPredicate *itemPredicate = [NSPredicate predicateWithFormat:@"SELF.articuloID == $ARTICULO_ID && SELF.pedido.identifier == $PEDIDO_ID"];
-        for (NSDictionary *dictionary in jsonArray) {
-            ItemPedido *item = (ItemPedido *)[adl objectForClass:[ItemPedido class] withPredicate:[itemPredicate predicateWithSubstitutionVariables:@{@"ARTICULO_ID":[[dictionary objectForKey:@"articulo_id"] number],@"PEDIDO_ID":[[dictionary objectForKey:@"pedido_id"] number]}]];
-            if (!item) {
-                item = (ItemPedido *)[adl createManagedObject:@"ItemPedido"];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary *dictionary in jsonArray) {
+                ItemPedido *item = [ItemPedido MR_findFirstWithPredicate:[itemPredicate predicateWithSubstitutionVariables:@{@"ARTICULO_ID":[[dictionary objectForKey:@"articulo_id"] number],@"PEDIDO_ID":[[dictionary objectForKey:@"pedido_id"] number]}]];
+                if (!item) {
+                    item = [ItemPedido MR_createEntity];
+                }
+                
+                NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                NSString *fecha_facturado = [dictionary filterInvalidEntry:@"fecha_facturado"];
+                item.fechaFacturado = [dateFormatter dateFromString:fecha_facturado];
+                item.articuloID = [[dictionary filterInvalidEntry:@"articulo_id"] number];
+                item.cantidad = [[dictionary filterInvalidEntry:@"cantidad_pedida"] number];
+                item.descuento1 = [[dictionary filterInvalidEntry:@"descuento1"] number];
+                item.descuento2 = [[dictionary filterInvalidEntry:@"descuento2"] number];
+                item.descuentoMonto = [[dictionary filterInvalidEntry:@"descuento_monto"] number];
+                item.importeConDescuento = [[dictionary filterInvalidEntry:@"precio_con_descuento"] number];
+                item.importeFinal = [[dictionary filterInvalidEntry:@"importe_final"] number];
+                item.precioUnitario = [[dictionary filterInvalidEntry:@"precio_unitario"] number];
+                item.pedido = [Pedido findWithIdentifier:[[dictionary filterInvalidEntry:@"pedido_id"] number]];
+                self.dataUpdated = YES;
             }
-            
-            NSDateFormatter *dateFormatter = DATE_FORMATTER;
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            NSString *fecha_facturado = [dictionary filterInvalidEntry:@"fecha_facturado"];
-            item.fechaFacturado = [dateFormatter dateFromString:fecha_facturado];
-            item.articuloID = [[dictionary filterInvalidEntry:@"articulo_id"] number];
-            item.cantidad = [[dictionary filterInvalidEntry:@"cantidad_pedida"] number];
-            item.descuento1 = [[dictionary filterInvalidEntry:@"descuento1"] number];
-            item.descuento2 = [[dictionary filterInvalidEntry:@"descuento2"] number];
-            item.descuentoMonto = [[dictionary filterInvalidEntry:@"descuento_monto"] number];
-            item.importeConDescuento = [[dictionary filterInvalidEntry:@"precio_con_descuento"] number];
-            item.importeFinal = [[dictionary filterInvalidEntry:@"importe_final"] number];
-            item.precioUnitario = [[dictionary filterInvalidEntry:@"precio_unitario"] number];
-            item.pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary filterInvalidEntry:@"pedido_id"] number]];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[ItemPedido class]];
-        [self updateCurrentAccount];
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[ItemPedido class]];
+            [self updateCurrentAccount];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
@@ -411,28 +388,27 @@
     [params addEntriesFromDictionary:[self obtainCredentials]];
     [params addEntriesFromDictionary:[self obtainLastUpdateFor:[CtaCte class]]];
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary *ctaCteDictionary in jsonArray) {
-            CtaCte *ctaCte = (CtaCte *)[adl objectForClass:[CtaCte class] withId:[[ctaCteDictionary objectForKey:@"id"] number]];
-            ctaCte.identifier = [[ctaCteDictionary filterInvalidEntry:@"id"] number];
-            ctaCte.importe = [[ctaCteDictionary filterInvalidEntry:@"importe"] number];
-            ctaCte.importePercepcion = [[ctaCteDictionary filterInvalidEntry:@"importe_percepcion"] number];
-            ctaCte.empresa = [ctaCteDictionary filterInvalidEntry:@"empresa"];
-            ctaCte.condicionDeVenta = [ctaCteDictionary filterInvalidEntry:@"condicion_de_venta"];
-            ctaCte.comprobante = [ctaCteDictionary filterInvalidEntry:@"comprobante"];
-            NSDateFormatter *dateFormatter = DATE_FORMATTER;
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            ctaCte.fecha = [dateFormatter dateFromString:ctaCteDictionary[@"fecha"]];
-            ctaCte.importeConDescuento = [[ctaCteDictionary filterInvalidEntry:@"importe_con_desc"] number];
-            ctaCte.clienteID = [[ctaCteDictionary filterInvalidEntry:@"cliente_id"] number];
-            ctaCte.vendedorID = [[ctaCteDictionary filterInvalidEntry:@"vendedor_id"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[CtaCte class]];
-        [self updateNotifications];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary *ctaCteDictionary in jsonArray) {
+                CtaCte *ctaCte = [CtaCte findOrCreateWithIdentifier:[[ctaCteDictionary objectForKey:@"id"] number]];
+                ctaCte.importe = [[ctaCteDictionary filterInvalidEntry:@"importe"] number];
+                ctaCte.importePercepcion = [[ctaCteDictionary filterInvalidEntry:@"importe_percepcion"] number];
+                ctaCte.empresa = [ctaCteDictionary filterInvalidEntry:@"empresa"];
+                ctaCte.condicionDeVenta = [ctaCteDictionary filterInvalidEntry:@"condicion_de_venta"];
+                ctaCte.comprobante = [ctaCteDictionary filterInvalidEntry:@"comprobante"];
+                NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                ctaCte.fecha = [dateFormatter dateFromString:ctaCteDictionary[@"fecha"]];
+                ctaCte.importeConDescuento = [[ctaCteDictionary filterInvalidEntry:@"importe_con_desc"] number];
+                ctaCte.clienteID = [[ctaCteDictionary filterInvalidEntry:@"cliente_id"] number];
+                ctaCte.vendedorID = [[ctaCteDictionary filterInvalidEntry:@"vendedor_id"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[CtaCte class]];
+            [self updateNotifications];
+        }];
     };
     
     [self executeRequestWithParameters:params successBlock:success failBlock:nil];
@@ -446,20 +422,19 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[CondPag class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* condPagDictionary in jsonArray) {
-            CondPag *condPag = (CondPag *)[adl objectForClass:[CondPag class] withId:[condPagDictionary objectForKey:@"id"]];
-            condPag.identifier = [[condPagDictionary filterInvalidEntry:@"id"] number];
-            condPag.descripcion = [condPagDictionary filterInvalidEntry:@"descripcion"];
-            condPag.codigo = [condPagDictionary filterInvalidEntry:@"codigo"];
-            condPag.activo = [[condPagDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[CondPag class]];
-        [self updateKindTaxes];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* condPagDictionary in jsonArray) {
+                CondPag *condPag = [CondPag findOrCreateWithIdentifier:[[condPagDictionary objectForKey:@"id"] number]];
+                condPag.descripcion = [condPagDictionary filterInvalidEntry:@"descripcion"];
+                condPag.codigo = [condPagDictionary filterInvalidEntry:@"codigo"];
+                condPag.activo = [[condPagDictionary filterInvalidEntry:@"activo"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[CondPag class]];
+            [self updateKindTaxes];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
@@ -473,20 +448,20 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[LineaVTA class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* ventaDictionary in jsonArray) {
-            LineaVTA *venta = (LineaVTA *)[adl objectForClass:[LineaVTA class] withId:[ventaDictionary objectForKey:@"id"]];
-            venta.identifier = [[ventaDictionary filterInvalidEntry:@"id"] number];
-            venta.descripcion = [ventaDictionary filterInvalidEntry:@"descripcion"];
-            venta.codigo = [ventaDictionary filterInvalidEntry:@"codigo"];
-            venta.activo = [[ventaDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[LineaVTA class]];
-        [self updateExpress];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* ventaDictionary in jsonArray) {
+                LineaVTA *venta = [LineaVTA findOrCreateWithIdentifier:[[ventaDictionary objectForKey:@"id"] number]];
+                venta.identifier = [[ventaDictionary filterInvalidEntry:@"id"] number];
+                venta.descripcion = [ventaDictionary filterInvalidEntry:@"descripcion"];
+                venta.codigo = [ventaDictionary filterInvalidEntry:@"codigo"];
+                venta.activo = [[ventaDictionary filterInvalidEntry:@"activo"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[LineaVTA class]];
+            [self updateExpress];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
@@ -508,14 +483,14 @@
     
     SuccessRequest success = ^(NSArray *jsonArray){
         NSNumber *active = [NSNumber numberWithBool:!override];
-        EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstanceForBatch];
         if ([jsonArray count] > 0) {
             @autoreleasepool {
                 int count = 0;
+                NSManagedObjectContext *context = [NSManagedObjectContext MR_contextForCurrentThread];
                 for (NSDictionary *dictionary in jsonArray) {
                     count++;
                     NSNumber *identifier = [dictionary[@"id"] number];
-                    Venta *venta = (Venta *)[dal createManagedObject:@"Venta"];
+                    Venta *venta = [Venta MR_createEntity];
                     venta.identifier = identifier;
                     venta.importe = [dictionary[@"importe"] number];
                     NSDateFormatter *dateFormatter = DATE_FORMATTER;
@@ -530,12 +505,11 @@
                     venta.activo = active;
                     self.dataUpdated = YES;
                     if (count % 200 == 0 || count == [jsonArray count]) {
-                        [dal saveContext];
-                        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
+                        [context save:nil];
+                        [context reset];
                     }
                 }
             }
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
             int nextPage = page + 1;
             [self updatePageCompleted:dictionary[@"page"] ForClass:[Venta class]];
             [self updateSalesPage:nextPage forceOverride:override];
@@ -553,27 +527,15 @@
 }
 
 - (void)changeSalesList{
-    NSManagedObjectContext *context = [EQDataAccessLayer sharedInstanceForBatch].managedObjectContext;
-    NSError *error = nil;
     @autoreleasepool {
-        NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Venta"];
-        //Get old sales
-        allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:YES]];
-        NSArray *objects = [context executeFetchRequest:allRequest error:&error];
-        //Delete old sales
-        for (Venta *price in objects) {
-            [context deleteObject:price];
-        }
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [Venta MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:YES]]];
     }
+    
     @autoreleasepool {
-        NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Venta"];
-        allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]];
-        //fetch new sales
-        NSArray *newObjects = [context executeFetchRequest:allRequest error:&error];
-        [newObjects setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
-        //now save your changes back.
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+            NSArray *newSales= [Venta MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]]];
+            [newSales setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
+        }];
     }
 }
 
@@ -585,20 +547,19 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ZonaEnvio class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* envioDictionary in jsonArray) {
-            ZonaEnvio *envio = (ZonaEnvio *)[adl objectForClass:[ZonaEnvio class] withId:[envioDictionary objectForKey:@"id"]];
-            envio.identifier = [[envioDictionary filterInvalidEntry:@"id"] number];
-            envio.descripcion = [envioDictionary filterInvalidEntry:@"descripcion"];
-            envio.codigo = [envioDictionary filterInvalidEntry:@"codigo"];
-            envio.activo = [[envioDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[ZonaEnvio class]];
-        [self updateProvince];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* envioDictionary in jsonArray) {
+                ZonaEnvio *envio = [ZonaEnvio findOrCreateWithIdentifier:[[envioDictionary objectForKey:@"id"] number]];                envio.identifier = [[envioDictionary filterInvalidEntry:@"id"] number];
+                envio.descripcion = [envioDictionary filterInvalidEntry:@"descripcion"];
+                envio.codigo = [envioDictionary filterInvalidEntry:@"codigo"];
+                envio.activo = [[envioDictionary filterInvalidEntry:@"activo"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[ZonaEnvio class]];
+            [self updateProvince];
+        }];
     };
     
     [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
@@ -606,52 +567,52 @@
 
 - (void)updateClients{
     SuccessRequest block = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* clienteDictionary in jsonArray) {
-            Cliente *client = (Cliente *)[adl objectForClass:[Cliente class] withId:[clienteDictionary objectForKey:@"id"]];
-            client.identifier = [[clienteDictionary filterInvalidEntry:@"id"] number];
-            client.cobradorID = [[clienteDictionary filterInvalidEntry:@"cobrador_id"] number];
-            client.codigoPostal = [clienteDictionary filterInvalidEntry:@"cod_postal"];
-            client.codigo1 = [clienteDictionary filterInvalidEntry:@"codigo1"];
-            client.codigo2 = [clienteDictionary filterInvalidEntry:@"codigo2"];
-            client.condicionDePagoID = [[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number];
-            client.cuit = [clienteDictionary filterInvalidEntry:@"cuit"];
-            client.descuento1 = [[clienteDictionary filterInvalidEntry:@"descuento1"] number];
-            client.descuento2 = [[clienteDictionary filterInvalidEntry:@"descuento2"] number];
-            client.descuento3 = [[clienteDictionary filterInvalidEntry:@"descuento3"] number];
-            client.descuento4 = [[clienteDictionary filterInvalidEntry:@"descuento4"] number];
-            client.diasDePago = [clienteDictionary filterInvalidEntry:@"dias_de_pago"];
-            client.domicilio = [clienteDictionary filterInvalidEntry:@"domicilio"];
-            client.domicilioDeEnvio = [clienteDictionary filterInvalidEntry:@"domicilio_envio"];
-            client.propietario = [clienteDictionary filterInvalidEntry:@"dueno"];
-            client.encCompras = [clienteDictionary filterInvalidEntry:@"enc_compras"];
-            client.expresoID = [[clienteDictionary filterInvalidEntry:@"expreso_id"] number];
-            client.horario = [clienteDictionary filterInvalidEntry:@"horario"];
-            client.lineaDeVentaID = [[clienteDictionary filterInvalidEntry:@"linea_venta_id"] number];
-            client.localidad = [clienteDictionary filterInvalidEntry:@"localidad"];
-            client.mail = [clienteDictionary filterInvalidEntry:@"mail"];
-            client.nombre = [clienteDictionary filterInvalidEntry:@"nombre"];
-            client.nombreDeFantasia = [clienteDictionary filterInvalidEntry:@"nombre_fantasia"];
-            client.observaciones = [clienteDictionary filterInvalidEntry:@"observaciones"];
-            client.provinciaID = [[clienteDictionary filterInvalidEntry:@"provincia_id"] number];
-            client.sucursal = [[clienteDictionary filterInvalidEntry:@"sucursal"] number];
-            client.telefono = [clienteDictionary filterInvalidEntry:@"telefono"];
-            client.ivaID = [[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number];
-            client.latitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
-            client.longitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
-            client.vendedorID = [[clienteDictionary filterInvalidEntry:@"vendedor_id"] number];
-            client.zonaEnvioID = [[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number];
-            client.web = [clienteDictionary filterInvalidEntry:@"web"];
-            client.actualizado = [NSNumber numberWithBool:YES];
-            client.activo = [[clienteDictionary filterInvalidEntry:@"activo"] number];
-            client.listaPrecios = [[clienteDictionary filterInvalidEntry:@"numero_lista_precios"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Cliente class]];
-        [self updateCost];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* clienteDictionary in jsonArray) {
+                Cliente *client = [Cliente findOrCreateWithIdentifier:[[clienteDictionary objectForKey:@"id"] number]];
+                client.identifier = [[clienteDictionary filterInvalidEntry:@"id"] number];
+                client.cobradorID = [[clienteDictionary filterInvalidEntry:@"cobrador_id"] number];
+                client.codigoPostal = [clienteDictionary filterInvalidEntry:@"cod_postal"];
+                client.codigo1 = [clienteDictionary filterInvalidEntry:@"codigo1"];
+                client.codigo2 = [clienteDictionary filterInvalidEntry:@"codigo2"];
+                client.condicionDePagoID = [[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number];
+                client.cuit = [clienteDictionary filterInvalidEntry:@"cuit"];
+                client.descuento1 = [[clienteDictionary filterInvalidEntry:@"descuento1"] number];
+                client.descuento2 = [[clienteDictionary filterInvalidEntry:@"descuento2"] number];
+                client.descuento3 = [[clienteDictionary filterInvalidEntry:@"descuento3"] number];
+                client.descuento4 = [[clienteDictionary filterInvalidEntry:@"descuento4"] number];
+                client.diasDePago = [clienteDictionary filterInvalidEntry:@"dias_de_pago"];
+                client.domicilio = [clienteDictionary filterInvalidEntry:@"domicilio"];
+                client.domicilioDeEnvio = [clienteDictionary filterInvalidEntry:@"domicilio_envio"];
+                client.propietario = [clienteDictionary filterInvalidEntry:@"dueno"];
+                client.encCompras = [clienteDictionary filterInvalidEntry:@"enc_compras"];
+                client.expresoID = [[clienteDictionary filterInvalidEntry:@"expreso_id"] number];
+                client.horario = [clienteDictionary filterInvalidEntry:@"horario"];
+                client.lineaDeVentaID = [[clienteDictionary filterInvalidEntry:@"linea_venta_id"] number];
+                client.localidad = [clienteDictionary filterInvalidEntry:@"localidad"];
+                client.mail = [clienteDictionary filterInvalidEntry:@"mail"];
+                client.nombre = [clienteDictionary filterInvalidEntry:@"nombre"];
+                client.nombreDeFantasia = [clienteDictionary filterInvalidEntry:@"nombre_fantasia"];
+                client.observaciones = [clienteDictionary filterInvalidEntry:@"observaciones"];
+                client.provinciaID = [[clienteDictionary filterInvalidEntry:@"provincia_id"] number];
+                client.sucursal = [[clienteDictionary filterInvalidEntry:@"sucursal"] number];
+                client.telefono = [clienteDictionary filterInvalidEntry:@"telefono"];
+                client.ivaID = [[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number];
+                client.latitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
+                client.longitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
+                client.vendedorID = [[clienteDictionary filterInvalidEntry:@"vendedor_id"] number];
+                client.zonaEnvioID = [[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number];
+                client.web = [clienteDictionary filterInvalidEntry:@"web"];
+                client.actualizado = [NSNumber numberWithBool:YES];
+                client.activo = [[clienteDictionary filterInvalidEntry:@"activo"] number];
+                client.listaPrecios = [[clienteDictionary filterInvalidEntry:@"numero_lista_precios"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Cliente class]];
+            [self updateCost];
+        }];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
@@ -666,51 +627,55 @@
 - (void)updateProducts{
     SuccessRequest block = ^(NSArray *jsonArray){
         if ([jsonArray count] > 0) {
-            EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
             [[EQImagesManager sharedInstance] clearCache];
-            for (NSDictionary* articuloDictionary in jsonArray) {
-                Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
-                art.identifier = [[articuloDictionary filterInvalidEntry:@"id"] number];
-                NSMutableString *codigo = [NSMutableString stringWithString:[articuloDictionary filterInvalidEntry:@"codigo1"]];
-                [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo2"]];
-                [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo3"]];
-                art.codigo = codigo;
-                art.nombre = [articuloDictionary filterInvalidEntry:@"post_title"];
-                art.descripcion = [articuloDictionary filterInvalidEntry:@"descripcion"];
-                
-                NSDictionary *images = [articuloDictionary filterInvalidEntry:@"attachments"];
-                if (images) {
-                    NSString *file = [images filterInvalidEntry:@"file"];
-                    NSRange range = [file rangeOfString:@"/" options:NSBackwardsSearch];
-                    NSString *path = [file substringToIndex:NSMaxRange(range)];
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                for (NSDictionary* articuloDictionary in jsonArray) {
+                    Articulo *art = [Articulo findOrCreateWithIdentifier:[[articuloDictionary objectForKey:@"id"] number]];
+                    art.identifier = [[articuloDictionary filterInvalidEntry:@"id"] number];
+                    NSMutableString *codigo = [NSMutableString stringWithString:[articuloDictionary filterInvalidEntry:@"codigo1"]];
+                    [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo2"]];
+                    [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo3"]];
+                    art.codigo = codigo;
+                    art.nombre = [articuloDictionary filterInvalidEntry:@"post_title"];
+                    art.descripcion = [articuloDictionary filterInvalidEntry:@"descripcion"];
                     
-                    NSDictionary *sizes = [images filterInvalidEntry:@"sizes"];
-                    NSDictionary *bigImage = [sizes filterInvalidEntry:@"items_detail_2"];
-                    bigImage = bigImage ? bigImage : [sizes filterInvalidEntry:@"thumbnail"];
-                    art.imagenURL = [path stringByAppendingString:[bigImage filterInvalidEntry:@"file"]];
+                    NSDictionary *images = [articuloDictionary filterInvalidEntry:@"attachments"];
+                    if (images) {
+                        NSString *file = [images filterInvalidEntry:@"file"];
+                        NSRange range = [file rangeOfString:@"/" options:NSBackwardsSearch];
+                        NSString *path = [file substringToIndex:NSMaxRange(range)];
+                        
+                        NSDictionary *sizes = [images filterInvalidEntry:@"sizes"];
+                        NSDictionary *bigImage = [sizes filterInvalidEntry:@"items_detail_2"];
+                        bigImage = bigImage ? bigImage : [sizes filterInvalidEntry:@"thumbnail"];
+                        art.imagenURL = [path stringByAppendingString:[bigImage filterInvalidEntry:@"file"]];
+                    }
+                    
+                    art.tipo = [articuloDictionary filterInvalidEntry:@"tipo"];
+                    NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
+                    art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
+                    art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
+                    art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
+                    
+                    NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                    art.creado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"creado"]];
+                    art.modificado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"modificado"]];
+                    
+                    art.cantidadPredeterminada = [[articuloDictionary filterInvalidEntry:@"cant_predeterm"] number];
+                    art.activo = [[articuloDictionary filterInvalidEntry:@"activo"] number];
+                    art.grupoID = [[articuloDictionary filterInvalidEntry:@"term_id"] number];
+                    self.dataUpdated = YES;
                 }
-                
-                art.tipo = [articuloDictionary filterInvalidEntry:@"tipo"];
-                NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
-                art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
-                art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
-                art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
-                
-                NSDateFormatter *dateFormatter = DATE_FORMATTER;
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                art.creado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"creado"]];
-                art.modificado = [dateFormatter dateFromString:[articuloDictionary filterInvalidEntry:@"modificado"]];
-                
-                art.cantidadPredeterminada = [[articuloDictionary filterInvalidEntry:@"cant_predeterm"] number];
-                art.activo = [[articuloDictionary filterInvalidEntry:@"activo"] number];
-                art.grupoID = [[articuloDictionary filterInvalidEntry:@"term_id"] number];
-                self.dataUpdated = YES;
-            }
-            [adl saveContext];
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
+            } completion:^(BOOL success, NSError *error) {
+                [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+                [self updateCompletedFor:[Articulo class]];
+                [self updateSellers];
+            }];
+        } else {
+            [self updateCompletedFor:[Articulo class]];
+            [self updateSellers];
         }
-        [self updateCompletedFor:[Articulo class]];
-        [self updateSellers];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
@@ -725,21 +690,21 @@
 
 - (void)updateSellers{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* vendedorDictionary in jsonArray) {
-            Vendedor *seller = (Vendedor *)[adl objectForClass:[Vendedor class] withId:[vendedorDictionary objectForKey:@"id"]];
-            seller.identifier = [[vendedorDictionary filterInvalidEntry:@"id"] number];
-            seller.codigo = [vendedorDictionary filterInvalidEntry:@"codigo"];
-            seller.descripcion = [vendedorDictionary filterInvalidEntry:@"descripcion"];
-            seller.activo = [[vendedorDictionary filterInvalidEntry:@"activo"] number];
-            seller.usuarioID = [[vendedorDictionary filterInvalidEntry:@"wp_user_id"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Vendedor class]];
-        [self updatePaymentCondition];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* vendedorDictionary in jsonArray) {
+                Vendedor *seller = [Vendedor findOrCreateWithIdentifier:[[vendedorDictionary objectForKey:@"id"] number]];
+                seller.identifier = [[vendedorDictionary filterInvalidEntry:@"id"] number];
+                seller.codigo = [vendedorDictionary filterInvalidEntry:@"codigo"];
+                seller.descripcion = [vendedorDictionary filterInvalidEntry:@"descripcion"];
+                seller.activo = [[vendedorDictionary filterInvalidEntry:@"activo"] number];
+                seller.usuarioID = [[vendedorDictionary filterInvalidEntry:@"wp_user_id"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Vendedor class]];
+            [self updatePaymentCondition];
+        }];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
@@ -753,20 +718,19 @@
 
 - (void)updateExpress{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* expresoDictionary in jsonArray) {
-            Expreso *express = (Expreso *)[adl objectForClass:[Expreso class] withId:[expresoDictionary objectForKey:@"id"]];
-            express.identifier = [[expresoDictionary filterInvalidEntry:@"id"] number];
-            express.codigo = [expresoDictionary filterInvalidEntry:@"codigo"];
-            express.descripcion = [expresoDictionary filterInvalidEntry:@"descripcion"];
-            express.activo = [[expresoDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Expreso class]];
-        [self updateClients];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* expresoDictionary in jsonArray) {
+                Expreso *express = [Expreso findOrCreateWithIdentifier:[[expresoDictionary objectForKey:@"id"] number]];
+                express.codigo = [expresoDictionary filterInvalidEntry:@"codigo"];
+                express.descripcion = [expresoDictionary filterInvalidEntry:@"descripcion"];
+                express.activo = [[expresoDictionary filterInvalidEntry:@"activo"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Expreso class]];
+            [self updateClients];
+        }];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -780,20 +744,20 @@
 
 - (void)updateProvince{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* provinciaDictionary in jsonArray) {
-            Provincia *province = (Provincia *)[adl objectForClass:[Provincia class] withId:[provinciaDictionary objectForKey:@"id"]];
-            province.identifier = [[provinciaDictionary filterInvalidEntry:@"id"] number];
-            province.codigo = [provinciaDictionary filterInvalidEntry:@"codigo"];
-            province.descripcion = [provinciaDictionary filterInvalidEntry:@"descripcion"];
-            province.activo = [[provinciaDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Provincia class]];
-        [self updateAvailability];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* provinciaDictionary in jsonArray) {
+                Provincia *province = [Provincia findOrCreateWithIdentifier:[[provinciaDictionary objectForKey:@"id"] number]];
+                province.identifier = [[provinciaDictionary filterInvalidEntry:@"id"] number];
+                province.codigo = [provinciaDictionary filterInvalidEntry:@"codigo"];
+                province.descripcion = [provinciaDictionary filterInvalidEntry:@"descripcion"];
+                province.activo = [[provinciaDictionary filterInvalidEntry:@"activo"] number];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Provincia class]];
+            [self updateAvailability];
+        }];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -807,20 +771,20 @@
 
 - (void)updateKindTaxes{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* ivaDictionary in jsonArray) {
-            TipoIvas *iva = (TipoIvas *)[adl objectForClass:[TipoIvas class] withId:[ivaDictionary objectForKey:@"id"]];
-            iva.identifier = [[ivaDictionary filterInvalidEntry:@"id"] number];
-            iva.codigo = [ivaDictionary filterInvalidEntry:@"codigo"];
-            iva.descripcion = [ivaDictionary filterInvalidEntry:@"descripcion"];
-            iva.activo = [[ivaDictionary filterInvalidEntry:@"activo"] number];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[TipoIvas class]];
-        [self updateKindSales];
+[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+    for (NSDictionary* ivaDictionary in jsonArray) {
+        TipoIvas *iva = [TipoIvas findOrCreateWithIdentifier:[[ivaDictionary objectForKey:@"id"] number]];
+        iva.identifier = [[ivaDictionary filterInvalidEntry:@"id"] number];
+        iva.codigo = [ivaDictionary filterInvalidEntry:@"codigo"];
+        iva.descripcion = [ivaDictionary filterInvalidEntry:@"descripcion"];
+        iva.activo = [[ivaDictionary filterInvalidEntry:@"activo"] number];
+        self.dataUpdated = YES;
+    }
+} completion:^(BOOL success, NSError *error) {
+    [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+    [self updateCompletedFor:[TipoIvas class]];
+    [self updateKindSales];
+}];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -834,23 +798,21 @@
 
 - (void)updateUsers{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* usuarioDictionary in jsonArray) {
-            NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
-            NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
-            NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
-            Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
-            user.identifier = identifier;
-            user.nombreDeUsuario = usuario;
-            user.password = password;
-            user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-            user.vendedorID = [[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number];
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Usuario class]];
-        [self updateOrders];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* usuarioDictionary in jsonArray) {
+                NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
+                NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
+                Usuario *user = [Usuario findOrCreateWithIdentifier:[[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number]];                
+                user.nombreDeUsuario = usuario;
+                user.password = password;
+                user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
+                user.vendedorID = [[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number];
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Usuario class]];
+            [self updateOrders];
+        }];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -864,22 +826,20 @@
 
 - (void)updateGroups{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* dictionary in jsonArray) {
-            NSNumber *identifier = [[dictionary filterInvalidEntry:@"term_id"] number];
-            Grupo *group = (Grupo *)[adl objectForClass:[Grupo class] withId:identifier];
-            group.identifier = identifier;
-            group.nombre = [dictionary filterInvalidEntry:@"name"];
-            group.parentID = [[dictionary filterInvalidEntry:@"parent"] number];
-            group.descripcion = [dictionary filterInvalidEntry:@"description"];
-            group.count = [[dictionary filterInvalidEntry:@"count"] number];
-            group.relevancia = @0;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Grupo class]];
-        [self updateSales];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* dictionary in jsonArray) {
+                Grupo *group = [Grupo findOrCreateWithIdentifier:[[dictionary filterInvalidEntry:@"term_id"] number]];
+                group.nombre = [dictionary filterInvalidEntry:@"name"];
+                group.parentID = [[dictionary filterInvalidEntry:@"parent"] number];
+                group.descripcion = [dictionary filterInvalidEntry:@"description"];
+                group.count = [[dictionary filterInvalidEntry:@"count"] number];
+                group.relevancia = @0;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Grupo class]];
+            [self updateSales];
+        }];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -893,19 +853,17 @@
 
 - (void)updateAvailability{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
-        for (NSDictionary* dictionary in jsonArray) {
-            NSNumber *identifier = [[dictionary filterInvalidEntry:@"id"] number];
-            Disponibilidad *disponibilidad = (Disponibilidad *)[adl objectForClass:[Disponibilidad class] withId:identifier];
-            disponibilidad.identifier = identifier;
-            disponibilidad.descripcion = [dictionary filterInvalidEntry:@"descripcion"];
-            self.dataUpdated = YES;
-        }
-        
-        [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
-        [self updateCompletedFor:[Disponibilidad class]];
-        [self updateProducts];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            for (NSDictionary* dictionary in jsonArray) {
+                Disponibilidad *disponibilidad = [Disponibilidad findOrCreateWithIdentifier:[[dictionary filterInvalidEntry:@"id"] number]];
+                disponibilidad.descripcion = [dictionary filterInvalidEntry:@"descripcion"];
+                self.dataUpdated = YES;
+            }
+        } completion:^(BOOL success, NSError *error) {
+            [[NSManagedObjectContext MR_contextForCurrentThread] reset];
+            [self updateCompletedFor:[Disponibilidad class]];
+            [self updateProducts];
+        }];
     };
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -928,21 +886,25 @@
     
     __block Cliente *newClient = client;
     SuccessRequest block = ^(NSDictionary *clientDictionary){
-        NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
-        if (identifier) {
-            newClient.identifier = identifier;
-        }
-        
-        newClient.actualizado = [NSNumber numberWithBool:YES];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+            if (identifier) {
+                newClient.identifier = identifier;
+            }
+            
+            newClient.actualizado = [NSNumber numberWithBool:YES];
+        } completion:^(BOOL success, NSError *error) {
+            [[EQSession sharedInstance] updateCache];
+        }];
     };
     
     FailRequest failBlock = ^(NSError *error){
         NSLog(@"send client fail error:%@ UserInfo:%@",error ,error.userInfo);
-        newClient.actualizado = [NSNumber numberWithBool:NO];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            newClient.actualizado = [NSNumber numberWithBool:NO];
+        } completion:^(BOOL success, NSError *error) {
+            [[EQSession sharedInstance] updateCache];
+        }];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
@@ -1024,19 +986,21 @@
     
     __block Comunicacion *newCommunication = communication;
     SuccessRequest block = ^(NSDictionary *communicationDictionary){
-        NSNumber *identifier = [communicationDictionary filterInvalidEntry:@"obj_id"];
-        if (identifier) {
-            newCommunication.identifier = identifier;
-        }
-        
-        newCommunication.actualizado = [NSNumber numberWithBool:YES];
-        [[EQDataAccessLayer sharedInstance] saveContext];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            NSNumber *identifier = [communicationDictionary filterInvalidEntry:@"obj_id"];
+            if (identifier) {
+                newCommunication.identifier = identifier;
+            }
+            
+            newCommunication.actualizado = [NSNumber numberWithBool:YES];
+        }];
     };
     
     FailRequest failBlock = ^(NSError *error){
         NSLog(@"send communication fail error:%@ UserInfo:%@",error ,error.userInfo);
-        newCommunication.actualizado = [NSNumber numberWithBool:NO];
-        [[EQDataAccessLayer sharedInstance] saveContext];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            newCommunication.actualizado = [NSNumber numberWithBool:NO];
+        }];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
@@ -1079,22 +1043,25 @@
     
     __block Pedido *newOrder = order;
     SuccessRequest block = ^(NSDictionary *clientDictionary){
-        NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
-        if (identifier) {
-            newOrder.identifier = identifier;
-        }
-        
-        newOrder.sincronizacion = [NSDate date];
-        newOrder.actualizado = [NSNumber numberWithBool:YES];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+            if (identifier) {
+                newOrder.identifier = identifier;
+            }
+            newOrder.sincronizacion = [NSDate date];
+            newOrder.actualizado = [NSNumber numberWithBool:YES];
+        } completion:^(BOOL success, NSError *error) {
+                    [[EQSession sharedInstance] updateCache];
+        }];
     };
     
     FailRequest failBlock = ^(NSError *error){
         NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
-        newOrder.actualizado = [NSNumber numberWithBool:NO];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+            newOrder.actualizado = [NSNumber numberWithBool:NO];
+        } completion:^(BOOL success, NSError *error) {
+            [[EQSession sharedInstance] updateCache];
+        }];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];

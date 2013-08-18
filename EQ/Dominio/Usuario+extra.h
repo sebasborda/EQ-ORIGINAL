@@ -16,4 +16,6 @@
 
 - (Vendedor *)vendedor;
 
++ (Usuario *)currentUser;
+
 @end

@@ -120,10 +120,10 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
         </fetchedProperty>
         <fetchedProperty name="receivers" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.receiverID"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario2" predicateString="identifier == $FETCH_SOURCE.receiverID"/>
         </fetchedProperty>
         <fetchedProperty name="senders" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.senderID"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario2" predicateString="identifier == $FETCH_SOURCE.senderID"/>
         </fetchedProperty>
     </entity>
     <entity name="CondPag" representedClassName="CondPag" syncable="YES">
@@ -258,7 +258,7 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier OR senderID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
         <fetchedProperty name="vendedores" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="usuarioID == $FETCH_SOURCE.identifier"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.vendedorID"/>
         </fetchedProperty>
     </entity>
     <entity name="Vendedor" representedClassName="Vendedor" syncable="YES">
@@ -283,7 +283,7 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
         <fetchedProperty name="usuarios" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.usuarioID"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario2" predicateString="identifier == $FETCH_SOURCE.usuarioID"/>
         </fetchedProperty>
         <fetchedProperty name="ventas" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="vendedorID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>
@@ -332,9 +332,9 @@
         <element name="Precio" positionX="432" positionY="199" width="128" height="149"/>
         <element name="Provincia" positionX="160" positionY="192" width="128" height="103"/>
         <element name="TipoIvas" positionX="160" positionY="192" width="128" height="131"/>
-        <element name="Usuario" positionX="160" positionY="192" width="128" height="164"/>
         <element name="Vendedor" positionX="160" positionY="192" width="128" height="239"/>
         <element name="Venta" positionX="160" positionY="192" width="128" height="269"/>
         <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="103"/>
+        <element name="Usuario" positionX="160" positionY="192" width="128" height="164"/>
     </elements>
 </model>

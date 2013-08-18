@@ -11,7 +11,7 @@
 #import "Precio.h"
 #import "Precio+extra.h"
 #import "Articulo+extra.h"
-#import "EQDataAccessLayer.h"
+ 
 #import "Pedido+extra.h"
 
 @implementation ItemPedido (extra)
@@ -33,7 +33,7 @@
 }
 
 - (ItemPedido *)copy{
-    ItemPedido *item = (ItemPedido *)[[EQDataAccessLayer sharedInstance] createManagedObject:@"ItemPedido"];
+    ItemPedido *item = [ItemPedido MR_createEntity];
     item.articuloID = self.articuloID;
     item.descuento1 = self.descuento1;
     item.descuento2 = self.descuento2;

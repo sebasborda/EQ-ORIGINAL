@@ -7,7 +7,7 @@
 //
 
 #import "EQCurrentAccountViewModel.h"
-#import "EQDataAccessLayer.h"
+ 
 #import "CtaCte+extra.h"
 #import "Cliente.h"
 #import "Vendedor+extra.h"

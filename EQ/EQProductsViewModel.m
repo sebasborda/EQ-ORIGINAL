@@ -9,7 +9,7 @@
 #import "EQProductsViewModel.h"
 #import "Articulo.h"
 #import "Grupo+extra.h"
-#import "EQDataAccessLayer.h"
+ 
 
 @interface EQProductsViewModel()
 
@@ -48,7 +48,6 @@
 }
 
 - (void)loadDataInBackGround{
-    EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     NSMutableArray *subPredicates = [NSMutableArray array];
     if ([self.searchTerm length] > 0) {
         NSString *searchTerm = [self.searchTerm stringByAppendingString:@"*"];
@@ -57,7 +56,7 @@
     }
     
     NSPredicate *categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID == %i", 0];
-    self.category1List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+    self.category1List = [Grupo MR_findAllWithPredicate:categoryPredicate];
     
     if (self.category1SelectedIndex >= 0) {
         Grupo *grupo = [self.category1List objectAtIndex:self.category1SelectedIndex];
@@ -76,7 +75,7 @@
     }
 
     NSPredicate *predicate = [subPredicates count] > 0 ? [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates] : nil;
-    NSArray *results = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
+    NSArray *results = [Articulo MR_findAllWithPredicate:predicate];
     self.articles = [NSMutableArray arrayWithArray:results];
     
     [super loadDataInBackGround];

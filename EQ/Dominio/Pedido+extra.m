@@ -8,7 +8,7 @@
 
 #import "Pedido+extra.h"
 #import "ItemPedido+extra.h"
-#import "EQDataAccessLayer.h"
+ 
 
 @implementation Pedido (extra)
 
@@ -29,7 +29,7 @@
 }
 
 - (Pedido *)copy{
-    Pedido *order = (Pedido *)[[EQDataAccessLayer sharedInstance] createManagedObject:@"Pedido"];
+    Pedido *order = [Pedido MR_createEntity];
     order.activo = self.activo;
     order.actualizado = [NSNumber numberWithBool:NO];
     order.descuento = self.descuento;

@@ -13,7 +13,7 @@
 #import "Precio+extra.h"
 #import "Venta+extra.h"
 #import "Vendedor+extra.h"
-#import "EQDataAccessLayer.h"
+ 
 
 @interface EQSalesViewModel()
 
@@ -53,7 +53,7 @@
 }
 
 - (void)initializeData{
-    self.groupsList = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]];
+    self.groupsList = [Grupo MR_findAll];
 }
 
 - (NSString *)salesFieldByIndex:(int)index{

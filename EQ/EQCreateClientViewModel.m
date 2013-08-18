@@ -7,7 +7,7 @@
 //
 
 #import "EQCreateClientViewModel.h"
-#import "EQDataAccessLayer.h"
+ 
 #import "EQDataManager.h"
 #import "Provincia.h"
 #import "ZonaEnvio.h"
@@ -55,14 +55,14 @@
 
 - (void)loadData{
     if (self.clientID) {
-        self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:self.clientID];
+        self.client = [Cliente findWithIdentifier:self.clientID];
     }
     
 }
 
 - (void)saveClient:(NSDictionary *)clientDictionary{
     if (!self.client) {
-        self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Cliente class])];
+        self.client = [Cliente MR_createEntity];
     }
     
     self.client.codigoPostal = clientDictionary[@"zipcode"];
@@ -111,19 +111,19 @@
 }
 
 - (NSArray *)obtainProvinces{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[Provincia class]];
+    return [Provincia MR_findAll];
 }
 
 - (NSArray *)obtainDeliveryAreaList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[ZonaEnvio class]];
+    return [ZonaEnvio MR_findAll];
 }
 
 - (NSArray *)obtainExpressList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[Expreso class]];
+    return [Expreso MR_findAll];
 }
 
 - (NSArray *)obtainSellersList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[Vendedor class]];
+    return [Vendedor MR_findAll];
 }
 
 - (NSArray *)obtainCollectorList{
@@ -131,15 +131,15 @@
 }
 
 - (NSArray *)obtainSalesLineList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[LineaVTA class]];
+    return [LineaVTA MR_findAll];
 }
 
 - (NSArray *)obtainPaymentConditionList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[CondPag class]];
+    return [CondPag MR_findAll];
 }
 
 - (NSArray *)obtainTaxesList{
-    return [[EQDataAccessLayer sharedInstance] objectListForClass:[TipoIvas class]];
+    return [TipoIvas MR_findAll];
 }
 
 

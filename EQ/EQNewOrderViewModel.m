@@ -7,7 +7,7 @@
 //
 
 #import "EQNewOrderViewModel.h"
-#import "EQDataAccessLayer.h"
+ 
 #import "ItemPedido.h"
 #import "EQNetworkManager.h"
 #import "ItemPedido+extra.h"
@@ -39,7 +39,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.order = (Pedido *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Pedido class])];
+        self.order = [Pedido MR_createEntity];
         self.order.clienteID = self.ActiveClient.identifier;
         self.order.descuento3 = self.ActiveClient.descuento3;
         self.order.descuento4 = self.ActiveClient.descuento4;
@@ -53,8 +53,7 @@
     self.undoManager = [[NSUndoManager alloc] init];
     [[self.order managedObjectContext] setUndoManager:self.undoManager];
     [self.undoManager beginUndoGrouping];
-    self.categories = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == 0"]];
-    
+    self.categories = [Grupo MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"self.parentID == 0"]];
     [self sortArticlesByIndex:0];
     [self sortGroup1ByIndex:0];
     [self sortGroup2ByIndex:0];
@@ -107,7 +106,7 @@
     self.categorySelected = index;
     self.group1Selected = self.group2Selected = NSNotFound;
     Grupo *grupo = self.categories[self.categorySelected];
-    self.group1 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
+    self.group1 = [Grupo MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
     self.group1 = [self.group1 sortedArrayUsingDescriptors:@[self.sortGroup1]];
     self.group2 = nil;
     self.articles = nil;
@@ -118,7 +117,7 @@
 - (void)defineSelectedGroup1:(int)index{
     self.group1Selected = index;
     Grupo *grupo = self.group1[self.group1Selected];
-    self.group2 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
+    self.group2 = [Grupo MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
     self.group2 = [self.group2 sortedArrayUsingDescriptors:@[self.sortGroup2]];
     self.group2Selected = NSNotFound;
     self.articles = nil;
@@ -160,7 +159,6 @@
     int multiplicity = [self.articleSelected.multiploPedido intValue] <= 2 ? [self.articleSelected.multiploPedido intValue] : [self.articleSelected.multiploPedido intValue] * 2;
     if (self.articleSelected && quantity % multiplicity == 0 && quantity >= [self.articleSelected.minimoPedido intValue]) {
         BOOL existItem = NO;
-        EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
         for (ItemPedido *item in self.order.items) {
             if ([item.articulo.identifier isEqualToNumber:self.articleSelected.identifier]) {
                 existItem = YES;
@@ -169,7 +167,7 @@
         }
         
         if (!existItem) {
-            ItemPedido *item = (ItemPedido *)[DAL createManagedObject:@"ItemPedido"];
+            ItemPedido *item = [ItemPedido MR_createEntity];
             item.articuloID = self.articleSelected.identifier;
             item.cantidad = [NSNumber numberWithInt:quantity];
             [self.order addItemsObject:item];

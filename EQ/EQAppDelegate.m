@@ -23,6 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"EQModel.sqlite"];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:[EQLoginViewController new]];
     self.loadingView = [[EQLoadingView alloc] initViewWithSize:CGSizeMake(768, 1024) showLargeImage:YES];
     self.loadingView.ownerView = self.window;
@@ -58,7 +59,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [MagicalRecord cleanUp];
 }
 
 /*
