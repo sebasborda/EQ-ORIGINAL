@@ -11,12 +11,7 @@
 
 @interface EQDataAccessLayer : NSObject
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
-
 + (EQDataAccessLayer *)sharedInstance;
-+ (EQDataAccessLayer *)sharedInstanceForBatch;
 - (void)saveContext;
 - (NSArray *)objectListForClass:(Class)objectClass;
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate;
@@ -24,5 +19,5 @@
 - (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue;
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate;
 - (NSManagedObject *)createManagedObject:(NSString*)kind;
-
+- (NSManagedObjectContext *)managedObjectContext;
 @end

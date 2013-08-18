@@ -11,6 +11,10 @@
 
 @interface EQDataAccessLayer ()
 
+@property (strong, nonatomic) NSManagedObjectContext *mainManagedObjectContext;
+@property (strong, nonatomic) NSManagedObjectContext *backgroungManagedObjectContext;
+@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
 @property (nonatomic,strong) NSPredicate *objectIDPredicate;
 
 - (NSURL *)applicationDocumentsDirectory;
@@ -20,7 +24,8 @@
 @implementation EQDataAccessLayer
 @synthesize storeCoordinator;
 @synthesize managedObjectModel;
-@synthesize managedObjectContext;
+@synthesize mainManagedObjectContext;
+@synthesize backgroungManagedObjectContext;
 
 + (EQDataAccessLayer *)sharedInstance {
     __strong static EQDataAccessLayer *sharedInstance = nil;
@@ -28,33 +33,22 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[EQDataAccessLayer alloc] init];
         sharedInstance.storeCoordinator = [sharedInstance persistentStoreCoordinator];
-        sharedInstance.managedObjectContext = [sharedInstance managedObjectContext];
+        sharedInstance.mainManagedObjectContext = [sharedInstance managedObjectContext];
+        sharedInstance.backgroungManagedObjectContext = [sharedInstance managedObjectContext];
         sharedInstance.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
         [[NSNotificationCenter defaultCenter] addObserver:sharedInstance selector:@selector(contextChanged:) name:NSManagedObjectContextDidSaveNotification object:nil];
     });
     return sharedInstance;
 }
 
-+ (EQDataAccessLayer *)sharedInstanceForBatch {
-    __strong static EQDataAccessLayer *sharedInstanceForBatch = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstanceForBatch = [[EQDataAccessLayer alloc] init];
-        sharedInstanceForBatch.storeCoordinator = [sharedInstanceForBatch persistentStoreCoordinator];
-        sharedInstanceForBatch.managedObjectContext = [sharedInstanceForBatch managedObjectContext];
-        sharedInstanceForBatch.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
-        [sharedInstanceForBatch.managedObjectContext setUndoManager:nil];
-    });
-    return sharedInstanceForBatch;
-}
-
 #pragma mark - Core Data
 
 - (void)saveContext {
     NSError *error = nil;
-    if (managedObjectContext != nil)
+    NSManagedObjectContext *context = [self managedObjectContext];
+    if (context != nil)
     {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+        if ([context hasChanges] && ![context save:&error])
         {
             NSLog(@"error: %@", error.userInfo);
             /*
@@ -142,18 +136,20 @@
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
 - (NSManagedObjectContext *)managedObjectContext {
-    if (managedObjectContext != nil)
+    NSManagedObjectContext *context = [NSThread isMainThread] ? self.mainManagedObjectContext : self.backgroungManagedObjectContext;
+    if (context != nil )
     {
-        return managedObjectContext;
+        return context;
     }
     
     if (storeCoordinator != nil)
     {
-        self.managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator:storeCoordinator];
-        [managedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        context = [[NSManagedObjectContext alloc] init];
+        [context setPersistentStoreCoordinator:storeCoordinator];
+        [context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
     }
-    return managedObjectContext;
+    
+    return context;
 }
 
 /**
@@ -227,11 +223,7 @@
 
 - (void)contextChanged:(NSNotification*)notification {
     if ([notification object] != [self managedObjectContext]) {
-        if (![NSThread isMainThread]) {
-            [self performSelectorOnMainThread:@selector(contextChanged:) withObject:notification waitUntilDone:YES];
-        } else{
-            [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
-        }
+        [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
     }
 }
 

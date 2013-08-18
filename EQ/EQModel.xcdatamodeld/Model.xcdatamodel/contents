@@ -254,11 +254,9 @@
         <attribute name="nombreDeUsuario" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="usuario" inverseEntity="Vendedor" syncable="YES"/>
         <fetchedProperty name="comunicaciones" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier OR senderID == $FETCH_SOURCE.identifier"/>
-        </fetchedProperty>
-        <fetchedProperty name="vendedores" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="usuarioID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
     </entity>
     <entity name="Vendedor" representedClassName="Vendedor" syncable="YES">
@@ -267,6 +265,7 @@
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="usuarioID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="usuario" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Usuario" inverseName="vendedor" inverseEntity="Usuario" syncable="YES"/>
         <fetchedProperty name="clientesCobrador" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="cobradorID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
@@ -281,9 +280,6 @@
         </fetchedProperty>
         <fetchedProperty name="pedidos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="vendedorID == $FETCH_SOURCE.identifier"/>
-        </fetchedProperty>
-        <fetchedProperty name="usuarios" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Usuario" predicateString="identifier == $FETCH_SOURCE.usuarioID"/>
         </fetchedProperty>
         <fetchedProperty name="ventas" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Venta" predicateString="vendedorID == $FETCH_SOURCE.identifier &amp;&amp; activo == 1"/>

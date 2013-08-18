@@ -133,7 +133,7 @@
 
 - (void)startLoading{
     if (![NSThread isMainThread]) {
-        [APP_DELEGATE performSelectorOnMainThread:@selector(showLoadingView) withObject:nil waitUntilDone:YES];
+        [APP_DELEGATE performSelectorOnMainThread:@selector(showLoadingView) withObject:nil waitUntilDone:NO];
     } else {
         [APP_DELEGATE showLoadingView];
     }
@@ -141,7 +141,7 @@
 
 - (void)stopLoading{
     if (![NSThread isMainThread]) {
-        [APP_DELEGATE performSelectorOnMainThread:@selector(hideLoadingView) withObject:nil waitUntilDone:YES];
+        [APP_DELEGATE performSelectorOnMainThread:@selector(hideLoadingView) withObject:nil waitUntilDone:NO];
     } else {
         [APP_DELEGATE hideLoadingView];
     }

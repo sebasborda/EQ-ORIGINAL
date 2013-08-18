@@ -16,10 +16,5 @@
 @dynamic comunicaciones;
 @dynamic clientesCobrador;
 @dynamic clientesVendedor;
-@dynamic usuarios;
-
-- (Usuario *)usuario{
-    return [self.usuarios lastObject];
-}
 
 @end

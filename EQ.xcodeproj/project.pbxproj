@@ -127,6 +127,8 @@
 		6B30279B1782596700CAABC7 /* EQGoalsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B30279A1782596700CAABC7 /* EQGoalsViewModel.m */; };
 		6B30279E178259C300CAABC7 /* EQCommunicationsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B30279D178259C300CAABC7 /* EQCommunicationsViewModel.m */; };
 		6B3027A11782931900CAABC7 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B3027A01782931900CAABC7 /* Grupo.m */; };
+		6B319C9C17C076070021C7F1 /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B319C9B17C076070021C7F1 /* Usuario.m */; };
+		6B319C9F17C076080021C7F1 /* Vendedor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B319C9E17C076080021C7F1 /* Vendedor.m */; };
 		6B31B4D217B71794006FF226 /* informacionVentasFondoTotales.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B31B4D117B71794006FF226 /* informacionVentasFondoTotales.png */; };
 		6B31B4D917B71F9A006FF226 /* buttonEmail.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B31B4D317B71F99006FF226 /* buttonEmail.png */; };
 		6B31B4DA17B71F9A006FF226 /* buttonEmail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B31B4D417B71F99006FF226 /* buttonEmail@2x.png */; };
@@ -200,8 +202,6 @@
 		6B75077117BA6F0F00225E34 /* catalogoIconoCodigo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B75076317BA6F0F00225E34 /* catalogoIconoCodigo.png */; };
 		6B75077217BA6F0F00225E34 /* catalogoIconoCodigo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B75076417BA6F0F00225E34 /* catalogoIconoCodigo@2x.png */; };
 		6B7923CD1791EC2600847731 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7923CC1791EC2500847731 /* Cliente.m */; };
-		6B7923D91791F39900847731 /* Vendedor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7923D81791F39700847731 /* Vendedor.m */; };
-		6B7923DC1791F39C00847731 /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7923DB1791F39A00847731 /* Usuario.m */; };
 		6B79FF3217849D3200ACB8A3 /* CtaCte+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */; };
 		6B7CC82117B926F300E45A4C /* cuentaCorrienteFondoTotales.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC81F17B926F300E45A4C /* cuentaCorrienteFondoTotales.png */; };
 		6B7CC82217B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */; };
@@ -550,6 +550,10 @@
 		6B30279D178259C300CAABC7 /* EQCommunicationsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCommunicationsViewModel.m; sourceTree = "<group>"; };
 		6B30279F1782931900CAABC7 /* Grupo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grupo.h; sourceTree = "<group>"; };
 		6B3027A01782931900CAABC7 /* Grupo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grupo.m; sourceTree = "<group>"; };
+		6B319C9A17C076070021C7F1 /* Usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usuario.h; sourceTree = "<group>"; };
+		6B319C9B17C076070021C7F1 /* Usuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usuario.m; sourceTree = "<group>"; };
+		6B319C9D17C076080021C7F1 /* Vendedor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendedor.h; sourceTree = "<group>"; };
+		6B319C9E17C076080021C7F1 /* Vendedor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vendedor.m; sourceTree = "<group>"; };
 		6B31B4D117B71794006FF226 /* informacionVentasFondoTotales.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = informacionVentasFondoTotales.png; sourceTree = "<group>"; };
 		6B31B4D317B71F99006FF226 /* buttonEmail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonEmail.png; sourceTree = "<group>"; };
 		6B31B4D417B71F99006FF226 /* buttonEmail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonEmail@2x.png"; sourceTree = "<group>"; };
@@ -635,10 +639,6 @@
 		6B75076417BA6F0F00225E34 /* catalogoIconoCodigo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "catalogoIconoCodigo@2x.png"; sourceTree = "<group>"; };
 		6B7923CB1791EC2500847731 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
 		6B7923CC1791EC2500847731 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
-		6B7923D71791F39600847731 /* Vendedor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vendedor.h; sourceTree = "<group>"; };
-		6B7923D81791F39700847731 /* Vendedor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vendedor.m; sourceTree = "<group>"; };
-		6B7923DA1791F39A00847731 /* Usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usuario.h; sourceTree = "<group>"; };
-		6B7923DB1791F39A00847731 /* Usuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usuario.m; sourceTree = "<group>"; };
 		6B79FF3017849D3200ACB8A3 /* CtaCte+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CtaCte+extra.h"; sourceTree = "<group>"; };
 		6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CtaCte+extra.m"; sourceTree = "<group>"; };
 		6B7CC81F17B926F300E45A4C /* cuentaCorrienteFondoTotales.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cuentaCorrienteFondoTotales.png; sourceTree = "<group>"; };
@@ -882,10 +882,6 @@
 				6BC19195178D22D10019AA7C /* Pedido.m */,
 				6B7923CB1791EC2500847731 /* Cliente.h */,
 				6B7923CC1791EC2500847731 /* Cliente.m */,
-				6B7923DA1791F39A00847731 /* Usuario.h */,
-				6B7923DB1791F39A00847731 /* Usuario.m */,
-				6B7923D71791F39600847731 /* Vendedor.h */,
-				6B7923D81791F39700847731 /* Vendedor.m */,
 				6BCD639B17A09B1400A039FF /* CtaCte.h */,
 				6BCD639C17A09B1400A039FF /* CtaCte.m */,
 				6BADADCC17B3353800944059 /* ItemPedido.h */,
@@ -894,6 +890,10 @@
 				6B31B4E017B8088D006FF226 /* Venta.m */,
 				6B31B4E217B81823006FF226 /* Precio.h */,
 				6B31B4E317B81823006FF226 /* Precio.m */,
+				6B319C9D17C076080021C7F1 /* Vendedor.h */,
+				6B319C9E17C076080021C7F1 /* Vendedor.m */,
+				6B319C9A17C076070021C7F1 /* Usuario.h */,
+				6B319C9B17C076070021C7F1 /* Usuario.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1979,8 +1979,6 @@
 				6B66E7CA1789E5A9007A5E65 /* Usuario+extra.m in Sources */,
 				6BC19196178D22D30019AA7C /* Pedido.m in Sources */,
 				6B7923CD1791EC2600847731 /* Cliente.m in Sources */,
-				6B7923D91791F39900847731 /* Vendedor.m in Sources */,
-				6B7923DC1791F39C00847731 /* Usuario.m in Sources */,
 				6BCD639D17A09B1400A039FF /* CtaCte.m in Sources */,
 				6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */,
 				6BE926EF17B09E410059D362 /* NSNumber+EQ.m in Sources */,
@@ -1988,6 +1986,8 @@
 				6B31B4E117B8088D006FF226 /* Venta.m in Sources */,
 				6B31B4E417B81823006FF226 /* Precio.m in Sources */,
 				6B36901517BC578A008BA88F /* Disponibilidad+extra.m in Sources */,
+				6B319C9C17C076070021C7F1 /* Usuario.m in Sources */,
+				6B319C9F17C076080021C7F1 /* Vendedor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

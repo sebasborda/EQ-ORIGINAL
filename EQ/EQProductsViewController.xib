@@ -853,7 +853,7 @@
 					</object>
 					<object class="IBUIView" id="940565058">
 						<reference key="NSNextResponder" ref="139324216"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">-2147483356</int>
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUIView" id="155032314">
 								<reference key="NSNextResponder" ref="940565058"/>
@@ -974,7 +974,6 @@
 												<string key="NSFrame">{{333, 89}, {137, 21}}</string>
 												<reference key="NSSuperview" ref="625050204"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -1409,7 +1408,6 @@
 												<string key="NSFrame">{{20, 96}, {293, 21}}</string>
 												<reference key="NSSuperview" ref="625050204"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<reference key="IBUIBackgroundColor" ref="88082018"/>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -2714,6 +2712,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/UICollectionViewFlowLayout.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">UICollectionViewLayout</string>
+					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/UICollectionViewLayout.h</string>
 					</object>
 				</object>
 			</array>

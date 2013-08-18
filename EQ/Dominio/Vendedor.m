@@ -2,11 +2,12 @@
 //  Vendedor.m
 //  EQ
 //
-//  Created by Sebastian Borda on 7/13/13.
+//  Created by Sebastian Borda on 8/18/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
 #import "Vendedor.h"
+#import "Usuario.h"
 
 
 @implementation Vendedor
@@ -16,5 +17,6 @@
 @dynamic descripcion;
 @dynamic identifier;
 @dynamic usuarioID;
+@dynamic usuario;
 
 @end

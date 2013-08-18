@@ -17,8 +17,5 @@
 @property (nonatomic,strong) NSArray *comunicaciones;
 @property (nonatomic,strong) NSArray *clientesVendedor;
 @property (nonatomic,strong) NSArray *clientesCobrador;
-@property (nonatomic, strong) NSArray *usuarios;
-
-- (Usuario *)usuario;
 
 @end

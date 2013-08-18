@@ -81,7 +81,7 @@
 
 - (void)loadDataInBackGround{
     if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:NO];
     } else {
         [self dataLaded];
     }

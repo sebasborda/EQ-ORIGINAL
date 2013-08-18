@@ -217,7 +217,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Precio class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSNumber *active = [NSNumber numberWithBool:!override];
         if ([jsonArray count] > 0) {
             @autoreleasepool {
@@ -234,11 +234,9 @@
                     self.dataUpdated = YES;
                     if (count % 200 == 0 || count == [jsonArray count]) {
                         [adl saveContext];
-                        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
                     }
                 }
             }
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
             int nextPage = page + 1;
             [self updatePageCompleted:dictionary[@"page"] ForClass:[Precio class]];
             [self updateCostPage:nextPage forceOverride:override];
@@ -255,7 +253,7 @@
 }
 
 - (void)changePricesList{
-    NSManagedObjectContext *context = [EQDataAccessLayer sharedInstanceForBatch].managedObjectContext;
+    NSManagedObjectContext *context = [[EQDataAccessLayer sharedInstance] managedObjectContext];
     NSError *error = nil;
     @autoreleasepool {
         NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Precio"];
@@ -266,7 +264,7 @@
         for (Precio *price in objects) {
             [context deleteObject:price];
         }
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [[EQDataAccessLayer sharedInstance] saveContext];
     }
 
     @autoreleasepool {
@@ -276,7 +274,7 @@
         NSArray *newObjects = [context executeFetchRequest:allRequest error:&error];
         [newObjects setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
         //now save your changes back.
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [[EQDataAccessLayer sharedInstance] saveContext];
     }
 }
 
@@ -288,7 +286,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Comunicacion class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *dictionary in jsonArray) {
             NSNumber *identifier = [dictionary[@"id"] number];
             Comunicacion *notification = (Comunicacion *)[adl objectForClass:[Comunicacion class] withId:[[dictionary objectForKey:@"id"] number]];
@@ -313,7 +311,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Comunicacion class]];
         [self updateGroups];
     };
@@ -329,7 +326,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Pedido class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *dictionary in jsonArray) {
             NSNumber *identifier = [dictionary[@"id"] number];
             Pedido *pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary objectForKey:@"id"] number]];;
@@ -355,7 +352,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Pedido class]];
         [self updateItemPedido];
     };
@@ -371,7 +367,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class]]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSPredicate *itemPredicate = [NSPredicate predicateWithFormat:@"SELF.articuloID == $ARTICULO_ID && SELF.pedido.identifier == $PEDIDO_ID"];
         for (NSDictionary *dictionary in jsonArray) {
             ItemPedido *item = (ItemPedido *)[adl objectForClass:[ItemPedido class] withPredicate:[itemPredicate predicateWithSubstitutionVariables:@{@"ARTICULO_ID":[[dictionary objectForKey:@"articulo_id"] number],@"PEDIDO_ID":[[dictionary objectForKey:@"pedido_id"] number]}]];
@@ -396,7 +392,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[ItemPedido class]];
         [self updateCurrentAccount];
     };
@@ -411,7 +406,7 @@
     [params addEntriesFromDictionary:[self obtainCredentials]];
     [params addEntriesFromDictionary:[self obtainLastUpdateFor:[CtaCte class]]];
     SuccessRequest success = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *ctaCteDictionary in jsonArray) {
             CtaCte *ctaCte = (CtaCte *)[adl objectForClass:[CtaCte class] withId:[[ctaCteDictionary objectForKey:@"id"] number]];
             ctaCte.identifier = [[ctaCteDictionary filterInvalidEntry:@"id"] number];
@@ -430,7 +425,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[CtaCte class]];
         [self updateNotifications];
     };
@@ -446,7 +440,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[CondPag class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* condPagDictionary in jsonArray) {
             CondPag *condPag = (CondPag *)[adl objectForClass:[CondPag class] withId:[condPagDictionary objectForKey:@"id"]];
             condPag.identifier = [[condPagDictionary filterInvalidEntry:@"id"] number];
@@ -457,7 +451,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[CondPag class]];
         [self updateKindTaxes];
     };
@@ -473,7 +466,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[LineaVTA class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* ventaDictionary in jsonArray) {
             LineaVTA *venta = (LineaVTA *)[adl objectForClass:[LineaVTA class] withId:[ventaDictionary objectForKey:@"id"]];
             venta.identifier = [[ventaDictionary filterInvalidEntry:@"id"] number];
@@ -484,7 +477,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[LineaVTA class]];
         [self updateExpress];
     };
@@ -508,7 +500,7 @@
     
     SuccessRequest success = ^(NSArray *jsonArray){
         NSNumber *active = [NSNumber numberWithBool:!override];
-        EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
         if ([jsonArray count] > 0) {
             @autoreleasepool {
                 int count = 0;
@@ -531,11 +523,9 @@
                     self.dataUpdated = YES;
                     if (count % 200 == 0 || count == [jsonArray count]) {
                         [dal saveContext];
-                        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
                     }
                 }
             }
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
             int nextPage = page + 1;
             [self updatePageCompleted:dictionary[@"page"] ForClass:[Venta class]];
             [self updateSalesPage:nextPage forceOverride:override];
@@ -553,7 +543,7 @@
 }
 
 - (void)changeSalesList{
-    NSManagedObjectContext *context = [EQDataAccessLayer sharedInstanceForBatch].managedObjectContext;
+    NSManagedObjectContext *context = [[EQDataAccessLayer sharedInstance] managedObjectContext];
     NSError *error = nil;
     @autoreleasepool {
         NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Venta"];
@@ -564,7 +554,7 @@
         for (Venta *price in objects) {
             [context deleteObject:price];
         }
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [[EQDataAccessLayer sharedInstance] saveContext];
     }
     @autoreleasepool {
         NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Venta"];
@@ -573,7 +563,7 @@
         NSArray *newObjects = [context executeFetchRequest:allRequest error:&error];
         [newObjects setValue:[NSNumber numberWithBool:YES] forKey:@"activo"];
         //now save your changes back.
-        [[EQDataAccessLayer sharedInstanceForBatch] saveContext];
+        [[EQDataAccessLayer sharedInstance] saveContext];
     }
 }
 
@@ -585,7 +575,7 @@
     [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ZonaEnvio class]]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* envioDictionary in jsonArray) {
             ZonaEnvio *envio = (ZonaEnvio *)[adl objectForClass:[ZonaEnvio class] withId:[envioDictionary objectForKey:@"id"]];
             envio.identifier = [[envioDictionary filterInvalidEntry:@"id"] number];
@@ -596,7 +586,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[ZonaEnvio class]];
         [self updateProvince];
     };
@@ -606,7 +595,7 @@
 
 - (void)updateClients{
     SuccessRequest block = ^(NSArray * jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* clienteDictionary in jsonArray) {
             Cliente *client = (Cliente *)[adl objectForClass:[Cliente class] withId:[clienteDictionary objectForKey:@"id"]];
             client.identifier = [[clienteDictionary filterInvalidEntry:@"id"] number];
@@ -649,7 +638,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Cliente class]];
         [self updateCost];
     };
@@ -666,7 +654,7 @@
 - (void)updateProducts{
     SuccessRequest block = ^(NSArray *jsonArray){
         if ([jsonArray count] > 0) {
-            EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+            EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
             [[EQImagesManager sharedInstance] clearCache];
             for (NSDictionary* articuloDictionary in jsonArray) {
                 Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
@@ -707,7 +695,6 @@
                 self.dataUpdated = YES;
             }
             [adl saveContext];
-            [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         }
         [self updateCompletedFor:[Articulo class]];
         [self updateSellers];
@@ -716,8 +703,7 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
-    
+//    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
@@ -725,7 +711,7 @@
 
 - (void)updateSellers{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* vendedorDictionary in jsonArray) {
             Vendedor *seller = (Vendedor *)[adl objectForClass:[Vendedor class] withId:[vendedorDictionary objectForKey:@"id"]];
             seller.identifier = [[vendedorDictionary filterInvalidEntry:@"id"] number];
@@ -733,11 +719,11 @@
             seller.descripcion = [vendedorDictionary filterInvalidEntry:@"descripcion"];
             seller.activo = [[vendedorDictionary filterInvalidEntry:@"activo"] number];
             seller.usuarioID = [[vendedorDictionary filterInvalidEntry:@"wp_user_id"] number];
+            seller.usuario = (Usuario *)[adl objectForClass:[Usuario class] withId:seller.usuarioID];
             self.dataUpdated = YES;
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Vendedor class]];
         [self updatePaymentCondition];
     };
@@ -753,7 +739,7 @@
 
 - (void)updateExpress{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* expresoDictionary in jsonArray) {
             Expreso *express = (Expreso *)[adl objectForClass:[Expreso class] withId:[expresoDictionary objectForKey:@"id"]];
             express.identifier = [[expresoDictionary filterInvalidEntry:@"id"] number];
@@ -764,7 +750,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Expreso class]];
         [self updateClients];
     };
@@ -780,7 +765,7 @@
 
 - (void)updateProvince{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* provinciaDictionary in jsonArray) {
             Provincia *province = (Provincia *)[adl objectForClass:[Provincia class] withId:[provinciaDictionary objectForKey:@"id"]];
             province.identifier = [[provinciaDictionary filterInvalidEntry:@"id"] number];
@@ -791,7 +776,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Provincia class]];
         [self updateAvailability];
     };
@@ -807,7 +791,7 @@
 
 - (void)updateKindTaxes{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* ivaDictionary in jsonArray) {
             TipoIvas *iva = (TipoIvas *)[adl objectForClass:[TipoIvas class] withId:[ivaDictionary objectForKey:@"id"]];
             iva.identifier = [[ivaDictionary filterInvalidEntry:@"id"] number];
@@ -818,7 +802,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[TipoIvas class]];
         [self updateKindSales];
     };
@@ -834,7 +817,7 @@
 
 - (void)updateUsers{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* usuarioDictionary in jsonArray) {
             NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
             NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
@@ -848,7 +831,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Usuario class]];
         [self updateOrders];
     };
@@ -864,7 +846,7 @@
 
 - (void)updateGroups{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* dictionary in jsonArray) {
             NSNumber *identifier = [[dictionary filterInvalidEntry:@"term_id"] number];
             Grupo *group = (Grupo *)[adl objectForClass:[Grupo class] withId:identifier];
@@ -877,7 +859,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Grupo class]];
         [self updateSales];
     };
@@ -893,7 +874,7 @@
 
 - (void)updateAvailability{
     SuccessRequest block = ^(NSArray *jsonArray){
-        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstanceForBatch];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* dictionary in jsonArray) {
             NSNumber *identifier = [[dictionary filterInvalidEntry:@"id"] number];
             Disponibilidad *disponibilidad = (Disponibilidad *)[adl objectForClass:[Disponibilidad class] withId:identifier];
@@ -903,7 +884,6 @@
         }
         
         [adl saveContext];
-        [[EQDataAccessLayer sharedInstanceForBatch].managedObjectContext reset];
         [self updateCompletedFor:[Disponibilidad class]];
         [self updateProducts];
     };
