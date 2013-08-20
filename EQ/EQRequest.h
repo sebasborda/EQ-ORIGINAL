@@ -19,6 +19,7 @@ typedef void(^FailRequest)(NSError *);
 
 - (id)initWithParams:(NSMutableDictionary *)params
  successRequestBlock:(void(^)(NSArray* jsonArray))success
-    failRequestBlock:(void(^)(NSError* error))fail;
+    failRequestBlock:(void(^)(NSError* error))fail
+     runInBackground:(BOOL)runInBackground;
 
 @end

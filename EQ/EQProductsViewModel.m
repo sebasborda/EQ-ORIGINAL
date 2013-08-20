@@ -76,8 +76,7 @@
     }
 
     NSPredicate *predicate = [subPredicates count] > 0 ? [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates] : nil;
-    NSArray *results = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
-    self.articles = [NSMutableArray arrayWithArray:results];
+    self.articles = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
     
     [super loadDataInBackGround];
 }

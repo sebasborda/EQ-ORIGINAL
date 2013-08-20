@@ -28,4 +28,8 @@
     [[EQDataAccessLayer sharedInstance] saveContext];
 }
 
+- (NSString *)description{
+    return [NSString stringWithFormat:@"Group id:%@ name:%@ parent:%@",self.identifier,self.nombre,self.parentID];
+}
+
 @end

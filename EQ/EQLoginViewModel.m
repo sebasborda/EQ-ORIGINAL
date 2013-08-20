@@ -65,7 +65,7 @@
         [parameters setObject:userName forKey:@"usuario"];
         [parameters setObject:hashedPassword forKey:@"password"];
         
-        EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:failBlock];
+        EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:block failRequestBlock:failBlock runInBackground:NO];
         [EQNetworkManager makeRequest:request];
     }
 }

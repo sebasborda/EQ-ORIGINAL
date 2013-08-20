@@ -77,7 +77,13 @@
         self.dataUpdated = NO;
         self.running = YES;
         self.showLoading = show;
-        [self updateShippingArea];
+        if (show) {
+            [self updateShippingArea];
+        } else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [self updateShippingArea];
+            });
+        }
     }
 }
 
@@ -198,17 +204,19 @@
     }
     
     fail = fail ? fail : self.failBlock;
-    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:success failRequestBlock:fail];
+    EQRequest *request = [[EQRequest alloc] initWithParams:parameters successRequestBlock:success failRequestBlock:fail runInBackground:!self.showLoading];
     [EQNetworkManager makeRequest:request];
 }
 
 - (void)updateCost{
+    NSLog(@"Empezo precios thread %@", [NSThread isMainThread] ? @"Main" : @"BG");
     int page = [self obtainNextPageForClass:[Precio class]];
     BOOL override = page==1 && [[[self obtainLastUpdateFor:[Precio class]] allKeys] count] != 0;
     [self updateCostPage:page forceOverride:override ];
 }
 
 - (void)updateCostPage:(int)page forceOverride:(BOOL)override{
+
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"precio_articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
@@ -245,6 +253,8 @@
                 [self changePricesList];
             }
             [self updateCompletedFor:[Precio class]];
+            NSLog(@"termino precios thread %@", [NSThread isMainThread] ? @"Main" : @"BG");
+
             [self updateUsers];
         }
     };
@@ -703,7 +713,7 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-//    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
@@ -919,13 +929,12 @@
     };
     
     FailRequest failBlock = ^(NSError *error){
-        NSLog(@"send client fail error:%@ UserInfo:%@",error ,error.userInfo);
         newClient.actualizado = [NSNumber numberWithBool:NO];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
     [EQNetworkManager makeRequest:request];
 }
 
@@ -1014,12 +1023,11 @@
     };
     
     FailRequest failBlock = ^(NSError *error){
-        NSLog(@"send communication fail error:%@ UserInfo:%@",error ,error.userInfo);
         newCommunication.actualizado = [NSNumber numberWithBool:NO];
         [[EQDataAccessLayer sharedInstance] saveContext];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
     [EQNetworkManager makeRequest:request];
 }
 
@@ -1077,7 +1085,7 @@
         [[EQSession sharedInstance] updateCache];
     };
     
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
     [EQNetworkManager makeRequest:request];
 }
 

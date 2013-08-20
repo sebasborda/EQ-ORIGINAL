@@ -11,7 +11,7 @@
 @interface EQProductsViewModel : EQBaseViewModel
 
 @property (nonatomic,assign) id<EQBaseViewModelDelegate> delegate;
-@property (nonatomic,strong) NSMutableArray *articles;
+@property (nonatomic,strong) NSArray *articles;
 @property (nonatomic,strong) NSArray *category1List;
 @property (nonatomic,strong) NSArray *category2List;
 @property (nonatomic,strong) NSArray *category3List;

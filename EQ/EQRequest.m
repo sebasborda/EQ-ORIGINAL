@@ -14,7 +14,8 @@
 
 - (id)initWithParams:(NSMutableDictionary *)params
  successRequestBlock:(void(^)(NSArray* jsonArray))success
-    failRequestBlock:(void(^)(NSError* error))fail{
+    failRequestBlock:(void(^)(NSError* error))fail
+     runInBackground:(BOOL)runInBackground{
     self = [super init];
     if (self) {
         NSURLRequest *url = [self generateRequestWithParameters:params];
@@ -25,7 +26,15 @@
             };
             
         } else{
-            self.successBlock = success;
+            self.successBlock = ^(NSArray* jsonArray){
+                if (runInBackground) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        success(jsonArray);
+                    });
+                } else {
+                    success(jsonArray);
+                }
+            };
         }
         
         

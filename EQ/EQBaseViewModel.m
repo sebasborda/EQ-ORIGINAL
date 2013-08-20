@@ -80,11 +80,11 @@
 }
 
 - (void)loadDataInBackGround{
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:NO];
-    } else {
+//    if (![NSThread isMainThread]) {
+//        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:NO];
+//    } else {
         [self dataLaded];
-    }
+//    }
 }
 
 - (void)dataLaded{

@@ -39,4 +39,8 @@
     return [self.grupos lastObject];
 }
 
+- (NSString *)description{
+    return [NSString stringWithFormat:@"article id:%@ description:%@ availability:%@",self.identifier,self.description, self.disponibilidad];
+}
+
 @end
