@@ -320,4 +320,10 @@
     [textField resignFirstResponder];
 }
 
+- (IBAction)addressChanged:(id)sender {
+    if([self.clientAddressTextField.text length] > 0 && [self.clientLocalityTextField.text length] > 0) {
+        self.deliveryAddressTextField.text = [self.clientAddressTextField.text stringByAppendingFormat:@" %@",self.clientLocalityTextField.text];
+    }
+}
+
 @end

@@ -8,6 +8,8 @@
 
 #import "CtaCte+extra.h"
 
+#define ONE_DAY_IN_SECONDS 86400 //86400 = 60*60*24
+
 @implementation CtaCte (extra)
 
 @dynamic vendedores;
@@ -22,7 +24,7 @@
 }
 
 - (int)diasDeAtraso{
-    float days = [self.fecha timeIntervalSinceNow] * -1 / 86400; //86400 = 60*60*24
+    float days = [self.fecha timeIntervalSinceNow] * -1 / ONE_DAY_IN_SECONDS; 
     float module = days / 1;
     return module > 0 ? days + 1 : days;
 }

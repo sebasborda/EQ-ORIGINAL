@@ -874,7 +874,6 @@
 						<string key="NSFrame">{{412, 851}, {96, 33}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -2149,6 +2148,15 @@
 					<int key="connectionID">2150</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">addressChanged:</string>
+						<reference key="source" ref="641613492"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">19</int>
+					</object>
+					<int key="connectionID">2179</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="282870932"/>
@@ -2163,6 +2171,15 @@
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">2151</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">addressChanged:</string>
+						<reference key="source" ref="401501369"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">19</int>
+					</object>
+					<int key="connectionID">2180</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -2799,7 +2816,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2176</int>
+			<int key="maxID">2180</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2898,6 +2915,7 @@
 					<string key="className">EQCreateClientViewController</string>
 					<string key="superclassName">EQBaseViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addressChanged:">id</string>
 						<string key="cancelButtonAction:">id</string>
 						<string key="collectorButtonAction:">id</string>
 						<string key="deliveryAreaButtonAction:">id</string>
@@ -2910,6 +2928,10 @@
 						<string key="taxesButtonAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addressChanged:">
+							<string key="name">addressChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="cancelButtonAction:">
 							<string key="name">cancelButtonAction:</string>
 							<string key="candidateClassName">id</string>

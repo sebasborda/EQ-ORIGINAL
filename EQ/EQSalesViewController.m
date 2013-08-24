@@ -157,7 +157,7 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];
         cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
-        cell.quantityLabel.text = [sale.cantidad stringValue];
+        cell.quantityLabel.text = [NSString stringWithFormat:@"%i",[sale.cantidad integerValue]];
         cell.priceLabel.text = [NSString stringWithFormat:@"%@", sale.importe ? [sale.importe currencyString] : @"$0.00"];
     }
     

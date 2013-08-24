@@ -12,7 +12,6 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
 
 @interface EQDataAccessLayer ()
 
-@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
 @property (nonatomic,strong) NSPredicate *objectIDPredicate;
 
@@ -23,6 +22,7 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
 @implementation EQDataAccessLayer
 @synthesize storeCoordinator;
 @synthesize managedObjectModel;
+@synthesize mainManagedObjectContext;
 
 + (EQDataAccessLayer *)sharedInstance {
     __strong static EQDataAccessLayer *sharedInstance = nil;
@@ -124,6 +124,15 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
     return newEntity;
 }
 
+- (NSManagedObject *)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription{
+    
+    NSManagedObject *newEntity = [[NSManagedObject alloc]
+                                  initWithEntity:entityDescription
+                                  insertIntoManagedObjectContext:[self managedObjectContext]];
+    
+    return newEntity;
+}
+
 #pragma mark Core Data stack
 
 /**
@@ -138,6 +147,10 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
         [threadContext setPersistentStoreCoordinator:storeCoordinator];
         [threadContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
         [threadDict setObject:threadContext forKey:kManagedObjectContextKey];
+        
+        if ([NSThread isMainThread]) {
+            self.mainManagedObjectContext = threadContext;
+        }
     }
     
     return threadContext;
@@ -212,12 +225,13 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-- (void)contextChanged:(NSNotification*)notification {
-    NSMutableDictionary *threadDict = [[NSThread mainThread] threadDictionary];
-    NSManagedObjectContext *mainContext = [threadDict objectForKey:kManagedObjectContextKey];
-    if ([notification object] != mainContext) {
-        [mainContext mergeChangesFromContextDidSaveNotification:notification];
-    }
+// FIX: you must mergeChangesFromContextDidSaveNotification: on main thread
+// handling the notification occurs on background thread.
+// it needs to "merge" on the main thread.
+- (void)contextChanged:(NSNotification *)didSaveNotification {
+        if ([didSaveNotification object] != self.mainManagedObjectContext)
+            [self.mainManagedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:)
+                                                            withObject:didSaveNotification waitUntilDone:NO];
 }
 
 @end

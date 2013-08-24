@@ -136,8 +136,8 @@
 }
 
 - (void)updateCache{
-//    [[[EQDataAccessLayer sharedInstance] managedObjectContext] refreshObject:self.selectedClient mergeChanges:YES];
-//    [[[EQDataAccessLayer sharedInstance] managedObjectContext] refreshObject:self.user mergeChanges:YES];
+    [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
+    [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.user mergeChanges:YES];
 }
 
 @end

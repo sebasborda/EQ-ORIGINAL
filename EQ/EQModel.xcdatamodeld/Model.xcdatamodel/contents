@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12C3103" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Articulo" representedClassName="Articulo" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="cantidadPredeterminada" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -227,8 +227,8 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="numero" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="numero" optional="YES" attributeType="String" syncable="YES"/>
         <fetchedProperty name="articulo" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID "/>
         </fetchedProperty>
@@ -263,7 +263,7 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="usuarioID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="usuario" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Usuario" inverseName="vendedor" inverseEntity="Usuario" syncable="YES"/>
         <fetchedProperty name="clientesCobrador" optional="YES" syncable="YES">
@@ -296,7 +296,7 @@
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <fetchedProperty name="articulos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID"/>
         </fetchedProperty>

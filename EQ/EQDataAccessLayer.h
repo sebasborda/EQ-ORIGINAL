@@ -10,6 +10,8 @@
 #import <CoreData/CoreData.h>
 
 @interface EQDataAccessLayer : NSObject
+@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic) NSManagedObjectContext *mainManagedObjectContext;
 
 + (EQDataAccessLayer *)sharedInstance;
 - (void)saveContext;
@@ -19,5 +21,7 @@
 - (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue;
 - (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate;
 - (NSManagedObject *)createManagedObject:(NSString*)kind;
+- (NSManagedObject *)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription;
 - (NSManagedObjectContext *)managedObjectContext;
+
 @end

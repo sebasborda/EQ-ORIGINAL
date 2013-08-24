@@ -59,6 +59,7 @@
 - (IBAction)saveButtonAction:(id)sender;
 - (IBAction)cancelButtonAction:(id)sender;
 - (IBAction)taxesButtonAction:(id)sender;
+- (IBAction)addressChanged:(id)sender;
 
 - (id)initWithClientId:(NSNumber *)clientId;
 

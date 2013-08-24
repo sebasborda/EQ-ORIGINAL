@@ -45,10 +45,6 @@
 
 @implementation EQDataManager
 
-- (void)setDataUpdated:(BOOL)dataUpdated{
-    _dataUpdated = dataUpdated;
-}
-
 + (EQDataManager *)sharedInstance {
     __strong static EQDataManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
@@ -209,14 +205,12 @@
 }
 
 - (void)updateCost{
-    NSLog(@"Empezo precios thread %@", [NSThread isMainThread] ? @"Main" : @"BG");
     int page = [self obtainNextPageForClass:[Precio class]];
     BOOL override = page==1 && [[[self obtainLastUpdateFor:[Precio class]] allKeys] count] != 0;
     [self updateCostPage:page forceOverride:override ];
 }
 
 - (void)updateCostPage:(int)page forceOverride:(BOOL)override{
-
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"precio_articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
@@ -228,21 +222,25 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         NSNumber *active = [NSNumber numberWithBool:!override];
         if ([jsonArray count] > 0) {
-            @autoreleasepool {
-                int count = 0;
-                for (NSDictionary *priceDictionary in jsonArray) {
-                    count++;
-                    NSNumber *priceID = [[priceDictionary objectForKey:@"id"] number];
-                    Precio *price = (Precio *)[adl createManagedObject:@"Precio"];
-                    price.identifier = priceID;
-                    price.importe = [[priceDictionary filterInvalidEntry:@"importe"] number];
-                    price.numero = [[priceDictionary filterInvalidEntry:@"numero"] number];
-                    price.articuloID = [[priceDictionary filterInvalidEntry:@"articulo_id"] number];
-                    price.activo = active;
-                    self.dataUpdated = YES;
-                    if (count % 200 == 0 || count == [jsonArray count]) {
-                        [adl saveContext];
+            NSEntityDescription *entity = [[adl.managedObjectModel entitiesByName]
+                                           objectForKey:@"Precio"];
+            int groups = [jsonArray count] / 200;
+            groups += [jsonArray count] % 200 > 0 ? 1 : 0;
+            for (int j = 0; j < groups ; j++) {
+                int base = 200 * j;
+                int max = base + 200 < [jsonArray count] ? base + 200 : [jsonArray count];
+                @autoreleasepool {
+                    for (int i = base; i < max; i++) {
+                        NSDictionary *priceDictionary = [jsonArray objectAtIndex:i];
+                        Precio *price = (Precio *)[adl createManagedObjectWithEntity:entity];
+                        price.identifier = [[priceDictionary objectForKey:@"id"] number];
+                        price.importe = [[priceDictionary filterInvalidEntry:@"importe"] number];
+                        price.numero = [priceDictionary filterInvalidEntry:@"numero"];
+                        price.articuloID = [[priceDictionary filterInvalidEntry:@"articulo_id"] number];
+                        price.activo = active;
+                        self.dataUpdated = YES;
                     }
+                    [adl saveContext];
                 }
             }
             int nextPage = page + 1;
@@ -253,8 +251,6 @@
                 [self changePricesList];
             }
             [self updateCompletedFor:[Precio class]];
-            NSLog(@"termino precios thread %@", [NSThread isMainThread] ? @"Main" : @"BG");
-
             [self updateUsers];
         }
     };
@@ -276,7 +272,7 @@
         }
         [[EQDataAccessLayer sharedInstance] saveContext];
     }
-
+    
     @autoreleasepool {
         NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Precio"];
         allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]];
@@ -512,28 +508,31 @@
         NSNumber *active = [NSNumber numberWithBool:!override];
         EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
         if ([jsonArray count] > 0) {
-            @autoreleasepool {
-                int count = 0;
-                for (NSDictionary *dictionary in jsonArray) {
-                    count++;
-                    NSNumber *identifier = [dictionary[@"id"] number];
-                    Venta *venta = (Venta *)[dal createManagedObject:@"Venta"];
-                    venta.identifier = identifier;
-                    venta.importe = [dictionary[@"importe"] number];
-                    NSDateFormatter *dateFormatter = DATE_FORMATTER;
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                    venta.fecha = [dateFormatter dateFromString:dictionary[@"fecha"]];
-                    venta.cantidad =  [dictionary[@"cantidad"] number];
-                    venta.comprobante =  dictionary[@"comprobante"];
-                    venta.empresa =  dictionary[@"empresa"];
-                    venta.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
-                    venta.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
-                    venta.articuloID =  [[dictionary filterInvalidEntry:@"articulo_id"] number];
-                    venta.activo = active;
-                    self.dataUpdated = YES;
-                    if (count % 200 == 0 || count == [jsonArray count]) {
-                        [dal saveContext];
+            NSEntityDescription *entity = [[dal.managedObjectModel entitiesByName] objectForKey:@"Venta"];
+            int groups = [jsonArray count] / 200;
+            groups += [jsonArray count] % 200 > 0 ? 1 : 0;
+            for (int j = 0; j < groups ; j++) {
+                int base = 200 * j;
+                int max = base + 200 < [jsonArray count] ? base + 200 : [jsonArray count];
+                @autoreleasepool {
+                    for (int i = base; i < max; i++) {
+                        NSDictionary *salesDictionary = [jsonArray objectAtIndex:i];
+                        Venta *venta = (Venta *)[dal createManagedObjectWithEntity:entity];
+                        venta.identifier = [salesDictionary[@"id"] number];
+                        venta.importe = [salesDictionary[@"importe"] number];
+                        NSDateFormatter *dateFormatter = DATE_FORMATTER;
+                        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                        venta.fecha = [dateFormatter dateFromString:salesDictionary[@"fecha"]];
+                        venta.cantidad =  [salesDictionary[@"cantidad"] number];
+                        venta.comprobante =  salesDictionary[@"comprobante"];
+                        venta.empresa =  salesDictionary[@"empresa"];
+                        venta.clienteID = [[salesDictionary filterInvalidEntry:@"cliente_id"] number];
+                        venta.vendedorID = [[salesDictionary filterInvalidEntry:@"vendedor_id"] number];
+                        venta.articuloID =  [[salesDictionary filterInvalidEntry:@"articulo_id"] number];
+                        venta.activo = active;
+                        self.dataUpdated = YES;
                     }
+                    [dal saveContext];
                 }
             }
             int nextPage = page + 1;
@@ -567,6 +566,7 @@
         [[EQDataAccessLayer sharedInstance] saveContext];
     }
     @autoreleasepool {
+        
         NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Venta"];
         allRequest.predicate = [NSPredicate predicateWithFormat:@"SELF.activo == %@",[NSNumber numberWithBool:NO]];
         //fetch new sales
