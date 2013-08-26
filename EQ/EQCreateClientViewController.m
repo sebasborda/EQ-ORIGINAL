@@ -61,7 +61,7 @@
         self.clientPhoneTextField.text = client.telefono;
         self.clientWebTextField.text = client.web;
         self.clientZipCodeTextField.text = client.codigoPostal;
-        self.CUITTextField.text = client.cuit;
+        self.CUITTextField.text = [client.cuit stringByReplacingOccurrencesOfString:@"-" withString:@""];
         self.clientEmailTextField.text = client.mail;
         self.clientAddressTextField.text = client.domicilio;
         self.deliveryAddressTextField.text = client.domicilioDeEnvio;
@@ -70,10 +70,13 @@
         self.purchaseManagerTextField.text = client.encCompras;
         self.scheduleTextField.text = client.horario;
         self.collectionDaysTextField.text = client.diasDePago;
-        self.discount1TextField.text = [client.descuento1 stringValue];
-        self.discount2TextField.text = [client.descuento2 stringValue];
-        self.discount3TextField.text = [client.descuento3 stringValue];
-        self.discount4TextField.text = [client.descuento4 stringValue];
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"es_AR"]];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        self.discount1TextField.text = [formatter stringFromNumber:client.descuento1];
+        self.discount2TextField.text = [formatter stringFromNumber:client.descuento2];
+        self.discount3TextField.text = [formatter stringFromNumber:client.descuento3];
+        self.discount4TextField.text = [formatter stringFromNumber:client.descuento4];
         self.observationsTextField.text = client.observaciones;
     }
     
@@ -254,10 +257,10 @@
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.scheduleTextField withName:@"Horario"] forKey:@"schedule"];
     [clientDictionary setNotEmptyString:[self validateCUIT:self.CUITTextField.text] forKey:@"cuit"];
     [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.collectionDaysTextField withName:@"Dias de pago"] forKey:@"collectionDays"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount1TextField withName:@"Descuento 1"] forKey:@"discount1"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount2TextField withName:@"Descuento 2"] forKey:@"discount2"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount3TextField withName:@"Descuento 3"] forKey:@"discount3"];
-    [clientDictionary setNotEmptyString:[self validateNonEmptyTextField:self.discount4TextField withName:@"Descuento 4"] forKey:@"discount4"];
+    [clientDictionary setValue:[self.discount1TextField.text length] == 0 ? @"0" : self.discount1TextField.text forKey:@"discount1"];
+    [clientDictionary setValue:[self.discount2TextField.text length] == 0 ? @"0" : self.discount2TextField.text forKey:@"discount2"];
+    [clientDictionary setValue:[self.discount3TextField.text length] == 0 ? @"0" : self.discount3TextField.text forKey:@"discount3"];
+    [clientDictionary setValue:[self.discount4TextField.text length] == 0 ? @"0" : self.discount4TextField.text forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
     
     [self validateValue:self.paymentConditionButton.titleLabel.text forRelation:@"Condicion de pago"];
@@ -270,8 +273,16 @@
     [self validateValue:self.taxesButton.titleLabel.text forRelation:@"Tipo ivas"];
     
     if ([self.ErrorMessage length] == 0) {
-        [self.viewModel saveClient:clientDictionary];
-        [self.delegate clientSaved];
+        [self startLoading];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [self.viewModel saveClient:clientDictionary];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self stopLoading];
+                [self.delegate clientSaved];
+            });
+        });
+        
+        
     } else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Solucione los siguientes errores"
                                                         message:self.ErrorMessage

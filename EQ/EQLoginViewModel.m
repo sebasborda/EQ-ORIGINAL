@@ -31,7 +31,7 @@
         SuccessRequest block = ^(NSArray *jsonArray){
             NSMutableArray *users = [NSMutableArray array];
             for (NSDictionary* usuarioDictionary in jsonArray) {
-                NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
+                NSString *identifier = [usuarioDictionary filterInvalidEntry:@"wp_user_id"];
                 NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
                 NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
                 Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
@@ -39,7 +39,7 @@
                 user.nombreDeUsuario = usuario;
                 user.password = password;
                 user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-                user.vendedorID = [[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number];
+                user.vendedorID = [usuarioDictionary filterInvalidEntry:@"vendedor_id"];
                 if ([userNameCopy isEqualToString:usuario] && [hashedPassword isEqualToString:password]) {
                     currentUser = user;
                 }

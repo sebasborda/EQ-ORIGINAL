@@ -15,6 +15,7 @@
 #import "Venta+extra.h"
 #import "NSNumber+EQ.h"
 #import "UIColor+EQ.h"
+#import "EQDataAccessLayer.h"
 
 #define cellIdentifier @"SalesCell"
 
@@ -152,7 +153,7 @@
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
     } else {
         Venta *sale = [[self.viewModel.salesList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.clientLabel.text = sale.cliente.nombre;
+        cell.clientLabel.text = sale.cliente.nombre;        
         cell.articleLabel.text = sale.articulo.nombre;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];

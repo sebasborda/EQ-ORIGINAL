@@ -233,10 +233,10 @@
                     for (int i = base; i < max; i++) {
                         NSDictionary *priceDictionary = [jsonArray objectAtIndex:i];
                         Precio *price = (Precio *)[adl createManagedObjectWithEntity:entity];
-                        price.identifier = [[priceDictionary objectForKey:@"id"] number];
+                        price.identifier = [priceDictionary objectForKey:@"id"];
                         price.importe = [[priceDictionary filterInvalidEntry:@"importe"] number];
                         price.numero = [priceDictionary filterInvalidEntry:@"numero"];
-                        price.articuloID = [[priceDictionary filterInvalidEntry:@"articulo_id"] number];
+                        price.articuloID = [priceDictionary filterInvalidEntry:@"articulo_id"];
                         price.activo = active;
                         self.dataUpdated = YES;
                     }
@@ -294,15 +294,15 @@
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *dictionary in jsonArray) {
-            NSNumber *identifier = [dictionary[@"id"] number];
-            Comunicacion *notification = (Comunicacion *)[adl objectForClass:[Comunicacion class] withId:[[dictionary objectForKey:@"id"] number]];
+            NSString *identifier = dictionary[@"id"];
+            Comunicacion *notification = (Comunicacion *)[adl objectForClass:[Comunicacion class] withId:identifier];
             notification.identifier = identifier;
             notification.titulo = dictionary[@"titulo"];
             notification.descripcion = dictionary[@"descripcion"];
-            notification.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
-            notification.senderID = [dictionary[@"sender_id"] number];
-            notification.receiverID = [dictionary[@"receiver_id"] number];
-            notification.threadID = [dictionary[@"thread_id"] number];
+            notification.clienteID = [dictionary filterInvalidEntry:@"cliente_id"];
+            notification.senderID = dictionary[@"sender_id"];
+            notification.receiverID = dictionary[@"receiver_id"];
+            notification.threadID = dictionary[@"thread_id"];
             notification.tipo = dictionary[@"tipo"];
             if (dictionary[@"leido"] != [NSNull null]) {
                 notification.leido = [NSDate dateWithTimeIntervalSince1970:[[dictionary[@"leido"] number] doubleValue]];
@@ -334,8 +334,8 @@
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *dictionary in jsonArray) {
-            NSNumber *identifier = [dictionary[@"id"] number];
-            Pedido *pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary objectForKey:@"id"] number]];;
+            NSString *identifier = dictionary[@"id"];
+            Pedido *pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:identifier];
             pedido.identifier = identifier;
             NSDateFormatter *dateFormatter = DATE_FORMATTER;
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -350,8 +350,8 @@
             pedido.observaciones = [dictionary filterInvalidEntry:@"observaciones"];
             pedido.descuento3 = [dictionary[@"descuento3"] number];
             pedido.descuento4 = [dictionary[@"descuento4"] number];
-            pedido.clienteID = [[dictionary filterInvalidEntry:@"cliente_id"] number];
-            pedido.vendedorID = [[dictionary filterInvalidEntry:@"vendedor_id"] number];
+            pedido.clienteID = [dictionary filterInvalidEntry:@"cliente_id"];
+            pedido.vendedorID = [dictionary filterInvalidEntry:@"vendedor_id"];
             pedido.actualizado = [NSNumber numberWithBool:YES];
             pedido.sincronizacion = [NSDate date];
             self.dataUpdated = YES;
@@ -385,7 +385,7 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             NSString *fecha_facturado = [dictionary filterInvalidEntry:@"fecha_facturado"];
             item.fechaFacturado = [dateFormatter dateFromString:fecha_facturado];
-            item.articuloID = [[dictionary filterInvalidEntry:@"articulo_id"] number];
+            item.articuloID = [dictionary filterInvalidEntry:@"articulo_id"];
             item.cantidad = [[dictionary filterInvalidEntry:@"cantidad_pedida"] number];
             item.descuento1 = [[dictionary filterInvalidEntry:@"descuento1"] number];
             item.descuento2 = [[dictionary filterInvalidEntry:@"descuento2"] number];
@@ -393,7 +393,7 @@
             item.importeConDescuento = [[dictionary filterInvalidEntry:@"precio_con_descuento"] number];
             item.importeFinal = [[dictionary filterInvalidEntry:@"importe_final"] number];
             item.precioUnitario = [[dictionary filterInvalidEntry:@"precio_unitario"] number];
-            item.pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[[dictionary filterInvalidEntry:@"pedido_id"] number]];
+            item.pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[dictionary filterInvalidEntry:@"pedido_id"]];
             self.dataUpdated = YES;
         }
         
@@ -414,8 +414,8 @@
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *ctaCteDictionary in jsonArray) {
-            CtaCte *ctaCte = (CtaCte *)[adl objectForClass:[CtaCte class] withId:[[ctaCteDictionary objectForKey:@"id"] number]];
-            ctaCte.identifier = [[ctaCteDictionary filterInvalidEntry:@"id"] number];
+            CtaCte *ctaCte = (CtaCte *)[adl objectForClass:[CtaCte class] withId:[ctaCteDictionary objectForKey:@"id"]];
+            ctaCte.identifier = [ctaCteDictionary filterInvalidEntry:@"id"];
             ctaCte.importe = [[ctaCteDictionary filterInvalidEntry:@"importe"] number];
             ctaCte.importePercepcion = [[ctaCteDictionary filterInvalidEntry:@"importe_percepcion"] number];
             ctaCte.empresa = [ctaCteDictionary filterInvalidEntry:@"empresa"];
@@ -425,8 +425,8 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             ctaCte.fecha = [dateFormatter dateFromString:ctaCteDictionary[@"fecha"]];
             ctaCte.importeConDescuento = [[ctaCteDictionary filterInvalidEntry:@"importe_con_desc"] number];
-            ctaCte.clienteID = [[ctaCteDictionary filterInvalidEntry:@"cliente_id"] number];
-            ctaCte.vendedorID = [[ctaCteDictionary filterInvalidEntry:@"vendedor_id"] number];
+            ctaCte.clienteID = [ctaCteDictionary filterInvalidEntry:@"cliente_id"];
+            ctaCte.vendedorID = [ctaCteDictionary filterInvalidEntry:@"vendedor_id"];
             self.dataUpdated = YES;
         }
         
@@ -449,7 +449,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* condPagDictionary in jsonArray) {
             CondPag *condPag = (CondPag *)[adl objectForClass:[CondPag class] withId:[condPagDictionary objectForKey:@"id"]];
-            condPag.identifier = [[condPagDictionary filterInvalidEntry:@"id"] number];
+            condPag.identifier = [condPagDictionary filterInvalidEntry:@"id"];
             condPag.descripcion = [condPagDictionary filterInvalidEntry:@"descripcion"];
             condPag.codigo = [condPagDictionary filterInvalidEntry:@"codigo"];
             condPag.activo = [[condPagDictionary filterInvalidEntry:@"activo"] number];
@@ -475,7 +475,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* ventaDictionary in jsonArray) {
             LineaVTA *venta = (LineaVTA *)[adl objectForClass:[LineaVTA class] withId:[ventaDictionary objectForKey:@"id"]];
-            venta.identifier = [[ventaDictionary filterInvalidEntry:@"id"] number];
+            venta.identifier = [ventaDictionary filterInvalidEntry:@"id"];
             venta.descripcion = [ventaDictionary filterInvalidEntry:@"descripcion"];
             venta.codigo = [ventaDictionary filterInvalidEntry:@"codigo"];
             venta.activo = [[ventaDictionary filterInvalidEntry:@"activo"] number];
@@ -518,7 +518,7 @@
                     for (int i = base; i < max; i++) {
                         NSDictionary *salesDictionary = [jsonArray objectAtIndex:i];
                         Venta *venta = (Venta *)[dal createManagedObjectWithEntity:entity];
-                        venta.identifier = [salesDictionary[@"id"] number];
+                        venta.identifier = salesDictionary[@"id"];
                         venta.importe = [salesDictionary[@"importe"] number];
                         NSDateFormatter *dateFormatter = DATE_FORMATTER;
                         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -526,9 +526,9 @@
                         venta.cantidad =  [salesDictionary[@"cantidad"] number];
                         venta.comprobante =  salesDictionary[@"comprobante"];
                         venta.empresa =  salesDictionary[@"empresa"];
-                        venta.clienteID = [[salesDictionary filterInvalidEntry:@"cliente_id"] number];
-                        venta.vendedorID = [[salesDictionary filterInvalidEntry:@"vendedor_id"] number];
-                        venta.articuloID =  [[salesDictionary filterInvalidEntry:@"articulo_id"] number];
+                        venta.clienteID = [salesDictionary filterInvalidEntry:@"cliente_id"];
+                        venta.vendedorID = [salesDictionary filterInvalidEntry:@"vendedor_id"];
+                        venta.articuloID =  [salesDictionary filterInvalidEntry:@"articulo_id"];
                         venta.activo = active;
                         self.dataUpdated = YES;
                     }
@@ -608,12 +608,12 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* clienteDictionary in jsonArray) {
             Cliente *client = (Cliente *)[adl objectForClass:[Cliente class] withId:[clienteDictionary objectForKey:@"id"]];
-            client.identifier = [[clienteDictionary filterInvalidEntry:@"id"] number];
-            client.cobradorID = [[clienteDictionary filterInvalidEntry:@"cobrador_id"] number];
+            client.identifier = [clienteDictionary filterInvalidEntry:@"id"];
+            client.cobradorID = [clienteDictionary filterInvalidEntry:@"cobrador_id"];
             client.codigoPostal = [clienteDictionary filterInvalidEntry:@"cod_postal"];
             client.codigo1 = [clienteDictionary filterInvalidEntry:@"codigo1"];
             client.codigo2 = [clienteDictionary filterInvalidEntry:@"codigo2"];
-            client.condicionDePagoID = [[clienteDictionary filterInvalidEntry:@"condicion_pago_id"] number];
+            client.condicionDePagoID = [clienteDictionary filterInvalidEntry:@"condicion_pago_id"];
             client.cuit = [clienteDictionary filterInvalidEntry:@"cuit"];
             client.descuento1 = [[clienteDictionary filterInvalidEntry:@"descuento1"] number];
             client.descuento2 = [[clienteDictionary filterInvalidEntry:@"descuento2"] number];
@@ -624,26 +624,26 @@
             client.domicilioDeEnvio = [clienteDictionary filterInvalidEntry:@"domicilio_envio"];
             client.propietario = [clienteDictionary filterInvalidEntry:@"dueno"];
             client.encCompras = [clienteDictionary filterInvalidEntry:@"enc_compras"];
-            client.expresoID = [[clienteDictionary filterInvalidEntry:@"expreso_id"] number];
+            client.expresoID = [clienteDictionary filterInvalidEntry:@"expreso_id"];
             client.horario = [clienteDictionary filterInvalidEntry:@"horario"];
-            client.lineaDeVentaID = [[clienteDictionary filterInvalidEntry:@"linea_venta_id"] number];
+            client.lineaDeVentaID = [clienteDictionary filterInvalidEntry:@"linea_venta_id"];
             client.localidad = [clienteDictionary filterInvalidEntry:@"localidad"];
             client.mail = [clienteDictionary filterInvalidEntry:@"mail"];
             client.nombre = [clienteDictionary filterInvalidEntry:@"nombre"];
             client.nombreDeFantasia = [clienteDictionary filterInvalidEntry:@"nombre_fantasia"];
             client.observaciones = [clienteDictionary filterInvalidEntry:@"observaciones"];
-            client.provinciaID = [[clienteDictionary filterInvalidEntry:@"provincia_id"] number];
+            client.provinciaID = [clienteDictionary filterInvalidEntry:@"provincia_id"];
             client.sucursal = [[clienteDictionary filterInvalidEntry:@"sucursal"] number];
             client.telefono = [clienteDictionary filterInvalidEntry:@"telefono"];
-            client.ivaID = [[clienteDictionary filterInvalidEntry:@"tipo_iva_id"] number];
+            client.ivaID = [clienteDictionary filterInvalidEntry:@"tipo_iva_id"];
             client.latitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lat"] number];
             client.longitud = [[clienteDictionary filterInvalidEntry:@"ubicacion_gps_lng"] number];
-            client.vendedorID = [[clienteDictionary filterInvalidEntry:@"vendedor_id"] number];
-            client.zonaEnvioID = [[clienteDictionary filterInvalidEntry:@"zona_envio_id"] number];
+            client.vendedorID = [clienteDictionary filterInvalidEntry:@"vendedor_id"];
+            client.zonaEnvioID = [clienteDictionary filterInvalidEntry:@"zona_envio_id"];
             client.web = [clienteDictionary filterInvalidEntry:@"web"];
             client.actualizado = [NSNumber numberWithBool:YES];
             client.activo = [[clienteDictionary filterInvalidEntry:@"activo"] number];
-            client.listaPrecios = [[clienteDictionary filterInvalidEntry:@"numero_lista_precios"] number];
+            client.listaPrecios = [clienteDictionary filterInvalidEntry:@"numero_lista_precios"];
             self.dataUpdated = YES;
         }
         
@@ -668,7 +668,7 @@
             [[EQImagesManager sharedInstance] clearCache];
             for (NSDictionary* articuloDictionary in jsonArray) {
                 Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
-                art.identifier = [[articuloDictionary filterInvalidEntry:@"id"] number];
+                art.identifier = [articuloDictionary filterInvalidEntry:@"id"];
                 NSMutableString *codigo = [NSMutableString stringWithString:[articuloDictionary filterInvalidEntry:@"codigo1"]];
                 [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo2"]];
                 [codigo appendFormat:@" %@",[articuloDictionary filterInvalidEntry:@"codigo3"]];
@@ -692,7 +692,7 @@
                 NSNumber *multiplo = [[articuloDictionary filterInvalidEntry:@"multiplo_pedido"] number];
                 art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
                 art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
-                art.disponibilidadID = [[articuloDictionary filterInvalidEntry:@"disponibilidad_id"] number];
+                art.disponibilidadID = [articuloDictionary filterInvalidEntry:@"disponibilidad_id"];
                 
                 NSDateFormatter *dateFormatter = DATE_FORMATTER;
                 [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -701,7 +701,7 @@
                 
                 art.cantidadPredeterminada = [[articuloDictionary filterInvalidEntry:@"cant_predeterm"] number];
                 art.activo = [[articuloDictionary filterInvalidEntry:@"activo"] number];
-                art.grupoID = [[articuloDictionary filterInvalidEntry:@"term_id"] number];
+                art.grupoID = [articuloDictionary filterInvalidEntry:@"term_id"];
                 self.dataUpdated = YES;
             }
             [adl saveContext];
@@ -724,11 +724,11 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* vendedorDictionary in jsonArray) {
             Vendedor *seller = (Vendedor *)[adl objectForClass:[Vendedor class] withId:[vendedorDictionary objectForKey:@"id"]];
-            seller.identifier = [[vendedorDictionary filterInvalidEntry:@"id"] number];
+            seller.identifier = [vendedorDictionary filterInvalidEntry:@"id"];
             seller.codigo = [vendedorDictionary filterInvalidEntry:@"codigo"];
             seller.descripcion = [vendedorDictionary filterInvalidEntry:@"descripcion"];
             seller.activo = [[vendedorDictionary filterInvalidEntry:@"activo"] number];
-            seller.usuarioID = [[vendedorDictionary filterInvalidEntry:@"wp_user_id"] number];
+            seller.usuarioID = [vendedorDictionary filterInvalidEntry:@"wp_user_id"];
             seller.usuario = (Usuario *)[adl objectForClass:[Usuario class] withId:seller.usuarioID];
             self.dataUpdated = YES;
         }
@@ -752,7 +752,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* expresoDictionary in jsonArray) {
             Expreso *express = (Expreso *)[adl objectForClass:[Expreso class] withId:[expresoDictionary objectForKey:@"id"]];
-            express.identifier = [[expresoDictionary filterInvalidEntry:@"id"] number];
+            express.identifier = [expresoDictionary filterInvalidEntry:@"id"];
             express.codigo = [expresoDictionary filterInvalidEntry:@"codigo"];
             express.descripcion = [expresoDictionary filterInvalidEntry:@"descripcion"];
             express.activo = [[expresoDictionary filterInvalidEntry:@"activo"] number];
@@ -778,7 +778,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* provinciaDictionary in jsonArray) {
             Provincia *province = (Provincia *)[adl objectForClass:[Provincia class] withId:[provinciaDictionary objectForKey:@"id"]];
-            province.identifier = [[provinciaDictionary filterInvalidEntry:@"id"] number];
+            province.identifier = [provinciaDictionary filterInvalidEntry:@"id"];
             province.codigo = [provinciaDictionary filterInvalidEntry:@"codigo"];
             province.descripcion = [provinciaDictionary filterInvalidEntry:@"descripcion"];
             province.activo = [[provinciaDictionary filterInvalidEntry:@"activo"] number];
@@ -804,7 +804,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* ivaDictionary in jsonArray) {
             TipoIvas *iva = (TipoIvas *)[adl objectForClass:[TipoIvas class] withId:[ivaDictionary objectForKey:@"id"]];
-            iva.identifier = [[ivaDictionary filterInvalidEntry:@"id"] number];
+            iva.identifier = [ivaDictionary filterInvalidEntry:@"id"];
             iva.codigo = [ivaDictionary filterInvalidEntry:@"codigo"];
             iva.descripcion = [ivaDictionary filterInvalidEntry:@"descripcion"];
             iva.activo = [[ivaDictionary filterInvalidEntry:@"activo"] number];
@@ -829,7 +829,7 @@
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* usuarioDictionary in jsonArray) {
-            NSNumber *identifier = [[usuarioDictionary filterInvalidEntry:@"wp_user_id"] number];
+            NSString *identifier = [usuarioDictionary filterInvalidEntry:@"wp_user_id"];
             NSString *usuario = [usuarioDictionary filterInvalidEntry:@"username"];
             NSString *password = [usuarioDictionary filterInvalidEntry:@"hashed_password"];
             Usuario *user = (Usuario *)[adl objectForClass:[Usuario class] withId:identifier];
@@ -837,7 +837,7 @@
             user.nombreDeUsuario = usuario;
             user.password = password;
             user.nombre = [usuarioDictionary filterInvalidEntry:@"display_name"];
-            user.vendedorID = [[usuarioDictionary filterInvalidEntry:@"vendedor_id"] number];
+            user.vendedorID = [usuarioDictionary filterInvalidEntry:@"vendedor_id"];
         }
         
         [adl saveContext];
@@ -858,11 +858,11 @@
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* dictionary in jsonArray) {
-            NSNumber *identifier = [[dictionary filterInvalidEntry:@"term_id"] number];
+            NSString *identifier = [dictionary filterInvalidEntry:@"term_id"];
             Grupo *group = (Grupo *)[adl objectForClass:[Grupo class] withId:identifier];
             group.identifier = identifier;
             group.nombre = [dictionary filterInvalidEntry:@"name"];
-            group.parentID = [[dictionary filterInvalidEntry:@"parent"] number];
+            group.parentID = [dictionary filterInvalidEntry:@"parent"];
             group.descripcion = [dictionary filterInvalidEntry:@"description"];
             group.count = [[dictionary filterInvalidEntry:@"count"] number];
             group.relevancia = @0;
@@ -886,7 +886,7 @@
     SuccessRequest block = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* dictionary in jsonArray) {
-            NSNumber *identifier = [[dictionary filterInvalidEntry:@"id"] number];
+            NSString *identifier = [dictionary filterInvalidEntry:@"id"];
             Disponibilidad *disponibilidad = (Disponibilidad *)[adl objectForClass:[Disponibilidad class] withId:identifier];
             disponibilidad.identifier = identifier;
             disponibilidad.descripcion = [dictionary filterInvalidEntry:@"descripcion"];
@@ -918,7 +918,7 @@
     
     __block Cliente *newClient = client;
     SuccessRequest block = ^(NSDictionary *clientDictionary){
-        NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+        NSString *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
         if (identifier) {
             newClient.identifier = identifier;
         }
@@ -929,9 +929,7 @@
     };
     
     FailRequest failBlock = ^(NSError *error){
-        newClient.actualizado = [NSNumber numberWithBool:NO];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
+
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
@@ -1013,7 +1011,7 @@
     
     __block Comunicacion *newCommunication = communication;
     SuccessRequest block = ^(NSDictionary *communicationDictionary){
-        NSNumber *identifier = [communicationDictionary filterInvalidEntry:@"obj_id"];
+        NSString *identifier = [communicationDictionary filterInvalidEntry:@"obj_id"];
         if (identifier) {
             newCommunication.identifier = identifier;
         }
@@ -1067,7 +1065,7 @@
     
     __block Pedido *newOrder = order;
     SuccessRequest block = ^(NSDictionary *clientDictionary){
-        NSNumber *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+        NSString *identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
         if (identifier) {
             newOrder.identifier = identifier;
         }
@@ -1080,9 +1078,6 @@
     
     FailRequest failBlock = ^(NSError *error){
         NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
-        newOrder.actualizado = [NSNumber numberWithBool:NO];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];

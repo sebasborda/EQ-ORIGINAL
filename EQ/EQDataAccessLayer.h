@@ -18,10 +18,10 @@
 - (NSArray *)objectListForClass:(Class)objectClass;
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate;
 - (NSArray *)objectListForClass:(Class)objectClass filterByPredicate:(NSPredicate *)predicate sortBy:(NSSortDescriptor *)sortDescriptor limit:(int)limit ;
-- (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue;
-- (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate;
-- (NSManagedObject *)createManagedObject:(NSString*)kind;
-- (NSManagedObject *)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription;
+- (id)objectForClass:(Class)objectClass withId:(NSString *)idValue;
+- (id)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate;
+- (id)createManagedObject:(NSString*)kind;
+- (id)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription;
 - (NSManagedObjectContext *)managedObjectContext;
 
 @end

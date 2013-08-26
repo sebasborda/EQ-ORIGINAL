@@ -89,7 +89,6 @@
         if ([communication.activo boolValue]) {
             communication.activo = @0;
             [[EQDataAccessLayer sharedInstance] saveContext];
-            [[EQSession sharedInstance] updateCache];
             [[EQDataManager sharedInstance] sendCommunication:communication];
         }
     }
@@ -99,7 +98,6 @@
     if (self.selectedCommunication.leido == nil) {
         self.selectedCommunication.leido = [NSDate date];
         [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
         [[EQDataManager sharedInstance] sendCommunication:self.selectedCommunication];
     }
 }
@@ -111,7 +109,7 @@
     communication.threadID = self.selectedCommunication.threadID;
     communication.tipo = self.selectedCommunication.tipo;
     communication.senderID = [EQSession sharedInstance].user.identifier;
-    communication.receiverID = [communication.senderID isEqualToNumber:self.selectedCommunication.senderID] ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
+    communication.receiverID = [communication.senderID isEqualToString:self.selectedCommunication.senderID] ? self.selectedCommunication.receiverID : self.selectedCommunication.senderID;
     communication.activo = [NSNumber numberWithBool:YES];
     communication.actualizado = [NSNumber numberWithBool:NO];
     communication.creado = [NSDate date];

@@ -37,7 +37,7 @@
     self.creationDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
     self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fechaFacturacion];
     self.clienLabel.text = pedido.cliente.nombre;
-    self.orderNumberLabel.text = [pedido.identifier stringValue];
+    self.orderNumberLabel.text = pedido.identifier;
     self.grossPriceLabel.text = [NSString stringWithFormat:@"%@", [pedido.subTotal currencyString]];
     float discount = [pedido porcentajeDescuento];
     self.discountLabel.text = [NSString stringWithFormat:@"%.2f%%", discount];

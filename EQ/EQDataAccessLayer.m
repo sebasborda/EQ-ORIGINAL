@@ -85,7 +85,7 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
 }
 
 
-- (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue{
+- (id)objectForClass:(Class)objectClass withId:(NSString *)idValue{
     if (idValue) {
         NSPredicate* localPredicate = [self.objectIDPredicate predicateWithSubstitutionVariables:@{@"OBJECT_ID":idValue}];
         NSManagedObject *object = [self objectForClass:objectClass withPredicate:localPredicate];
@@ -98,7 +98,7 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
     return [self createManagedObject:className];
 }
 
-- (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
+- (id)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
     NSString *className = NSStringFromClass(objectClass);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
     fetchRequest.predicate = predicate;
@@ -112,7 +112,7 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
     return nil;
 }
 
-- (NSManagedObject *)createManagedObject:(NSString*)kind{
+- (id)createManagedObject:(NSString*)kind{
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:kind
                                    inManagedObjectContext:[self managedObjectContext]];
@@ -124,7 +124,7 @@ static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextFo
     return newEntity;
 }
 
-- (NSManagedObject *)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription{
+- (id)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription{
     
     NSManagedObject *newEntity = [[NSManagedObject alloc]
                                   initWithEntity:entityDescription

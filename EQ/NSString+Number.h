@@ -11,5 +11,6 @@
 @interface NSString (Number)
 
 - (NSNumber *)number;
-
+- (NSNumber *)numberAR;
+- (NSNumber *)numberWithLocale:(NSLocale *)locale;
 @end

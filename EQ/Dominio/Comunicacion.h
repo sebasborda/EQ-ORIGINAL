@@ -2,7 +2,7 @@
 //  Comunicacion.h
 //  EQ
 //
-//  Created by Sebastian Borda on 7/6/13.
+//  Created by Sebastian Borda on 8/25/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,16 +14,16 @@
 
 @property (nonatomic, retain) NSNumber * activo;
 @property (nonatomic, retain) NSNumber * actualizado;
-@property (nonatomic, retain) NSNumber * clienteID;
+@property (nonatomic, retain) NSString * clienteID;
 @property (nonatomic, retain) NSNumber * codigoSerial;
+@property (nonatomic, retain) NSDate * creado;
 @property (nonatomic, retain) NSString * descripcion;
-@property (nonatomic, retain) NSNumber * identifier;
+@property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSDate * leido;
-@property (nonatomic, retain) NSNumber * receiverID;
-@property (nonatomic, retain) NSNumber * senderID;
-@property (nonatomic, retain) NSNumber * threadID;
+@property (nonatomic, retain) NSString * receiverID;
+@property (nonatomic, retain) NSString * senderID;
+@property (nonatomic, retain) NSString * threadID;
 @property (nonatomic, retain) NSString * tipo;
 @property (nonatomic, retain) NSString * titulo;
-@property (nonatomic, retain) NSDate * creado;
 
 @end

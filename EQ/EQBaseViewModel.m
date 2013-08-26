@@ -44,7 +44,6 @@
 }
 
 - (void)loadTopBarData{
-    [[EQSession sharedInstance] updateCache];
     self.pendingOrdersCount = 0;
     NSArray *sellerOrders = [NSArray arrayWithArray:self.currentSeller.pedidos];
     for (Pedido *order in sellerOrders) {

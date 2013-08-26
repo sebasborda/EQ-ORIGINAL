@@ -105,7 +105,7 @@
     [[EQSession sharedInstance] startMonitoring];
     self.segmentStatus.selectedSegmentIndex = [self.viewModel orderStatusIndex];
     self.orderClientLabel.text = [self.clientNameLabel.text length] > 0 ? self.clientNameLabel.text : self.viewModel.order.cliente.nombre;
-    self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": [self.viewModel.order.identifier stringValue];
+    self.orderLabel.text = ![self.viewModel.order.identifier intValue] > 0 ? @"": self.viewModel.order.identifier;
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd.MM.yy"];
     self.orderDate.text = [dateFormat stringFromDate:[self.viewModel date]];
@@ -198,9 +198,9 @@
 - (IBAction)articleDetailButton:(id)sender {
     if (self.viewModel.articleSelected) {
         [self.productDetailView loadArticle:self.viewModel.articleSelected];
-        if (self.productDetailView.alpha < 1) {
+        if ([self.productDetailView isHidden]) {
             [UIView animateWithDuration:0.4 animations:^{
-                self.productDetailView.alpha = 1;
+                self.productDetailView.hidden = NO;
             }];
         }
     }
@@ -418,9 +418,9 @@
 }
 
 - (void)productDetailClose{
-    if (self.productDetailView.alpha == 1) {
+    if (![self.productDetailView isHidden]) {
         [UIView animateWithDuration:0.4 animations:^{
-            self.productDetailView.alpha = 0;
+            self.productDetailView.hidden = YES;
         }];
     }
 }

@@ -10,17 +10,26 @@
 
 #define NUMBER_FORMATER [[NSNumberFormatter alloc] init]
 #define US_LOCALE [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]
+#define AR_LOCALE [[NSLocale alloc] initWithLocaleIdentifier:@"es_AR"]
 
 @implementation NSString (Number)
 
 - (NSNumber *)number{
+    return [self numberWithLocale:US_LOCALE];
+}
+
+- (NSNumber *)numberAR{
+    return [self numberWithLocale:AR_LOCALE];
+}
+
+- (NSNumber *)numberWithLocale:(NSLocale *)locale{
     NSString *stringNumber = self;
     NSNumber *number = nil;
     if (stringNumber && [stringNumber length] > 0) {
-        NSNumberFormatter *formater = NUMBER_FORMATER;
-        [formater setNumberStyle:NSNumberFormatterDecimalStyle];
-        [formater setLocale:US_LOCALE];
-        number = [formater numberFromString:stringNumber];
+        NSNumberFormatter *formatter = NUMBER_FORMATER;
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        [formatter setLocale:locale];
+        number = [formatter numberFromString:stringNumber];
     }
     
     return number;

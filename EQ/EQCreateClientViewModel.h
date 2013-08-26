@@ -7,7 +7,7 @@
 //
 
 #import "EQBaseViewModel.h"
-#import "Cliente.h"
+#import "Cliente+extra.h"
 
 @interface EQCreateClientViewModel : EQBaseViewModel
 

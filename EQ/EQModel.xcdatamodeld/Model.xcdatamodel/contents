@@ -6,9 +6,9 @@
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creado" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="disponibilidadID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="grupoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="disponibilidadID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="grupoID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="imagenURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="minimoPedido" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="modificado" optional="YES" attributeType="Date" syncable="YES"/>
@@ -31,27 +31,27 @@
     <entity name="Cliente" representedClassName="Cliente" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="cobradorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="cobradorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="codigo1" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="codigo2" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="codigoPostal" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="condicionDePagoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="condicionDePagoID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="cuit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descuento1" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="descuento2" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="descuento3" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="descuento4" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento1" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="descuento2" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="descuento3" optional="YES" attributeType="Float" syncable="YES"/>
+        <attribute name="descuento4" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="diasDePago" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="domicilio" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="domicilioDeEnvio" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="encCompras" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="expresoID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="expresoID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="horario" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="ivaID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="ivaID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="latitud" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="lineaDeVentaID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="listaPrecios" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lineaDeVentaID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="listaPrecios" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="localidad" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitud" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="mail" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,12 +59,12 @@
         <attribute name="nombreDeFantasia" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="observaciones" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="propietario" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="provinciaID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="provinciaID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="sucursal" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="telefono" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="web" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="zonaEnvioID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="zonaEnvioID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <fetchedProperty name="cobradores" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.cobradorID"/>
         </fetchedProperty>
@@ -105,15 +105,15 @@
     <entity name="Comunicacion" representedClassName="Comunicacion" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="clienteID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="codigoSerial" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="creado" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="leido" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="receiverID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="senderID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="threadID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="receiverID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="senderID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="threadID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="tipo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="titulo" optional="YES" attributeType="String" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
@@ -130,19 +130,19 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="CtaCte" representedClassName="CtaCte" syncable="YES">
-        <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="clienteID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="comprobante" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="condicionDeVenta" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="empresa" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="importeConDescuento" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="importePercepcion" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE. clienteID"/>
         </fetchedProperty>
@@ -152,20 +152,20 @@
     </entity>
     <entity name="Disponibilidad" representedClassName="Disponibilidad" syncable="YES">
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Expreso" representedClassName="Expreso" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Grupo" representedClassName="Grupo" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="nombre" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="parentID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="parentID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="relevancia" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <fetchedProperty name="articulos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="grupoID == $FETCH_SOURCE.identifier"/>
@@ -178,10 +178,10 @@
         </fetchedProperty>
     </entity>
     <entity name="ItemPedido" representedClassName="ItemPedido" syncable="YES">
-        <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="articuloID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="cantidad" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="descuento1" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="descuento2" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento1" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento2" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="descuentoMonto" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="fechaFacturado" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="importeConDescuento" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -196,25 +196,25 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Pedido" representedClassName="Pedido" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="clienteID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="descuento" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
-        <attribute name="descuento3" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="descuento4" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento3" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="descuento4" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="estado" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="latitud" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitud" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="observaciones" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sincronizacion" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="subTotal" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ItemPedido" inverseName="pedido" inverseEntity="ItemPedido" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
@@ -225,10 +225,10 @@
     </entity>
     <entity name="Precio" representedClassName="Precio" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="articuloID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="numero" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numero" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <fetchedProperty name="articulo" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID "/>
         </fetchedProperty>
@@ -237,23 +237,23 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="TipoIvas" representedClassName="TipoIvas" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="ivaID == $FETCH_SOURCE.identifier"/>
         </fetchedProperty>
     </entity>
     <entity name="Usuario" representedClassName="Usuario" syncable="YES">
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="nombre" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nombreDeUsuario" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="vendedor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Vendedor" inverseName="usuario" inverseEntity="Vendedor" syncable="YES"/>
         <fetchedProperty name="comunicaciones" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Comunicacion" predicateString="receiverID == $FETCH_SOURCE.identifier OR senderID == $FETCH_SOURCE.identifier"/>
@@ -263,8 +263,8 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="usuarioID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="usuarioID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="usuario" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Usuario" inverseName="vendedor" inverseEntity="Usuario" syncable="YES"/>
         <fetchedProperty name="clientesCobrador" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="cobradorID == $FETCH_SOURCE.identifier"/>
@@ -288,15 +288,15 @@
     <entity name="Venta" representedClassName="Venta" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="actualizado" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="articuloID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="articuloID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="cantidad" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="clienteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="clienteID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="comprobante" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="empresa" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fecha" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="importe" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
-        <attribute name="vendedorID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <fetchedProperty name="articulos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Articulo" predicateString="identifier == $FETCH_SOURCE.articuloID"/>
         </fetchedProperty>
@@ -311,26 +311,26 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="Boolean" defaultValueString="0" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="Articulo" positionX="430" positionY="378" width="128" height="329"/>
         <element name="Cliente" positionX="160" positionY="192" width="128" height="779"/>
         <element name="Comunicacion" positionX="160" positionY="192" width="128" height="299"/>
-        <element name="CondPag" positionX="160" positionY="192" width="128" height="103"/>
+        <element name="CondPag" positionX="160" positionY="192" width="128" height="105"/>
         <element name="CtaCte" positionX="160" positionY="192" width="128" height="239"/>
-        <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="73"/>
-        <element name="Expreso" positionX="160" positionY="192" width="128" height="103"/>
+        <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Expreso" positionX="160" positionY="192" width="128" height="105"/>
         <element name="Grupo" positionX="160" positionY="192" width="128" height="194"/>
         <element name="ItemPedido" positionX="160" positionY="192" width="128" height="224"/>
-        <element name="LineaVTA" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="Pedido" positionX="160" positionY="192" width="128" height="359"/>
+        <element name="LineaVTA" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="Pedido" positionX="160" positionY="192" width="128" height="344"/>
         <element name="Precio" positionX="432" positionY="199" width="128" height="149"/>
-        <element name="Provincia" positionX="160" positionY="192" width="128" height="103"/>
-        <element name="TipoIvas" positionX="160" positionY="192" width="128" height="131"/>
+        <element name="Provincia" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="TipoIvas" positionX="160" positionY="192" width="128" height="134"/>
         <element name="Usuario" positionX="160" positionY="192" width="128" height="164"/>
         <element name="Vendedor" positionX="160" positionY="192" width="128" height="239"/>
         <element name="Venta" positionX="160" positionY="192" width="128" height="269"/>
-        <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="103"/>
+        <element name="ZonaEnvio" positionX="160" positionY="192" width="128" height="105"/>
     </elements>
 </model>

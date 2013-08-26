@@ -61,16 +61,18 @@
 }
 
 - (void)saveClient:(NSDictionary *)clientDictionary{
-    if (!self.client) {
+    if (self.clientID) {
+        self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:self.clientID];
+    } else {
         self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Cliente class])];
     }
     
     self.client.codigoPostal = clientDictionary[@"zipcode"];
     self.client.cuit = clientDictionary[@"cuit"];
-    self.client.descuento1 = [clientDictionary[@"discount1"] number];
-    self.client.descuento2 = [clientDictionary[@"discount2"] number];
-    self.client.descuento3 = [clientDictionary[@"discount3"] number];
-    self.client.descuento4 = [clientDictionary[@"discount4"] number];
+    self.client.descuento1 = [clientDictionary[@"discount1"] numberAR];
+    self.client.descuento2 = [clientDictionary[@"discount2"] numberAR];
+    self.client.descuento3 = [clientDictionary[@"discount3"] numberAR];
+    self.client.descuento4 = [clientDictionary[@"discount4"] numberAR];
     self.client.diasDePago = clientDictionary[@"collectionDays"];
     self.client.domicilio = clientDictionary[@"address"];
     self.client.domicilioDeEnvio = clientDictionary[@"deliveryAddress"];
@@ -89,6 +91,8 @@
     self.client.activo = [NSNumber numberWithBool:YES];
     if (self.selectedCollectorAtIndex >= 0 )
         self.client.cobradorID = ((Vendedor *)[self obtainCollectorList][self.selectedCollectorAtIndex]).identifier;
+    else
+        self.client.cobradorID = [EQSession sharedInstance].user.vendedorID;
     if (self.selectedPaymentConditionAtIndex >= 0 )
         self.client.condicionDePagoID = ((CondPag *)[self obtainPaymentConditionList][self.selectedPaymentConditionAtIndex]).identifier;
     if (self.selectedExpressAtIndex >= 0 )
@@ -105,6 +109,10 @@
         self.client.provinciaID = ((Provincia *)[self obtainProvinces][self.selectedProvinceAtIndex]).identifier;
     if (self.selectedDeliveryAreaAtIndex >= 0 )
         self.client.zonaEnvioID = ((ZonaEnvio *)[self obtainDeliveryAreaList][self.selectedDeliveryAreaAtIndex]).identifier;
+    
+    self.client.actualizado = [NSNumber numberWithBool:NO];
+    [[EQDataAccessLayer sharedInstance] saveContext];
+    [[EQSession sharedInstance] updateCache];
     
     [[EQDataManager sharedInstance] sendClient:self.client];
     [EQSession sharedInstance].selectedClient = self.client;
@@ -180,7 +188,7 @@
 }
 
 - (NSString *)obtainSelectedCollector{
-    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : @"Seleccione un cobrador";
+    return [self.client.cobrador.descripcion length] > 0 ? self.client.cobrador.descripcion : [self sellerName];
 }
 
 - (NSString *)obtainSelectedProvince{

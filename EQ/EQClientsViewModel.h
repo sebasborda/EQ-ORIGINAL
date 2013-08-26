@@ -7,7 +7,7 @@
 //
 
 #import "EQBaseViewModel.h"
-#import "Cliente.h"
+#import "Cliente+extra.h"
 
 @interface EQClientsViewModel : EQBaseViewModel
 
@@ -17,6 +17,6 @@
 
 - (void)changeSortOrder:(int)index;
 - (void)defineSearchTerm:(NSString *)term;
-- (Cliente *)clientById:(NSNumber *)clientId;
+- (Cliente *)clientById:(NSString *)clientId;
 
 @end

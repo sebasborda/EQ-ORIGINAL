@@ -27,7 +27,7 @@
 - (Precio *)priceForClient:(Cliente *)client{
     Precio *price = nil;
     for (Precio *p in client.listaDePrecios) {
-        if([p.articuloID isEqualToNumber:self.identifier]){
+        if([p.articuloID isEqualToString:self.identifier]){
             price = p;
             break;
         }
@@ -40,7 +40,7 @@
 }
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"article id:%@ description:%@ availability:%@",self.identifier,self.description, self.disponibilidad];
+    return [NSString stringWithFormat:@"article id:%@ name:%@ description:%@ availability:%@",self.identifier,self.nombre,self.descripcion, self.disponibilidad];
 }
 
 @end

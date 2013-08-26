@@ -109,12 +109,11 @@
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
     [[EQDataManager sharedInstance] sendPendingData];
-    [self updateCache];
 }
 
 - (BOOL)isUserLogged{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *userID = [defaults objectForKey:@"loggedUser"];
+    NSString *userID = [defaults objectForKey:@"loggedUser"];
     if (userID && !self.user) {
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         [self regiteredUser:(Usuario *)[adl objectForClass:[Usuario class] withId:userID]];
@@ -126,18 +125,22 @@
 - (void)setSelectedClient:(Cliente *)selectedClient{
     [Grupo resetRelevancia];
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    _selectedClient = selectedClient;
+    
     if (selectedClient) {
         [selectedClient calcularRelevancia];
         [userInfo setObject:selectedClient forKey:@"activeClient"];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil userInfo:userInfo];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _selectedClient = [[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:selectedClient.identifier];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil userInfo:userInfo];
+    });
 }
 
 - (void)updateCache{
     [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
     [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.user mergeChanges:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
 }
 
 @end

@@ -20,17 +20,12 @@
 
 @end
 
-@interface ALTabBarView : UIView {
-
-    __weak NSObject<ALTabBarDelegate> *delegate;
-    UIButton *selectedButton;
-}
-
+@interface ALTabBarView : UIView
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *tabButtons;
-@property (nonatomic, weak) NSObject<ALTabBarDelegate> *delegate;
+@property (nonatomic, weak) id<ALTabBarDelegate> delegate;
 @property (nonatomic, strong) UIButton *selectedButton;
  
 
--(IBAction) touchButton:(id)sender;
--(void) selectTabAtIndex:(int)index;
+-(IBAction)touchButton:(id)sender;
+-(void)selectTabAtIndex:(int)index;
 @end
