@@ -20,12 +20,17 @@
 }
 
 + (void)resetRelevancia{
-    NSArray *groups = [NSArray arrayWithArray:[[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]]];
-    for (Grupo *grupo in groups) {
-        grupo.relevancia = 0;
-    }
+    NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Grupo"];
+    NSError *error = nil;
+    //fetch new prices
+    NSArray *newObjects = [[EQDataAccessLayer sharedInstance].mainManagedObjectContext executeFetchRequest:allRequest error:&error];
+    [newObjects setValue:@0 forKey:@"relevancia"];
     
     [[EQDataAccessLayer sharedInstance] saveContext];
+}
+
+- (NSString *)description{
+    return [NSString stringWithFormat:@"Group id:%@ name:%@ parent:%@",self.identifier,self.nombre,self.parentID];
 }
 
 @end

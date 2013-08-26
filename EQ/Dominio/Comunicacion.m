@@ -2,7 +2,7 @@
 //  Comunicacion.m
 //  EQ
 //
-//  Created by Sebastian Borda on 7/6/13.
+//  Created by Sebastian Borda on 8/25/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -15,6 +15,7 @@
 @dynamic actualizado;
 @dynamic clienteID;
 @dynamic codigoSerial;
+@dynamic creado;
 @dynamic descripcion;
 @dynamic identifier;
 @dynamic leido;
@@ -23,6 +24,5 @@
 @dynamic threadID;
 @dynamic tipo;
 @dynamic titulo;
-@dynamic creado;
 
 @end

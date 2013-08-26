@@ -98,9 +98,12 @@
     self.order.descuento = [NSNumber numberWithInt:[self discountValue]];
     self.order.activo = [NSNumber numberWithBool:YES];
     self.order.actualizado = [NSNumber numberWithBool:NO];
-    
-    [[EQDataManager sharedInstance] sendOrder:self.order];
+    [[EQDataAccessLayer sharedInstance] saveContext];
     [[EQSession sharedInstance] updateCache];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[EQDataManager sharedInstance] sendOrder:self.order];
+    });
 }
 
 - (void)defineSelectedCategory:(int)index{
@@ -157,12 +160,11 @@
 }
 
 - (void)addItemQuantity:(int)quantity{
-    int multiplicity = [self.articleSelected.multiploPedido intValue] <= 2 ? [self.articleSelected.multiploPedido intValue] : [self.articleSelected.multiploPedido intValue] * 2;
-    if (self.articleSelected && quantity % multiplicity == 0 && quantity >= [self.articleSelected.minimoPedido intValue]) {
+    if (self.articleSelected && (([self.articleSelected.multiploPedido intValue] <= 2) || (quantity % 2 == 0 && quantity % [self.articleSelected.multiploPedido intValue] == 0)) && quantity >= [self.articleSelected.minimoPedido intValue]) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
         for (ItemPedido *item in self.order.items) {
-            if ([item.articulo.identifier isEqualToNumber:self.articleSelected.identifier]) {
+            if ([item.articulo.identifier isEqualToString:self.articleSelected.identifier]) {
                 existItem = YES;
                 item.cantidad = [NSNumber numberWithInt:quantity];
             }
@@ -240,11 +242,11 @@
     Grupo *g1 = item.articulo.grupo;
     Grupo *g3 , *g2 = nil;
     
-    if (![g1.parentID isEqualToNumber:@0]) {
+    if (![g1.parentID isEqualToString:@"0"]) {
         g2 = g1.parent;
     }
     
-    if (![g2.parentID isEqualToNumber:@0]) {
+    if (![g2.parentID isEqualToString:@"0"]) {
         g3 = g2.parent;
     }
     

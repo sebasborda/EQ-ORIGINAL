@@ -44,7 +44,6 @@
 }
 
 - (void)loadTopBarData{
-    [[EQSession sharedInstance] updateCache];
     self.pendingOrdersCount = 0;
     NSArray *sellerOrders = [NSArray arrayWithArray:self.currentSeller.pedidos];
     for (Pedido *order in sellerOrders) {
@@ -72,19 +71,13 @@
 
 - (void)loadData{
     [self.delegate modelWillStartDataLoading];
-    if ([NSThread isMainThread]) {
-        [NSThread detachNewThreadSelector:@selector(loadDataInBackGround) toTarget:self withObject:nil];
-    } else {
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self loadDataInBackGround];
-    }
+    });
 }
 
 - (void)loadDataInBackGround{
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(dataLaded) withObject:nil waitUntilDone:NO];
-    } else {
         [self dataLaded];
-    }
 }
 
 - (void)dataLaded{

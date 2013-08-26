@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C3103</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -202,9 +202,9 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">0,00</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
-						<string key="IBUIPlaceholder">Descuento 1</string>
+						<string key="IBUIPlaceholder">0,00</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
@@ -232,9 +232,9 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">0,00</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
-						<string key="IBUIPlaceholder">Descuento 2</string>
+						<string key="IBUIPlaceholder">0,00</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
@@ -262,9 +262,9 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">0,00</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
-						<string key="IBUIPlaceholder">Descuento 3</string>
+						<string key="IBUIPlaceholder">0,00</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
@@ -292,9 +292,9 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">0,00</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
-						<string key="IBUIPlaceholder">Descuento 4</string>
+						<string key="IBUIPlaceholder">0,00</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MAA</bytes>
@@ -542,8 +542,8 @@
 						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
 						<object class="NSColor" key="IBUITextColor">
-							<int key="NSColorSpace">2</int>
-							<bytes key="NSRGB">MC4yMzEzNzI1NjUgMC42MzEzNzI1NzEgMC44NDcwNTg4OTIzAA</bytes>
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MAA</bytes>
 						</object>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 						<float key="IBUIMinimumFontSize">17</float>
@@ -874,7 +874,6 @@
 						<string key="NSFrame">{{412, 851}, {96, 33}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -2149,6 +2148,15 @@
 					<int key="connectionID">2150</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">addressChanged:</string>
+						<reference key="source" ref="641613492"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">19</int>
+					</object>
+					<int key="connectionID">2179</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="282870932"/>
@@ -2163,6 +2171,15 @@
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">2151</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">addressChanged:</string>
+						<reference key="source" ref="401501369"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">19</int>
+					</object>
+					<int key="connectionID">2180</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -2188,15 +2205,6 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">1357</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">collectorButtonAction:</string>
-						<reference key="source" ref="286405015"/>
-						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">1352</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -2289,7 +2297,6 @@
 							<reference ref="951993765"/>
 							<reference ref="291989020"/>
 							<reference ref="891172559"/>
-							<reference ref="400810097"/>
 							<reference ref="1067654445"/>
 							<reference ref="641613492"/>
 							<reference ref="146504405"/>
@@ -2345,6 +2352,7 @@
 							<reference ref="1067713479"/>
 							<reference ref="307039825"/>
 							<reference ref="75534982"/>
+							<reference ref="400810097"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -2799,7 +2807,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2176</int>
+			<int key="maxID">2180</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2898,6 +2906,7 @@
 					<string key="className">EQCreateClientViewController</string>
 					<string key="superclassName">EQBaseViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addressChanged:">id</string>
 						<string key="cancelButtonAction:">id</string>
 						<string key="collectorButtonAction:">id</string>
 						<string key="deliveryAreaButtonAction:">id</string>
@@ -2910,6 +2919,10 @@
 						<string key="taxesButtonAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addressChanged:">
+							<string key="name">addressChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="cancelButtonAction:">
 							<string key="name">cancelButtonAction:</string>
 							<string key="candidateClassName">id</string>

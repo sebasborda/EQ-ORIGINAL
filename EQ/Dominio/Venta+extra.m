@@ -24,4 +24,8 @@
     return [self.vendedores lastObject];
 }
 
+- (NSString *)description{
+    return [NSString stringWithFormat:@"art:%@ cant:%@ cliente:%@ comp:%@ id:%@ imp:%@ vend:%@",self.articuloID,self.cantidad,self.clienteID,self.comprobante,self.identifier, self.importe,self.vendedorID];
+}
+
 @end

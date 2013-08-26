@@ -28,9 +28,8 @@
 
 //Let the delegate know that a tab has been touched
 -(IBAction) touchButton:(id)sender {
-
-    if( delegate != nil && [delegate respondsToSelector:@selector(tabWasSelected:)]) {
-        int currentIndex = self.selectedButton.tag;
+    if(self.delegate) {
+        int currentIndex = (int)self.selectedButton.tag;
         //DESACTIVA EL ESTADO EL BOTON ANTERIOR
         [self.selectedButton setSelected:NO];
         self.selectedButton = (UIButton *)sender;
@@ -44,18 +43,20 @@
 }
 
 -(void) selectTabAtIndex:(int)index{
-    //DESACTIVA EL ESTADO EL BOTON ANTERIOR
-    [self.selectedButton setSelected:NO];
-    int currentIndex = self.selectedButton.tag;
+    int lastIndex = NSNotFound;
     for (UIButton *button in self.tabButtons) {
+        if ([button isSelected]) {
+            lastIndex = button.tag;
+            [button setSelected:NO];
+        }
+        
         if (button.tag == index) {
             [button setSelected:YES];
             self.selectedButton = button;
-            break;
         }
     }
     
-    if (currentIndex != index) {
+    if (lastIndex != index) {
         [delegate tabWasSelected:index];
     }
 }

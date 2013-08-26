@@ -10,6 +10,7 @@
 #import "Disponibilidad+extra.h"
 #import "Precio+extra.h"
 #import "NSNumber+EQ.h"
+#import "Articulo+extra.h"
 
 @implementation EQProductCell
 

@@ -65,11 +65,11 @@
             Grupo *grupo = item.articulo.grupo;
             grupo.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo.relevancia intValue]];
             
-            if (![grupo.parentID isEqualToNumber:@0]) {
+            if (![grupo.parentID isEqualToString:@"0"]) {
                 Grupo *grupo2 = grupo.parent;
                 grupo2.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo2.relevancia intValue]];
                 
-                if(![grupo2.parentID isEqualToNumber:@0]){
+                if(![grupo2.parentID isEqualToString:@"0"]){
                     Grupo *grupo3 = grupo2.parent;
                     grupo3.relevancia = [NSNumber numberWithInt:[item.cantidad intValue] + [grupo3.relevancia intValue]];
                     
@@ -78,6 +78,10 @@
         }
     }
     [[EQDataAccessLayer sharedInstance] saveContext];
+}
+
+- (NSString *)description{
+    return [NSString stringWithFormat:@"Cliente id:%@ desc1-2-3-4:%@-%@-%@-%@ cod1-2:%@-%@",self.identifier,self.descuento1,self.descuento2,self.descuento3,self.descuento4,self.codigo1,self.codigo2];
 }
 
 @end

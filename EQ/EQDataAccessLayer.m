@@ -8,12 +8,10 @@
 
 #import "EQDataAccessLayer.h"
 
+static NSString const * kManagedObjectContextKey = @"EQ_NSManagedObjectContextForThreadKey";
 
 @interface EQDataAccessLayer ()
 
-@property (strong, nonatomic) NSManagedObjectContext *mainManagedObjectContext;
-@property (strong, nonatomic) NSManagedObjectContext *backgroungManagedObjectContext;
-@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *storeCoordinator;
 @property (nonatomic,strong) NSPredicate *objectIDPredicate;
 
@@ -25,7 +23,6 @@
 @synthesize storeCoordinator;
 @synthesize managedObjectModel;
 @synthesize mainManagedObjectContext;
-@synthesize backgroungManagedObjectContext;
 
 + (EQDataAccessLayer *)sharedInstance {
     __strong static EQDataAccessLayer *sharedInstance = nil;
@@ -33,8 +30,6 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[EQDataAccessLayer alloc] init];
         sharedInstance.storeCoordinator = [sharedInstance persistentStoreCoordinator];
-        sharedInstance.mainManagedObjectContext = [sharedInstance managedObjectContext];
-        sharedInstance.backgroungManagedObjectContext = [sharedInstance managedObjectContext];
         sharedInstance.objectIDPredicate = [NSPredicate predicateWithFormat:@"identifier == $OBJECT_ID"];
         [[NSNotificationCenter defaultCenter] addObserver:sharedInstance selector:@selector(contextChanged:) name:NSManagedObjectContextDidSaveNotification object:nil];
     });
@@ -85,12 +80,12 @@
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
     }
     
-    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    NSArray *managedObjectList = [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
     return managedObjectList;
 }
 
 
-- (NSManagedObject *)objectForClass:(Class)objectClass withId:(NSNumber *)idValue{
+- (id)objectForClass:(Class)objectClass withId:(NSString *)idValue{
     if (idValue) {
         NSPredicate* localPredicate = [self.objectIDPredicate predicateWithSubstitutionVariables:@{@"OBJECT_ID":idValue}];
         NSManagedObject *object = [self objectForClass:objectClass withPredicate:localPredicate];
@@ -103,13 +98,13 @@
     return [self createManagedObject:className];
 }
 
-- (NSManagedObject *)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
+- (id)objectForClass:(Class)objectClass withPredicate:(NSPredicate *)predicate{
     NSString *className = NSStringFromClass(objectClass);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:className];
     fetchRequest.predicate = predicate;
     
     NSError *error = nil;
-    NSArray *managedObjectList = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *managedObjectList = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
     if([managedObjectList count] > 0){
         return [managedObjectList lastObject];
     }
@@ -117,14 +112,23 @@
     return nil;
 }
 
-- (NSManagedObject *)createManagedObject:(NSString*)kind{
+- (id)createManagedObject:(NSString*)kind{
     NSEntityDescription *entity = [NSEntityDescription
                                    entityForName:kind
-                                   inManagedObjectContext:self.managedObjectContext];
+                                   inManagedObjectContext:[self managedObjectContext]];
     
     NSManagedObject *newEntity = [[NSManagedObject alloc]
                                   initWithEntity:entity
-                                  insertIntoManagedObjectContext:self.managedObjectContext];
+                                  insertIntoManagedObjectContext:[self managedObjectContext]];
+    
+    return newEntity;
+}
+
+- (id)createManagedObjectWithEntity:(NSEntityDescription*)entityDescription{
+    
+    NSManagedObject *newEntity = [[NSManagedObject alloc]
+                                  initWithEntity:entityDescription
+                                  insertIntoManagedObjectContext:[self managedObjectContext]];
     
     return newEntity;
 }
@@ -136,20 +140,20 @@
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
 - (NSManagedObjectContext *)managedObjectContext {
-    NSManagedObjectContext *context = [NSThread isMainThread] ? self.mainManagedObjectContext : self.backgroungManagedObjectContext;
-    if (context != nil )
-    {
-        return context;
+    NSMutableDictionary *threadDict = [[NSThread currentThread] threadDictionary];
+    NSManagedObjectContext *threadContext = [threadDict objectForKey:kManagedObjectContextKey];
+    if (threadContext == nil && storeCoordinator != nil){
+        threadContext = [[NSManagedObjectContext alloc] init];
+        [threadContext setPersistentStoreCoordinator:storeCoordinator];
+        [threadContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        [threadDict setObject:threadContext forKey:kManagedObjectContextKey];
+        
+        if ([NSThread isMainThread]) {
+            self.mainManagedObjectContext = threadContext;
+        }
     }
     
-    if (storeCoordinator != nil)
-    {
-        context = [[NSManagedObjectContext alloc] init];
-        [context setPersistentStoreCoordinator:storeCoordinator];
-        [context setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
-    }
-    
-    return context;
+    return threadContext;
 }
 
 /**
@@ -221,10 +225,13 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-- (void)contextChanged:(NSNotification*)notification {
-    if ([notification object] != [self managedObjectContext]) {
-        [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
-    }
+// FIX: you must mergeChangesFromContextDidSaveNotification: on main thread
+// handling the notification occurs on background thread.
+// it needs to "merge" on the main thread.
+- (void)contextChanged:(NSNotification *)didSaveNotification {
+        if ([didSaveNotification object] != self.mainManagedObjectContext)
+            [self.mainManagedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:)
+                                                            withObject:didSaveNotification waitUntilDone:NO];
 }
 
 @end

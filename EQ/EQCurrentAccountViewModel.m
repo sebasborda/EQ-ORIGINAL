@@ -109,7 +109,7 @@
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
         for (CtaCte *ctacte in result) {
-            if (![lastClient.identifier isEqualToNumber:ctacte.clienteID] || [accounts count] == 0) {
+            if (![lastClient.identifier isEqualToString:ctacte.clienteID] || [accounts count] == 0) {
                 currentArray = [NSMutableArray new];
                 [accounts addObject:currentArray];
             } else {

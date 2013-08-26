@@ -2,7 +2,7 @@
 //  Grupo.h
 //  EQ
 //
-//  Created by Sebastian Borda on 7/2/13.
+//  Created by Sebastian Borda on 8/25/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -14,9 +14,9 @@
 
 @property (nonatomic, retain) NSNumber * count;
 @property (nonatomic, retain) NSString * descripcion;
-@property (nonatomic, retain) NSNumber * identifier;
+@property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSString * nombre;
-@property (nonatomic, retain) NSNumber * parentID;
+@property (nonatomic, retain) NSString * parentID;
 @property (nonatomic, retain) NSNumber * relevancia;
 
 @end

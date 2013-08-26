@@ -94,7 +94,7 @@
     } else {
         [self.viewModel finalizeThread];
         for (EQCommunicationHeaderView *header in self.headers) {
-            if ([header.mainCommunication.threadID isEqualToNumber:self.viewModel.selectedCommunication.threadID]) {
+            if ([header.mainCommunication.threadID isEqualToString:self.viewModel.selectedCommunication.threadID]) {
                 [header finalizeThread];
                 break;
             }
@@ -129,7 +129,7 @@
         if (buttonIndex != alertView.cancelButtonIndex) {
             EQCommunicationHeaderView *headerView = nil;
             for (EQCommunicationHeaderView *header in self.headers) {
-                if ([header.mainCommunication.threadID isEqualToNumber:self.viewModel.selectedCommunication.threadID]) {
+                if ([header.mainCommunication.threadID isEqualToString:self.viewModel.selectedCommunication.threadID]) {
                     headerView = header;
                     break;
                 }
@@ -205,7 +205,7 @@
     NSArray *communications = [self.viewModel.communications objectForKey:key];
     Comunicacion *communication = [communications lastObject];
     for (EQCommunicationHeaderView *header in self.headers) {
-        if ([header.mainCommunication.threadID isEqualToNumber:communication.threadID]) {
+        if ([header.mainCommunication.threadID isEqualToString:communication.threadID]) {
             view = header;
             break;
         }
@@ -290,7 +290,7 @@
 - (void)markHeaderAsRead{
     [self.viewModel didReadCommunication];
     for (EQCommunicationHeaderView *header in self.headers) {
-        if ([header.mainCommunication.threadID isEqualToNumber:self.viewModel.selectedCommunication.threadID]) {
+        if ([header.mainCommunication.threadID isEqualToString:self.viewModel.selectedCommunication.threadID]) {
             [header markAsRead];
             break;
         }

@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) EQOrdersViewModel *viewModel;
 @property (nonatomic, assign) bool viewLoaded;
+@property (nonatomic, strong) UIAlertView *cancelOrderAlert;
+@property (nonatomic, strong) Pedido *orderCancelled;
 
 @end
 
@@ -138,7 +140,17 @@
 }
 
 - (void)cancelOrder:(Pedido *)pedido{
-    [self.viewModel cancelOrder:pedido];
+    self.orderCancelled = pedido;
+     self.cancelOrderAlert = [[UIAlertView alloc] initWithTitle:nil message:@"¿Esta seguro de eliminar el pedido?." delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Eliminar pedido",nil];
+    [self.cancelOrderAlert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if ([self.cancelOrderAlert isEqual:alertView]) {
+        if (buttonIndex != alertView.cancelButtonIndex) {
+            [self.viewModel cancelOrder:self.orderCancelled];
+        }
+    }
 }
 
 - (void)tablePopover:(EQTablePopover *)sender selectedRow:(int)rowNumber selectedData:(NSString *)selectedData{

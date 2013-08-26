@@ -127,7 +127,7 @@
         Cliente *lastClient = nil;
         NSMutableArray *currentArray = nil;
         for (Venta *sale in result) {
-            if (![lastClient.identifier isEqualToNumber:sale.cliente.identifier] || [sales count] == 0) {
+            if (![lastClient.identifier isEqualToString:sale.cliente.identifier] || [sales count] == 0) {
                 currentArray = [NSMutableArray new];
                 [sales addObject:currentArray];
             } else {
@@ -158,7 +158,7 @@
         Grupo *lastGroup = nil;
         NSMutableArray *currentArray = nil;
         for (Venta *sale in result) {
-            if (!lastGroup || [sales count] == 0 || ![sale.articulo.grupoID isEqualToNumber:lastGroup.identifier]) {
+            if (!lastGroup || [sales count] == 0 || ![sale.articulo.grupoID isEqualToString:lastGroup.identifier]) {
                 currentArray = [NSMutableArray new];
                 [sales addObject:currentArray];
             } else {

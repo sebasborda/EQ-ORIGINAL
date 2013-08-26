@@ -2,7 +2,7 @@
 //  Venta.h
 //  EQ
 //
-//  Created by Sebastian Borda on 8/11/13.
+//  Created by Sebastian Borda on 8/25/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -12,16 +12,16 @@
 
 @interface Venta : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * activo;
 @property (nonatomic, retain) NSNumber * actualizado;
-@property (nonatomic, retain) NSNumber * articuloID;
+@property (nonatomic, retain) NSString * articuloID;
 @property (nonatomic, retain) NSNumber * cantidad;
-@property (nonatomic, retain) NSNumber * clienteID;
+@property (nonatomic, retain) NSString * clienteID;
 @property (nonatomic, retain) NSString * comprobante;
 @property (nonatomic, retain) NSString * empresa;
 @property (nonatomic, retain) NSDate * fecha;
-@property (nonatomic, retain) NSNumber * identifier;
+@property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * importe;
-@property (nonatomic, retain) NSNumber * vendedorID;
-@property (nonatomic, retain) NSNumber * activo;
+@property (nonatomic, retain) NSString * vendedorID;
 
 @end

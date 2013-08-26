@@ -12,6 +12,7 @@
 #import "Cliente.h"
 #import "EQDataManager.h"
 #import "EQSession.h"
+#import "EQDataAccessLayer.h"
 
 @interface EQOrdersViewModel()
 
@@ -55,7 +56,6 @@
 }
 
 - (void)chargeData{
-    [[EQSession sharedInstance] updateCache];
     NSMutableArray *subPredicates = [NSMutableArray new];
     if ([self.clientName length] > 0) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.cliente.nombre == %@",self.clientName];
@@ -154,6 +154,7 @@
 
 - (void)cancelOrder:(Pedido *)order {
     order.estado = @"anulado";
+    [[EQDataAccessLayer sharedInstance] saveContext];
     [[EQDataManager sharedInstance] sendOrder:order];
 }
 

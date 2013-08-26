@@ -15,6 +15,7 @@
 #import "Venta+extra.h"
 #import "NSNumber+EQ.h"
 #import "UIColor+EQ.h"
+#import "EQDataAccessLayer.h"
 
 #define cellIdentifier @"SalesCell"
 
@@ -152,12 +153,12 @@
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
     } else {
         Venta *sale = [[self.viewModel.salesList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.clientLabel.text = sale.cliente.nombre;
+        cell.clientLabel.text = sale.cliente.nombre;        
         cell.articleLabel.text = sale.articulo.nombre;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];
         cell.periodLabel.text = [dateFormatter stringFromDate:sale.fecha];
-        cell.quantityLabel.text = [sale.cantidad stringValue];
+        cell.quantityLabel.text = [NSString stringWithFormat:@"%i",[sale.cantidad integerValue]];
         cell.priceLabel.text = [NSString stringWithFormat:@"%@", sale.importe ? [sale.importe currencyString] : @"$0.00"];
     }
     
