@@ -311,7 +311,7 @@
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="codigo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Boolean" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="Articulo" positionX="430" positionY="378" width="128" height="329"/>

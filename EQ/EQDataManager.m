@@ -588,7 +588,7 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary* envioDictionary in jsonArray) {
             ZonaEnvio *envio = (ZonaEnvio *)[adl objectForClass:[ZonaEnvio class] withId:[envioDictionary objectForKey:@"id"]];
-            envio.identifier = [[envioDictionary filterInvalidEntry:@"id"] number];
+            envio.identifier = [envioDictionary filterInvalidEntry:@"id"];
             envio.descripcion = [envioDictionary filterInvalidEntry:@"descripcion"];
             envio.codigo = [envioDictionary filterInvalidEntry:@"codigo"];
             envio.activo = [[envioDictionary filterInvalidEntry:@"activo"] number];

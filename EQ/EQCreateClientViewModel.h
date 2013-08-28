@@ -12,7 +12,7 @@
 @interface EQCreateClientViewModel : EQBaseViewModel
 
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
-@property (nonatomic,strong) NSNumber *clientID;
+@property (nonatomic,strong) NSString *clientID;
 @property (nonatomic,strong) Cliente *client;
 
 - (void)loadData;

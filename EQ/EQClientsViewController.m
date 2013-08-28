@@ -115,7 +115,7 @@
     [self presentViewController:self.createClient animated:YES completion:nil];
 }
 
-- (void)mailToClientWithID:(NSNumber *)clientID{
+- (void)mailToClientWithID:(NSString *)clientID{
     if ([MFMailComposeViewController canSendMail]){
         Cliente *cliente = [self.viewModel clientById:clientID];
         MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];

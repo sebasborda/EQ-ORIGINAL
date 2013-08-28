@@ -39,7 +39,7 @@
     return self;
 }
 
-- (id)initWithClientId:(NSNumber *)clientId
+- (id)initWithClientId:(NSString *)clientId
 {
     self = [super init];
     if (self) {

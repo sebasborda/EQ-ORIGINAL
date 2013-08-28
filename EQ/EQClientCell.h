@@ -8,8 +8,8 @@
 
 @protocol EQClientCellDelegate <NSObject>
 
-- (void)editClientWithID:(NSNumber *)clientID;
-- (void)mailToClientWithID:(NSNumber *)clientID;
+- (void)editClientWithID:(NSString *)clientID;
+- (void)mailToClientWithID:(NSString *)clientID;
 
 @end
 
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *localityLabel;
 @property (strong, nonatomic) IBOutlet UILabel *phoneLabel;
 @property (strong, nonatomic) IBOutlet UIButton *mailButton;
-@property (strong, nonatomic) NSNumber *clientID;
+@property (strong, nonatomic) NSString *clientID;
 
 - (IBAction)editButtonAction:(id)sender;
 - (IBAction)mailButtonAction:(id)sender;
