@@ -164,6 +164,7 @@
         <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="descripcion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="imagen" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nombre" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="parentID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="relevancia" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -314,14 +315,14 @@
         <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Articulo" positionX="430" positionY="378" width="128" height="329"/>
+        <element name="Articulo" positionX="430" positionY="378" width="128" height="344"/>
         <element name="Cliente" positionX="160" positionY="192" width="128" height="779"/>
         <element name="Comunicacion" positionX="160" positionY="192" width="128" height="299"/>
         <element name="CondPag" positionX="160" positionY="192" width="128" height="105"/>
         <element name="CtaCte" positionX="160" positionY="192" width="128" height="239"/>
         <element name="Disponibilidad" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Expreso" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="Grupo" positionX="160" positionY="192" width="128" height="194"/>
+        <element name="Grupo" positionX="160" positionY="192" width="128" height="209"/>
         <element name="ItemPedido" positionX="160" positionY="192" width="128" height="224"/>
         <element name="LineaVTA" positionX="160" positionY="192" width="128" height="105"/>
         <element name="Pedido" positionX="160" positionY="192" width="128" height="344"/>

@@ -207,7 +207,6 @@
 		6B88776817CA869500FD3C49 /* LineaVTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88776717CA869500FD3C49 /* LineaVTA.m */; };
 		6B88776B17CA869500FD3C49 /* TipoIvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88776A17CA869500FD3C49 /* TipoIvas.m */; };
 		6B88776E17CA869500FD3C49 /* Precio.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88776D17CA869500FD3C49 /* Precio.m */; };
-		6B88777117CA869600FD3C49 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777017CA869600FD3C49 /* Grupo.m */; };
 		6B88777417CA869600FD3C49 /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777317CA869600FD3C49 /* Venta.m */; };
 		6B88777A17CA869600FD3C49 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777917CA869600FD3C49 /* Pedido.m */; };
 		6B88777D17CA869700FD3C49 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777C17CA869600FD3C49 /* ItemPedido.m */; };
@@ -215,6 +214,9 @@
 		6B88778317CA869700FD3C49 /* CondPag.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778217CA869700FD3C49 /* CondPag.m */; };
 		6B88778617CA869700FD3C49 /* Disponibilidad.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778517CA869700FD3C49 /* Disponibilidad.m */; };
 		6B88778917CA869700FD3C49 /* Comunicacion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778817CA869700FD3C49 /* Comunicacion.m */; };
+		6B8882A017D5204300D361E6 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88829F17D5204300D361E6 /* Grupo.m */; };
+		6B8882A717D552AC00D361E6 /* EQGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B8882A617D552AC00D361E6 /* EQGroupCell.xib */; };
+		6B8882AA17D552DD00D361E6 /* EQGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8882A917D552DD00D361E6 /* EQGroupCell.m */; };
 		6BA0D6C0176E486B000F86A0 /* EQModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6BE176E486B000F86A0 /* EQModel.xcdatamodeld */; };
 		6BAEA95117AA013B008A1864 /* buttonCliente.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAEA90217A9EE8B008A1864 /* buttonCliente.png */; };
 		6BAEA95217AA013B008A1864 /* buttonCliente@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAEA90317A9EE8B008A1864 /* buttonCliente@2x.png */; };
@@ -647,8 +649,6 @@
 		6B88776A17CA869500FD3C49 /* TipoIvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipoIvas.m; sourceTree = "<group>"; };
 		6B88776C17CA869500FD3C49 /* Precio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Precio.h; sourceTree = "<group>"; };
 		6B88776D17CA869500FD3C49 /* Precio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Precio.m; sourceTree = "<group>"; };
-		6B88776F17CA869600FD3C49 /* Grupo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grupo.h; sourceTree = "<group>"; };
-		6B88777017CA869600FD3C49 /* Grupo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grupo.m; sourceTree = "<group>"; };
 		6B88777217CA869600FD3C49 /* Venta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Venta.h; sourceTree = "<group>"; };
 		6B88777317CA869600FD3C49 /* Venta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venta.m; sourceTree = "<group>"; };
 		6B88777817CA869600FD3C49 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
@@ -663,6 +663,11 @@
 		6B88778517CA869700FD3C49 /* Disponibilidad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Disponibilidad.m; sourceTree = "<group>"; };
 		6B88778717CA869700FD3C49 /* Comunicacion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comunicacion.h; sourceTree = "<group>"; };
 		6B88778817CA869700FD3C49 /* Comunicacion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comunicacion.m; sourceTree = "<group>"; };
+		6B88829E17D5204300D361E6 /* Grupo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grupo.h; sourceTree = "<group>"; };
+		6B88829F17D5204300D361E6 /* Grupo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grupo.m; sourceTree = "<group>"; };
+		6B8882A617D552AC00D361E6 /* EQGroupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQGroupCell.xib; sourceTree = "<group>"; };
+		6B8882A817D552DD00D361E6 /* EQGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQGroupCell.h; sourceTree = "<group>"; };
+		6B8882A917D552DD00D361E6 /* EQGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQGroupCell.m; sourceTree = "<group>"; };
 		6BA0D6BF176E486B000F86A0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		6BAEA90217A9EE8B008A1864 /* buttonCliente.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonCliente.png; sourceTree = "<group>"; };
 		6BAEA90317A9EE8B008A1864 /* buttonCliente@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonCliente@2x.png"; sourceTree = "<group>"; };
@@ -872,8 +877,6 @@
 				6B88777917CA869600FD3C49 /* Pedido.m */,
 				6B88777217CA869600FD3C49 /* Venta.h */,
 				6B88777317CA869600FD3C49 /* Venta.m */,
-				6B88776F17CA869600FD3C49 /* Grupo.h */,
-				6B88777017CA869600FD3C49 /* Grupo.m */,
 				6B88776C17CA869500FD3C49 /* Precio.h */,
 				6B88776D17CA869500FD3C49 /* Precio.m */,
 				6B88776917CA869500FD3C49 /* TipoIvas.h */,
@@ -894,6 +897,8 @@
 				6B88775517CA869200FD3C49 /* CtaCte.m */,
 				6BD2EEF117CBD492008B8132 /* ZonaEnvio.h */,
 				6BD2EEF217CBD492008B8132 /* ZonaEnvio.m */,
+				6B88829E17D5204300D361E6 /* Grupo.h */,
+				6B88829F17D5204300D361E6 /* Grupo.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1392,6 +1397,9 @@
 				2144AA0B1728DAB50065D30A /* EQProductCell.h */,
 				2144AA0C1728DAB50065D30A /* EQProductCell.m */,
 				2144AA101729F87B0065D30A /* EQProductCell.xib */,
+				6B8882A617D552AC00D361E6 /* EQGroupCell.xib */,
+				6B8882A817D552DD00D361E6 /* EQGroupCell.h */,
+				6B8882A917D552DD00D361E6 /* EQGroupCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1878,6 +1886,7 @@
 				6B36902F17BC5F54008BA88F /* comunicacionesObjetivosIconoFinalizado@2x.png in Resources */,
 				6B36903017BC5F54008BA88F /* comunicacionesObjetivosIconoNoLeido.png in Resources */,
 				6B36903117BC5F54008BA88F /* comunicacionesObjetivosIconoNoLeido@2x.png in Resources */,
+				6B8882A717D552AC00D361E6 /* EQGroupCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1979,7 +1988,6 @@
 				6B88776817CA869500FD3C49 /* LineaVTA.m in Sources */,
 				6B88776B17CA869500FD3C49 /* TipoIvas.m in Sources */,
 				6B88776E17CA869500FD3C49 /* Precio.m in Sources */,
-				6B88777117CA869600FD3C49 /* Grupo.m in Sources */,
 				6B88777417CA869600FD3C49 /* Venta.m in Sources */,
 				6B88777A17CA869600FD3C49 /* Pedido.m in Sources */,
 				6B88777D17CA869700FD3C49 /* ItemPedido.m in Sources */,
@@ -1988,6 +1996,8 @@
 				6B88778617CA869700FD3C49 /* Disponibilidad.m in Sources */,
 				6B88778917CA869700FD3C49 /* Comunicacion.m in Sources */,
 				6BD2EEF317CBD492008B8132 /* ZonaEnvio.m in Sources */,
+				6B8882A017D5204300D361E6 /* Grupo.m in Sources */,
+				6B8882AA17D552DD00D361E6 /* EQGroupCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

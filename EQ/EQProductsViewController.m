@@ -15,6 +15,7 @@
 #import "Disponibilidad.h"
 #import "Precio+extra.h"
 #import "Articulo+extra.h"
+#import "EQGroupCell.h"
 
 @interface EQProductsViewController ()
 
@@ -31,6 +32,9 @@
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
     [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
+    
+    UINib *groupNib = [UINib nibWithNibName:@"EQGroupCell" bundle: nil];
+    [self.productsCollectionView registerNib:groupNib forCellWithReuseIdentifier:@"GroupCell"];
     self.productDetailView.delegate = self;
     [super viewDidLoad];
 }
@@ -85,7 +89,13 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return [self.viewModel.articles count];
+    if (self.viewModel.typeList == typeListProduct) {
+        return [self.viewModel.articles count];
+    } else if (self.viewModel.typeList == typeListGroup) {
+        return 1;
+    }
+    
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
@@ -93,10 +103,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    EQProductCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductCell" forIndexPath:indexPath];
-    Articulo *art = [self.viewModel.articles objectAtIndex:indexPath.item];
-    [cell loadArticle:art];
-    return cell;
+    if (self.viewModel.typeList == typeListProduct) {
+        EQProductCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductCell" forIndexPath:indexPath];
+        Articulo *art = [self.viewModel.articles objectAtIndex:indexPath.item];
+        [cell loadArticle:art];
+        return cell;
+    } else if (self.viewModel.typeList == typeListGroup) {
+        EQGroupCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"GroupCell" forIndexPath:indexPath];
+        [cell.groupImage loadURL:[self.viewModel imageForCategory2]];
+        return cell;
+    }
+    
+    return nil;
 }
 
 - (void)modelDidUpdateData{
@@ -127,11 +145,20 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(183, 218);
+    if (self.viewModel.typeList == typeListProduct) {
+        return CGSizeMake(183, 218);
+    } else if (self.viewModel.typeList == typeListGroup) {
+        return CGSizeMake(748, 766);
+    }
+    return CGSizeZero;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(5, 3, 5, 3);
+    if (self.viewModel.typeList == typeListProduct) {
+        return UIEdgeInsetsMake(5, 3, 5, 3);
+    }
+    
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 #pragma mark - search bar delegate

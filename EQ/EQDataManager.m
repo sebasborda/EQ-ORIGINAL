@@ -865,6 +865,12 @@
             group.parentID = [dictionary filterInvalidEntry:@"parent"];
             group.descripcion = [dictionary filterInvalidEntry:@"description"];
             group.count = [[dictionary filterInvalidEntry:@"count"] number];
+            NSDictionary *images = [dictionary filterInvalidEntry:@"category_image"];
+            if (images) {
+                NSString *imagen = [images filterInvalidEntry:@"url"];
+                group.imagen = [imagen stringByReplacingOccurrencesOfString:IMAGES_BASE_URL withString:@""];;
+            }
+            
             group.relevancia = @0;
         }
         
