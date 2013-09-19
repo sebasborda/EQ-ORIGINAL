@@ -9,6 +9,7 @@
 #import "Pedido+extra.h"
 #import "ItemPedido+extra.h"
 #import "EQDataAccessLayer.h"
+#import "ItemFacturado.h"
 
 @implementation Pedido (extra)
 
@@ -49,9 +50,35 @@
     return order;
 }
 
-- (NSDate *)fechaFacturacion{
+- (NSDate *)ultimaFechaDeFacturacion {
+    NSDate *ultimaFecha = nil;
+    for (NSDate *date in [self fechasFacturacion]) {
+        if(!ultimaFecha || [date compare: ultimaFecha] == NSOrderedDescending) {
+            ultimaFecha = date;
+        }
+    }
+    return ultimaFecha;
+}
+
+- (NSDate *)primerFechaDeFacturacion {
+    NSDate *primerFecha = nil;
+    for (NSDate *date in [self fechasFacturacion]) {
+        if(!primerFecha || [date compare: primerFecha] == NSOrderedAscending) {
+            primerFecha = date;
+        }
+    }
+    return primerFecha;
+}
+
+- (NSMutableArray *)fechasFacturacion{
     ItemPedido *item = [self.items anyObject];
-    return item.fechaFacturado;
+    NSMutableArray *fechas = [NSMutableArray array];
+    for (ItemFacturado *facturado in item.facturados) {
+        if (facturado.facturado) {
+            [fechas addObject:facturado.facturado];
+        }
+    }
+    return fechas;
 }
 
 @end

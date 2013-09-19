@@ -2,7 +2,7 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 8/25/13.
+//  Created by Sebastian Borda on 9/18/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -47,5 +47,6 @@
 @dynamic vendedorID;
 @dynamic web;
 @dynamic zonaEnvioID;
+@dynamic conDescuento;
 
 @end

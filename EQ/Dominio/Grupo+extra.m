@@ -20,10 +20,8 @@
 }
 
 + (void)resetRelevancia{
-    NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Grupo"];
-    NSError *error = nil;
     //fetch new prices
-    NSArray *newObjects = [[EQDataAccessLayer sharedInstance].mainManagedObjectContext executeFetchRequest:allRequest error:&error];
+    NSArray *newObjects = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class]];
     [newObjects setValue:@0 forKey:@"relevancia"];
     
     [[EQDataAccessLayer sharedInstance] saveContext];

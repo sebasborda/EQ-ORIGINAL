@@ -2,7 +2,7 @@
 //  ItemPedido.m
 //  EQ
 //
-//  Created by Sebastian Borda on 8/25/13.
+//  Created by Sebastian Borda on 9/18/13.
 //  Copyright (c) 2013 Sebastian Borda. All rights reserved.
 //
 
@@ -17,10 +17,11 @@
 @dynamic descuento1;
 @dynamic descuento2;
 @dynamic descuentoMonto;
-@dynamic fechaFacturado;
+@dynamic identifier;
 @dynamic importeConDescuento;
 @dynamic importeFinal;
 @dynamic precioUnitario;
+@dynamic cantidadFacturada;
 @dynamic pedido;
 
 @end

@@ -16,8 +16,8 @@
 @property (nonatomic, strong) NSMutableArray *statusList;
 @property (nonatomic, strong) NSDate *startBillingDate;
 @property (nonatomic, strong) NSDate *endBillingDate;
-@property (nonatomic, strong) NSDate *startSyncDate;
-@property (nonatomic, strong) NSDate *endSyncDate;
+@property (nonatomic, strong) NSDate *startCreationDate;
+@property (nonatomic, strong) NSDate *endCreationDate;
 @property (nonatomic, strong) NSArray *sortFields;
 @property (nonatomic, assign) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic, strong) NSString* clientName;

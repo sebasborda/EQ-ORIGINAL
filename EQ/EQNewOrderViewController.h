@@ -40,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *finishOrderButton;
 @property (strong, nonatomic) IBOutlet UILabel *itemsQuantityLabel;
 @property (strong, nonatomic) IBOutlet UILabel *orderSyncDate;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 
 - (id)initWithOrder:(Pedido *)order;
 - (id)initWithClonedOrder:(Pedido *)order;

@@ -188,7 +188,7 @@
 
 - (NSArray *)clients{
     NSMutableArray *array = [NSMutableArray array];
-    if(self.ActiveClient){
+    if(self.ActiveClient.nombre){
         [array addObject:@"Todos"];
         [array addObject:self.ActiveClient.nombre];
     } else {

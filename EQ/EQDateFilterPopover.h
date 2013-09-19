@@ -20,6 +20,7 @@
 - (NSDate *)getPickerEndDate;
 - (void)setPickerStartDate:(NSDate *)startDate;
 - (void)setPickerEndDate:(NSDate *)endDate;
+- (NSDate *)obtainMonthLastDayForDate:(NSDate *)date;
 
 @property (strong, nonatomic) IBOutlet UIDatePicker *startDatePicker;
 @property (strong, nonatomic) IBOutlet UIDatePicker *endDatePicker;

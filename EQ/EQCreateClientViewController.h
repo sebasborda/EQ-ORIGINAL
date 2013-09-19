@@ -48,6 +48,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *paymentConditionButton;
 @property (strong, nonatomic) IBOutlet UIButton *taxesButton;
 @property (strong, nonatomic) IBOutletCollection(UITextField) NSArray *textFieldList;
+@property (strong, nonatomic) IBOutlet UIButton *discountButton;
 
 - (IBAction)deliveryAreaButtonAction:(id)sender;
 - (IBAction)provinceButtonAction:(id)sender;
@@ -60,6 +61,7 @@
 - (IBAction)cancelButtonAction:(id)sender;
 - (IBAction)taxesButtonAction:(id)sender;
 - (IBAction)addressChanged:(id)sender;
+- (IBAction)discountButtonAction:(id)sender;
 
 - (id)initWithClientId:(NSNumber *)clientId;
 

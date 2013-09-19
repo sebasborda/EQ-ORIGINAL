@@ -17,12 +17,13 @@
 @interface EQProductDetailView()
 
 @property (nonatomic,strong) NSArray *articles;
-
+@property (nonatomic,strong) Cliente *client;
 @end
 
 @implementation EQProductDetailView
 
-- (void)loadArticle:(Articulo *)article{
+- (void)loadArticle:(Articulo *)article client:(Cliente *)client{
+    self.client = client;
     UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
     [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
     self.productName.text = article.nombre;
@@ -36,7 +37,7 @@
         self.unavailableImage.hidden = YES;
     }
 
-    CGFloat precio = [article priceForActiveClient].importe ? [[article priceForActiveClient] priceForActiveClient] : 0;
+    CGFloat precio = [article priceForClient:client].importe ? [[article priceForClient:client] priceForClient:client] : 0;
     self.PriceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
     self.group1Label.text = [article.grupo nombre];
     [self LoadGridData:article];
@@ -70,7 +71,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     Articulo *article = [self.articles objectAtIndex:indexPath.item];
-    [self loadArticle:article];
+    [self loadArticle:article client:self.client];
 }
 
 #pragma mark – UICollectionViewDelegateFlowLayout

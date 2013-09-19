@@ -198,6 +198,8 @@
 		6B79FF3217849D3200ACB8A3 /* CtaCte+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */; };
 		6B7CC82117B926F300E45A4C /* cuentaCorrienteFondoTotales.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC81F17B926F300E45A4C /* cuentaCorrienteFondoTotales.png */; };
 		6B7CC82217B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */; };
+		6B83DB1817EA8FC6001534B2 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1717EA8FC6001534B2 /* Cliente.m */; };
+		6B83DB1B17EA8FC8001534B2 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */; };
 		6B88775617CA869200FD3C49 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775517CA869200FD3C49 /* CtaCte.m */; };
 		6B88775917CA869300FD3C49 /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775817CA869300FD3C49 /* Provincia.m */; };
 		6B88775C17CA869300FD3C49 /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775B17CA869300FD3C49 /* Articulo.m */; };
@@ -209,14 +211,13 @@
 		6B88776E17CA869500FD3C49 /* Precio.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88776D17CA869500FD3C49 /* Precio.m */; };
 		6B88777417CA869600FD3C49 /* Venta.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777317CA869600FD3C49 /* Venta.m */; };
 		6B88777A17CA869600FD3C49 /* Pedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777917CA869600FD3C49 /* Pedido.m */; };
-		6B88777D17CA869700FD3C49 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777C17CA869600FD3C49 /* ItemPedido.m */; };
-		6B88778017CA869700FD3C49 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88777F17CA869700FD3C49 /* Cliente.m */; };
 		6B88778317CA869700FD3C49 /* CondPag.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778217CA869700FD3C49 /* CondPag.m */; };
 		6B88778617CA869700FD3C49 /* Disponibilidad.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778517CA869700FD3C49 /* Disponibilidad.m */; };
 		6B88778917CA869700FD3C49 /* Comunicacion.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88778817CA869700FD3C49 /* Comunicacion.m */; };
 		6B8882A017D5204300D361E6 /* Grupo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88829F17D5204300D361E6 /* Grupo.m */; };
 		6B8882A717D552AC00D361E6 /* EQGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B8882A617D552AC00D361E6 /* EQGroupCell.xib */; };
 		6B8882AA17D552DD00D361E6 /* EQGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8882A917D552DD00D361E6 /* EQGroupCell.m */; };
+		6B9C521817E013E200FDDC70 /* ItemFacturado.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C521717E013E200FDDC70 /* ItemFacturado.m */; };
 		6BA0D6C0176E486B000F86A0 /* EQModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BA0D6BE176E486B000F86A0 /* EQModel.xcdatamodeld */; };
 		6BAEA95117AA013B008A1864 /* buttonCliente.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAEA90217A9EE8B008A1864 /* buttonCliente.png */; };
 		6BAEA95217AA013B008A1864 /* buttonCliente@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAEA90317A9EE8B008A1864 /* buttonCliente@2x.png */; };
@@ -631,6 +632,10 @@
 		6B79FF3117849D3200ACB8A3 /* CtaCte+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CtaCte+extra.m"; sourceTree = "<group>"; };
 		6B7CC81F17B926F300E45A4C /* cuentaCorrienteFondoTotales.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cuentaCorrienteFondoTotales.png; sourceTree = "<group>"; };
 		6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cuentaCorrienteFondoTotales@2x.png"; sourceTree = "<group>"; };
+		6B83DB1617EA8FC6001534B2 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
+		6B83DB1717EA8FC6001534B2 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
+		6B83DB1917EA8FC7001534B2 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
+		6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
 		6B88775417CA869200FD3C49 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
 		6B88775517CA869200FD3C49 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
 		6B88775717CA869300FD3C49 /* Provincia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provincia.h; sourceTree = "<group>"; };
@@ -653,10 +658,6 @@
 		6B88777317CA869600FD3C49 /* Venta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Venta.m; sourceTree = "<group>"; };
 		6B88777817CA869600FD3C49 /* Pedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pedido.h; sourceTree = "<group>"; };
 		6B88777917CA869600FD3C49 /* Pedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pedido.m; sourceTree = "<group>"; };
-		6B88777B17CA869600FD3C49 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
-		6B88777C17CA869600FD3C49 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
-		6B88777E17CA869700FD3C49 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
-		6B88777F17CA869700FD3C49 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
 		6B88778117CA869700FD3C49 /* CondPag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CondPag.h; sourceTree = "<group>"; };
 		6B88778217CA869700FD3C49 /* CondPag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CondPag.m; sourceTree = "<group>"; };
 		6B88778417CA869700FD3C49 /* Disponibilidad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Disponibilidad.h; sourceTree = "<group>"; };
@@ -668,6 +669,8 @@
 		6B8882A617D552AC00D361E6 /* EQGroupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQGroupCell.xib; sourceTree = "<group>"; };
 		6B8882A817D552DD00D361E6 /* EQGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQGroupCell.h; sourceTree = "<group>"; };
 		6B8882A917D552DD00D361E6 /* EQGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQGroupCell.m; sourceTree = "<group>"; };
+		6B9C521617E013E200FDDC70 /* ItemFacturado.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFacturado.h; sourceTree = "<group>"; };
+		6B9C521717E013E200FDDC70 /* ItemFacturado.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFacturado.m; sourceTree = "<group>"; };
 		6BA0D6BF176E486B000F86A0 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		6BAEA90217A9EE8B008A1864 /* buttonCliente.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonCliente.png; sourceTree = "<group>"; };
 		6BAEA90317A9EE8B008A1864 /* buttonCliente@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonCliente@2x.png"; sourceTree = "<group>"; };
@@ -869,10 +872,6 @@
 				6B88778517CA869700FD3C49 /* Disponibilidad.m */,
 				6B88778117CA869700FD3C49 /* CondPag.h */,
 				6B88778217CA869700FD3C49 /* CondPag.m */,
-				6B88777E17CA869700FD3C49 /* Cliente.h */,
-				6B88777F17CA869700FD3C49 /* Cliente.m */,
-				6B88777B17CA869600FD3C49 /* ItemPedido.h */,
-				6B88777C17CA869600FD3C49 /* ItemPedido.m */,
 				6B88777817CA869600FD3C49 /* Pedido.h */,
 				6B88777917CA869600FD3C49 /* Pedido.m */,
 				6B88777217CA869600FD3C49 /* Venta.h */,
@@ -899,6 +898,12 @@
 				6BD2EEF217CBD492008B8132 /* ZonaEnvio.m */,
 				6B88829E17D5204300D361E6 /* Grupo.h */,
 				6B88829F17D5204300D361E6 /* Grupo.m */,
+				6B9C521617E013E200FDDC70 /* ItemFacturado.h */,
+				6B9C521717E013E200FDDC70 /* ItemFacturado.m */,
+				6B83DB1917EA8FC7001534B2 /* ItemPedido.h */,
+				6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */,
+				6B83DB1617EA8FC6001534B2 /* Cliente.h */,
+				6B83DB1717EA8FC6001534B2 /* Cliente.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1013,9 +1018,9 @@
 				212A8B4E172313FA00F7900A /* Communications */,
 				212A8B70172316FF00F7900A /* Current Account */,
 				212A8B4D172313B900F7900A /* Sales */,
-				212A8B4C172313A800F7900A /* Orders */,
 				212A8B371720EE9100F7900A /* Main Screen */,
 				211067FF1719DD21002C42C0 /* Login */,
+				212A8B4C172313A800F7900A /* Orders */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1990,14 +1995,15 @@
 				6B88776E17CA869500FD3C49 /* Precio.m in Sources */,
 				6B88777417CA869600FD3C49 /* Venta.m in Sources */,
 				6B88777A17CA869600FD3C49 /* Pedido.m in Sources */,
-				6B88777D17CA869700FD3C49 /* ItemPedido.m in Sources */,
-				6B88778017CA869700FD3C49 /* Cliente.m in Sources */,
 				6B88778317CA869700FD3C49 /* CondPag.m in Sources */,
 				6B88778617CA869700FD3C49 /* Disponibilidad.m in Sources */,
 				6B88778917CA869700FD3C49 /* Comunicacion.m in Sources */,
 				6BD2EEF317CBD492008B8132 /* ZonaEnvio.m in Sources */,
 				6B8882A017D5204300D361E6 /* Grupo.m in Sources */,
 				6B8882AA17D552DD00D361E6 /* EQGroupCell.m in Sources */,
+				6B9C521817E013E200FDDC70 /* ItemFacturado.m in Sources */,
+				6B83DB1817EA8FC6001534B2 /* Cliente.m in Sources */,
+				6B83DB1B17EA8FC8001534B2 /* ItemPedido.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,8 @@
 #import "EQDataManager.h"
 #import "EQSession.h"
 #import "EQDataAccessLayer.h"
+#import "ItemFacturado.h"
+#import "ItemPedido.h"
 
 @interface EQOrdersViewModel()
 
@@ -68,22 +70,22 @@
     }
     
     if (self.startBillingDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha >= %@",self.startBillingDate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.primerFechaDeFacturacion >= %@",self.startBillingDate];
         [subPredicates addObject:predicate];
     }
     
     if (self.endBillingDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha <= %@",self.endBillingDate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.primerFechaDeFacturacion <= %@",self.endBillingDate];
         [subPredicates addObject:predicate];
     }
     
-    if (self.startSyncDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion >= %@",self.startSyncDate];
+    if (self.startCreationDate) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha >= %@",self.startCreationDate];
         [subPredicates addObject:predicate];
     }
     
-    if (self.endSyncDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.sincronizacion <= %@",self.endSyncDate];
+    if (self.endCreationDate) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.fecha <= %@",self.endCreationDate];
         [subPredicates addObject:predicate];
     }
     
@@ -123,7 +125,7 @@
             return @"fecha";
             break;
         case 2:
-            return @"fechaFacturacion";
+            return @"primerFechaDeFacturacion";
             break;
         case 3:
             return @"cliente.nombre";

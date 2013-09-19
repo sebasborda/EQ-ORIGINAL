@@ -130,7 +130,7 @@
             percept += [account.importePercepcion floatValue];
         }
         CtaCte *ctacte = [accounts lastObject];
-        cell.clientLabel.text = ctacte.cliente.nombre;
+        cell.clientLabel.text = ctacte.cliente.nombre ? ctacte.cliente.nombre : ctacte.clienteID;
         cell.dateLabel.text = @"";
         cell.delayLabel.text = @"";
         cell.voucherLabel.text = @"";
@@ -140,7 +140,7 @@
         cell.discountLabel.text = [NSString stringWithFormat:@"%@", [[NSNumber numberWithFloat:net] currencyString]];
     } else {
         CtaCte *ctaCte = [[self.viewModel.currentAccountList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.clientLabel.text = ctaCte.cliente.nombre;
+        cell.clientLabel.text = ctaCte.cliente.nombre ? ctaCte.cliente.nombre : ctaCte.clienteID;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         cell.dateLabel.text = [dateFormatter stringFromDate:ctaCte.fecha];

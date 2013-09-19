@@ -24,6 +24,7 @@
     self.productNameLabel.text = item.articulo.nombre;
     self.quantityLabel.text = [item.cantidad stringValue];
     self.priceLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[item totalConDescuento]] currencyString]];
+    self.quantitySold.text =  [item.cantidadFacturada stringValue];
 }
 
 - (IBAction)editButtonAction:(id)sender {

@@ -44,6 +44,16 @@
     self.endDatePicker.maximumDate = [NSDate date];
 }
 
+- (NSDate *)obtainMonthLastDayForDate:(NSDate *)date{
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    NSRange daysRange = [currentCalendar rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
+    
+    NSDateComponents *lastDay = [currentCalendar components:NSDayCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit fromDate:date];
+    [lastDay setDay:daysRange.length];
+    [lastDay setCalendar:currentCalendar];
+    return [lastDay date];
+}
+
 - (CGSize)popoverSize{
     return CGSizeMake(POPOVER_WIDTH, POPOVER_HEIGHT);
 }
@@ -61,7 +71,7 @@
 }
 
 - (NSDate *)getPickerEndDate{
-    return self.endDatePicker.date;
+    return [self obtainMonthLastDayForDate:self.endDatePicker.date];
 }
 
 - (void)setPickerStartDate:(NSDate *)startDate{

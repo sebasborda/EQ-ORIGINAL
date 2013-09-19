@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C3103</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -198,7 +198,7 @@
 								<string key="NSFrame">{{270, 20}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="1012407082"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="481078630"/>
+								<reference key="NSNextKeyView" ref="305353620"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -220,6 +220,7 @@
 								<string key="NSFrame">{{279, 1}, {103, 42}}</string>
 								<reference key="NSSuperview" ref="1012407082"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="481078630"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -793,7 +794,7 @@
 							<object class="IBUILabel" id="909696709">
 								<reference key="NSNextResponder" ref="907047359"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{389, 14}, {90, 21}}</string>
+								<string key="NSFrame">{{389, 14}, {109, 21}}</string>
 								<reference key="NSSuperview" ref="907047359"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="495524891"/>
@@ -803,7 +804,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Facturación</string>
+								<string key="IBUIText">Fecha Facturación</string>
 								<reference key="IBUITextColor" ref="144778720"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -1023,7 +1024,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Sincronización</string>
+								<string key="IBUIText">Fecha Pedido</string>
 								<reference key="IBUITextColor" ref="144778720"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -1110,6 +1111,7 @@
 						<string key="NSFrame">{{0, 89}, {768, 866}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="920487246"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -1196,22 +1198,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">syncFilterButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="105350166"/>
-					</object>
-					<int key="connectionID">1060</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">billingFilterButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="495524891"/>
-					</object>
-					<int key="connectionID">1061</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">statusFilterButton</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="78979544"/>
@@ -1281,6 +1267,22 @@
 						<reference key="destination" ref="130375270"/>
 					</object>
 					<int key="connectionID">1100</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">billingFilterButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="495524891"/>
+					</object>
+					<int key="connectionID">1127</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">creationFilterButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="105350166"/>
+					</object>
+					<int key="connectionID">1129</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -1354,12 +1356,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">syncFilterAction:</string>
+						<string key="label">creationFilterAction:</string>
 						<reference key="source" ref="105350166"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">1039</int>
+					<int key="connectionID">1128</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1368,7 +1370,7 @@
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">1040</int>
+					<int key="connectionID">1126</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1817,7 +1819,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1120</int>
+			<int key="maxID">1129</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1918,10 +1920,10 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="billingFilterAction:">id</string>
 						<string key="clientFilterAction:">id</string>
+						<string key="creationFilterAction:">id</string>
 						<string key="newOrderButtonAction:">id</string>
 						<string key="orderButtonAction:">id</string>
 						<string key="statusFilterAction:">id</string>
-						<string key="syncFilterAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="billingFilterAction:">
@@ -1930,6 +1932,10 @@
 						</object>
 						<object class="IBActionInfo" key="clientFilterAction:">
 							<string key="name">clientFilterAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="creationFilterAction:">
+							<string key="name">creationFilterAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="newOrderButtonAction:">
@@ -1944,18 +1950,14 @@
 							<string key="name">statusFilterAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="syncFilterAction:">
-							<string key="name">syncFilterAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="billingFilterButton">UIButton</string>
 						<string key="clientFilterButton">UIButton</string>
+						<string key="creationFilterButton">UIButton</string>
 						<string key="orderFilterButton">UIButton</string>
 						<string key="ordersTable">UITableView</string>
 						<string key="statusFilterButton">UIButton</string>
-						<string key="syncFilterButton">UIButton</string>
 						<string key="totalMessageLabel">UILabel</string>
 						<string key="totalPriceLabel">UILabel</string>
 					</dictionary>
@@ -1968,6 +1970,10 @@
 							<string key="name">clientFilterButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="creationFilterButton">
+							<string key="name">creationFilterButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="orderFilterButton">
 							<string key="name">orderFilterButton</string>
 							<string key="candidateClassName">UIButton</string>
@@ -1978,10 +1984,6 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="statusFilterButton">
 							<string key="name">statusFilterButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="syncFilterButton">
-							<string key="name">syncFilterButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="totalMessageLabel">

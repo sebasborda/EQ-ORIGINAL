@@ -197,7 +197,7 @@
 
 - (IBAction)articleDetailButton:(id)sender {
     if (self.viewModel.articleSelected) {
-        [self.productDetailView loadArticle:self.viewModel.articleSelected];
+        [self.productDetailView loadArticle:self.viewModel.articleSelected client:self.viewModel.order.cliente];
         if ([self.productDetailView isHidden]) {
             [UIView animateWithDuration:0.4 animations:^{
                 self.productDetailView.hidden = NO;
@@ -213,13 +213,17 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if ([tableView isEqual:self.tableGroup1]) {
-        return [self.viewModel.group1 count];
-    } else if ([tableView isEqual:self.tableGroup2]) {
-        return [self.viewModel.group2 count];
-    } else if ([tableView isEqual:self.tableGroup3]) {
-        return [self.viewModel.articles count];
-    } else if ([tableView isEqual:self.tableOrderDetail]) {
+    if (self.isInteractionEnable) {
+        if ([tableView isEqual:self.tableGroup1]) {
+            return [self.viewModel.group1 count];
+        } else if ([tableView isEqual:self.tableGroup2]) {
+            return [self.viewModel.group2 count];
+        } else if ([tableView isEqual:self.tableGroup3]) {
+            return [self.viewModel.articles count];
+        }
+    }
+    
+    if ([tableView isEqual:self.tableOrderDetail]) {
         return [self.viewModel.order.items count];
     }
     
@@ -315,6 +319,8 @@
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"%@",[[self.viewModel subTotal] currencyString]];
     self.totalLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[self.viewModel total]] currencyString]];
+    CGFloat precio = [[self.viewModel.articleSelected priceForClient:self.viewModel.order.cliente] priceForClient:self.viewModel.order.cliente];
+    self.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",precio];
     
     NSIndexPath *table1IndexPath = self.viewModel.group1Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group1Selected inSection:0] : nil;
     NSIndexPath *table2IndexPath = self.viewModel.group2Selected != NSNotFound ? [NSIndexPath indexPathForRow:self.viewModel.group2Selected inSection:0] : nil;

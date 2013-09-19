@@ -35,6 +35,7 @@
         self.viewModel = [EQCreateClientViewModel new];
         self.viewModel.delegate = self;
         [self.viewModel loadData];
+        self.titleLabel.text = @"Nuevo cliente";
     }
     return self;
 }
@@ -47,6 +48,7 @@
         self.viewModel.delegate = self;
         self.viewModel.clientID = clientId;
         [self.viewModel loadData];
+        self.titleLabel.text = @"Modificar cliente";
     }
     return self;
 }
@@ -88,6 +90,7 @@
     [self.taxesButton setTitle:[self.viewModel obtainSelectedTaxes] forState:UIControlStateNormal];
     [self.salesLineButton setTitle:[self.viewModel obtainSelectedSalesLine] forState:UIControlStateNormal];
     [self.deliveryAreaButton setTitle:[self.viewModel obtainSelectedDeliveryArea] forState:UIControlStateNormal];
+    [self.discountButton setTitle:[self.viewModel hasDiscount] ? @"Si" : @"No" forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -118,8 +121,8 @@
     return textField.text;
 }
 
-- (void)validateValue:(NSString *)value forRelation:(NSString *)relation{
-    if ([value isEqualToString:SELECTION_TEXT]) {
+- (void)validateValue:(int)selectedIndex forRelation:(NSString *)relation{
+    if (selectedIndex == NSNotFound) {
         [self addMessageError:[NSMutableString stringWithFormat:@"Debe seleccionar un valor para %@.", relation]];
     }
 }
@@ -263,14 +266,12 @@
     [clientDictionary setValue:[self.discount4TextField.text length] == 0 ? @"0" : self.discount4TextField.text forKey:@"discount4"];
     [clientDictionary setNotEmptyString:self.observationsTextField.text forKey:@"observations"];
     
-    [self validateValue:self.paymentConditionButton.titleLabel.text forRelation:@"Condicion de pago"];
-    [self validateValue:self.provinceButton.titleLabel.text forRelation:@"Provincia"];
-    [self validateValue:self.deliveryAreaButton.titleLabel.text forRelation:@"Zona de envio"];
-    [self validateValue:self.expressButton.titleLabel.text forRelation:@"Expreso"];
-    [self validateValue:self.sellerButton.titleLabel.text forRelation:@"Vendedor"];
-    [self validateValue:self.collectorButton.titleLabel.text forRelation:@"Cobrador"];
-    [self validateValue:self.salesLineButton.titleLabel.text forRelation:@"Linea de ventas"];
-    [self validateValue:self.taxesButton.titleLabel.text forRelation:@"Tipo ivas"];
+    [self validateValue:self.viewModel.selectedPaymentConditionAtIndex forRelation:@"Condicion de pago"];
+    [self validateValue:self.viewModel.selectedProvinceAtIndex forRelation:@"Provincia"];
+    [self validateValue:self.viewModel.selectedDeliveryAreaAtIndex forRelation:@"Zona de envio"];
+    [self validateValue:self.viewModel.selectedExpressAtIndex forRelation:@"Expreso"];
+    [self validateValue:self.viewModel.selectedSalesLineAtIndex forRelation:@"Linea de ventas"];
+    [self validateValue:self.viewModel.selectedTaxAtIndex forRelation:@"Tipo ivas"];
     
     if ([self.ErrorMessage length] == 0) {
         [self startLoading];
@@ -319,6 +320,8 @@
             [self.viewModel selectedPaymentConditionAtIndex:rowNumber];
         } else if ([self isButtonPopoverOwner:self.taxesButton]) {
             [self.viewModel selectedTaxAtIndex:rowNumber];
+        } else if ([self isButtonPopoverOwner:self.discountButton]) {
+            [self.viewModel selectedDiscountAtIndex:rowNumber];
         }
         
         [self.popoverOwner setTitle:selectedData forState:UIControlStateNormal];
@@ -335,6 +338,14 @@
     if([self.clientAddressTextField.text length] > 0 && [self.clientLocalityTextField.text length] > 0) {
         self.deliveryAddressTextField.text = [self.clientAddressTextField.text stringByAppendingFormat:@" %@",self.clientLocalityTextField.text];
     }
+}
+
+- (IBAction)discountButtonAction:(id)sender {
+    [self.textFieldList makeObjectsPerformSelector:@selector(resignFirstResponder)];
+    
+    EQTablePopover *popover = [[EQTablePopover alloc] initWithData:@[@"No",@"Si"] delegate:self];
+    UIButton *button = (UIButton *)sender;
+    [self presentPopoverInView:button withContent:popover];
 }
 
 @end

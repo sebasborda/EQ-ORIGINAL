@@ -24,7 +24,7 @@
 {
     self = [super init];
     if (self) {
-        self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self clientFieldByIndex:0] ascending:YES];
+        self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self clientFieldByIndex:0] ascending:YES selector:@selector(caseInsensitiveCompare:)];
         self.sortFields = [NSArray arrayWithObjects:@"Razon Social", @"Domicilio", @"Localidad", nil];
     }
     return self;
@@ -71,8 +71,12 @@
 }
 
 - (void)changeSortOrder:(int)index{
-    self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self clientFieldByIndex:index] ascending:YES];
-    self.clients = [self.clients sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
+    [self.delegate modelWillStartDataLoading];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[self clientFieldByIndex:index] ascending:YES];
+        self.clients = [self.clients sortedArrayUsingDescriptors:[NSArray arrayWithObject:self.sortDescriptor]];
+        [self.delegate modelDidUpdateData];
+    });
 }
 
 - (void)defineSearchTerm:(NSString *)term{

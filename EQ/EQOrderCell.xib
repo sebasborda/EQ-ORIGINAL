@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C3103</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -111,10 +111,12 @@
 								<reference key="IBUITextColor" ref="231701563"/>
 								<reference key="IBUIHighlightedColor" ref="1063379280"/>
 								<int key="IBUIBaselineAdjustment">0</int>
+								<float key="IBUIMinimumFontSize">8</float>
+								<int key="IBUINumberOfLines">0</int>
 								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="300399393"/>
 								<reference key="IBUIFont" ref="676665863"/>
-								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+								<double key="preferredMaxLayoutWidth">61</double>
 							</object>
 							<object class="IBUILabel" id="273324523">
 								<reference key="NSNextResponder" ref="96116575"/>
@@ -318,6 +320,7 @@
 								<string key="NSFrame">{{718, 9}, {30, 31}}</string>
 								<reference key="NSSuperview" ref="96116575"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>

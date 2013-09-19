@@ -27,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *unavailableImage;
 @property (weak, nonatomic) id<EQProductDetailViewDelegate> delegate;
 
-- (void)loadArticle:(Articulo *)article;
+- (void)loadArticle:(Articulo *)article client:(Cliente *)client;
 - (IBAction)closeButtonAction:(id)sender;
 
 @end

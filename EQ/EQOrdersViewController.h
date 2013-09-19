@@ -14,7 +14,7 @@
 @interface EQOrdersViewController : EQBaseViewController<EQTablePopoverDelegate, EQOrderCellDelegate, EQDateFilterPopoverDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *clientFilterButton;
-@property (strong, nonatomic) IBOutlet UIButton *syncFilterButton;
+@property (strong, nonatomic) IBOutlet UIButton *creationFilterButton;
 @property (strong, nonatomic) IBOutlet UIButton *billingFilterButton;
 @property (strong, nonatomic) IBOutlet UIButton *statusFilterButton;
 @property (strong, nonatomic) IBOutlet UIButton *orderFilterButton;
@@ -24,7 +24,7 @@
 
 - (IBAction)newOrderButtonAction:(id)sender;
 - (IBAction)clientFilterAction:(id)sender;
-- (IBAction)syncFilterAction:(id)sender;
+- (IBAction)creationFilterAction:(id)sender;
 - (IBAction)billingFilterAction:(id)sender;
 - (IBAction)statusFilterAction:(id)sender;
 - (IBAction)orderButtonAction:(id)sender;

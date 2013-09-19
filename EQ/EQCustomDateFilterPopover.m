@@ -27,7 +27,7 @@
 }
 
 - (NSDate *)getPickerEndDate{
-    return self.customPickerEnd.date;
+    return [self obtainMonthLastDayForDate:self.customPickerEnd.date];
 }
 
 - (void)setPickerStartDate:(NSDate *)startDate{

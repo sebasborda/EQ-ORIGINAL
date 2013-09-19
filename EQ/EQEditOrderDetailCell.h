@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *productNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *quantityLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *quantitySold;
 
 - (IBAction)editButtonAction:(id)sender;
 - (IBAction)deleteButtonAction:(id)sender;

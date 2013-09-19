@@ -138,9 +138,14 @@
 }
 
 - (void)updateCache{
-    [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
-    [[EQDataAccessLayer sharedInstance].mainManagedObjectContext refreshObject:self.user mergeChanges:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+    if ([NSThread isMainThread]) {
+        [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.selectedClient mergeChanges:YES];
+        [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user mergeChanges:YES];
+        [[EQDataAccessLayer sharedInstance].managedObjectContext refreshObject:self.user.vendedor mergeChanges:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:DATA_UPDATED_NOTIFICATION object:nil];
+    } else {
+        [self performSelectorOnMainThread:@selector(updateCache) withObject:nil waitUntilDone:NO];
+    }
 }
 
 @end

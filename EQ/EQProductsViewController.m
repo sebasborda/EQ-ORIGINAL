@@ -16,6 +16,7 @@
 #import "Precio+extra.h"
 #import "Articulo+extra.h"
 #import "EQGroupCell.h"
+#import "EQSession.h"
 
 @interface EQProductsViewController ()
 
@@ -135,7 +136,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.viewModel.typeList == typeListProduct) {
-        [self.productDetailView loadArticle:[self.viewModel.articles objectAtIndex:indexPath.item]];
+        [self.productDetailView loadArticle:[self.viewModel.articles objectAtIndex:indexPath.item] client:[EQSession sharedInstance].selectedClient];
         if (self.productDetailView.isHidden) {
             [UIView animateWithDuration:0.4 animations:^{
                 self.productDetailView.hidden = NO;

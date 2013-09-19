@@ -40,7 +40,7 @@
 }
 
 - (TipoIvas *)iva{
-    return [self.expresos lastObject];
+    return [self.ivas lastObject];
 }
 
 - (ZonaEnvio *)zonaEnvio{
@@ -81,7 +81,7 @@
 }
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"Cliente id:%@ desc1-2-3-4:%@-%@-%@-%@ cod1-2:%@-%@",self.identifier,self.descuento1,self.descuento2,self.descuento3,self.descuento4,self.codigo1,self.codigo2];
+    return [NSString stringWithFormat:@"Cliente id:%@ nombre:%@ desc1-2-3-4:%@-%@-%@-%@ cod1-2:%@-%@",self.identifier,self.nombre,self.descuento1,self.descuento2,self.descuento3,self.descuento4,self.codigo1,self.codigo2];
 }
 
 @end

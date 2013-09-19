@@ -23,7 +23,6 @@
     __block NSString *hashedPassword = [userPassword MD5];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.nombreDeUsuario == %@ && SELF.password == %@", userName, hashedPassword];
     __block Usuario *currentUser = (Usuario *)[adl objectForClass:[Usuario class] withPredicate:predicate];
-    
     if (currentUser) {
         [self loginDidCompleteWithUser:currentUser];
     } else {
@@ -52,7 +51,6 @@
             } else {
                 [self.delegate loginFail];
             }
-        
         };
         
         FailRequest failBlock = ^(NSError *error){

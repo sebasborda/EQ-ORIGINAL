@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C3103</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -80,7 +80,7 @@
 							<object class="IBUILabel" id="956037960">
 								<reference key="NSNextResponder" ref="74683331"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{118, 0}, {329, 43}}</string>
+								<string key="NSFrame">{{118, 0}, {307, 43}}</string>
 								<reference key="NSSuperview" ref="74683331"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="970031656"/>
@@ -107,15 +107,36 @@
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-								<double key="preferredMaxLayoutWidth">329</double>
+								<double key="preferredMaxLayoutWidth">307</double>
 							</object>
 							<object class="IBUILabel" id="970031656">
 								<reference key="NSNextResponder" ref="74683331"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{461, 11}, {37, 21}}</string>
+								<string key="NSFrame">{{433, 11}, {37, 21}}</string>
 								<reference key="NSSuperview" ref="74683331"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="755759268"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">999</string>
+								<reference key="IBUITextColor" ref="364491137"/>
+								<reference key="IBUIHighlightedColor" ref="25614813"/>
+								<int key="IBUIBaselineAdjustment">0</int>
+								<int key="IBUITextAlignment">1</int>
+								<reference key="IBUIFontDescription" ref="101372743"/>
+								<reference key="IBUIFont" ref="975504934"/>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+							</object>
+							<object class="IBUILabel" id="647001094">
+								<reference key="NSNextResponder" ref="74683331"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{489, 12}, {37, 21}}</string>
+								<reference key="NSSuperview" ref="74683331"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -275,6 +296,14 @@
 					<int key="connectionID">12</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">quantitySold</string>
+						<reference key="source" ref="487980921"/>
+						<reference key="destination" ref="647001094"/>
+					</object>
+					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">editButtonAction:</string>
 						<reference key="source" ref="656050148"/>
@@ -318,10 +347,11 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="995950957"/>
 							<reference ref="956037960"/>
-							<reference ref="970031656"/>
 							<reference ref="656050148"/>
 							<reference ref="549737914"/>
 							<reference ref="755759268"/>
+							<reference ref="647001094"/>
+							<reference ref="970031656"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -355,12 +385,18 @@
 						<reference key="object" ref="549737914"/>
 						<reference key="parent" ref="487980921"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">16</int>
+						<reference key="object" ref="647001094"/>
+						<reference key="parent" ref="487980921"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="2.CustomClassName">EQEditOrderDetailCell</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -374,7 +410,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">15</int>
+			<int key="maxID">17</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -400,6 +436,7 @@
 						<string key="priceLabel">UILabel</string>
 						<string key="productNameLabel">UILabel</string>
 						<string key="quantityLabel">UILabel</string>
+						<string key="quantitySold">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="codeLabel">
@@ -416,6 +453,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="quantityLabel">
 							<string key="name">quantityLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="quantitySold">
+							<string key="name">quantitySold</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 					</dictionary>

@@ -11,6 +11,16 @@
 
 @interface EQCreateClientViewModel : EQBaseViewModel
 
+@property(nonatomic,assign) int selectedTaxAtIndex;
+@property(nonatomic,assign) int selectedProvinceAtIndex;
+@property(nonatomic,assign) int selectedPaymentConditionAtIndex;
+@property(nonatomic,assign) int selectedCollectorAtIndex;
+@property(nonatomic,assign) int selectedSellerAtIndex;
+@property(nonatomic,assign) int selectedSalesLineAtIndex;
+@property(nonatomic,assign) int selectedDeliveryAreaAtIndex;
+@property(nonatomic,assign) int selectedExpressAtIndex;
+@property(nonatomic,assign) BOOL hasDiscount;
+
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
 @property (nonatomic,strong) NSString *clientID;
 @property (nonatomic,strong) Cliente *client;
@@ -34,6 +44,7 @@
 - (void)selectedSalesLineAtIndex:(int)index;
 - (void)selectedDeliveryAreaAtIndex:(int)index;
 - (void)selectedExpressAtIndex:(int)index;
+- (void)selectedDiscountAtIndex:(int)index;
 
 - (NSString *)obtainSelectedSeller;
 - (NSString *)obtainSelectedCollector;

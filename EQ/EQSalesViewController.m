@@ -135,7 +135,7 @@
         }
         Venta *sale = [sales lastObject];
         if ([self.viewModel isSortingByClient]) {
-            cell.clientLabel.text = sale.cliente.nombre;
+            cell.clientLabel.text = sale.cliente.nombre ? sale.cliente.nombre : sale.clienteID;
             cell.periodLabel.text = @"";
             cell.articleLabel.text = @"";
         } else if ([self.viewModel isSortingByPeriod]){
@@ -153,7 +153,7 @@
         cell.quantityLabel.text = [NSString stringWithFormat:@"%i", quantity];
     } else {
         Venta *sale = [[self.viewModel.salesList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        cell.clientLabel.text = sale.cliente.nombre;        
+        cell.clientLabel.text = sale.cliente.nombre ? sale.cliente.nombre : sale.clienteID;        
         cell.articleLabel.text = sale.articulo.nombre;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM"];

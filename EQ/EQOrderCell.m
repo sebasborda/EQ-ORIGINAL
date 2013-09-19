@@ -35,7 +35,11 @@
     self.pedido = pedido;
     [self loadStatusStyle:pedido.estado];
     self.creationDateLabel.text = [dateFormat stringFromDate:pedido.fecha];
-    self.billingDateLabel.text = [dateFormat stringFromDate:pedido.fechaFacturacion];
+    NSMutableString *fechas = [NSMutableString string];
+    for (NSDate *fecha in [pedido fechasFacturacion]) {
+        [fechas appendFormat:@"%@\n",[dateFormat stringFromDate:fecha]];
+    }
+    self.billingDateLabel.text = fechas;
     self.clienLabel.text = pedido.cliente.nombre;
     self.orderNumberLabel.text = pedido.identifier;
     self.grossPriceLabel.text = [NSString stringWithFormat:@"%@", [pedido.subTotal currencyString]];

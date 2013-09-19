@@ -16,6 +16,8 @@
 #import "Vendedor+extra.h"
 #import "EQSession.h"
 
+#define DEFAULT_CATEGORY @"artistica"
+
 @interface EQNewOrderViewModel()
 
 @property (nonatomic,strong) NSUndoManager *undoManager;
@@ -58,8 +60,14 @@
     [self sortArticlesByIndex:0];
     [self sortGroup1ByIndex:0];
     [self sortGroup2ByIndex:0];
-    [self defineSelectedCategory:0];
+    Grupo *defaultGroup = [self.categories filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.nombre like[cd] %@",DEFAULT_CATEGORY]][0];
+
+    self.categorySelected = [self.categories indexOfObject:defaultGroup];
+    self.group1 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",defaultGroup.identifier]];
+    self.group1 = [self.group1 sortedArrayUsingDescriptors:@[self.sortGroup1]];
+    self.group1Selected = self.group2Selected = NSNotFound;
     self.newOrder = YES;
+    [self.delegate modelDidUpdateData];
 }
 
 - (void)loadData{
@@ -311,7 +319,7 @@
         client = self.order.cliente;
     }
     
-    return [article priceForClient:client] != nil && [article.disponibilidadID intValue] == 1;
+    return [article priceForClient:client] != nil && [article.disponibilidadID intValue] == 1 && [article.activo boolValue];
 }
 
 @end

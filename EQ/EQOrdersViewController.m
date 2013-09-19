@@ -71,8 +71,8 @@
     [self presentPopoverInView:sender withContent:popover];
 }
 
-- (IBAction)syncFilterAction:(id)sender {
-    EQDateFilterPopover *dateFilter = [[EQDateFilterPopover alloc] initWithStartDate:self.viewModel.startSyncDate endDate:self.viewModel.endSyncDate delegate:self];
+- (IBAction)creationFilterAction:(id)sender {
+    EQDateFilterPopover *dateFilter = [[EQDateFilterPopover alloc] initWithStartDate:self.viewModel.startCreationDate endDate:self.viewModel.endCreationDate delegate:self];
     [self presentPopoverInView:sender withContent:dateFilter];
 }
 
@@ -146,6 +146,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
     if ([self.cancelOrderAlert isEqual:alertView]) {
         if (buttonIndex != alertView.cancelButtonIndex) {
             [self.viewModel cancelOrder:self.orderCancelled];
@@ -172,9 +173,9 @@
 }
 
 - (void)dateFilter:(EQDateFilterPopover *)sender didSelectStartDate:(NSDate *)startDate endDate:(NSDate *)endDate{
-    if ([self.popoverOwner isEqual:self.syncFilterButton]) {
-        self.viewModel.startSyncDate = startDate;
-        self.viewModel.endSyncDate = endDate;
+    if ([self.popoverOwner isEqual:self.creationFilterButton]) {
+        self.viewModel.startCreationDate = startDate;
+        self.viewModel.endCreationDate = endDate;
     } else if([self.popoverOwner isEqual:self.billingFilterButton]){
         self.viewModel.startBillingDate = startDate;
         self.viewModel.endBillingDate = endDate;

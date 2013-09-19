@@ -17,6 +17,7 @@
 @implementation ItemPedido (extra)
 
 @dynamic articulos;
+@dynamic facturados;
 
 - (CGFloat)totalConDescuento{
     CGFloat total = [[self.articulo priceForClient:self.pedido.cliente] priceForClient:self.pedido.cliente] * [self.cantidad intValue];
