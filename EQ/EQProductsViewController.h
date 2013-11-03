@@ -12,12 +12,12 @@
 #import "EQProductDetailView.h"
 #import "EQTablePopover.h"
 
-@interface EQProductsViewController : EQBaseViewController<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, EQProductDetailViewDelegate, EQTablePopoverDelegate>
-
+@interface EQProductsViewController : EQBaseViewController<UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, EQProductDetailViewDelegate, EQTablePopoverDelegate,EQProductsViewModelDelegate>
 - (IBAction)groupOneAction:(id)sender;
 - (IBAction)groupTwoAction:(id)sender;
 - (IBAction)groupThreeAction:(id)sender;
 - (IBAction)reloadAction:(id)sender;
+- (IBAction)goToCatalogAction:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UIButton *groupOneButton;
 @property (strong, nonatomic) IBOutlet UIButton *groupTwoButton;

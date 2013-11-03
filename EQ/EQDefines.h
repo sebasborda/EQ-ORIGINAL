@@ -14,13 +14,15 @@ typedef enum{
     EQTabIndexCommunications,
     EQTabIndexGoals,
     EQTabIndexProducts,
-    EQTabIndexClients
+    EQTabIndexClients,
+    EQTabIndexCatalogs
 }EQTabIndex;
 
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
 #define MAXIMUM_MINUTES_TO_UPDATE 10
+#define BASE_URL @"http://www.eqarte.com.ar/"
 #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
-#define BASE_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
+#define API_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
 #define DATA_UPDATED_NOTIFICATION @"dataUpdatedNotification"
 #define ACTIVE_CLIENT_CHANGE_NOTIFICATION @"activeClientChangeNotification"
 

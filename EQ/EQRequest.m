@@ -51,7 +51,7 @@
 }
 
 -(NSURLRequest *)generateRequestWithParameters:(NSMutableDictionary *)params{
-    NSMutableString *queryString = [NSMutableString stringWithFormat:@"%@?action=%@&object=%@&usuario=%@&password=%@",@BASE_URL,params[@"action"],params[@"object"],params[@"usuario"],params[@"password"]];
+    NSMutableString *queryString = [NSMutableString stringWithFormat:@"%@?action=%@&object=%@&usuario=%@&password=%@",@API_URL,params[@"action"],params[@"object"],params[@"usuario"],params[@"password"]];
     BOOL post = [params[@"POST"] boolValue];
     NSURLRequest *request = nil;
     [params removeObjectForKey:@"object"];

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *productCostLabel;
 @property (nonatomic, strong) IBOutlet UILabel *productStatusLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *agotadoImage;
+@property (strong, nonatomic) IBOutlet UIImageView *codigoIcon;
 
 - (void)loadArticle:(Articulo *)art;
 

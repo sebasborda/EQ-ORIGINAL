@@ -18,7 +18,7 @@
 @end
 
 @interface EQCreateClientViewController : EQBaseViewController<UIAlertViewDelegate, EQTablePopoverDelegate, UITextFieldDelegate>
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *createClientTitleLabel;
 @property (assign, nonatomic) id<EQCreateClientViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UITextField *clientNameTextField;
 @property (strong, nonatomic) IBOutlet UITextField *clientAliasTextField;

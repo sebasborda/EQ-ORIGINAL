@@ -120,6 +120,9 @@
 		21D2C9E0174C7A9400527202 /* EQCurrentAccountFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D2C9DF174C7A9400527202 /* EQCurrentAccountFooter.m */; };
 		21D39CC81739336A00B3D324 /* clean.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D39CC61739336A00B3D324 /* clean.png */; };
 		21D39CC91739336A00B3D324 /* mail.png in Resources */ = {isa = PBXBuildFile; fileRef = 21D39CC71739336A00B3D324 /* mail.png */; };
+		6B03510B1820AE3400E2F0FF /* CatalogoImagen.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B03510A1820AE3400E2F0FF /* CatalogoImagen.m */; };
+		6B03510D182368A300E2F0FF /* transparent_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B03510C182368A300E2F0FF /* transparent_square.png */; };
+		6B0351131823F3E500E2F0FF /* Catalogo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0351121823F3E500E2F0FF /* Catalogo.m */; };
 		6B2D51BF176E196F0044AF24 /* EQCommunicationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D51BD176E196E0044AF24 /* EQCommunicationsViewController.m */; };
 		6B2D51C0176E196F0044AF24 /* EQCommunicationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B2D51BE176E196E0044AF24 /* EQCommunicationsViewController.xib */; };
 		6B2D51C4176E19980044AF24 /* EQGoalsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D51C2176E19980044AF24 /* EQGoalsViewController.m */; };
@@ -307,6 +310,14 @@
 		6BB3A324177D32D00084F777 /* Venta+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A323177D32CF0084F777 /* Venta+extra.m */; };
 		6BB3A327177D352C0084F777 /* Vendedor+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A326177D352B0084F777 /* Vendedor+extra.m */; };
 		6BB3A35D177DCABF0084F777 /* Cliente+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB3A35C177DCABE0084F777 /* Cliente+extra.m */; };
+		6BB5B20318176F99006B41AA /* inicioButtonCatalogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B1FF18176F99006B41AA /* inicioButtonCatalogo.png */; };
+		6BB5B20418176F99006B41AA /* inicioButtonCatalogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20018176F99006B41AA /* inicioButtonCatalogo@2x.png */; };
+		6BB5B20518176F99006B41AA /* inicioButtonCatalogoHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20118176F99006B41AA /* inicioButtonCatalogoHighlighted.png */; };
+		6BB5B20618176F99006B41AA /* inicioButtonCatalogoHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20218176F99006B41AA /* inicioButtonCatalogoHighlighted@2x.png */; };
+		6BB5B20B18177275006B41AA /* buttonSolapasCatalogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20718177275006B41AA /* buttonSolapasCatalogo.png */; };
+		6BB5B20C18177275006B41AA /* buttonSolapasCatalogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20818177275006B41AA /* buttonSolapasCatalogo@2x.png */; };
+		6BB5B20D18177275006B41AA /* buttonSolapasCatalogoHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20918177275006B41AA /* buttonSolapasCatalogoHighlighted.png */; };
+		6BB5B20E18177275006B41AA /* buttonSolapasCatalogoHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20A18177275006B41AA /* buttonSolapasCatalogoHighlighted@2x.png */; };
 		6BBC0F02177E5A60004C2AA2 /* Grupo+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F01177E5A60004C2AA2 /* Grupo+extra.m */; };
 		6BBC0F14177E91C0004C2AA2 /* Pedido+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BBC0F13177E91C0004C2AA2 /* Pedido+extra.m */; };
 		6BC1918D178CBCC50019AA7C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BC1918B178CBCC50019AA7C /* icon.png */; };
@@ -360,6 +371,15 @@
 		6BD92A2817974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929FE17974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png */; };
 		6BD92A2917974DB9005048D6 /* inicioFondo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD929FF17974DB9005048D6 /* inicioFondo.png */; };
 		6BD92A2A17974DB9005048D6 /* inicioFondo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BD92A0017974DB9005048D6 /* inicioFondo@2x.png */; };
+		6BDA6ADF1818BE2900F08C94 /* buttonVolverACatalago.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA6ADB1818BE2900F08C94 /* buttonVolverACatalago.png */; };
+		6BDA6AE01818BE2900F08C94 /* buttonVolverACatalago@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA6ADC1818BE2900F08C94 /* buttonVolverACatalago@2x.png */; };
+		6BDA6AE11818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA6ADD1818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png */; };
+		6BDA6AE21818BE2900F08C94 /* buttonVolverACatalagoHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA6ADE1818BE2900F08C94 /* buttonVolverACatalagoHighlighted@2x.png */; };
+		6BDA6AE8181B5B6E00F08C94 /* Catalogo+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA6AE7181B5B6E00F08C94 /* Catalogo+extra.m */; };
+		6BDA6AED181BFF9E00F08C94 /* EQCatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA6AEB181BFF9E00F08C94 /* EQCatalogViewController.m */; };
+		6BDA6AEE181BFF9E00F08C94 /* EQCatalogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BDA6AEC181BFF9E00F08C94 /* EQCatalogViewController.xib */; };
+		6BDA6AF1181BFFFA00F08C94 /* EQCatalogViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA6AF0181BFFFA00F08C94 /* EQCatalogViewModel.m */; };
+		6BDA6AF8181C570700F08C94 /* EQProductCell+Catalogo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA6AF7181C570700F08C94 /* EQProductCell+Catalogo.m */; };
 		6BE926EF17B09E410059D362 /* NSNumber+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE926EE17B09E410059D362 /* NSNumber+EQ.m */; };
 		6BE926F217B13D730059D362 /* 03.listado.de.pedidos.back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE926F017B13D730059D362 /* 03.listado.de.pedidos.back@2x.png */; };
 		6BE926F317B13D730059D362 /* 03.listado.de.pedidos.back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE926F117B13D730059D362 /* 03.listado.de.pedidos.back.png */; };
@@ -541,6 +561,11 @@
 		21D2C9DF174C7A9400527202 /* EQCurrentAccountFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCurrentAccountFooter.m; sourceTree = "<group>"; };
 		21D39CC61739336A00B3D324 /* clean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clean.png; sourceTree = "<group>"; };
 		21D39CC71739336A00B3D324 /* mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail.png; sourceTree = "<group>"; };
+		6B0351091820AE3400E2F0FF /* CatalogoImagen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CatalogoImagen.h; sourceTree = "<group>"; };
+		6B03510A1820AE3400E2F0FF /* CatalogoImagen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CatalogoImagen.m; sourceTree = "<group>"; };
+		6B03510C182368A300E2F0FF /* transparent_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent_square.png; sourceTree = "<group>"; };
+		6B0351111823F3E500E2F0FF /* Catalogo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Catalogo.h; sourceTree = "<group>"; };
+		6B0351121823F3E500E2F0FF /* Catalogo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Catalogo.m; sourceTree = "<group>"; };
 		6B2D51BC176E196E0044AF24 /* EQCommunicationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCommunicationsViewController.h; sourceTree = "<group>"; };
 		6B2D51BD176E196E0044AF24 /* EQCommunicationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCommunicationsViewController.m; sourceTree = "<group>"; };
 		6B2D51BE176E196E0044AF24 /* EQCommunicationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQCommunicationsViewController.xib; sourceTree = "<group>"; };
@@ -768,6 +793,14 @@
 		6BB3A326177D352B0084F777 /* Vendedor+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Vendedor+extra.m"; sourceTree = "<group>"; };
 		6BB3A35B177DCABC0084F777 /* Cliente+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cliente+extra.h"; sourceTree = "<group>"; };
 		6BB3A35C177DCABE0084F777 /* Cliente+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Cliente+extra.m"; sourceTree = "<group>"; };
+		6BB5B1FF18176F99006B41AA /* inicioButtonCatalogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inicioButtonCatalogo.png; sourceTree = "<group>"; };
+		6BB5B20018176F99006B41AA /* inicioButtonCatalogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioButtonCatalogo@2x.png"; sourceTree = "<group>"; };
+		6BB5B20118176F99006B41AA /* inicioButtonCatalogoHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inicioButtonCatalogoHighlighted.png; sourceTree = "<group>"; };
+		6BB5B20218176F99006B41AA /* inicioButtonCatalogoHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioButtonCatalogoHighlighted@2x.png"; sourceTree = "<group>"; };
+		6BB5B20718177275006B41AA /* buttonSolapasCatalogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonSolapasCatalogo.png; sourceTree = "<group>"; };
+		6BB5B20818177275006B41AA /* buttonSolapasCatalogo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonSolapasCatalogo@2x.png"; sourceTree = "<group>"; };
+		6BB5B20918177275006B41AA /* buttonSolapasCatalogoHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonSolapasCatalogoHighlighted.png; sourceTree = "<group>"; };
+		6BB5B20A18177275006B41AA /* buttonSolapasCatalogoHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonSolapasCatalogoHighlighted@2x.png"; sourceTree = "<group>"; };
 		6BBC0F00177E5A60004C2AA2 /* Grupo+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Grupo+extra.h"; sourceTree = "<group>"; };
 		6BBC0F01177E5A60004C2AA2 /* Grupo+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Grupo+extra.m"; sourceTree = "<group>"; };
 		6BBC0F12177E91BF004C2AA2 /* Pedido+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Pedido+extra.h"; sourceTree = "<group>"; };
@@ -824,6 +857,19 @@
 		6BD929FE17974DB9005048D6 /* inicioButtonSeleccionarUnClienteHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioButtonSeleccionarUnClienteHighlighted@2x.png"; sourceTree = "<group>"; };
 		6BD929FF17974DB9005048D6 /* inicioFondo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inicioFondo.png; sourceTree = "<group>"; };
 		6BD92A0017974DB9005048D6 /* inicioFondo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inicioFondo@2x.png"; sourceTree = "<group>"; };
+		6BDA6ADB1818BE2900F08C94 /* buttonVolverACatalago.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonVolverACatalago.png; sourceTree = "<group>"; };
+		6BDA6ADC1818BE2900F08C94 /* buttonVolverACatalago@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonVolverACatalago@2x.png"; sourceTree = "<group>"; };
+		6BDA6ADD1818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonVolverACatalagoHighlighted.png; sourceTree = "<group>"; };
+		6BDA6ADE1818BE2900F08C94 /* buttonVolverACatalagoHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttonVolverACatalagoHighlighted@2x.png"; sourceTree = "<group>"; };
+		6BDA6AE6181B5B6E00F08C94 /* Catalogo+extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Catalogo+extra.h"; sourceTree = "<group>"; };
+		6BDA6AE7181B5B6E00F08C94 /* Catalogo+extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Catalogo+extra.m"; sourceTree = "<group>"; };
+		6BDA6AEA181BFF9E00F08C94 /* EQCatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCatalogViewController.h; sourceTree = "<group>"; };
+		6BDA6AEB181BFF9E00F08C94 /* EQCatalogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCatalogViewController.m; sourceTree = "<group>"; };
+		6BDA6AEC181BFF9E00F08C94 /* EQCatalogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EQCatalogViewController.xib; sourceTree = "<group>"; };
+		6BDA6AEF181BFFFA00F08C94 /* EQCatalogViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQCatalogViewModel.h; sourceTree = "<group>"; };
+		6BDA6AF0181BFFFA00F08C94 /* EQCatalogViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQCatalogViewModel.m; sourceTree = "<group>"; };
+		6BDA6AF6181C570700F08C94 /* EQProductCell+Catalogo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EQProductCell+Catalogo.h"; sourceTree = "<group>"; };
+		6BDA6AF7181C570700F08C94 /* EQProductCell+Catalogo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EQProductCell+Catalogo.m"; sourceTree = "<group>"; };
 		6BE926ED17B09E410059D362 /* NSNumber+EQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+EQ.h"; sourceTree = "<group>"; };
 		6BE926EE17B09E410059D362 /* NSNumber+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+EQ.m"; sourceTree = "<group>"; };
 		6BE926F017B13D730059D362 /* 03.listado.de.pedidos.back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "03.listado.de.pedidos.back@2x.png"; sourceTree = "<group>"; };
@@ -904,6 +950,10 @@
 				6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */,
 				6B83DB1617EA8FC6001534B2 /* Cliente.h */,
 				6B83DB1717EA8FC6001534B2 /* Cliente.m */,
+				6B0351091820AE3400E2F0FF /* CatalogoImagen.h */,
+				6B03510A1820AE3400E2F0FF /* CatalogoImagen.m */,
+				6B0351111823F3E500E2F0FF /* Catalogo.h */,
+				6B0351121823F3E500E2F0FF /* Catalogo.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1012,6 +1062,7 @@
 		21106834171B4B72002C42C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6BDA6AE9181BFEEB00F08C94 /* Catalog */,
 				212A8B511723143E00F7900A /* Clients */,
 				212A8B501723143100F7900A /* Products */,
 				212A8B4F1723141E00F7900A /* Goals */,
@@ -1059,6 +1110,14 @@
 		212A8A9E171FA4F500F7900A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6BB5B20718177275006B41AA /* buttonSolapasCatalogo.png */,
+				6BDA6ADB1818BE2900F08C94 /* buttonVolverACatalago.png */,
+				6BDA6ADC1818BE2900F08C94 /* buttonVolverACatalago@2x.png */,
+				6BDA6ADD1818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png */,
+				6BDA6ADE1818BE2900F08C94 /* buttonVolverACatalagoHighlighted@2x.png */,
+				6BB5B20818177275006B41AA /* buttonSolapasCatalogo@2x.png */,
+				6BB5B20918177275006B41AA /* buttonSolapasCatalogoHighlighted.png */,
+				6BB5B20A18177275006B41AA /* buttonSolapasCatalogoHighlighted@2x.png */,
 				6B36901617BC5F54008BA88F /* buttonSolapaNoSeleccionado.png */,
 				6B36901717BC5F54008BA88F /* buttonSolapaNoSeleccionado@2x.png */,
 				6B36901817BC5F54008BA88F /* buttonSolapaNoSeleccionadoHighlighted.png */,
@@ -1066,6 +1125,11 @@
 				6B36901A17BC5F54008BA88F /* buttonSolapaSeleccionado.png */,
 				6B36901B17BC5F54008BA88F /* buttonSolapaSeleccionado@2x.png */,
 				6B36901C17BC5F54008BA88F /* buttonSolapaSeleccionadoHighlighted.png */,
+				6BB5B1FF18176F99006B41AA /* inicioButtonCatalogo.png */,
+				6BB5B20018176F99006B41AA /* inicioButtonCatalogo@2x.png */,
+				6B03510C182368A300E2F0FF /* transparent_square.png */,
+				6BB5B20118176F99006B41AA /* inicioButtonCatalogoHighlighted.png */,
+				6BB5B20218176F99006B41AA /* inicioButtonCatalogoHighlighted@2x.png */,
 				6B36901D17BC5F54008BA88F /* buttonSolapaSeleccionadoHighlighted@2x.png */,
 				6B36901E17BC5F54008BA88F /* comunicacionesObjetivosFondo.png */,
 				6B36901F17BC5F54008BA88F /* comunicacionesObjetivosFondo@2x.png */,
@@ -1554,6 +1618,8 @@
 				6B66E7C91789E5A8007A5E65 /* Usuario+extra.m */,
 				6B36901317BC578A008BA88F /* Disponibilidad+extra.h */,
 				6B36901417BC578A008BA88F /* Disponibilidad+extra.m */,
+				6BDA6AE6181B5B6E00F08C94 /* Catalogo+extra.h */,
+				6BDA6AE7181B5B6E00F08C94 /* Catalogo+extra.m */,
 			);
 			name = extra;
 			sourceTree = "<group>";
@@ -1591,6 +1657,28 @@
 				6BB3A2F2177AA8050084F777 /* CDatePickerViewEx.m */,
 			);
 			name = CDatePickerView;
+			sourceTree = "<group>";
+		};
+		6BDA6AE9181BFEEB00F08C94 /* Catalog */ = {
+			isa = PBXGroup;
+			children = (
+				6BDA6AF2181C429A00F08C94 /* cells */,
+				6BDA6AEA181BFF9E00F08C94 /* EQCatalogViewController.h */,
+				6BDA6AEB181BFF9E00F08C94 /* EQCatalogViewController.m */,
+				6BDA6AEC181BFF9E00F08C94 /* EQCatalogViewController.xib */,
+				6BDA6AEF181BFFFA00F08C94 /* EQCatalogViewModel.h */,
+				6BDA6AF0181BFFFA00F08C94 /* EQCatalogViewModel.m */,
+			);
+			name = Catalog;
+			sourceTree = "<group>";
+		};
+		6BDA6AF2181C429A00F08C94 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				6BDA6AF6181C570700F08C94 /* EQProductCell+Catalogo.h */,
+				6BDA6AF7181C570700F08C94 /* EQProductCell+Catalogo.m */,
+			);
+			name = cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1654,6 +1742,7 @@
 				21106816171B4B36002C42C0 /* TabBarView.xib in Resources */,
 				212A8B23171FA4F500F7900A /* editar.png in Resources */,
 				212A8B24171FA4F500F7900A /* editar@2x.png in Resources */,
+				6BB5B20318176F99006B41AA /* inicioButtonCatalogo.png in Resources */,
 				212A8B30171FA4F500F7900A /* loginButton@2x.png in Resources */,
 				212A8B31171FA4F500F7900A /* loginZone.png in Resources */,
 				212A8B35171FA60D00F7900A /* loginButton.png in Resources */,
@@ -1664,6 +1753,7 @@
 				212A8B4617222B6500F7900A /* selectionArea.png in Resources */,
 				212A8B4717222B6500F7900A /* selectionArea@2x.png in Resources */,
 				212A8B4A1722FD6500F7900A /* tabBarBackground.png in Resources */,
+				6B03510D182368A300E2F0FF /* transparent_square.png in Resources */,
 				212A8B4B1722FD6500F7900A /* tabBarBackground@2x.png in Resources */,
 				212A8B56172315EA00F7900A /* EQOrdersViewController.xib in Resources */,
 				212A8B5B172315FC00F7900A /* EQSalesViewController.xib in Resources */,
@@ -1703,6 +1793,7 @@
 				6BB3A2ED177A796D0084F777 /* EQSalesFooter.xib in Resources */,
 				6BB3A2FC177AA9AB0084F777 /* EQCustomDateFilterPopover.xib in Resources */,
 				6B66E7BC1787A36F007A5E65 /* EQCommunicationHeaderView.xib in Resources */,
+				6BDA6AEE181BFF9E00F08C94 /* EQCatalogViewController.xib in Resources */,
 				6B66E7C41789AE3A007A5E65 /* EQCommunicationCell.xib in Resources */,
 				6BC1918D178CBCC50019AA7C /* icon.png in Resources */,
 				6BC1918E178CBCC50019AA7C /* icon@2x.png in Resources */,
@@ -1710,6 +1801,7 @@
 				6BD929D31795F068005048D6 /* loginBackGround.png in Resources */,
 				6BD929D41795F068005048D6 /* loginBackGround@2x.png in Resources */,
 				6BD929D51795F068005048D6 /* loginButtonPressed.png in Resources */,
+				6BB5B20B18177275006B41AA /* buttonSolapasCatalogo.png in Resources */,
 				6BD929D61795F068005048D6 /* loginButtonPressed@2x.png in Resources */,
 				6BD92A0117974DB9005048D6 /* inicioButtonAgregarNuevoCliente.png in Resources */,
 				6BD92A0217974DB9005048D6 /* inicioButtonAgregarNuevoCliente@2x.png in Resources */,
@@ -1718,17 +1810,20 @@
 				6BD92A0517974DB9005048D6 /* inicioButtonCerrarSesion.png in Resources */,
 				6BD92A0617974DB9005048D6 /* inicioButtonCerrarSesion@2x.png in Resources */,
 				6BD92A0717974DB9005048D6 /* inicioButtonCerrarSesionHighlighted.png in Resources */,
+				6BB5B20518176F99006B41AA /* inicioButtonCatalogoHighlighted.png in Resources */,
 				6BD92A0817974DB9005048D6 /* inicioButtonCerrarSesionHighlighted@2x.png in Resources */,
 				6BD92A0917974DB9005048D6 /* inicioButtonClientes.png in Resources */,
 				6BD92A0A17974DB9005048D6 /* inicioButtonClientes@2x.png in Resources */,
 				6BD92A0B17974DB9005048D6 /* inicioButtonClientesHighlighted.png in Resources */,
 				6BD92A0C17974DB9005048D6 /* inicioButtonClientesHighlighted@2x.png in Resources */,
 				6BD92A0D17974DB9005048D6 /* inicioButtonComunicacion.png in Resources */,
+				6BDA6AE11818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png in Resources */,
 				6BD92A0E17974DB9005048D6 /* inicioButtonComunicacion@2x.png in Resources */,
 				6BD92A0F17974DB9005048D6 /* inicioButtonComunicacionHighlighted.png in Resources */,
 				6BD92A1017974DB9005048D6 /* inicioButtonComunicacionHighlighted@2x.png in Resources */,
 				6BD92A1117974DB9005048D6 /* inicioButtonCuentaCorriente.png in Resources */,
 				6BD92A1217974DB9005048D6 /* inicioButtonCuentaCorriente@2x.png in Resources */,
+				6BB5B20E18177275006B41AA /* buttonSolapasCatalogoHighlighted@2x.png in Resources */,
 				6BD92A1317974DB9005048D6 /* inicioButtonCuentaCorrienteHighlighted.png in Resources */,
 				6BD92A1417974DB9005048D6 /* inicioButtonCuentaCorrienteHighlighted@2x.png in Resources */,
 				6BD92A1517974DB9005048D6 /* inicioButtonInformacionDeVentas.png in Resources */,
@@ -1770,6 +1865,7 @@
 				6BAEA95F17AA013B008A1864 /* buttonEliminarHighlighted.png in Resources */,
 				6BAEA96017AA013B008A1864 /* buttonEliminarHighlighted@2x.png in Resources */,
 				6BAEA96117AA013B008A1864 /* buttonMensajes.png in Resources */,
+				6BDA6ADF1818BE2900F08C94 /* buttonVolverACatalago.png in Resources */,
 				6BAEA96217AA013B008A1864 /* buttonMensajes@2x.png in Resources */,
 				6BAEA96317AA013B008A1864 /* buttonMensajesHighlighted.png in Resources */,
 				6BAEA96417AA013B008A1864 /* buttonMensajesHighlighted@2x.png in Resources */,
@@ -1802,6 +1898,7 @@
 				6BAEA97F17AA013B008A1864 /* buttonSolapasObjetivosHighlighted.png in Resources */,
 				6BAEA98017AA013B008A1864 /* buttonSolapasObjetivosHighlighted@2x.png in Resources */,
 				6BAEA98117AA013B008A1864 /* buttonSolapasPedidos.png in Resources */,
+				6BDA6AE21818BE2900F08C94 /* buttonVolverACatalagoHighlighted@2x.png in Resources */,
 				6BAEA98217AA013B008A1864 /* buttonSolapasPedidos@2x.png in Resources */,
 				6BAEA98417AA013B008A1864 /* buttonSolapasPedidosHighlighted.png in Resources */,
 				6BAEA98517AA013B008A1864 /* buttonSolapasPedidosHighlighted@2x.png in Resources */,
@@ -1830,6 +1927,7 @@
 				6BAEA99C17AA013B008A1864 /* pedidoReferenciaPresupuestado.png in Resources */,
 				6BAEA99D17AA013B008A1864 /* pedidoReferenciaPresupuestado@2x.png in Resources */,
 				6BAEA99E17AA013B008A1864 /* pedidoReferenciaSincronizado.png in Resources */,
+				6BB5B20418176F99006B41AA /* inicioButtonCatalogo@2x.png in Resources */,
 				6BAEA99F17AA013B008A1864 /* pedidoReferenciaSincronizado@2x.png in Resources */,
 				6BE926F217B13D730059D362 /* 03.listado.de.pedidos.back@2x.png in Resources */,
 				6BE926F317B13D730059D362 /* 03.listado.de.pedidos.back.png in Resources */,
@@ -1847,6 +1945,7 @@
 				6B31B4F417B82B43006FF226 /* pedidoListadoFondoBarra.png in Resources */,
 				6B31B4F517B82B43006FF226 /* pedidoListadoFondoProductos.png in Resources */,
 				6B31B4F617B82B43006FF226 /* pedidoListadoFondoProductos@2x.png in Resources */,
+				6BB5B20D18177275006B41AA /* buttonSolapasCatalogoHighlighted.png in Resources */,
 				6B31B4F717B82B43006FF226 /* pedidoListadoFondoTablas.png in Resources */,
 				6B31B4F817B82B43006FF226 /* pedidoListadoFondoTablas@2x.png in Resources */,
 				6B31B4F917B82B43006FF226 /* pedidoListadoFondoTotales.png in Resources */,
@@ -1854,6 +1953,7 @@
 				6B7CC82117B926F300E45A4C /* cuentaCorrienteFondoTotales.png in Resources */,
 				6B7CC82217B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png in Resources */,
 				6B75075517B9B54200225E34 /* clienteCargaFondo.png in Resources */,
+				6BB5B20618176F99006B41AA /* inicioButtonCatalogoHighlighted@2x.png in Resources */,
 				6B75075617B9B54200225E34 /* clienteCargaFondo@2x.png in Resources */,
 				6B75076517BA6F0F00225E34 /* catalogoDegrade.png in Resources */,
 				6B75076617BA6F0F00225E34 /* catalogoDegrade@2x.png in Resources */,
@@ -1878,6 +1978,7 @@
 				6B36901117BC4957008BA88F /* catalogoDetalleIconoCodigo.png in Resources */,
 				6B36901217BC4957008BA88F /* catalogoDetalleIconoCodigo@2x.png in Resources */,
 				6B36902417BC5F54008BA88F /* buttonSolapaNoSeleccionado.png in Resources */,
+				6BDA6AE01818BE2900F08C94 /* buttonVolverACatalago@2x.png in Resources */,
 				6B36902517BC5F54008BA88F /* buttonSolapaNoSeleccionado@2x.png in Resources */,
 				6B36902617BC5F54008BA88F /* buttonSolapaNoSeleccionadoHighlighted.png in Resources */,
 				6B36902717BC5F54008BA88F /* buttonSolapaNoSeleccionadoHighlighted@2x.png in Resources */,
@@ -1891,6 +1992,7 @@
 				6B36902F17BC5F54008BA88F /* comunicacionesObjetivosIconoFinalizado@2x.png in Resources */,
 				6B36903017BC5F54008BA88F /* comunicacionesObjetivosIconoNoLeido.png in Resources */,
 				6B36903117BC5F54008BA88F /* comunicacionesObjetivosIconoNoLeido@2x.png in Resources */,
+				6BB5B20C18177275006B41AA /* buttonSolapasCatalogo@2x.png in Resources */,
 				6B8882A717D552AC00D361E6 /* EQGroupCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1906,6 +2008,7 @@
 				214A58E216FFB88A005D787D /* EQAppDelegate.m in Sources */,
 				214A590A16FFCB6B005D787D /* EQDataAccessLayer.m in Sources */,
 				211068031719DD72002C42C0 /* EQLoginViewController.m in Sources */,
+				6BDA6AF1181BFFFA00F08C94 /* EQCatalogViewModel.m in Sources */,
 				21106807171AF3AB002C42C0 /* EQLoginViewModel.m in Sources */,
 				2110680B171AF3F4002C42C0 /* EQBaseViewModel.m in Sources */,
 				2110680E171AF413002C42C0 /* EQBaseViewController.m in Sources */,
@@ -1928,6 +2031,7 @@
 				212A8B6E1723169100F7900A /* EQClientsViewController.m in Sources */,
 				212A8B74172317C800F7900A /* EQCurrentAccountViewController.m in Sources */,
 				212A8B871724355A00F7900A /* EQTablePopover.m in Sources */,
+				6BDA6AF8181C570700F08C94 /* EQProductCell+Catalogo.m in Sources */,
 				212A8B9A17249E4700F7900A /* EQNewOrderViewController.m in Sources */,
 				218BCE241727738A00FC8D92 /* EQTransparentBackgroundSearchBar.m in Sources */,
 				2144AA0D1728DAB50065D30A /* EQProductCell.m in Sources */,
@@ -1936,6 +2040,7 @@
 				2144AA1A172A19740065D30A /* EQSession.m in Sources */,
 				214E8720172BFF3B006E4C31 /* EQLoadingView.m in Sources */,
 				214E8726172C14FA006E4C31 /* EQImageView.m in Sources */,
+				6BDA6AED181BFF9E00F08C94 /* EQCatalogViewController.m in Sources */,
 				214E872B172C256C006E4C31 /* EQImagesManager.m in Sources */,
 				214E8730172C595C006E4C31 /* EQProductDetailView.m in Sources */,
 				214E8737172C6430006E4C31 /* NSString+MD5.m in Sources */,
@@ -1946,6 +2051,7 @@
 				21014BFF173192AC0035F36B /* NSString+Number.m in Sources */,
 				21014C1D173352280035F36B /* EQClientCell.m in Sources */,
 				2116C5C41739EFBE00C47451 /* EQCurrentAccountCell.m in Sources */,
+				6BDA6AE8181B5B6E00F08C94 /* Catalogo+extra.m in Sources */,
 				2172A8F8173B41D800C8C446 /* EQCreateClientViewController.m in Sources */,
 				2172A8FC173B428900C8C446 /* EQCreateClientViewModel.m in Sources */,
 				2172A905173C842D00C8C446 /* NSMutableDictionary+EQ.m in Sources */,
@@ -1957,6 +2063,7 @@
 				219D90C517487288007BF3E9 /* EQArticleCell.m in Sources */,
 				219D90CC17495D5E007BF3E9 /* EQEditOrderDetailCell.m in Sources */,
 				219D90D6174A6384007BF3E9 /* ItemPedido+extra.m in Sources */,
+				6B0351131823F3E500E2F0FF /* Catalogo.m in Sources */,
 				21D2C9E0174C7A9400527202 /* EQCurrentAccountFooter.m in Sources */,
 				6B2D51BF176E196F0044AF24 /* EQCommunicationsViewController.m in Sources */,
 				6B2D51C4176E19980044AF24 /* EQGoalsViewController.m in Sources */,
@@ -1991,6 +2098,7 @@
 				6B88776217CA869400FD3C49 /* Vendedor.m in Sources */,
 				6B88776517CA869400FD3C49 /* Expreso.m in Sources */,
 				6B88776817CA869500FD3C49 /* LineaVTA.m in Sources */,
+				6B03510B1820AE3400E2F0FF /* CatalogoImagen.m in Sources */,
 				6B88776B17CA869500FD3C49 /* TipoIvas.m in Sources */,
 				6B88776E17CA869500FD3C49 /* Precio.m in Sources */,
 				6B88777417CA869600FD3C49 /* Venta.m in Sources */,

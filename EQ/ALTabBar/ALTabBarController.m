@@ -28,6 +28,7 @@
         [nav pushViewController:[EQOrdersViewController new] animated:NO];
     }
     
+    [self.customTabBarView selectTabAtIndex:self.selectedIndex];
     [self.view addSubview:self.customTabBarView];
 }
 
@@ -41,7 +42,11 @@
 }
 
 -(void) selectTabAtIndex:(int)index{
-    [self.customTabBarView selectTabAtIndex:index];
+    if (self.customTabBarView != nil) {
+        [self.customTabBarView selectTabAtIndex:index];
+    } else {
+        [self tabWasSelected:index];
+    }
 }
 
 - (void)reloadControllers{

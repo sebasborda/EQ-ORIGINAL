@@ -7,6 +7,7 @@
 //
 
 #import "EQBaseViewModel.h"
+@class Grupo;
 
 typedef enum {
     typeListNone,
@@ -14,9 +15,13 @@ typedef enum {
     typeListProduct
 } typeList;
 
+@protocol EQProductsViewModelDelegate;
+
 @interface EQProductsViewModel : EQBaseViewModel
 
-@property (nonatomic,assign) id<EQBaseViewModelDelegate> delegate;
+- (id)initWithCategory:(Grupo *)category;
+
+@property (nonatomic,assign) id<EQProductsViewModelDelegate> delegate;
 @property (nonatomic,strong) NSArray *articles;
 @property (nonatomic,strong) NSArray *category1List;
 @property (nonatomic,strong) NSArray *category2List;
@@ -29,5 +34,13 @@ typedef enum {
 - (void)defineSearchTerm:(NSString *)term;
 - (void)resetFilters;
 - (NSString *)imageForCategory2;
+
+@end
+
+@protocol EQProductsViewModelDelegate <EQBaseViewModelDelegate>
+
+- (void)changeCategory1Selected:(NSString *)category;
+- (void)changeCategory2Selected:(NSString *)category;
+- (void)changeCategory3Selected:(NSString *)category;
 
 @end

@@ -36,6 +36,15 @@
 	[[self navigationController] setNavigationBarHidden:YES animated:NO];
 }
 
+- (void) viewDidLayoutSubviews {
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+        CGRect viewBounds = self.view.bounds;
+        CGFloat topBarOffset = self.topLayoutGuide.length;
+        viewBounds.origin.y = topBarOffset * -1;
+        self.view.bounds = viewBounds;
+    }
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -179,8 +188,7 @@
 }
 
 - (UIImage *)captureView:(UIView *)view {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    
+    CGRect screenRect = [view bounds];
     UIGraphicsBeginImageContext(screenRect.size);
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();

@@ -24,6 +24,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *ninetyDaysLabel;
 @property (strong, nonatomic) IBOutlet UILabel *moreThan90DaysLabel;
 @property (strong, nonatomic) IBOutlet UILabel *totalLabel;
+@property (strong, nonatomic) IBOutlet UIView *tableHeader;
+@property (strong, nonatomic) IBOutlet UIView *headerForEmail;
+@property (nonatomic, strong) IBOutlet UITableView *tableViewForEmail;
 
 - (IBAction)companyButtonAction:(id)sender;
 - (IBAction)sortButtonAction:(id)sender;

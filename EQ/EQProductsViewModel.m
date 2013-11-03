@@ -17,11 +17,36 @@
 @property (nonatomic, assign) int category2SelectedIndex;
 @property (nonatomic, assign) int category3SelectedIndex;
 @property (nonatomic, strong) NSString* searchTerm;
+@property (nonatomic, strong) NSMutableArray *initialCategories;
 
 @end
 
 @implementation EQProductsViewModel
 @synthesize delegate;
+
+- (id)initWithCategory:(Grupo *)category
+{
+    self = [super init];
+    if (self) {
+        self.initialCategories = [NSMutableArray new];
+        [self loadCategoryFamily:category];
+        [self.initialCategories addObject:category];
+        self.searchTerm = nil;
+        self.category1SelectedIndex = NSNotFound;
+        self.category2SelectedIndex = NSNotFound;
+        self.category3SelectedIndex = NSNotFound;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeClientChange:) name:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil];
+    }
+    return self;
+}
+
+- (void)loadCategoryFamily:(Grupo *) category {
+    Grupo *parent = category.parent;
+    if (parent) {
+        [self loadCategoryFamily:parent];
+        [self.initialCategories addObject:parent];
+    }
+}
 
 - (id)init
 {
@@ -57,16 +82,36 @@
     }
     
     NSPredicate *categoryPredicate = [NSPredicate predicateWithFormat:@"SELF.parentID == %i", 0];
-    self.category1List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate];
+    self.category1List = [adl objectListForClass:[Grupo class] filterByPredicate:categoryPredicate sortBy:[NSSortDescriptor sortDescriptorWithKey:@"nombre" ascending:YES] limit:0];
+    if ([self.initialCategories count] >= 1) {
+        Grupo *category = [self.initialCategories objectAtIndex:0];
+        self.category1SelectedIndex = [self.category1List indexOfObject:category];
+        [self.delegate changeCategory1Selected:category.nombre];
+        [self.delegate changeCategory2Selected:nil];
+        [self.delegate changeCategory3Selected:nil];
+    }
     
     if (self.category1SelectedIndex != NSNotFound) {
         Grupo *grupo = [self.category1List objectAtIndex:self.category1SelectedIndex];
-        self.category2List = [NSArray arrayWithArray:grupo.subGrupos];
+        self.category2List = [[NSArray arrayWithArray:grupo.subGrupos] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"nombre" ascending:YES]]];
+        if ([self.initialCategories count] >= 2) {
+            Grupo *category = [self.initialCategories objectAtIndex:1];
+            [self.delegate changeCategory2Selected:category.nombre];
+            [self.delegate changeCategory3Selected:nil];
+            self.category2SelectedIndex = [self.category2List indexOfObject:category];
+            self.typeList = typeListGroup;
+        }
     }
     
     if (self.category2SelectedIndex != NSNotFound) {
         Grupo *grupo = [self.category2List objectAtIndex:self.category2SelectedIndex];
-        self.category3List = [NSArray arrayWithArray:grupo.subGrupos];
+        self.category3List = [[NSArray arrayWithArray:grupo.subGrupos] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"nombre" ascending:YES]]];
+        if ([self.initialCategories count] >= 3) {
+            Grupo *category = [self.initialCategories objectAtIndex:1];
+            [self.delegate changeCategory3Selected:category.nombre];
+            self.category3SelectedIndex = [self.category3List indexOfObject:category];
+            self.typeList = typeListProduct;
+        }
     }
     
     if (([self.category3List count] == 0 && self.category2SelectedIndex != NSNotFound) || self.category3SelectedIndex != NSNotFound) {
@@ -77,7 +122,7 @@
 
     NSPredicate *predicate = [subPredicates count] > 0 ? [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates] : nil;
     self.articles = [adl objectListForClass:[Articulo class] filterByPredicate:predicate];
-    
+    self.initialCategories = nil;
     [super loadDataInBackGround];
 }
 

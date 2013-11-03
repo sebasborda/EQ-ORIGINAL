@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString * const CACHE_DIRECTORY_FORMAT;
+
 @interface EQImagesManager : UIImageView
 
 + (EQImagesManager *)sharedInstance;

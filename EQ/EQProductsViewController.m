@@ -28,9 +28,26 @@
 
 @implementation EQProductsViewController
 
-- (void)viewDidLoad{
-    self.viewModel = [EQProductsViewModel new];
+- (id)initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(categorySelectedNotification:) name:@"startWithCategory" object:nil];
+    }
+    return self;
+}
+
+- (void)categorySelectedNotification:(NSNotification *)notification {
+    Grupo *category = [notification.userInfo objectForKey:@"category"];
+    self.viewModel = [[EQProductsViewModel alloc] initWithCategory:category];
     self.viewModel.delegate = self;
+}
+
+- (void)viewDidLoad{
+    if (self.viewModel == nil) {
+        self.viewModel = [EQProductsViewModel new];
+        self.viewModel.delegate = self;
+    }
+    
     UINib *nib = [UINib nibWithNibName:@"EQProductCell" bundle: nil];
     [self.productsCollectionView registerNib:nib forCellWithReuseIdentifier:@"ProductCell"];
     
@@ -85,6 +102,10 @@
     [self.groupTwoButton setTitle:@"  Todas" forState:UIControlStateNormal];
     [self.groupThreeButton setTitle:@"  Todas" forState:UIControlStateNormal];
     self.searchBar.text = @"";
+}
+
+- (IBAction)goToCatalogAction:(id)sender {
+    [APP_DELEGATE selectTabAtIndex:EQTabIndexCatalogs];
 }
 
 #pragma mark - UICollectionView Datasource
@@ -196,6 +217,21 @@
     }
     [self closePopover];
     [super tablePopover:sender selectedRow:rowNumber selectedData:selectedData];
+}
+
+- (void)changeCategory1Selected:(NSString *)category {
+    category = category ? category : @"Todas";
+    [self.groupOneButton setTitle:[NSString stringWithFormat:@"  %@",category] forState:UIControlStateNormal];
+}
+
+- (void)changeCategory2Selected:(NSString *)category {
+    category = category ? category : @"Todas";
+    [self.groupTwoButton setTitle:[NSString stringWithFormat:@"  %@",category] forState:UIControlStateNormal];
+}
+
+- (void)changeCategory3Selected:(NSString *)category {
+    category = category ? category : @"Todas";
+    [self.groupThreeButton setTitle:[NSString stringWithFormat:@"  %@",category] forState:UIControlStateNormal];
 }
 
 @end

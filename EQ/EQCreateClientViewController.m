@@ -35,7 +35,6 @@
         self.viewModel = [EQCreateClientViewModel new];
         self.viewModel.delegate = self;
         [self.viewModel loadData];
-        self.titleLabel.text = @"Nuevo cliente";
     }
     return self;
 }
@@ -48,7 +47,6 @@
         self.viewModel.delegate = self;
         self.viewModel.clientID = clientId;
         [self.viewModel loadData];
-        self.titleLabel.text = @"Modificar cliente";
     }
     return self;
 }
@@ -57,6 +55,7 @@
 {
     [super viewDidLoad];
     Cliente *client = self.viewModel.client;
+    self.createClientTitleLabel.text = @"Nuevo cliente";
     if (client) {
         self.clientNameTextField.text = client.nombre;
         self.clientAliasTextField.text = client.nombreDeFantasia;
@@ -80,6 +79,7 @@
         self.discount3TextField.text = [formatter stringFromNumber:client.descuento3];
         self.discount4TextField.text = [formatter stringFromNumber:client.descuento4];
         self.observationsTextField.text = client.observaciones;
+        self.createClientTitleLabel.text = @"Modificar cliente";
     }
     
     [self.provinceButton setTitle:[self.viewModel obtainSelectedProvince] forState:UIControlStateNormal];

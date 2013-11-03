@@ -30,6 +30,7 @@
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQCurrentAccountCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    [self.tableViewForEmail registerNib:nib forCellReuseIdentifier:cellIdentifier];
     [super viewDidLoad];
 }
 
@@ -52,6 +53,7 @@
 -(void)modelDidUpdateData{
     [super modelDidUpdateData];
     [self.tableView reloadData];
+    [self.tableViewForEmail reloadData];
     self.totalButton.enabled = self.viewModel.onlySubTotalAvailable;
     NSString *clientName = @"  Todos";
     if (self.viewModel.clientName) {
@@ -99,6 +101,18 @@
 }
 
 #pragma mark - Table view data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 36;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if ([self.tableView isEqual:tableView]) {
+        return self.tableHeader;
+    } else {
+        return self.headerForEmail;
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {
@@ -206,6 +220,7 @@
     } else if ([self.popoverOwner isEqual:self.totalButton]) {
         self.hideDetails = [selectedData isEqualToString:@"Subtotal"];
         [self.tableView reloadData];
+        [self.tableViewForEmail reloadData];
     }
     
     NSString *buttonText = [NSString stringWithFormat:@"  %@", selectedData];
@@ -227,7 +242,7 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd/MM/yyyy"];
         [compose setSubject:[NSString stringWithFormat:@"Listado Cuenta Corriente %@",[dateFormat stringFromDate:[NSDate date]]]];
-        UIImage* image = [self captureView:self.tableView];
+        UIImage* image = [self captureView:self.tableViewForEmail];
         NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
         [compose addAttachmentData:imageData mimeType:@"image/jpeg" fileName:[NSString stringWithFormat:@"CuentaCorriente.jpg"]];
         [self presentViewController:compose animated:YES completion:nil];

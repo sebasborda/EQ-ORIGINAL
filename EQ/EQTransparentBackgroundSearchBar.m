@@ -11,8 +11,10 @@
 @implementation EQTransparentBackgroundSearchBar
 
 -(void)didAddSubview:(UIView *)subview{
-    if (![subview isKindOfClass:[UITextField class]]) {
-        subview.alpha = 0;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0) {
+        if (![subview isKindOfClass:[UITextField class]]) {
+            subview.alpha = 0;
+        }
     }
 }
 

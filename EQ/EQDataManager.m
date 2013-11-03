@@ -30,6 +30,9 @@
 #import "ItemPedido+extra.h"
 #import "EQImagesManager.h"
 #import "ItemFacturado.h"
+#import "Catalogo+extra.h"
+#import "AFImageRequestOperation.h"
+#import "CatalogoImagen.h"
 
 #define OBJECTS_PER_PAGE 5000
 #define DATE_FORMATTER [[NSDateFormatter alloc] init]
@@ -74,6 +77,7 @@
         self.dataUpdated = NO;
         self.running = YES;
         self.showLoading = show;
+        // start load
         if (show) {
             [self updateShippingArea];
         } else {
@@ -556,12 +560,99 @@
                 [self changeSalesList];
             }
             [self updateCompletedFor:[Venta class]];
-            [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
+            [self updateCatalog];
         }
         
     };
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
+}
+
+- (void)deleteCatalogs{
+    NSManagedObjectContext *context = [[EQDataAccessLayer sharedInstance] managedObjectContext];
+    NSError *error = nil;
+    @autoreleasepool {
+        NSFetchRequest *allRequest = [[NSFetchRequest alloc] initWithEntityName:@"Catalogo"];
+        NSArray *objects = [context executeFetchRequest:allRequest error:&error];
+        //Delete old catalogs
+        for (Catalogo *catalogo in objects) {
+            [context deleteObject:catalogo];
+        }
+        
+        NSFetchRequest *allImagesRequest = [[NSFetchRequest alloc] initWithEntityName:@"CatalogoImagen"];
+        NSArray *imagenes = [context executeFetchRequest:allImagesRequest error:&error];
+        //Delete old catalogs
+        for (CatalogoImagen *imagen in imagenes) {
+            [context deleteObject:imagen];
+        }
+        [[EQDataAccessLayer sharedInstance] saveContext];
+    }
+}
+
+//last load method
+- (void)updateCatalog{
+    NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setObject:@"catalogo" forKey:@"object"];
+    [dictionary setObject:@"listar" forKey:@"action"];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    
+    SuccessRequest successBlock = ^(NSArray * jsonArray){
+        [self deleteCatalogs];
+        EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+        // make a directory for these
+        NSFileManager *mgr = [NSFileManager defaultManager];
+        BOOL isDir;
+        int catalogNumber = 1;
+        for (NSDictionary* catalogoDictionary in jsonArray) {
+            Catalogo *catalogo = (Catalogo *)[adl objectForClass:[Catalogo class] withId:[catalogoDictionary objectForKey:@"id"]];
+            catalogo.identifier = [[catalogoDictionary filterInvalidEntry:@"id"] stringValue];
+            catalogo.titulo = [catalogoDictionary filterInvalidEntry:@"titulo"];
+            catalogo.posicion = [NSNumber numberWithInt:catalogNumber];
+            NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, NSHomeDirectory(),catalogo.identifier];
+            if (![mgr fileExistsAtPath:picturesPath isDirectory:&isDir]) {
+                [mgr createDirectoryAtPath:picturesPath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+            
+            
+            if ([[catalogoDictionary filterInvalidEntry:@"fotos_ipad"] isKindOfClass:[NSArray class]]) {
+                int pagina = 0;
+                for (NSString *fotoPath in [catalogoDictionary objectForKey:@"fotos_ipad"]) {
+                    pagina++;
+                    NSString *fileName = [[fotoPath componentsSeparatedByString:@"/"] lastObject];
+                    if ([fileName length] > 0) {
+                        fileName = [catalogo.identifier stringByAppendingFormat:@"/%@",fileName];
+                        if (![[EQImagesManager sharedInstance] existImageNamed:fileName]) {
+                            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:fotoPath]]];
+                            AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                [[EQImagesManager sharedInstance] saveImage:image named:fileName];
+                            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                NSLog(@"%@",error);
+                            }];
+                            [operation start];
+                        }
+                        CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
+                        imagen.catalogoID = catalogo.identifier;
+                        imagen.nombre = fileName;
+                        imagen.pagina = [NSNumber numberWithInt:pagina];
+                    }
+                }
+            }
+            
+            for (NSDictionary *category in [catalogoDictionary filterInvalidEntry:@"categorias"]) {
+                Grupo *grupo = (Grupo *)[adl objectForClass:[Grupo class] withId:[category objectForKey:@"term_id"]];
+                [catalogo addCategoriasObject:grupo];
+            }
+            
+            self.dataUpdated = YES;
+            catalogNumber++;
+        }
+        
+        [adl saveContext];
+        [self updateCompletedFor:[Catalogo class]];
+        [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
+    };
+    
+    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
 }
 
 - (void)changeSalesList{
@@ -590,6 +681,7 @@
     }
 }
 
+// first load method
 - (void)updateShippingArea{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"zona_envio" forKey:@"object"];
