@@ -381,13 +381,16 @@
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         for (NSDictionary *dictionary in jsonArray) {
             NSString *identifier = [[dictionary objectForKey:@"articulo_id"] stringByAppendingFormat:@"-%@",[dictionary objectForKey:@"pedido_id"]];
-            ItemPedido *item = (ItemPedido *)[adl objectForClass:[ItemPedido class] withId:identifier];
+            
+            NSString* articuloID = [dictionary filterInvalidEntry:@"articulo_id"];
+            NSString* pedidoID = [dictionary filterInvalidEntry:@"pedido_id"];
+            ItemPedido *item = (ItemPedido *)[adl objectForClass:[ItemPedido class] withPredicate:[NSPredicate predicateWithFormat:@"articuloID == %@ && pedido.identifier == %@",articuloID,pedidoID]];
             if (!item) {
                 item = (ItemPedido *)[adl createManagedObject:@"ItemPedido"];
             }
             
             item.identifier = identifier;
-            item.articuloID = [dictionary filterInvalidEntry:@"articulo_id"];
+            item.articuloID = articuloID;
             item.cantidad = [[dictionary filterInvalidEntry:@"cantidad_pedida"] number];
             item.cantidadFacturada = [[dictionary filterInvalidEntry:@"cantidad_facturada"] number];
             item.descuento1 = [[dictionary filterInvalidEntry:@"descuento1"] number];
@@ -396,7 +399,7 @@
             item.importeConDescuento = [[dictionary filterInvalidEntry:@"precio_con_descuento"] number];
             item.importeFinal = [[dictionary filterInvalidEntry:@"importe_final"] number];
             item.precioUnitario = [[dictionary filterInvalidEntry:@"precio_unitario"] number];
-            item.pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:[dictionary filterInvalidEntry:@"pedido_id"]];
+            item.pedido = (Pedido *)[adl objectForClass:[Pedido class] withId:pedidoID];
             NSDateFormatter *dateFormatter = DATE_FORMATTER;
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             NSString *fecha_facturado = [dictionary filterInvalidEntry:@"fecha_facturado"];

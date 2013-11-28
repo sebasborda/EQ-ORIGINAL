@@ -87,7 +87,9 @@
 - (void)showPendingOrders{
     [self selectTabAtIndex:EQTabIndexOrders];
     EQOrdersViewController *controller = (EQOrdersViewController *)((UINavigationController *)self.tabBarController.selectedViewController).topViewController;
-    [controller changeStatusFilter:@"pendiente"];
+    if ([controller respondsToSelector:@selector(changeStatusFilter:)]) {
+        [controller changeStatusFilter:@"pendiente"];
+    }
 }
 
 - (void)showOperativeCommunications{
