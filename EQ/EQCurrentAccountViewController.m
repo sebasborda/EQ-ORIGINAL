@@ -30,7 +30,9 @@
     self.viewModel.delegate = self;
     UINib *nib = [UINib nibWithNibName:@"EQCurrentAccountCell" bundle: nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    self.tableView.tableHeaderView = self.tableHeader;
     [self.tableViewForEmail registerNib:nib forCellReuseIdentifier:cellIdentifier];
+    self.tableViewForEmail.tableHeaderView = self.headerForEmail;
     [super viewDidLoad];
 }
 
@@ -101,18 +103,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 36;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if ([self.tableView isEqual:tableView]) {
-        return self.tableHeader;
-    } else {
-        return self.headerForEmail;
-    }
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (self.viewModel.onlySubTotalAvailable && self.hideDetails) {

@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12F37</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4510</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
+		<string key="IBDocument.SystemVersion">12F45</string>
+		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
+		<string key="IBDocument.AppKitVersion">1187.40</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">3742</string>
+			<string key="NS.object.0">3747</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -295,7 +295,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{724, 7}, {35, 30}}</string>
 								<reference key="NSSuperview" ref="844047730"/>
-								<reference key="NSNextKeyView" ref="1009978206"/>
+								<reference key="NSNextKeyView" ref="560306080"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -593,7 +593,7 @@
 							<object class="IBUILabel" id="313634758">
 								<reference key="NSNextResponder" ref="560306080"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{611, 7}, {129, 16}}</string>
+								<string key="NSFrame">{{513, 7}, {129, 16}}</string>
 								<reference key="NSSuperview" ref="560306080"/>
 								<reference key="NSNextKeyView" ref="704362736"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -614,9 +614,9 @@
 							<object class="IBUILabel" id="704362736">
 								<reference key="NSNextResponder" ref="560306080"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{638, 23}, {74, 15}}</string>
+								<string key="NSFrame">{{540, 23}, {74, 15}}</string>
 								<reference key="NSSuperview" ref="560306080"/>
-								<reference key="NSNextKeyView" ref="456289149"/>
+								<reference key="NSNextKeyView" ref="56331342"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -637,6 +637,30 @@
 								<reference key="IBUIFontDescription" ref="207046650"/>
 								<reference key="IBUIFont" ref="112996791"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+							</object>
+							<object class="IBUIButton" id="56331342">
+								<reference key="NSNextResponder" ref="560306080"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{699, 5}, {35, 35}}</string>
+								<reference key="NSSuperview" ref="560306080"/>
+								<reference key="NSNextKeyView" ref="456289149"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<int key="IBUIButtonType">1</int>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
+								</object>
+								<reference key="IBUIHighlightedTitleColor" ref="909293565"/>
+								<reference key="IBUINormalTitleShadowColor" ref="984748656"/>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">mail.png</string>
+								</object>
+								<reference key="IBUIFontDescription" ref="328244783"/>
+								<reference key="IBUIFont" ref="993116933"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{0, 44}, {769, 45}}</string>
@@ -881,6 +905,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{593, 835}, {161, 21}}</string>
 								<reference key="NSSuperview" ref="456289149"/>
+								<reference key="NSNextKeyView" ref="1009978206"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -2542,7 +2567,6 @@
 												<array class="NSMutableArray" key="NSSubviews"/>
 												<string key="NSFrameSize">{720, 259}</string>
 												<reference key="NSSuperview" ref="786973551"/>
-												<reference key="NSNextKeyView" ref="560306080"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<reference key="IBUIBackgroundColor" ref="477689881"/>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -2584,7 +2608,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 						</array>
-						<string key="NSFrameSize">{768, 1004}</string>
+						<string key="NSFrame">{{0, 1000}, {768, 1004}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSNextKeyView" ref="352898228"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -3074,6 +3098,14 @@
 					<string key="id">1104</string>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="778755590"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<string key="id">ieK-CC-UFp</string>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">segmentSortChanged:</string>
 						<reference key="source" ref="766981579"/>
@@ -3409,6 +3441,15 @@
 					</object>
 					<string key="id">1663</string>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">emailButtonAction:</string>
+						<reference key="source" ref="56331342"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<string key="id">yrv-Nv-F3A</string>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -3450,6 +3491,7 @@
 							<reference ref="411934377"/>
 							<reference ref="313634758"/>
 							<reference ref="704362736"/>
+							<reference ref="56331342"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 						<string key="objectName">View - Yellow Bar</string>
@@ -4158,6 +4200,11 @@
 						<reference key="object" ref="488041968"/>
 						<reference key="parent" ref="456289149"/>
 					</object>
+					<object class="IBObjectRecord">
+						<string key="id">J7q-ye-ik1</string>
+						<reference key="object" ref="56331342"/>
+						<reference key="parent" ref="560306080"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4286,6 +4333,9 @@
 				<integer value="0" key="892.IUISegmentedControlInspectorSelectedSegmentMetadataKey"/>
 				<string key="900.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<integer value="1" key="900.IUISegmentedControlInspectorSelectedSegmentMetadataKey"/>
+				<string key="J7q-ye-ik1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<reference key="J7q-ye-ik1.IBUserGuides" ref="0"/>
+				<boolean value="NO" key="J7q-ye-ik1.showNotes"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -4325,6 +4375,7 @@
 			<string key="fondoTitulo.png">{768, 46}</string>
 			<string key="grayButton.png">{121, 30}</string>
 			<string key="logout.png">{35, 30}</string>
+			<string key="mail.png">{70, 62}</string>
 			<string key="pedidoListadoFondoBarra.png">{768, 48}</string>
 			<string key="pedidoListadoFondoProductos.png">{768, 443}</string>
 			<string key="pedidoListadoFondoTablas.png">{768, 327}</string>
@@ -4333,6 +4384,6 @@
 			<string key="selectionArea.png">{214, 31}</string>
 			<string key="yellowBar.png">{768, 45}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">3742</string>
+		<string key="IBCocoaTouchPluginVersion">3747</string>
 	</data>
 </archive>

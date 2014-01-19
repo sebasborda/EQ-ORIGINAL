@@ -30,7 +30,7 @@
 }
 
 - (Articulo *)articulo{
-    return [self.articulos lastObject];
+    return [self.articulos firstObject];
 }
 
 - (ItemPedido *)copy{
@@ -47,4 +47,17 @@
     return item;
 }
 
+
+- (NSString *)itemPedidoHTML{
+    NSMutableString *item = [NSMutableString stringWithString:@"<tr>"];
+    [item appendFormat:@"<td align='center'>%@</td>",self.articulo.nombre];
+    [item appendFormat:@"<td align='center'>%@</td>",self.cantidad];
+    [item appendFormat:@"<td align='center'>%@</td>",self.cantidadFacturada];
+    [item appendFormat:@"<td align='right'>$%.2f</td>",[self.precioUnitario floatValue]];
+    [item appendFormat:@"<td align='right'>$%.2f</td>",[self totalSinDescuento]];
+    [item appendFormat:@"<td align='right'>$%.2f</td>",[self totalConDescuento]];
+    [item appendString:@"</tr>"];
+    
+    return item;
+}
 @end

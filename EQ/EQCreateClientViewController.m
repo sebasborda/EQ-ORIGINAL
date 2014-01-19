@@ -139,12 +139,14 @@
 }
 
 -(BOOL) validEmail:(NSString*) emailString {
-    NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
-    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
-    NSUInteger regExMatches = [regEx numberOfMatchesInString:emailString options:0 range:NSMakeRange(0, [emailString length])];
-    if (regExMatches == 0) {
-        [self addMessageError:[NSMutableString stringWithString:@"Email invalido"]];
-        return NO;
+    if (emailString) {
+        NSString *regExPattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$";
+        NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
+        NSUInteger regExMatches = [regEx numberOfMatchesInString:emailString options:0 range:NSMakeRange(0, [emailString length])];
+        if (regExMatches == 0) {
+            [self addMessageError:[NSMutableString stringWithString:@"Email invalido"]];
+            return NO;
+        }
     }
 
     return YES;
@@ -328,10 +330,6 @@
     }
 
     [self closePopover];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    [textField resignFirstResponder];
 }
 
 - (IBAction)addressChanged:(id)sender {

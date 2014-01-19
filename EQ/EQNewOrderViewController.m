@@ -19,8 +19,9 @@
 #import "Pedido+extra.h"
 #import "EQSession.h"
 #import "NSNumber+EQ.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface EQNewOrderViewController ()
+@interface EQNewOrderViewController () <MFMailComposeViewControllerDelegate>
 @property (nonatomic,strong) EQNewOrderViewModel *viewModel;
 @property (nonatomic,strong) UIAlertView* cancelOrderAlert;
 @property (nonatomic,strong) UIAlertView* saveOrderAlert;
@@ -162,7 +163,9 @@
 - (IBAction)quantityButtonAction:(id)sender {
     if ([self canEdit]) {
         UIButton *button = (UIButton *)sender;
-        [self.viewModel addItemQuantity:[button.titleLabel.text intValue]];
+        if ([self.viewModel addItemQuantity:[button.titleLabel.text intValue]]) {
+            self.quantityTextField.text = button.titleLabel.text;
+        }
     }
 }
 
@@ -316,6 +319,10 @@
 - (void)modelDidUpdateData{
     NSString *discountText = [NSString stringWithFormat:@"(%.0f%%) %@",[self.viewModel discountPercentage], [[NSNumber numberWithFloat:[self.viewModel discountValue]] currencyString]];
     self.discountLabel.text = discountText;
+    
+    if ([self.viewModel.order.observaciones length] > 0) {
+        self.observationTextView.text = self.viewModel.order.observaciones;
+    }
     
     self.subTotalLabel.text = [NSString stringWithFormat:@"%@",[[self.viewModel subTotal] currencyString]];
     self.totalLabel.text = [NSString stringWithFormat:@"%@",[[NSNumber numberWithFloat:[self.viewModel total]] currencyString]];
@@ -471,6 +478,29 @@
     }
     
     return YES;
+}
+
+- (IBAction)emailButtonAction:(id)sender {
+    if ([MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController *compose = [[MFMailComposeViewController alloc] init];
+        compose.mailComposeDelegate = self;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd/MM/yyyy"];
+        [compose setSubject:[NSString stringWithFormat:@"Pedido %@ %@", self.viewModel.order.cliente.nombre, [dateFormat stringFromDate:self.viewModel.order.fecha]]];
+        [compose setMessageBody:[self.viewModel orderHTML] isHTML:YES];
+        
+        [self presentViewController:compose animated:YES completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"El mail no puede ser enviado" message:@"Verifique que su iPad tiene una cuenta de mail configurada" delegate:nil cancelButtonTitle:@"Continuar" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error;
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

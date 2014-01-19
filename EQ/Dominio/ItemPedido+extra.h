@@ -19,5 +19,7 @@
 - (CGFloat)totalSinDescuento;
 - (Articulo *)articulo;
 
+- (NSString *)itemPedidoHTML;
+
 @end
 

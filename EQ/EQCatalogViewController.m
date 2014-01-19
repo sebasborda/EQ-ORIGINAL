@@ -93,6 +93,11 @@
         page++;
     }
     
+    CGRect frame = self.catalogScrollView.frame;
+    frame.origin = CGPointZero;
+    [self.catalogScrollView scrollRectToVisible:frame animated:NO];
+    
+    
     self.categoriesList = [catalog.categorias allObjects];
     for (UIButton *button in self.categoryButtonsList) {
         if (categoriesCount > button.tag) {
@@ -137,6 +142,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startWithCategory" object:nil userInfo:userInfo];
     [APP_DELEGATE selectTabAtIndex:EQTabIndexProducts];
 }
+
 - (IBAction)categoryThreeButtonAction:(id)sender {
     NSDictionary *userInfo = @{@"category":[self.categoriesList objectAtIndex:2]};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"startWithCategory" object:nil userInfo:userInfo];

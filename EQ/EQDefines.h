@@ -19,10 +19,18 @@ typedef enum{
 }EQTabIndex;
 
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
-#define MAXIMUM_MINUTES_TO_UPDATE 10
-#define BASE_URL @"http://www.eqarte.com.ar/"
-#define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
-#define API_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
+#ifdef TEST_VERSION
+    #define MAXIMUM_MINUTES_TO_UPDATE 2
+    #define BASE_URL @"http://stg.eqarte.com.ar/"
+    #define IMAGES_BASE_URL @"http://stg.eqarte.com.ar/wp-content/uploads/"
+    #define API_URL "http://stg.eqarte.com.ar/wp-admin/admin-ajax.php"
+#else
+    #define MAXIMUM_MINUTES_TO_UPDATE 10
+    #define BASE_URL @"http://www.eqarte.com.ar/"
+    #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
+    #define API_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"
+#endif
+
 #define DATA_UPDATED_NOTIFICATION @"dataUpdatedNotification"
 #define ACTIVE_CLIENT_CHANGE_NOTIFICATION @"activeClientChangeNotification"
 

@@ -12,12 +12,15 @@
 #import "EQPopover.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define KEYBOARD_HEIGHT 210
+
 @interface EQBaseViewController ()
 
 @property (nonatomic, strong) UIPopoverController *popoverVC;
 @property (nonatomic, strong) EQBaseViewModel *viewModel;
 @property (nonatomic, strong) UIAlertView *logoutAlert;
 @property (nonatomic, strong) UIScrollView *scroll;
+@property (nonatomic, weak) UIView *activeField;
 
 @end
 
@@ -26,8 +29,6 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self loadTopBarInfo];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdated:) name:DATA_UPDATED_NOTIFICATION object:nil];
     self.scroll = [[UIScrollView alloc] initWithFrame:self.view.frame];
     self.view.frame = CGRectMake(0, 0, self.scroll.frame.size.width, self.scroll.frame.size.height);
@@ -51,14 +52,43 @@
     self.viewModel = nil;
 }
 
-- (void)keyboardDidShow:(NSNotification *)notification
+- (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self.scroll setContentSize:CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height + 210)];
-    [self.scroll setContentOffset:CGPointMake(0, 210) animated:YES];
+    self.activeField = textField;
+    [self moveUp];
 }
 
--(void)keyboardDidHide:(NSNotification *)notification
+- (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    self.activeField = nil;
+    [self moveDown];
+    [textField resignFirstResponder];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    self.activeField = textView;
+    [self moveUp];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    self.activeField = nil;
+    [self moveDown];
+    [textView resignFirstResponder];
+}
+
+- (void)moveUp {
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your app might not need or want this behavior.
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= KEYBOARD_HEIGHT;
+    CGPoint point = CGPointMake(self.activeField.frame.origin.x, self.activeField.frame.origin.y + self.activeField.frame.size.height);
+    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) || !CGRectContainsPoint(aRect, point )) {
+        [self.scroll setContentSize:CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height + KEYBOARD_HEIGHT)];
+        [self.scroll setContentOffset:CGPointMake(0, KEYBOARD_HEIGHT) animated:YES];
+    }
+}
+
+- (void)moveDown {
     [self.scroll setContentSize:CGSizeMake(self.scroll.frame.size.width, self.scroll.frame.size.height)];
     [self.scroll setContentOffset:CGPointMake(0, 0) animated:NO];
 }

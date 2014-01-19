@@ -40,6 +40,7 @@
     Grupo *category = [notification.userInfo objectForKey:@"category"];
     self.viewModel = [[EQProductsViewModel alloc] initWithCategory:category];
     self.viewModel.delegate = self;
+    [self.productsCollectionView reloadData];
 }
 
 - (void)viewDidLoad{

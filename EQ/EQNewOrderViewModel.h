@@ -44,7 +44,7 @@
 - (void)defineSelectedGroup2:(int)index;
 - (void)defineSelectedArticle:(int)index;
 - (void)defineOrderStatus:(int)index;
-- (void)addItemQuantity:(int)quantity;
+- (BOOL)addItemQuantity:(int)quantity;
 - (NSNumber *)itemsQuantity;
 - (NSNumber *)subTotal;
 - (float)discountPercentage;
@@ -60,4 +60,7 @@
 - (void)sortArticlesByIndex:(int)index;
 - (void)sortGroup2ByIndex:(int)index;
 - (void)sortGroup1ByIndex:(int)index;
+
+- (NSString *)orderHTML;
+
 @end

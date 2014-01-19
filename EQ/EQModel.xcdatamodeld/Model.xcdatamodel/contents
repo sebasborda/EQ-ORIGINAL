@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F37" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Articulo" representedClassName="Articulo" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="cantidadPredeterminada" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -246,7 +246,7 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
         </fetchedProperty>
         <fetchedProperty name="vendedores" optional="YES" syncable="YES">
-            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.pedidoID"/>
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.vendedorID"/>
         </fetchedProperty>
     </entity>
     <entity name="Precio" representedClassName="Precio" syncable="YES">

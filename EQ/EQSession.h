@@ -10,6 +10,7 @@
 #import "Vendedor.h"
 #import "Cliente+extra.h"
 #import "Usuario+extra.h"
+#import "EQSettings.h"
 
 @interface EQSession : NSObject <CLLocationManagerDelegate>
 
@@ -28,5 +29,6 @@
 
 @property (nonatomic,strong) Cliente *selectedClient;
 @property (nonatomic,strong) Usuario *user;
+@property (nonatomic,strong) EQSettings *settings;
 
 @end

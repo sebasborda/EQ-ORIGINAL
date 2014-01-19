@@ -29,6 +29,7 @@
         sharedInstance = [[EQSession alloc] init];
         sharedInstance.locationManager = [[CLLocationManager alloc] init];
         sharedInstance.locationManager.delegate = sharedInstance;
+        sharedInstance.settings = [EQSettings new];
     });
     return sharedInstance;
 }
@@ -132,7 +133,7 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        _selectedClient = [[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:selectedClient.identifier];
+        _selectedClient = [[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withPredicate:[NSPredicate predicateWithFormat:@"identifier == %@",selectedClient.identifier]];
         [[NSNotificationCenter defaultCenter] postNotificationName:ACTIVE_CLIENT_CHANGE_NOTIFICATION object:nil userInfo:userInfo];
     });
 }

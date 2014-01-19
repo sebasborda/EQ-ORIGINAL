@@ -10,6 +10,7 @@
 #import "ItemPedido+extra.h"
 #import "EQDataAccessLayer.h"
 #import "ItemFacturado.h"
+#import "Vendedor.h"
 
 @implementation Pedido (extra)
 
@@ -79,6 +80,38 @@
         }
     }
     return fechas;
+}
+
+- (NSString *)pedidoHTML {
+    NSMutableString *pedido = [NSMutableString stringWithString:@"<div>"];
+    [pedido appendFormat:@"<span>Vendedor: %@</span><br>",self.vendedor.descripcion];
+    [pedido appendFormat:@"<span>Cliente: %@</span><br>",self.cliente.nombre];
+    [pedido appendFormat:@"<span>Estado: %@</span><br>",self.estado];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd/MM/yyyy"];
+    [pedido appendFormat:@"<span>Fecha: %@</span><br>",[dateFormat stringFromDate:self.fecha]];
+    [pedido appendFormat:@"<span>Importe Bruto: $%.2f</span><br>",[self.subTotal floatValue]];
+    [pedido appendFormat:@"<span>Descuento: %.2f%%</span><br>",self.porcentajeDescuento];
+    [pedido appendFormat:@"<span>Importe Neto: $%.2f</span><br>",[self.total floatValue]];
+    [pedido appendFormat:@"<span>Comentarios: %@</span><br>",self.observaciones];
+    [pedido appendString:@"</div><br>"];
+    
+    [pedido appendString:@"<table border='1'>"];
+    [pedido appendString:@"<tr>"];
+    [pedido appendString:@"<th align='center'>Articulo</th>"];
+    [pedido appendString:@"<th align='center'>Cantidad Pedida</th>"];
+    [pedido appendString:@"<th align='center'>Cantidad Facturada</th>"];
+
+    [pedido appendString:@"<th align='center'>Precio</th>"];
+    [pedido appendString:@"<th align='center'>Importe</th>"];
+    [pedido appendString:@"<th align='center'>Importe con Desc.</th>"];
+    [pedido appendString:@"</tr>"];
+    for (ItemPedido* item in self.items) {
+        [pedido appendString:[item itemPedidoHTML]];
+    }
+    [pedido appendString:@"</table>"];
+    
+    return pedido;
 }
 
 @end

@@ -27,6 +27,8 @@
 @dynamic cobradores;
 @dynamic vendedores;
 
+
+
 - (Provincia *)provincia{
     return [self.provincias lastObject];
 }

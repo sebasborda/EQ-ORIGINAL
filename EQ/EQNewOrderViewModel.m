@@ -167,8 +167,9 @@
     }
 }
 
-- (void)addItemQuantity:(int)quantity{
-    if (self.articleSelected && (([self.articleSelected.multiploPedido intValue] <= 2) || (quantity % 2 == 0 && quantity % [self.articleSelected.multiploPedido intValue] == 0)) && quantity >= [self.articleSelected.minimoPedido intValue]) {
+- (BOOL)addItemQuantity:(int)quantity{
+    BOOL canAdd = self.articleSelected && (([self.articleSelected.multiploPedido intValue] <= 2) || (quantity % 2 == 0 && quantity % [self.articleSelected.multiploPedido intValue] == 0)) && quantity >= [self.articleSelected.minimoPedido intValue];
+    if (canAdd) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
         for (ItemPedido *item in self.order.items) {
@@ -189,6 +190,8 @@
     } else {
         [self.delegate modelAddItemDidFail];
     }
+    
+    return canAdd;
 }
 
 - (NSNumber *)itemsQuantity{
@@ -320,6 +323,10 @@
     }
     
     return [article priceForClient:client] != nil && [article.disponibilidadID intValue] == 1 && [article.activo boolValue];
+}
+
+- (NSString *)orderHTML {
+    return [self.order pedidoHTML];
 }
 
 @end

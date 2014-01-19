@@ -106,6 +106,8 @@
     if (self.selectedDeliveryAreaAtIndex != NSNotFound  )
         self.client.zonaEnvioID = ((ZonaEnvio *)[self obtainDeliveryAreaList][self.selectedDeliveryAreaAtIndex]).identifier;
     
+    self.client.listaPrecios = [EQSession sharedInstance].settings.defaultPriceList;
+    
     self.client.actualizado = [NSNumber numberWithBool:NO];
     [[EQDataAccessLayer sharedInstance] saveContext];
     [[EQSession sharedInstance] updateCache];

@@ -54,5 +54,6 @@
 - (IBAction)quantityButtonAction:(id)sender;
 - (IBAction)saveOrder:(id)sender;
 - (IBAction)cancelOrder:(id)sender;
+- (IBAction)emailButtonAction:(id)sender;
 
 @end

@@ -22,4 +22,6 @@
 - (NSDate *)ultimaFechaDeFacturacion;
 - (NSDate *)primerFechaDeFacturacion;
 
+- (NSString *)pedidoHTML;
+
 @end
