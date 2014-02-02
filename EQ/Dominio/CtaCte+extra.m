@@ -29,4 +29,8 @@
     return module > 0 ? days + 1 : days;
 }
 
+- (NSString *)description{
+    return [NSString stringWithFormat:@"CTA. CTE. %@ %@ %@", self.identifier, self.comprobante, self.activo];
+}
+
 @end

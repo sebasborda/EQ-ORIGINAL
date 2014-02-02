@@ -203,7 +203,6 @@
 		6B7CC82217B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */; };
 		6B83DB1817EA8FC6001534B2 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1717EA8FC6001534B2 /* Cliente.m */; };
 		6B83DB1B17EA8FC8001534B2 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */; };
-		6B88775617CA869200FD3C49 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775517CA869200FD3C49 /* CtaCte.m */; };
 		6B88775917CA869300FD3C49 /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775817CA869300FD3C49 /* Provincia.m */; };
 		6B88775C17CA869300FD3C49 /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775B17CA869300FD3C49 /* Articulo.m */; };
 		6B88775F17CA869400FD3C49 /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775E17CA869300FD3C49 /* Usuario.m */; };
@@ -471,7 +470,6 @@
 		96579BF8186261D900A688DA /* UIColor+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */; };
 		96579BF9186261D900A688DA /* NSNumber+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BE926EE17B09E410059D362 /* NSNumber+EQ.m */; };
 		96579BFA186261D900A688DA /* Disponibilidad+extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B36901417BC578A008BA88F /* Disponibilidad+extra.m */; };
-		96579BFB186261D900A688DA /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775517CA869200FD3C49 /* CtaCte.m */; };
 		96579BFC186261D900A688DA /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775817CA869300FD3C49 /* Provincia.m */; };
 		96579BFD186261D900A688DA /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775B17CA869300FD3C49 /* Articulo.m */; };
 		96579BFE186261D900A688DA /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775E17CA869300FD3C49 /* Usuario.m */; };
@@ -761,6 +759,13 @@
 		96579D1E186261D900A688DA /* EQGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B8882A617D552AC00D361E6 /* EQGroupCell.xib */; };
 		967F7D6C188C64C500629FD8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6B188C64C500629FD8 /* Default.png */; };
 		967F7D6D188C682300629FD8 /* EQSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9609EBA81881ED4500FA0746 /* EQSettings.m */; };
+		967F7D6F188C7AF000629FD8 /* manifest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6E188C7AF000629FD8 /* manifest.plist */; };
+		96E26711189750BC003C8E81 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E26710189750BC003C8E81 /* CtaCte.m */; };
+		96E26712189750BC003C8E81 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E26710189750BC003C8E81 /* CtaCte.m */; };
+		96ED114E18952A630028A6AB /* iconTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114C18952A630028A6AB /* iconTest.png */; };
+		96ED114F18952A630028A6AB /* iconTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114C18952A630028A6AB /* iconTest.png */; };
+		96ED115018952A630028A6AB /* iconTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114D18952A630028A6AB /* iconTest@2x.png */; };
+		96ED115118952A630028A6AB /* iconTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114D18952A630028A6AB /* iconTest@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1038,8 +1043,6 @@
 		6B83DB1717EA8FC6001534B2 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
 		6B83DB1917EA8FC7001534B2 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
 		6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
-		6B88775417CA869200FD3C49 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
-		6B88775517CA869200FD3C49 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
 		6B88775717CA869300FD3C49 /* Provincia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provincia.h; sourceTree = "<group>"; };
 		6B88775817CA869300FD3C49 /* Provincia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Provincia.m; sourceTree = "<group>"; };
 		6B88775A17CA869300FD3C49 /* Articulo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Articulo.h; sourceTree = "<group>"; };
@@ -1258,6 +1261,11 @@
 		96579D22186261D900A688DA /* EQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96579D23186261DA00A688DA /* EQTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EQTest-Info.plist"; path = "/Users/seba/Documents/projects/EQ-V1/EQTest-Info.plist"; sourceTree = "<absolute>"; };
 		967F7D6B188C64C500629FD8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = EQ/Default.png; sourceTree = "<group>"; };
+		967F7D6E188C7AF000629FD8 /* manifest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = manifest.plist; sourceTree = "<group>"; };
+		96E2670F189750BC003C8E81 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
+		96E26710189750BC003C8E81 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
+		96ED114C18952A630028A6AB /* iconTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconTest.png; sourceTree = "<group>"; };
+		96ED114D18952A630028A6AB /* iconTest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconTest@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1336,8 +1344,6 @@
 				6B88775B17CA869300FD3C49 /* Articulo.m */,
 				6B88775717CA869300FD3C49 /* Provincia.h */,
 				6B88775817CA869300FD3C49 /* Provincia.m */,
-				6B88775417CA869200FD3C49 /* CtaCte.h */,
-				6B88775517CA869200FD3C49 /* CtaCte.m */,
 				6BD2EEF117CBD492008B8132 /* ZonaEnvio.h */,
 				6BD2EEF217CBD492008B8132 /* ZonaEnvio.m */,
 				6B88829E17D5204300D361E6 /* Grupo.h */,
@@ -1352,6 +1358,8 @@
 				6B03510A1820AE3400E2F0FF /* CatalogoImagen.m */,
 				6B0351111823F3E500E2F0FF /* Catalogo.h */,
 				6B0351121823F3E500E2F0FF /* Catalogo.m */,
+				96E2670F189750BC003C8E81 /* CtaCte.h */,
+				96E26710189750BC003C8E81 /* CtaCte.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -1525,6 +1533,8 @@
 				6B36901A17BC5F54008BA88F /* buttonSolapaSeleccionado.png */,
 				6B36901B17BC5F54008BA88F /* buttonSolapaSeleccionado@2x.png */,
 				6B36901C17BC5F54008BA88F /* buttonSolapaSeleccionadoHighlighted.png */,
+				96ED114C18952A630028A6AB /* iconTest.png */,
+				96ED114D18952A630028A6AB /* iconTest@2x.png */,
 				6BB5B1FF18176F99006B41AA /* inicioButtonCatalogo.png */,
 				6BB5B20018176F99006B41AA /* inicioButtonCatalogo@2x.png */,
 				6B03510C182368A300E2F0FF /* transparent_square.png */,
@@ -1935,6 +1945,7 @@
 				214A58E516FFB88A005D787D /* Default@2x.png */,
 				214A58E716FFB88A005D787D /* Default-568h@2x.png */,
 				6BD929CE17937393005048D6 /* InfoPlist-es.strings */,
+				967F7D6E188C7AF000629FD8 /* manifest.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2170,11 +2181,13 @@
 				211068041719DD72002C42C0 /* EQLoginViewController.xib in Resources */,
 				21106816171B4B36002C42C0 /* TabBarView.xib in Resources */,
 				212A8B23171FA4F500F7900A /* editar.png in Resources */,
+				967F7D6F188C7AF000629FD8 /* manifest.plist in Resources */,
 				212A8B24171FA4F500F7900A /* editar@2x.png in Resources */,
 				6BB5B20318176F99006B41AA /* inicioButtonCatalogo.png in Resources */,
 				212A8B30171FA4F500F7900A /* loginButton@2x.png in Resources */,
 				212A8B31171FA4F500F7900A /* loginZone.png in Resources */,
 				212A8B35171FA60D00F7900A /* loginButton.png in Resources */,
+				96ED114E18952A630028A6AB /* iconTest.png in Resources */,
 				212A8B36171FA60D00F7900A /* loginZone@2x.png in Resources */,
 				212A8B3C1720EEF800F7900A /* EQMainScreenViewController.xib in Resources */,
 				212A8B4417222B6500F7900A /* grayButton.png in Resources */,
@@ -2368,6 +2381,7 @@
 				6B31B4DE17B71F9A006FF226 /* clientesListadoFondo@2x.png in Resources */,
 				6B31B4F017B82B43006FF226 /* buttonFinalizarPedido.png in Resources */,
 				6B31B4F117B82B43006FF226 /* buttonFinalizarPedido@2x.png in Resources */,
+				96ED115018952A630028A6AB /* iconTest@2x.png in Resources */,
 				6B31B4F217B82B43006FF226 /* buttonFinalizarPedidoHighlighted.png in Resources */,
 				6B31B4F317B82B43006FF226 /* buttonFinalizarPedidoHighlighted@2x.png in Resources */,
 				6B31B4F417B82B43006FF226 /* pedidoListadoFondoBarra.png in Resources */,
@@ -2553,6 +2567,7 @@
 				96579C95186261D900A688DA /* buttonEditar.png in Resources */,
 				96579C96186261D900A688DA /* buttonEditar@2x.png in Resources */,
 				96579C97186261D900A688DA /* buttonEditarHighlighted.png in Resources */,
+				96ED114F18952A630028A6AB /* iconTest.png in Resources */,
 				96579C98186261D900A688DA /* buttonEditarHighlighted@2x.png in Resources */,
 				96579C99186261D900A688DA /* buttonEliminar.png in Resources */,
 				96579C9A186261D900A688DA /* buttonEliminar@2x.png in Resources */,
@@ -2623,6 +2638,7 @@
 				96579CDB186261D900A688DA /* pedidoReferenciaSincronizado.png in Resources */,
 				96579CDC186261D900A688DA /* inicioButtonCatalogo@2x.png in Resources */,
 				96579CDD186261D900A688DA /* pedidoReferenciaSincronizado@2x.png in Resources */,
+				96ED115118952A630028A6AB /* iconTest@2x.png in Resources */,
 				96579CDE186261D900A688DA /* 03.listado.de.pedidos.back@2x.png in Resources */,
 				96579CDF186261D900A688DA /* 03.listado.de.pedidos.back.png in Resources */,
 				96579CE0186261D900A688DA /* informacionVentasFondoTotales.png in Resources */,
@@ -2786,8 +2802,8 @@
 				6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */,
 				6BE926EF17B09E410059D362 /* NSNumber+EQ.m in Sources */,
 				6B36901517BC578A008BA88F /* Disponibilidad+extra.m in Sources */,
-				6B88775617CA869200FD3C49 /* CtaCte.m in Sources */,
 				6B88775917CA869300FD3C49 /* Provincia.m in Sources */,
+				96E26711189750BC003C8E81 /* CtaCte.m in Sources */,
 				6B88775C17CA869300FD3C49 /* Articulo.m in Sources */,
 				6B88775F17CA869400FD3C49 /* Usuario.m in Sources */,
 				6B88776217CA869400FD3C49 /* Vendedor.m in Sources */,
@@ -2902,8 +2918,8 @@
 				96579BF8186261D900A688DA /* UIColor+EQ.m in Sources */,
 				96579BF9186261D900A688DA /* NSNumber+EQ.m in Sources */,
 				96579BFA186261D900A688DA /* Disponibilidad+extra.m in Sources */,
-				96579BFB186261D900A688DA /* CtaCte.m in Sources */,
 				96579BFC186261D900A688DA /* Provincia.m in Sources */,
+				96E26712189750BC003C8E81 /* CtaCte.m in Sources */,
 				96579BFD186261D900A688DA /* Articulo.m in Sources */,
 				96579BFE186261D900A688DA /* Usuario.m in Sources */,
 				96579BFF186261D900A688DA /* Vendedor.m in Sources */,
@@ -3026,8 +3042,8 @@
 		214A590116FFB88A005D787D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Excelencia Quimica Argentina S.R.L.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Excelencia Quimica Argentina S.R.L.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EQ/EQ-Prefix.pch";
 				INFOPLIST_FILE = "EQ/EQ-Info.plist";
@@ -3059,8 +3075,8 @@
 		96579D21186261D900A688DA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Excelencia Quimica Argentina S.R.L.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Excelencia Quimica Argentina S.R.L.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EQ/EQ-Prefix.pch";
 				INFOPLIST_FILE = "EQTest-Info.plist";

@@ -26,4 +26,8 @@
     return [self.senders lastObject];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Comunicacion receiverID:%@ senderID:%@ clienteID:%@",self.receiverID, self.senderID, self.clienteID];
+}
+
 @end

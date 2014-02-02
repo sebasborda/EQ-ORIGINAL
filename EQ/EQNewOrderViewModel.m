@@ -88,10 +88,13 @@
 
 - (void)save{
     [self.undoManager endUndoGrouping];
-    if (self.newOrder) {
+    if (self.order.fecha == nil) {
         self.order.fecha = [NSDate date];
         self.order.latitud = [[EQSession sharedInstance] currentLatitude];
         self.order.longitud = [[EQSession sharedInstance] currentLongitude];
+    }
+
+    if (self.newOrder) {
         if ([self.order.estado length] == 0) {
             self.order.estado = @"pendiente";
         }

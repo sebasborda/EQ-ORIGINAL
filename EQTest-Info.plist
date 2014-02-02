@@ -10,8 +10,8 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>icon@2x.png</string>
-		<string>icon.png</string>
+		<string>iconTest@2x.png</string>
+		<string>iconTest.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.excelenciaquimica.eqtest</string>

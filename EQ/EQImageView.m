@@ -23,7 +23,8 @@
         if (image) {
             [self setImage:image];
         } else{
-            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[IMAGES_BASE_URL stringByAppendingString:imagePath]]];
+            NSURL *imageURL = [NSURL URLWithString:[[IMAGES_BASE_URL stringByAppendingString:imagePath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:imageURL];
             AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image){
                 [self setImage:image];
                 [[EQImagesManager sharedInstance] saveImage:image named:fileName];

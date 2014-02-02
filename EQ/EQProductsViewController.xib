@@ -350,7 +350,7 @@
                     </subviews>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view hidden="YES" alpha="0.80000001192092896" contentMode="scaleToFill" id="675" userLabel="View - Detail" customClass="EQProductDetailView">
+                <view hidden="YES" contentMode="scaleToFill" id="675" userLabel="View - Detail" customClass="EQProductDetailView">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -562,7 +562,7 @@
                             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="PriceLabel" destination="775" id="831"/>
                         <outlet property="codelabel" destination="795" id="832"/>

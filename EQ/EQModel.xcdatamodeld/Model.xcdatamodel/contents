@@ -149,6 +149,7 @@
         <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="CtaCte" representedClassName="CtaCte" syncable="YES">
+        <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="clienteID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="comprobante" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="condicionDeVenta" optional="YES" attributeType="String" syncable="YES"/>

@@ -2,8 +2,8 @@
 //  CtaCte.h
 //  EQ
 //
-//  Created by Sebastian Borda on 8/25/13.
-//  Copyright (c) 2013 Sebastian Borda. All rights reserved.
+//  Created by Sebastian Borda on 1/27/14.
+//  Copyright (c) 2014 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -22,5 +22,6 @@
 @property (nonatomic, retain) NSNumber * importeConDescuento;
 @property (nonatomic, retain) NSNumber * importePercepcion;
 @property (nonatomic, retain) NSString * vendedorID;
+@property (nonatomic, retain) NSNumber * activo;
 
 @end
