@@ -757,6 +757,8 @@
 		96579D1C186261D900A688DA /* comunicacionesObjetivosIconoNoLeido@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B36902317BC5F54008BA88F /* comunicacionesObjetivosIconoNoLeido@2x.png */; };
 		96579D1D186261D900A688DA /* buttonSolapasCatalogo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BB5B20818177275006B41AA /* buttonSolapasCatalogo@2x.png */; };
 		96579D1E186261D900A688DA /* EQGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B8882A617D552AC00D361E6 /* EQGroupCell.xib */; };
+		9669039A18A3AB5900FCB841 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9669038518A3AB5900FCB841 /* Reachability.m */; };
+		9669039B18A3AB5900FCB841 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9669038518A3AB5900FCB841 /* Reachability.m */; };
 		967F7D6C188C64C500629FD8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6B188C64C500629FD8 /* Default.png */; };
 		967F7D6D188C682300629FD8 /* EQSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9609EBA81881ED4500FA0746 /* EQSettings.m */; };
 		967F7D6F188C7AF000629FD8 /* manifest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6E188C7AF000629FD8 /* manifest.plist */; };
@@ -1260,6 +1262,8 @@
 		9609EBA81881ED4500FA0746 /* EQSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSettings.m; sourceTree = "<group>"; };
 		96579D22186261D900A688DA /* EQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96579D23186261DA00A688DA /* EQTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EQTest-Info.plist"; path = "/Users/seba/Documents/projects/EQ-V1/EQTest-Info.plist"; sourceTree = "<absolute>"; };
+		9669038418A3AB5900FCB841 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9669038518A3AB5900FCB841 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		967F7D6B188C64C500629FD8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = EQ/Default.png; sourceTree = "<group>"; };
 		967F7D6E188C7AF000629FD8 /* manifest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = manifest.plist; sourceTree = "<group>"; };
 		96E2670F189750BC003C8E81 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
@@ -1487,6 +1491,7 @@
 		21106835171B4B86002C42C0 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				9669037018A3AAB200FCB841 /* Reachability */,
 				6BB3A2F4177AA80B0084F777 /* CDatePickerView */,
 				211067F71719D784002C42C0 /* TabBar */,
 				21106817171B4B61002C42C0 /* AFNetworking */,
@@ -2095,6 +2100,15 @@
 			name = cells;
 			sourceTree = "<group>";
 		};
+		9669037018A3AAB200FCB841 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9669038418A3AB5900FCB841 /* Reachability.h */,
+				9669038518A3AB5900FCB841 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2157,6 +2171,7 @@
 			knownRegions = (
 				en,
 				es,
+				Base,
 			);
 			mainGroup = 214A58C516FFB88A005D787D;
 			productRefGroup = 214A58CF16FFB88A005D787D /* Products */;
@@ -2724,6 +2739,7 @@
 				2110680E171AF413002C42C0 /* EQBaseViewController.m in Sources */,
 				21106814171B4B36002C42C0 /* ALTabBarController.m in Sources */,
 				21106815171B4B36002C42C0 /* ALTabBarView.m in Sources */,
+				9669039A18A3AB5900FCB841 /* Reachability.m in Sources */,
 				2110682B171B4B62002C42C0 /* AFHTTPClient.m in Sources */,
 				2110682C171B4B62002C42C0 /* AFHTTPRequestOperation.m in Sources */,
 				2110682D171B4B62002C42C0 /* AFImageRequestOperation.m in Sources */,
@@ -2840,6 +2856,7 @@
 				96579BAB186261D900A688DA /* EQBaseViewController.m in Sources */,
 				96579BAC186261D900A688DA /* ALTabBarController.m in Sources */,
 				96579BAD186261D900A688DA /* ALTabBarView.m in Sources */,
+				9669039B18A3AB5900FCB841 /* Reachability.m in Sources */,
 				96579BAE186261D900A688DA /* AFHTTPClient.m in Sources */,
 				96579BAF186261D900A688DA /* AFHTTPRequestOperation.m in Sources */,
 				96579BB0186261D900A688DA /* AFImageRequestOperation.m in Sources */,

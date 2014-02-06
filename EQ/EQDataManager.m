@@ -33,6 +33,7 @@
 #import "Catalogo+extra.h"
 #import "AFImageRequestOperation.h"
 #import "CatalogoImagen.h"
+#import "Reachability.h"
 
 #define OBJECTS_PER_PAGE 5000
 #define DATE_FORMATTER [[NSDateFormatter alloc] init]
@@ -65,7 +66,12 @@
             NSLog(@"%@",errorMessage);
             if (weakSelf.showLoading) {
                 [APP_DELEGATE hideLoadingView];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hubo un error en la carga de datos" message:errorMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                UIAlertView *alert = nil;
+                if ([weakSelf isServerAvailable]) {
+                     alert = [[UIAlertView alloc] initWithTitle:@"Hubo un error en la carga de datos" message:errorMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                } else {
+                    alert = [[UIAlertView alloc] initWithTitle:nil message:@"La aplicacion esta funcionando en modo offline" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                }
                 [alert show];
             }
         };
@@ -73,18 +79,36 @@
     return sharedInstance;
 }
 
+- (BOOL)isServerAvailable {
+    Reachability* reachability = [Reachability reachabilityWithHostName:BASE_URL];
+    NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
+    
+    return remoteHostStatus != NotReachable;
+}
+
 - (void)updateDataShowLoading:(BOOL)show{
     if (!self.running) {
-        self.dataUpdated = NO;
-        self.running = YES;
-        self.showLoading = show;
-        // start load
-        if (show) {
-            [self updateSettings];
+        if ([self isServerAvailable]) {
+            self.dataUpdated = NO;
+            self.running = YES;
+            self.showLoading = show;
+            // start load
+            if (show) {
+                [self updateSettings];
+            } else {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    [self updateSettings];
+                });
+            }
         } else {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                [self updateShippingArea];
-            });
+            if (show) {
+                if ([self showLoading]) {
+                    [APP_DELEGATE hideLoadingView];
+                }
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"La aplicacion esta funcionando en modo offline" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            }
         }
     }
 }
