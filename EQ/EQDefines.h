@@ -21,11 +21,13 @@ typedef enum{
 #define APP_DELEGATE (EQAppDelegate *)[[UIApplication sharedApplication]delegate]
 #ifdef TEST_VERSION
     #define MAXIMUM_MINUTES_TO_UPDATE 10
+    #define HOST @"stg.eqarte.com.ar"
     #define BASE_URL @"http://stg.eqarte.com.ar/"
     #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
     #define API_URL "http://stg.eqarte.com.ar/wp-admin/admin-ajax.php"
 #else
     #define MAXIMUM_MINUTES_TO_UPDATE 10
+    #define HOST @"www.eqarte.com.ar"
     #define BASE_URL @"http://www.eqarte.com.ar/"
     #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
     #define API_URL "http://www.eqarte.com.ar/wp-admin/admin-ajax.php"

@@ -21,9 +21,7 @@
 - (void)loginUser:(NSString *)userName withPassword:(NSString *)userPassword{
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     __block NSString *hashedPassword = [userPassword MD5];
-    //TODO: uncomment
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.nombreDeUsuario == %@ && SELF.password == %@", userName, hashedPassword];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.nombreDeUsuario == %@", userName, hashedPassword];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.nombreDeUsuario == %@ && SELF.password == %@", userName, hashedPassword];
     __block Usuario *currentUser = (Usuario *)[adl objectForClass:[Usuario class] withPredicate:predicate];
     if (currentUser) {
         [self loginDidCompleteWithUser:currentUser];

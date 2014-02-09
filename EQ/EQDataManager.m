@@ -34,6 +34,7 @@
 #import "AFImageRequestOperation.h"
 #import "CatalogoImagen.h"
 #import "Reachability.h"
+#import "NSString+MD5.h"
 
 #define OBJECTS_PER_PAGE 5000
 #define DATE_FORMATTER [[NSDateFormatter alloc] init]
@@ -80,7 +81,7 @@
 }
 
 - (BOOL)isServerAvailable {
-    Reachability* reachability = [Reachability reachabilityWithHostName:BASE_URL];
+    Reachability* reachability = [Reachability reachabilityWithHostName:HOST];
     NetworkStatus remoteHostStatus = [reachability currentReachabilityStatus];
     
     return remoteHostStatus != NotReachable;
@@ -1323,6 +1324,11 @@
     NSMutableDictionary *orderDictionary = [NSMutableDictionary dictionary];
     if([order.identifier intValue] > 0) {
         [orderDictionary setNotNilObject:order.identifier forKey:@"id"];
+    } else {
+        NSDateFormatter *dateFormatter = DATE_FORMATTER;
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *orderCode = [NSString stringWithFormat:@"%@&%@&%@&%@",[dateFormatter stringFromDate:order.fecha],order.vendedorID, order.clienteID,[order total]];
+        [orderDictionary setNotNilObject:[orderCode MD5] forKey:@"hash"];
     }
     [orderDictionary setValue:order.clienteID forKey:@"cliente_id"];
     [orderDictionary setValue:order.vendedorID forKey:@"vendedor_id"];
