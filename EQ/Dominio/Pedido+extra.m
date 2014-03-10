@@ -106,12 +106,29 @@
     [pedido appendString:@"<th align='center'>Importe</th>"];
     [pedido appendString:@"<th align='center'>Importe con Desc.</th>"];
     [pedido appendString:@"</tr>"];
-    for (ItemPedido* item in self.items) {
+    NSArray *sortedItems = [self sortedItems];
+    for (ItemPedido* item in sortedItems) {
         [pedido appendString:[item itemPedidoHTML]];
     }
     [pedido appendString:@"</table>"];
     
     return pedido;
+}
+
+- (NSArray *)sortedItems {
+    NSArray *originalItems = [self.items allObjects];
+    NSArray *sortedArray = [originalItems sortedArrayUsingComparator: ^(ItemPedido *obj1, ItemPedido *obj2) {
+        
+        if ([obj1.orden integerValue] > [obj2.orden integerValue]) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if ([obj1.orden integerValue] < [obj2.orden integerValue]) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+    return  sortedArray;
 }
 
 @end

@@ -23,5 +23,6 @@
 - (NSDate *)primerFechaDeFacturacion;
 
 - (NSString *)pedidoHTML;
+- (NSArray *)sortedItems;
 
 @end

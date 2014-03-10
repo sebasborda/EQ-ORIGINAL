@@ -168,11 +168,20 @@
     return credentials;
 }
 
-- (void)updatePageCompleted:(NSNumber *)page ForClass:(Class)class{
+- (void)updatePageCompleted:(NSNumber *)page ForClass:(Class)class needUser:(BOOL)needUser{
     Usuario *user = [[EQSession sharedInstance] user];
     NSString *className = NSStringFromClass(class);
-    NSString *key = [className stringByAppendingFormat:@"PageUpdated-%@",user.vendedorID];
-    NSString *keyDate = [className stringByAppendingFormat:@"PageUpdatedDate-%@",user.vendedorID];
+    
+    NSString *key = nil;
+    NSString *keyDate = nil;
+    if (needUser) {
+        key = [className stringByAppendingFormat:@"PageUpdated-%@",user.vendedorID];
+        keyDate = [className stringByAppendingFormat:@"PageUpdatedDate-%@",user.vendedorID];
+    } else {
+        key = [className stringByAppendingString:@"PageUpdated"];
+        keyDate = [className stringByAppendingString:@"PageUpdatedDate"];
+    }
+
     [[NSUserDefaults standardUserDefaults] setObject:page forKey:key];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:keyDate];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -182,13 +191,21 @@
     }
 }
 
-- (int)obtainNextPageForClass:(Class)class{
+- (int)obtainNextPageForClass:(Class)class needUser:(BOOL)needUser{
     Usuario *user = [[EQSession sharedInstance] user];
     NSString *className = NSStringFromClass(class);
-    
-    NSString *key = [className stringByAppendingFormat:@"PageUpdated-%@",user.vendedorID];
-    NSString *keyDate = [className stringByAppendingFormat:@"PageUpdatedDate-%@",user.vendedorID];
-    NSString *keyObject = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    NSString *key = nil;
+    NSString *keyDate = nil;
+    NSString *keyObject = nil;
+    if (needUser) {
+        key = [className stringByAppendingFormat:@"PageUpdated-%@",user.vendedorID];
+        keyDate = [className stringByAppendingFormat:@"PageUpdatedDate-%@",user.vendedorID];
+        keyObject = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    } else {
+        key = [className stringByAppendingString:@"PageUpdated"];
+        keyDate = [className stringByAppendingString:@"PageUpdatedDate"];
+        keyObject = [className stringByAppendingString:@"LastUpdate"];
+    }
     
     NSNumber *pageNumber = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSDate *lastPageSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:keyDate];
@@ -199,10 +216,16 @@
     return !lastSyncDate || pageUpdateuncompleted ? [pageNumber intValue] + 1 : 1;
 }
 
-- (void)updateCompletedFor:(Class)class{
+- (void)updateCompletedFor:(Class)class needUser:(BOOL)needUser {
     NSString *className = NSStringFromClass(class);
-    Usuario *user = [[EQSession sharedInstance] user];
-    NSString *key = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    NSString *key = nil;
+    if (needUser) {
+        Usuario *user = [[EQSession sharedInstance] user];
+        key = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    } else {
+        key = [className stringByAppendingString:@"LastUpdate"];
+    }
+
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -211,10 +234,16 @@
     }
 }
 
-- (NSMutableDictionary *)obtainLastUpdateFor:(Class)class{
+- (NSMutableDictionary *)obtainLastUpdateFor:(Class)class needIncludeUser:(BOOL)needIncludeUser{
     Usuario *user = [[EQSession sharedInstance] user];
     NSString *className = NSStringFromClass(class);
-    NSString *key = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    NSString *key = nil;
+    if (needIncludeUser) {
+        key = [className stringByAppendingFormat:@"LastUpdate-%@",user.vendedorID];
+    } else {
+        key = [className stringByAppendingString:@"LastUpdate"];
+    }
+
     NSDate *lastSyncDate = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSMutableDictionary *lastUpdate = [NSMutableDictionary dictionary];
     if (lastSyncDate) {
@@ -242,8 +271,8 @@
 }
 
 - (void)updateCost{
-    int page = [self obtainNextPageForClass:[Precio class]];
-    BOOL override = page==1 && [[[self obtainLastUpdateFor:[Precio class]] allKeys] count] != 0;
+    int page = [self obtainNextPageForClass:[Precio class] needUser:NO];
+    BOOL override = page==1 && [[[self obtainLastUpdateFor:[Precio class] needIncludeUser:NO] allKeys] count] != 0;
     [self updateCostPage:page forceOverride:override ];
 }
 
@@ -253,7 +282,7 @@
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Precio class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Precio class] needIncludeUser:NO]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -272,13 +301,13 @@
             }];
 
             int nextPage = page + 1;
-            [self updatePageCompleted:dictionary[@"page"] ForClass:[Precio class]];
+            [self updatePageCompleted:dictionary[@"page"] ForClass:[Precio class] needUser:NO];
             [self updateCostPage:nextPage forceOverride:override];
         } else {
             if (page > 1 && override) {
                 [self changePricesList];
             }
-            [self updateCompletedFor:[Precio class]];
+            [self updateCompletedFor:[Precio class] needUser:NO];
             [self updateUsers];
         }
     };
@@ -290,12 +319,12 @@
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"configuracion" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[EQSettings class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[EQSettings class] needIncludeUser:NO]];
     
     SuccessRequest success = ^(NSDictionary *dictionary){
         [EQSession sharedInstance].settings.defaultPriceList = dictionary[@"lista_precios_default"];
         [EQSession sharedInstance].settings.enviroment = dictionary[@"env"];
-        [self updateCompletedFor:[EQSettings class]];
+        [self updateCompletedFor:[EQSettings class] needUser:NO];
         [self updateShippingArea];
     };
     
@@ -354,7 +383,7 @@
             self.dataUpdated = YES;
         }];
 
-        [self updateCompletedFor:[Comunicacion class]];
+        [self updateCompletedFor:[Comunicacion class] needUser:YES];
         [self updateGroups];
     };
     
@@ -362,7 +391,7 @@
     [dictionary setObject:@"comunicacion" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Comunicacion class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Comunicacion class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
@@ -394,7 +423,7 @@
             self.dataUpdated = YES;
         }];
         
-        [self updateCompletedFor:[Pedido class]];
+        [self updateCompletedFor:[Pedido class] needUser:YES];
         [self updateItemPedido];
     };
     
@@ -402,7 +431,7 @@
     [dictionary setObject:@"pedido" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Pedido class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Pedido class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
@@ -420,6 +449,7 @@
                 if (!item) {
                     item = (ItemPedido *)[dal createManagedObjectWithEntity:[itemData objectForKey:@"entity"]];
                     item.pedido = (Pedido *)[dal objectForClass:[Pedido class] withId:pedidoID];
+                    item.orden =  @([item.pedido.items count]);
                     item.identifier = [[itemData objectForKey:@"articulo_id"] stringByAppendingFormat:@"-%@",[itemData objectForKey:@"pedido_id"]];
                     item.articuloID = articuloID;
                     item.cantidad = [[itemData filterInvalidEntry:@"cantidad_pedida"] number];
@@ -449,14 +479,14 @@
                 self.dataUpdated = YES;
             }];
         }
-        [self updateCompletedFor:[ItemPedido class]];
+        [self updateCompletedFor:[ItemPedido class] needUser:YES];
         [self updateCurrentAccount];
     };
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"pedido_articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ItemPedido class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
@@ -487,7 +517,7 @@
             [self changeCurrentAccount];
         }
 
-        [self updateCompletedFor:[CtaCte class]];
+        [self updateCompletedFor:[CtaCte class] needUser:YES];
         [self updateNotifications];
     };
     
@@ -495,7 +525,7 @@
     [params setObject:@"cuenta_corriente" forKey:@"object"];
     [params setObject:@"listar" forKey:@"action"];
     [params addEntriesFromDictionary:[self obtainCredentials]];
-    [params addEntriesFromDictionary:[self obtainLastUpdateFor:[CtaCte class]]];
+    [params addEntriesFromDictionary:[self obtainLastUpdateFor:[CtaCte class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:params successBlock:success failBlock:nil];
 }
@@ -531,7 +561,7 @@
     [dictionary setObject:@"condicion_pago" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[CondPag class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[CondPag class] needIncludeUser:NO]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -545,7 +575,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[CondPag class]];
+        [self updateCompletedFor:[CondPag class] needUser:NO];
         [self updateKindTaxes];
     };
     
@@ -557,7 +587,7 @@
     [dictionary setObject:@"linea_venta" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[LineaVTA class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[LineaVTA class] needIncludeUser:NO]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -571,7 +601,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[LineaVTA class]];
+        [self updateCompletedFor:[LineaVTA class] needUser:NO];
         [self updateExpress];
     };
     
@@ -579,8 +609,8 @@
 }
 
 - (void)updateSales{
-    int page = [self obtainNextPageForClass:[Venta class]];
-    BOOL override = page==1 && [[[self obtainLastUpdateFor:[Venta class]] allKeys] count] != 0;
+    int page = [self obtainNextPageForClass:[Venta class] needUser:YES];
+    BOOL override = page==1 && [[[self obtainLastUpdateFor:[Venta class] needIncludeUser:YES] allKeys] count] != 0;
     [self updateSalesPage:page forceOverride:override];
 }
 
@@ -590,7 +620,7 @@
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Venta class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Venta class] needIncludeUser:YES]];
     
     SuccessRequest success = ^(NSArray *jsonArray){
         NSDictionary *extra = @ {@"active":[NSNumber numberWithBool:!override]};
@@ -615,13 +645,13 @@
             }];
 
             int nextPage = page + 1;
-            [self updatePageCompleted:dictionary[@"page"] ForClass:[Venta class]];
+            [self updatePageCompleted:dictionary[@"page"] ForClass:[Venta class] needUser:YES];
             [self updateSalesPage:nextPage forceOverride:override];
         } else {
             if (page > 1 && override) {
                 [self changeSalesList];
             }
-            [self updateCompletedFor:[Venta class]];
+            [self updateCompletedFor:[Venta class] needUser:YES];
             [self updateCatalog];
         }
         
@@ -710,7 +740,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Catalogo class]];
+        [self updateCompletedFor:[Catalogo class] needUser:NO];
         [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
     };
     
@@ -749,7 +779,7 @@
     [dictionary setObject:@"zona_envio" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ZonaEnvio class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[ZonaEnvio class] needIncludeUser:NO]];
     
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
@@ -763,7 +793,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[ZonaEnvio class]];
+        [self updateCompletedFor:[ZonaEnvio class] needUser:NO];
         [self updateProvince];
     };
     
@@ -816,7 +846,7 @@
             self.dataUpdated = YES;
         }];
         
-        [self updateCompletedFor:[Cliente class]];
+        [self updateCompletedFor:[Cliente class] needUser:YES];
         [self updateCost];
     };
     
@@ -824,7 +854,7 @@
     [dictionary setObject:@"cliente" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Cliente class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Cliente class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
@@ -874,14 +904,14 @@
             }
             [adl saveContext];
         }
-        [self updateCompletedFor:[Articulo class]];
+        [self updateCompletedFor:[Articulo class] needUser:YES];
         [self updateSellers];
     };
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"articulo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Articulo class] needIncludeUser:YES]];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
@@ -902,7 +932,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Vendedor class]];
+        [self updateCompletedFor:[Vendedor class] needUser:YES];
         [self updatePaymentCondition];
     };
     
@@ -910,7 +940,7 @@
     [dictionary setObject:@"vendedor" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Vendedor class]]];
+    [dictionary addEntriesFromDictionary:[self obtainLastUpdateFor:[Vendedor class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:dictionary successBlock:block failBlock:nil];
 }
@@ -928,7 +958,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Expreso class]];
+        [self updateCompletedFor:[Expreso class] needUser:NO];
         [self updateClients];
     };
     
@@ -936,7 +966,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"expreso" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Expreso class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Expreso class] needIncludeUser:NO]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -954,7 +984,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Provincia class]];
+        [self updateCompletedFor:[Provincia class] needUser:NO];
         [self updateAvailability];
     };
     
@@ -962,7 +992,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"provincia" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Provincia class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Provincia class] needIncludeUser:NO]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -980,7 +1010,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[TipoIvas class]];
+        [self updateCompletedFor:[TipoIvas class] needUser:NO];
         [self updateKindSales];
     };
     
@@ -988,7 +1018,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"tipo_iva" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[TipoIvas class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[TipoIvas class] needIncludeUser:NO]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -1009,7 +1039,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Usuario class]];
+        [self updateCompletedFor:[Usuario class] needUser:YES];
         [self updateOrders];
     };
     
@@ -1017,7 +1047,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"login" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Usuario class] needIncludeUser:YES]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -1043,7 +1073,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Grupo class]];
+        [self updateCompletedFor:[Grupo class] needUser:NO];
         [self updateSales];
     };
     
@@ -1051,7 +1081,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"categoria" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Grupo class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Grupo class] needIncludeUser:NO]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -1068,7 +1098,7 @@
         }
         
         [adl saveContext];
-        [self updateCompletedFor:[Disponibilidad class]];
+        [self updateCompletedFor:[Disponibilidad class] needUser:NO];
         [self updateProducts];
     };
     
@@ -1076,7 +1106,7 @@
     [parameters setObject:@"listar" forKey:@"action"];
     [parameters setObject:@"disponibilidad" forKey:@"object"];
     [parameters addEntriesFromDictionary:[self obtainCredentials]];
-    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Disponibilidad class]]];
+    [parameters addEntriesFromDictionary:[self obtainLastUpdateFor:[Disponibilidad class] needIncludeUser:NO]];
     
     [self executeRequestWithParameters:parameters successBlock:block failBlock:nil];
 }
@@ -1306,7 +1336,8 @@
 
 - (NSMutableDictionary *)parseOrder:(Pedido *)order{
     NSMutableArray *items = [NSMutableArray array];
-    for (ItemPedido *item in order.items) {
+    NSArray *sortedItems = [order sortedItems];
+    for (ItemPedido *item in sortedItems) {
         NSMutableDictionary *itemDictionary = [NSMutableDictionary dictionary];
         float descuento = [item totalSinDescuento] - [item totalConDescuento];
         [itemDictionary setObject:item.articuloID forKey:@"articulo_id"];

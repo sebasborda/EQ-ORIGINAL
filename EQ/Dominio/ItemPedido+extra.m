@@ -42,6 +42,7 @@
     item.descuentoMonto = self.descuentoMonto;
     item.importeConDescuento = self.importeConDescuento;
     item.importeFinal = self.importeFinal;
+    item.orden = self.orden;
     item.precioUnitario = self.precioUnitario;
     
     return item;
@@ -60,4 +61,9 @@
     
     return item;
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Pedido:%@ Articulo:%@ Cantidad:%@ Orden:%@",self.pedido.identifier, self.articuloID, self.cantidad, self.orden];
+}
+
 @end

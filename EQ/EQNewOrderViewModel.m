@@ -171,7 +171,11 @@
 }
 
 - (BOOL)addItemQuantity:(int)quantity{
-    BOOL canAdd = self.articleSelected && (([self.articleSelected.multiploPedido intValue] <= 2) || (quantity % 2 == 0 && quantity % [self.articleSelected.multiploPedido intValue] == 0)) && quantity >= [self.articleSelected.minimoPedido intValue];
+    int multiplo = [self.articleSelected.multiploPedido intValue];
+    int minimo = [self.articleSelected.minimoPedido intValue];
+    BOOL canAdd = self.articleSelected &&
+    (multiplo <= 2 || (quantity % 2 == 0 && quantity % multiplo == 0 && quantity > minimo) || quantity == minimo);
+    
     if (canAdd) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
@@ -187,6 +191,7 @@
             item.articuloID = self.articleSelected.identifier;
             item.cantidad = [NSNumber numberWithInt:quantity];
             [self.order addItemsObject:item];
+            item.orden = @([self.order.items count]);
         }
         
         [self.delegate modelDidAddItem];
@@ -229,10 +234,7 @@
 }
 
 - (NSArray *)items{
-    NSArray *items = [self.order.items allObjects];
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"articulo.nombre" ascending:YES];
-    items = [items sortedArrayUsingDescriptors:@[sort]];
-    return items;
+    return [self.order sortedItems];
 }
 
 - (int)orderStatusIndex{

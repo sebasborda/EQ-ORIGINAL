@@ -202,7 +202,6 @@
 		6B7CC82117B926F300E45A4C /* cuentaCorrienteFondoTotales.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC81F17B926F300E45A4C /* cuentaCorrienteFondoTotales.png */; };
 		6B7CC82217B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */; };
 		6B83DB1817EA8FC6001534B2 /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1717EA8FC6001534B2 /* Cliente.m */; };
-		6B83DB1B17EA8FC8001534B2 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */; };
 		6B88775917CA869300FD3C49 /* Provincia.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775817CA869300FD3C49 /* Provincia.m */; };
 		6B88775C17CA869300FD3C49 /* Articulo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775B17CA869300FD3C49 /* Articulo.m */; };
 		6B88775F17CA869400FD3C49 /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B88775E17CA869300FD3C49 /* Usuario.m */; };
@@ -489,7 +488,6 @@
 		96579C0C186261D900A688DA /* EQGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B8882A917D552DD00D361E6 /* EQGroupCell.m */; };
 		96579C0D186261D900A688DA /* ItemFacturado.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9C521717E013E200FDDC70 /* ItemFacturado.m */; };
 		96579C0E186261D900A688DA /* Cliente.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1717EA8FC6001534B2 /* Cliente.m */; };
-		96579C0F186261D900A688DA /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */; };
 		96579C11186261D900A688DA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC1918F178CF36A0019AA7C /* CoreLocation.framework */; };
 		96579C12186261D900A688DA /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2172A912174097DA00C8C446 /* MessageUI.framework */; };
 		96579C13186261D900A688DA /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2144AA20172A23720065D30A /* MobileCoreServices.framework */; };
@@ -762,6 +760,8 @@
 		967F7D6C188C64C500629FD8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6B188C64C500629FD8 /* Default.png */; };
 		967F7D6D188C682300629FD8 /* EQSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9609EBA81881ED4500FA0746 /* EQSettings.m */; };
 		967F7D6F188C7AF000629FD8 /* manifest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6E188C7AF000629FD8 /* manifest.plist */; };
+		96B1A4AA18CBCC1200FC9058 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B1A4A918CBCC1200FC9058 /* ItemPedido.m */; };
+		96B1A4AB18CBCFBD00FC9058 /* ItemPedido.m in Sources */ = {isa = PBXBuildFile; fileRef = 96B1A4A918CBCC1200FC9058 /* ItemPedido.m */; };
 		96E26711189750BC003C8E81 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E26710189750BC003C8E81 /* CtaCte.m */; };
 		96E26712189750BC003C8E81 /* CtaCte.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E26710189750BC003C8E81 /* CtaCte.m */; };
 		96ED114E18952A630028A6AB /* iconTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114C18952A630028A6AB /* iconTest.png */; };
@@ -1043,8 +1043,6 @@
 		6B7CC82017B926F300E45A4C /* cuentaCorrienteFondoTotales@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cuentaCorrienteFondoTotales@2x.png"; sourceTree = "<group>"; };
 		6B83DB1617EA8FC6001534B2 /* Cliente.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cliente.h; sourceTree = "<group>"; };
 		6B83DB1717EA8FC6001534B2 /* Cliente.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cliente.m; sourceTree = "<group>"; };
-		6B83DB1917EA8FC7001534B2 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
-		6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
 		6B88775717CA869300FD3C49 /* Provincia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provincia.h; sourceTree = "<group>"; };
 		6B88775817CA869300FD3C49 /* Provincia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Provincia.m; sourceTree = "<group>"; };
 		6B88775A17CA869300FD3C49 /* Articulo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Articulo.h; sourceTree = "<group>"; };
@@ -1266,6 +1264,8 @@
 		9669038518A3AB5900FCB841 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		967F7D6B188C64C500629FD8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = EQ/Default.png; sourceTree = "<group>"; };
 		967F7D6E188C7AF000629FD8 /* manifest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = manifest.plist; sourceTree = "<group>"; };
+		96B1A4A818CBCC1200FC9058 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
+		96B1A4A918CBCC1200FC9058 /* ItemPedido.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPedido.m; sourceTree = "<group>"; };
 		96E2670F189750BC003C8E81 /* CtaCte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtaCte.h; sourceTree = "<group>"; };
 		96E26710189750BC003C8E81 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
 		96ED114C18952A630028A6AB /* iconTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconTest.png; sourceTree = "<group>"; };
@@ -1354,8 +1354,6 @@
 				6B88829F17D5204300D361E6 /* Grupo.m */,
 				6B9C521617E013E200FDDC70 /* ItemFacturado.h */,
 				6B9C521717E013E200FDDC70 /* ItemFacturado.m */,
-				6B83DB1917EA8FC7001534B2 /* ItemPedido.h */,
-				6B83DB1A17EA8FC8001534B2 /* ItemPedido.m */,
 				6B83DB1617EA8FC6001534B2 /* Cliente.h */,
 				6B83DB1717EA8FC6001534B2 /* Cliente.m */,
 				6B0351091820AE3400E2F0FF /* CatalogoImagen.h */,
@@ -1364,6 +1362,8 @@
 				6B0351121823F3E500E2F0FF /* Catalogo.m */,
 				96E2670F189750BC003C8E81 /* CtaCte.h */,
 				96E26710189750BC003C8E81 /* CtaCte.m */,
+				96B1A4A818CBCC1200FC9058 /* ItemPedido.h */,
+				96B1A4A918CBCC1200FC9058 /* ItemPedido.m */,
 			);
 			path = Dominio;
 			sourceTree = "<group>";
@@ -2816,6 +2816,7 @@
 				6B66E7C71789AF8F007A5E65 /* EQCommunicationCell.m in Sources */,
 				6B66E7CA1789E5A9007A5E65 /* Usuario+extra.m in Sources */,
 				6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */,
+				96B1A4AA18CBCC1200FC9058 /* ItemPedido.m in Sources */,
 				6BE926EF17B09E410059D362 /* NSNumber+EQ.m in Sources */,
 				6B36901517BC578A008BA88F /* Disponibilidad+extra.m in Sources */,
 				6B88775917CA869300FD3C49 /* Provincia.m in Sources */,
@@ -2838,7 +2839,6 @@
 				6B8882AA17D552DD00D361E6 /* EQGroupCell.m in Sources */,
 				6B9C521817E013E200FDDC70 /* ItemFacturado.m in Sources */,
 				6B83DB1817EA8FC6001534B2 /* Cliente.m in Sources */,
-				6B83DB1B17EA8FC8001534B2 /* ItemPedido.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2933,6 +2933,7 @@
 				96579BF6186261D900A688DA /* EQCommunicationCell.m in Sources */,
 				96579BF7186261D900A688DA /* Usuario+extra.m in Sources */,
 				96579BF8186261D900A688DA /* UIColor+EQ.m in Sources */,
+				96B1A4AB18CBCFBD00FC9058 /* ItemPedido.m in Sources */,
 				96579BF9186261D900A688DA /* NSNumber+EQ.m in Sources */,
 				96579BFA186261D900A688DA /* Disponibilidad+extra.m in Sources */,
 				96579BFC186261D900A688DA /* Provincia.m in Sources */,
@@ -2955,7 +2956,6 @@
 				96579C0C186261D900A688DA /* EQGroupCell.m in Sources */,
 				96579C0D186261D900A688DA /* ItemFacturado.m in Sources */,
 				96579C0E186261D900A688DA /* Cliente.m in Sources */,
-				96579C0F186261D900A688DA /* ItemPedido.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
