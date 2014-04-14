@@ -170,12 +170,7 @@
     }
 }
 
-- (BOOL)addItemQuantity:(int)quantity{
-    int multiplo = [self.articleSelected.multiploPedido intValue];
-    int minimo = [self.articleSelected.minimoPedido intValue];
-    BOOL canAdd = self.articleSelected &&
-    (multiplo <= 2 || (quantity % 2 == 0 && quantity % multiplo == 0 && quantity > minimo) || quantity == minimo);
-    
+- (void)AddQuantity:(int)quantity canAdd:(BOOL)canAdd {
     if (canAdd) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
@@ -198,9 +193,17 @@
     } else {
         [self.delegate modelAddItemDidFail];
     }
+}
+
+- (BOOL)addItemQuantity:(int)quantity{
+    int multiplo = [self.articleSelected.multiploPedido intValue];
+    int minimo = [self.articleSelected.minimoPedido intValue];
+    BOOL canAdd = self.articleSelected && quantity % multiplo == 0 && quantity >= minimo;
+    [self AddQuantity:quantity canAdd:canAdd];
     
     return canAdd;
 }
+
 
 - (NSNumber *)itemsQuantity{
     int quantity = 0;

@@ -363,7 +363,7 @@
         if (self.viewModel.articleSelected) {
             do {
                 base += multiplicity;
-            } while ((base % 2) != 0 && base > minimum);
+            } while (base < minimum);
             NSString *text = [NSString stringWithFormat:@"%i",base];
             [button setTitle:text forState:UIControlStateNormal];
             button.hidden = NO;
@@ -389,7 +389,7 @@
 }
 
 - (void)modelAddItemDidFail{
-    NSString *message = [NSString stringWithFormat:@"No se pudo agregar el articulo verifique que la cantidad sea correcta multiplo de 2, %@ y un minimo de %@",self.viewModel.articleSelected.multiploPedido, self.viewModel.articleSelected.minimoPedido];
+    NSString *message = [NSString stringWithFormat:@"No se pudo agregar el articulo verifique que la cantidad sea correcta multiplo de %@ y un minimo de %@",self.viewModel.articleSelected.multiploPedido, self.viewModel.articleSelected.minimoPedido];
     if (!self.viewModel.articleSelected) {
         message = @"Debe tener un articulo seleccionado";
     }
