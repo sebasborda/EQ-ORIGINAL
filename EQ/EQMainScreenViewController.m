@@ -31,6 +31,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.loggedUserLabel.text = [[self.viewModel loggedUserName] uppercaseString];
+    self.versionLabel.text = [NSString stringWithFormat:@"Número de versión: %@",[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey]];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 

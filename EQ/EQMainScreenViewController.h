@@ -11,6 +11,7 @@
 
 @interface EQMainScreenViewController : EQBaseViewController<EQCreateClientViewControllerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *loggedUserLabel;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 - (IBAction)sectionButtonAction:(id)sender;
 - (IBAction)createClientButtonAction:(id)sender;

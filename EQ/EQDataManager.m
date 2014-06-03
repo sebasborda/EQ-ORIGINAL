@@ -842,7 +842,8 @@
             client.web = [clienteDictionary filterInvalidEntry:@"web"];
             client.actualizado = [NSNumber numberWithBool:YES];
             client.activo = [[clienteDictionary filterInvalidEntry:@"activo"] number];
-            client.listaPrecios = [clienteDictionary filterInvalidEntry:@"numero_lista_precios"];
+            NSString *listaDePrecios = [clienteDictionary filterInvalidEntry:@"numero_lista_precios"];
+            client.listaPrecios = [listaDePrecios length] > 0 ? listaDePrecios : [EQSession sharedInstance].settings.defaultPriceList;
             self.dataUpdated = YES;
         }];
         

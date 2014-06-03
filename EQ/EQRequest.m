@@ -82,4 +82,8 @@
     return request;
 }
 
+- (NSString *)description {
+    return [[self.urlRequest URL] absoluteString];
+}
+
 @end
