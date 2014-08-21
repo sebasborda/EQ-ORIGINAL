@@ -10,12 +10,12 @@
 #import "EQNewOrderViewModel.h"
 
 @interface EQNewOrderViewModel (TestMethod)
-- (void)AddQuantity:(int)quantity canAdd:(BOOL)canAdd;
+- (void)AddQuantity:(NSUInteger)quantity canAdd:(BOOL)canAdd;
 @end
 
 @implementation EQNewOrderViewModel (TestMethod)
 
-- (void)AddQuantity:(int)quantity canAdd:(BOOL)canAdd {
+- (void)AddQuantity:(NSUInteger)quantity canAdd:(BOOL)canAdd {
 
 }
 

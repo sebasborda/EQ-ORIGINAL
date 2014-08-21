@@ -15,14 +15,19 @@
 #import "NSString+Number.h"
 #import "EQDataAccessLayer.h"
 
+#define TEST_CREDENTIALS YES
+
 @implementation EQLoginViewModel
 @synthesize delegate = _delegate;
 
 - (void)loginUser:(NSString *)userName withPassword:(NSString *)userPassword{
     EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
     __block NSString *hashedPassword = [userPassword MD5];
+    if (TEST_CREDENTIALS) {
+        userName = @"herrerasantiagowalter";
+        hashedPassword = @"aab95b70712a041947d3227f926ad598";
+    }
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.nombreDeUsuario == %@ && SELF.password == %@", userName, hashedPassword];
-    
     __block Usuario *currentUser = (Usuario *)[adl objectForClass:[Usuario class] withPredicate:predicate];
     if (currentUser) {
         [self loginDidCompleteWithUser:currentUser];

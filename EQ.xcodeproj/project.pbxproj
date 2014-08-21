@@ -382,6 +382,8 @@
 		6BE926F317B13D730059D362 /* 03.listado.de.pedidos.back.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BE926F117B13D730059D362 /* 03.listado.de.pedidos.back.png */; };
 		6BF02CED17AEFB4200AB788B /* UIColor+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */; };
 		9609EBA91881ED4500FA0746 /* EQSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9609EBA81881ED4500FA0746 /* EQSettings.m */; };
+		963548DE19547C9300086ED5 /* EQDatamanagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 963548DD19547C9300086ED5 /* EQDatamanagerTest.m */; };
+		963548DF19547CB100086ED5 /* EQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 214ED0D6172F76EC007D3718 /* EQDataManager.m */; };
 		96579BA4186261D900A688DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 214A58DD16FFB88A005D787D /* main.m */; };
 		96579BA5186261D900A688DA /* EQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 214A58E116FFB88A005D787D /* EQAppDelegate.m */; };
 		96579BA6186261D900A688DA /* EQDataAccessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 214A590916FFCB6B005D787D /* EQDataAccessLayer.m */; };
@@ -757,6 +759,9 @@
 		96579D1E186261D900A688DA /* EQGroupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6B8882A617D552AC00D361E6 /* EQGroupCell.xib */; };
 		9669039A18A3AB5900FCB841 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9669038518A3AB5900FCB841 /* Reachability.m */; };
 		9669039B18A3AB5900FCB841 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9669038518A3AB5900FCB841 /* Reachability.m */; };
+		967C5533197B6072002C68C9 /* NSArray+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C5532197B6072002C68C9 /* NSArray+EQ.m */; };
+		967C5534197B6072002C68C9 /* NSArray+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C5532197B6072002C68C9 /* NSArray+EQ.m */; };
+		967C5535197B6072002C68C9 /* NSArray+EQ.m in Sources */ = {isa = PBXBuildFile; fileRef = 967C5532197B6072002C68C9 /* NSArray+EQ.m */; };
 		967F7D6C188C64C500629FD8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6B188C64C500629FD8 /* Default.png */; };
 		967F7D6D188C682300629FD8 /* EQSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9609EBA81881ED4500FA0746 /* EQSettings.m */; };
 		967F7D6F188C7AF000629FD8 /* manifest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 967F7D6E188C7AF000629FD8 /* manifest.plist */; };
@@ -1274,10 +1279,13 @@
 		6BF02CEC17AEFB4200AB788B /* UIColor+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+EQ.m"; sourceTree = "<group>"; };
 		9609EBA71881ED4500FA0746 /* EQSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EQSettings.h; sourceTree = "<group>"; };
 		9609EBA81881ED4500FA0746 /* EQSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQSettings.m; sourceTree = "<group>"; };
+		963548DD19547C9300086ED5 /* EQDatamanagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EQDatamanagerTest.m; sourceTree = "<group>"; };
 		96579D22186261D900A688DA /* EQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96579D23186261DA00A688DA /* EQTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "EQTest-Info.plist"; path = "/Users/seba/Documents/projects/EQ-V1/EQTest-Info.plist"; sourceTree = "<absolute>"; };
 		9669038418A3AB5900FCB841 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		9669038518A3AB5900FCB841 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		967C5531197B6072002C68C9 /* NSArray+EQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+EQ.h"; sourceTree = "<group>"; };
+		967C5532197B6072002C68C9 /* NSArray+EQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+EQ.m"; sourceTree = "<group>"; };
 		967F7D6B188C64C500629FD8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = EQ/Default.png; sourceTree = "<group>"; };
 		967F7D6E188C7AF000629FD8 /* manifest.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = manifest.plist; sourceTree = "<group>"; };
 		96B1A4A818CBCC1200FC9058 /* ItemPedido.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPedido.h; sourceTree = "<group>"; };
@@ -1475,6 +1483,8 @@
 				6BE926EE17B09E410059D362 /* NSNumber+EQ.m */,
 				9609EBA71881ED4500FA0746 /* EQSettings.h */,
 				9609EBA81881ED4500FA0746 /* EQSettings.m */,
+				967C5531197B6072002C68C9 /* NSArray+EQ.h */,
+				967C5532197B6072002C68C9 /* NSArray+EQ.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1925,7 +1935,6 @@
 		214A58C516FFB88A005D787D = {
 			isa = PBXGroup;
 			children = (
-				96BCD55C18FB7DB700568806 /* Unit Test */,
 				967F7D6B188C64C500629FD8 /* Default.png */,
 				214A58D716FFB88A005D787D /* EQ */,
 				96BCD56518FB86ED00568806 /* Unit Test */,
@@ -2148,19 +2157,13 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
-		96BCD55C18FB7DB700568806 /* Unit Test */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Unit Test";
-			sourceTree = "<group>";
-		};
 		96BCD56518FB86ED00568806 /* Unit Test */ = {
 			isa = PBXGroup;
 			children = (
 				96BCD56B18FB86ED00568806 /* Unit_Test.m */,
 				96BCD56618FB86ED00568806 /* Supporting Files */,
 				96BCD57318FB87FA00568806 /* EQNewOrderTestCase.m */,
+				963548DD19547C9300086ED5 /* EQDatamanagerTest.m */,
 			);
 			path = "Unit Test";
 			sourceTree = "<group>";
@@ -2882,6 +2885,7 @@
 				2172A91D1744747100C8C446 /* EQOrdersViewModel.m in Sources */,
 				2172A921174476CF00C8C446 /* EQOrderCell.m in Sources */,
 				2172A9421746671A00C8C446 /* EQDateFilterPopover.m in Sources */,
+				967C5533197B6072002C68C9 /* NSArray+EQ.m in Sources */,
 				219D90C11747E375007BF3E9 /* EQNewOrderViewModel.m in Sources */,
 				219D90C517487288007BF3E9 /* EQArticleCell.m in Sources */,
 				219D90CC17495D5E007BF3E9 /* EQEditOrderDetailCell.m in Sources */,
@@ -2999,6 +3003,7 @@
 				96579BD8186261D900A688DA /* EQOrdersViewModel.m in Sources */,
 				96579BD9186261D900A688DA /* EQOrderCell.m in Sources */,
 				96579BDA186261D900A688DA /* EQDateFilterPopover.m in Sources */,
+				967C5534197B6072002C68C9 /* NSArray+EQ.m in Sources */,
 				96579BDB186261D900A688DA /* EQNewOrderViewModel.m in Sources */,
 				96579BDC186261D900A688DA /* EQArticleCell.m in Sources */,
 				96579BDD186261D900A688DA /* EQEditOrderDetailCell.m in Sources */,
@@ -3060,7 +3065,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				96BCD56C18FB86ED00568806 /* Unit_Test.m in Sources */,
+				963548DF19547CB100086ED5 /* EQDataManager.m in Sources */,
 				96BCD57418FB87FA00568806 /* EQNewOrderTestCase.m in Sources */,
+				967C5535197B6072002C68C9 /* NSArray+EQ.m in Sources */,
+				963548DE19547C9300086ED5 /* EQDatamanagerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

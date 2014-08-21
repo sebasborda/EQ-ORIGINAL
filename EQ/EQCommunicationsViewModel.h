@@ -24,4 +24,5 @@
 - (void)finalizeThread;
 - (void)didReadCommunication;
 - (void)sendResponseWithMessage:(NSString *)message;
+
 @end

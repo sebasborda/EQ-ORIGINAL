@@ -10,6 +10,7 @@
 #import "NSDictionary+EQ.h"
 #import "NSMutableDictionary+EQ.h"
 #import "NSString+Number.h"
+#import "NSNumber+EQ.h"
 #import "EQSession.h"
 #import "EQNetworkManager.h"
 #import "EQDataAccessLayer.h"
@@ -35,10 +36,12 @@
 #import "CatalogoImagen.h"
 #import "Reachability.h"
 #import "NSString+MD5.h"
+#import "NSArray+EQ.h"
 
 #define OBJECTS_PER_PAGE 5000
 #define DATE_FORMATTER [[NSDateFormatter alloc] init]
 #define MAX_OBJECTS_BEFORE_SAVE 200
+#define ERROR_REPORT @"errorReport"
 
 @interface EQDataManager()
 
@@ -95,10 +98,10 @@
             self.showLoading = show;
             // start load
             if (show) {
-                [self updateSettings];
+                [self sendPendingClients];
             } else {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [self updateSettings];
+                    [self sendPendingClients];
                 });
             }
         } else {
@@ -122,36 +125,37 @@
     }
 }
 
-- (void)sendPendingData{
-    [self sendPendingOrders];
-    [self sendPendingClients];
-    [self sendPendingCommunications];
-}
-
 - (void)sendPendingCommunications{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *communications = [dal objectListForClass:[Comunicacion class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
-    for (Comunicacion *communication in communications) {
+    NSArray *communications = [dal objectListForClass:[Comunicacion class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
+
+    Comunicacion *communication = [communications firstObject];
+    if (communication) {
         [self sendCommunication:communication];
-        [NSThread sleepForTimeInterval:5];
+    } else {
+        [self updateSettings];
     }
 }
 
 - (void)sendPendingOrders{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *orders = [dal objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
-    for (Pedido *order in orders) {
+    NSArray *orders = [dal objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
+    Pedido *order = [orders firstObject];
+    if (order) {
         [self sendOrder:order];
-        [NSThread sleepForTimeInterval:5];
+    } else {
+        [self sendPendingCommunications];
     }
 }
 
 - (void)sendPendingClients{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
-    NSArray *clients = [dal objectListForClass:[Cliente class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
-    for (Cliente *client in clients) {
+    NSArray *clients = [dal objectListForClass:[Cliente class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
+    Cliente *client = [clients firstObject];
+    if (client) {
         [self sendClient:client];
-        [NSThread sleepForTimeInterval:5];
+    } else {
+        [self sendPendingOrders];
     }
 }
 
@@ -398,8 +402,11 @@
 
 - (void)updateOrders{
     SuccessRequest success = ^(NSArray *jsonArray){
+        if (DEBUG_ERROR) {
+            [self deleteAllObjectsWithEntityName:@"Pedido" inContext:[EQDataAccessLayer sharedInstance].managedObjectContext];
+        }
+        EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
         [self parseEntity:nil fromJson:jsonArray extra:nil withBlock:^(NSDictionary *orderData) {
-            EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
             NSString *identifier = orderData[@"id"];
             Pedido *pedido = (Pedido *)[dal objectForClass:[Pedido class] withId:identifier];
             pedido.identifier = identifier;
@@ -441,6 +448,9 @@
         EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"articuloID == $ARTICLE_ID && pedido.identifier == $ORDER_ID"];
         if ([jsonArray count] > 0) {
+            if (DEBUG_ERROR) {
+                [self deleteAllObjectsWithEntityName:@"ItemPedido" inContext:dal.managedObjectContext];
+            }
             NSEntityDescription *entity = [[dal.managedObjectModel entitiesByName] objectForKey:@"ItemPedido"];
             [self parseEntity:entity fromJson:jsonArray extra:nil withBlock:^(NSDictionary *itemData) {
                 NSString* articuloID = [itemData filterInvalidEntry:@"articulo_id"];
@@ -1161,6 +1171,7 @@
         newClient.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
+        [self sendPendingClients];
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -1262,6 +1273,7 @@
         
         newCommunication.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
+        [self sendPendingCommunications];
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -1304,7 +1316,7 @@
     [dictionary setNotNilObject:@"pedido" forKey:@"object"];
     [dictionary setNotNilObject:[order.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self parseOrder:order]];
+    [dictionary addEntriesFromDictionary:[self parseOrder:order includeItems:YES]];
     [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
     
     __block Pedido *newOrder = nil;
@@ -1325,6 +1337,7 @@
         newOrder.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
+        [self sendPendingOrders];
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -1335,11 +1348,63 @@
     [EQNetworkManager makeRequest:request];
 }
 
-- (NSMutableDictionary *)parseOrder:(Pedido *)order{
+- (NSString *)ordersToJSon:(NSArray *)orders {
+    NSMutableArray *ordersDictionary = [NSMutableArray array];
+    NSMutableArray *itemsDictionary = [NSMutableArray array];
+
+    for (Pedido *order in orders) {
+        [ordersDictionary addObject:[self parseOrder:order includeItems:NO]];
+        [itemsDictionary addObject:[self parseItemsFrom:order includedOrder:YES]];
+    }
+    NSString *ordersString = [ordersDictionary toJson];
+    NSString *itemsString = [itemsDictionary toJson];
+    __block NSMutableDictionary *dictionary = [NSMutableDictionary new];
+    [dictionary setNotNilObject:@"pedido" forKey:@"tipo"];
+    [dictionary setNotNilObject:@"reportarerror" forKey:@"action"];
+    [dictionary setNotNilObject:ordersString forKey:@"contenido"];
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMddyyyyHHmm"];
+    NSString *d = [formatter stringFromDate:[NSDate date]];
+    NSString *code = [[[EQSession sharedInstance] user].identifier stringByAppendingFormat:@"-%@",d];
+    NSString *ordersFileName = [NSString stringWithFormat:@"orders-%@.json", code];
+    [dictionary setNotNilObject:ordersFileName forKey:@"nombre"];
+    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+    [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
+    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:^(NSArray *jsonArray) {
+        [dictionary setNotNilObject:@"pedido" forKey:@"tipo"];
+        [dictionary setNotNilObject:@"reportarerror" forKey:@"action"];
+        [dictionary setNotNilObject:itemsString forKey:@"contenido"];
+        NSString *itemsFileName = [NSString stringWithFormat:@"items-%@.json", code];
+        [dictionary setNotNilObject:itemsFileName forKey:@"nombre"];
+        [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
+        [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+
+        EQRequest *requestItems = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:^(NSArray *jsonArray) {
+            NSLog(@"success");
+        } failRequestBlock:^(NSError *error) {
+            [[NSUserDefaults standardUserDefaults] setObject:code forKey:ERROR_REPORT];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        } runInBackground:YES];
+        [EQNetworkManager makeRequest:requestItems];
+    } failRequestBlock:^(NSError *error) {
+        [[NSUserDefaults standardUserDefaults] setObject:code forKey:ERROR_REPORT];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } runInBackground:YES];
+    [EQNetworkManager makeRequest:request];
+
+//    http://stg.eqarte.com.ar/wp-admin/admin-ajax.php?action=reportarerror&tipo=pedido&usuario=admin&password=912ec803b2ce49e4a541068d495ab570
+    return code;
+}
+
+- (NSMutableArray *)parseItemsFrom:(Pedido *)order includedOrder:(BOOL)includeOrder {
     NSMutableArray *items = [NSMutableArray array];
     NSArray *sortedItems = [order sortedItems];
     for (ItemPedido *item in sortedItems) {
         NSMutableDictionary *itemDictionary = [NSMutableDictionary dictionary];
+        if (includeOrder) {
+            [itemDictionary setObject:item.pedido.identifier forKey:@"pedido_id"];
+        }
         float descuento = [item totalSinDescuento] - [item totalConDescuento];
         [itemDictionary setObject:item.articuloID forKey:@"articulo_id"];
         [itemDictionary setObject:item.cantidad forKey:@"cantidad_pedida"];
@@ -1348,12 +1413,24 @@
         [itemDictionary setObject:[NSNumber numberWithFloat:descuento] forKey:@"descuento_monto"];
         [itemDictionary setObject:[NSNumber numberWithFloat:[item totalConDescuento]] forKey:@"importe_final"];
         [itemDictionary setObject:[NSNumber numberWithFloat:[[item.articulo priceForClient:item.pedido.cliente] priceForClient:item.pedido.cliente]] forKey:@"precio_con_descuento"];
-        [itemDictionary setObject:[item.articulo priceForClient:item.pedido.cliente].importe forKey:@"precio_unitario"];
+        NSNumber *importe = [item.articulo priceForClient:item.pedido.cliente].importe;
+        if (importe  == nil) {
+            NSLog(@"ERROR PRECIO UNITARIO: articulo %@ articuloID %@ clienteID %@ pedido: %@",item.articulo,item.articuloID,item.pedido.cliente.identifier, item.pedido.identifier);
+        }
+        [itemDictionary setObject:importe ? importe : @0 forKey:@"precio_unitario"];
         
         [items addObject:itemDictionary];
     }
-    
+    return items;
+}
+
+- (NSMutableDictionary *)parseOrder:(Pedido *)order includeItems:(BOOL)includeItems{
     NSMutableDictionary *orderDictionary = [NSMutableDictionary dictionary];
+    if (includeItems) {
+        NSMutableArray *items = [self parseItemsFrom:order includedOrder:NO];
+        [orderDictionary setValue:items forKey:@"articulos"];
+    }
+    
     if([order.identifier intValue] > 0) {
         [orderDictionary setNotNilObject:order.identifier forKey:@"id"];
     } else {
@@ -1371,7 +1448,6 @@
     NSDateFormatter *dateFormatter = DATE_FORMATTER;
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     [orderDictionary setValue:[dateFormatter stringFromDate:order.fecha] forKey:@"fecha"];
-    [orderDictionary setValue:items forKey:@"articulos"];
     [orderDictionary setValue:[order total] forKey:@"total"];
     [orderDictionary setValue:[order subTotal] forKey:@"subtotal"];
     [orderDictionary setValue:order.estado forKey:@"estado"];
@@ -1379,6 +1455,23 @@
     [orderDictionary setValue:order.descuento3 forKey:@"descuento3"];
     [orderDictionary setValue:order.descuento4 forKey:@"descuento4"];
     return orderDictionary;
+}
+
+- (void)deleteAllObjectsWithEntityName:(NSString *)entityName
+                             inContext:(NSManagedObjectContext *)context
+{
+    NSFetchRequest *fetchRequest =
+    [NSFetchRequest fetchRequestWithEntityName:entityName];
+    fetchRequest.includesPropertyValues = NO;
+    fetchRequest.includesSubentities = NO;
+
+    NSError *error;
+    NSArray *items = [context executeFetchRequest:fetchRequest error:&error];
+
+    for (NSManagedObject *managedObject in items) {
+        [context deleteObject:managedObject];
+        NSLog(@"Deleted %@", entityName);
+    }
 }
 
 @end

@@ -29,5 +29,6 @@
 - (IBAction)statusFilterAction:(id)sender;
 - (IBAction)orderButtonAction:(id)sender;
 - (void)changeStatusFilter:(NSString *)status;
+- (IBAction)bugButtonAction:(id)sender;
 
 @end

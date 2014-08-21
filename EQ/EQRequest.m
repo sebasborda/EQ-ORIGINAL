@@ -9,6 +9,8 @@
 #import "EQRequest.h"
 #import "AFNetworking.h"
 #import "NSDictionary+EQ.h"
+#import "EQSession.h"
+#import "EQDefines.h"
 
 @implementation EQRequest
 
@@ -51,32 +53,62 @@
 }
 
 -(NSURLRequest *)generateRequestWithParameters:(NSMutableDictionary *)params{
-    NSMutableString *queryString = [NSMutableString stringWithFormat:@"%@?action=%@&object=%@&usuario=%@&password=%@",@API_URL,params[@"action"],params[@"object"],params[@"usuario"],params[@"password"]];
-    BOOL post = [params[@"POST"] boolValue];
     NSURLRequest *request = nil;
-    [params removeObjectForKey:@"object"];
-    [params removeObjectForKey:@"action"];
-    [params removeObjectForKey:@"usuario"];
-    [params removeObjectForKey:@"password"];
+    if (DEBUG_ERROR && [[params objectForKey:@"action"] isEqualToString:@"listar"]) {
+        if ([[params objectForKey:@"object"] isEqualToString:@"pedido"]) {
+            NSString *url = [NSString stringWithFormat:@"%@reporte_error/pedido/orders-%@.json",IMAGES_BASE_URL, DEBUG_ERROR_CODE];
+            request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+
+        } else if ([[params objectForKey:@"object"] isEqualToString:@"pedido_articulo"]) {
+            NSString *url = [NSString stringWithFormat:@"%@reporte_error/pedido/items-%@.json",IMAGES_BASE_URL, DEBUG_ERROR_CODE];
+            request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        }
+    }
     
-    if (post) {
-        NSNumber *identifier = [params objectForKey:@"id"];
-        [params removeObjectForKey:@"POST"];
-        [params removeObjectForKey:@"id"];
-        AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:queryString]];
-        httpClient.parameterEncoding = AFFormURLParameterEncoding;
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"atributos":[params toJSON]}];
-        if (identifier) {
-            [parameters addEntriesFromDictionary:@{@"id":identifier}];
+    if (request == nil) {
+        NSString *object = params[@"object"];
+        NSString *tipo = params[@"tipo"];
+        NSString *action = params[@"action"];
+
+        NSMutableString *queryString = [NSMutableString stringWithFormat:@"%@?action=%@&usuario=%@&password=%@",@API_URL,action,params[@"usuario"],params[@"password"]];
+        if (object) {
+            [queryString appendFormat:@"&object=%@",object];
+            [params removeObjectForKey:@"object"];
+        } else if (tipo) {
+            [queryString appendFormat:@"&tipo=%@",tipo];
+            [params removeObjectForKey:@"tipo"];
         }
+
+        BOOL post = [params[@"POST"] boolValue];
+        [params removeObjectForKey:@"action"];
+        [params removeObjectForKey:@"usuario"];
+        [params removeObjectForKey:@"password"];
         
-        request = [httpClient requestWithMethod:@"POST" path:queryString parameters:parameters];
-    } else {
-        for (NSString *key in params.allKeys) {
-            NSString *value = [NSString stringWithFormat:@"%@",params[key]];
-            [queryString appendFormat:@"&%@=%@",key,value];
+        if (post) {
+            [params removeObjectForKey:@"POST"];
+            AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:queryString]];
+            httpClient.parameterEncoding = AFFormURLParameterEncoding;
+            NSMutableDictionary *parameters = nil;
+            if ([action isEqualToString:@"reportarerror"]) {
+                parameters = params;
+            } else {
+                NSNumber *identifier = [params objectForKey:@"id"];
+                [params removeObjectForKey:@"id"];
+
+                parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"atributos":[params toJSON]}];
+                if (identifier) {
+                    [parameters addEntriesFromDictionary:@{@"id":identifier}];
+                }
+            }
+            
+            request = [httpClient requestWithMethod:@"POST" path:queryString parameters:parameters];
+        } else {
+            for (NSString *key in params.allKeys) {
+                NSString *value = [NSString stringWithFormat:@"%@",params[key]];
+                [queryString appendFormat:@"&%@=%@",key,value];
+            }
+            request = [NSURLRequest requestWithURL:[NSURL URLWithString:queryString]];
         }
-        request = [NSURLRequest requestWithURL:[NSURL URLWithString:queryString]];
     }
     
     return request;

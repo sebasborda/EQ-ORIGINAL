@@ -26,4 +26,7 @@
     return [numberFormatter stringFromNumber:self];
 }
 
+- (NSNumber *)number{
+    return self;
+}
 @end

@@ -11,10 +11,12 @@
 #import "EQOrdersViewModel.h"
 #import "UIColor+EQ.h"
 #import "NSNumber+EQ.h"
+#import <MessageUI/MessageUI.h>
+#import "EQSession.h"
 
 #define cellIdentifier @"OrderCell"
 
-@interface EQOrdersViewController ()
+@interface EQOrdersViewController () <MFMailComposeViewControllerDelegate, EQOrdersViewModelDelegate>
 
 @property (nonatomic, strong) EQOrdersViewModel *viewModel;
 @property (nonatomic, assign) bool viewLoaded;
@@ -210,6 +212,55 @@
     [self.statusFilterButton setTitle:[@"  " stringByAppendingString:status] forState:UIControlStateNormal];
     [self.viewModel defineStatus:status];
     self.viewLoaded = YES;
+}
+
+- (IBAction)bugButtonAction:(id)sender {
+    [APP_DELEGATE showLoadingView];
+    [self.viewModel performSelectorInBackground:@selector(reportBug) withObject:nil];
+}
+
+- (void)bugDidReport:(NSString *)code {
+    MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM/yyyy hh:mma"];
+    NSString *now = [formatter stringFromDate:[NSDate date]];
+    [controller setSubject:[NSString stringWithFormat:@"EQ Error %@",now]];
+    [controller setToRecipients:@[SUPPORT_EMAIL]];
+    controller.mailComposeDelegate = self;
+    NSMutableString *body = [NSMutableString stringWithFormat:@"Codigo: %@",code];
+    [body appendFormat:@"\nFecha: %@",now];
+    [body appendFormat:@"\nUsuario: %@",[[EQSession sharedInstance] user].nombre];
+    [body appendString:@"\nIngrese una descripcion del problema:"];
+    [controller setMessageBody:body isHTML:NO];
+    
+    [APP_DELEGATE hideLoadingView];
+    // Present mail view controller on screen
+    [self presentViewController:controller animated:YES completion:NULL];
+
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

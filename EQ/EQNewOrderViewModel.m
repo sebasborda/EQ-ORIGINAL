@@ -117,7 +117,7 @@
     });
 }
 
-- (void)defineSelectedCategory:(int)index{
+- (void)defineSelectedCategory:(NSUInteger)index{
     self.categorySelected = index;
     self.group1Selected = self.group2Selected = NSNotFound;
     Grupo *grupo = self.categories[self.categorySelected];
@@ -129,7 +129,7 @@
     [self.delegate modelDidUpdateData];
 }
 
-- (void)defineSelectedGroup1:(int)index{
+- (void)defineSelectedGroup1:(NSUInteger)index{
     self.group1Selected = index;
     Grupo *grupo = self.group1[self.group1Selected];
     self.group2 = [[EQDataAccessLayer sharedInstance] objectListForClass:[Grupo class] filterByPredicate:[NSPredicate predicateWithFormat:@"self.parentID == %@",grupo.identifier]];
@@ -144,14 +144,14 @@
     }
 }
 
-- (void)defineSelectedGroup2:(int)index{
+- (void)defineSelectedGroup2:(NSUInteger)index{
     self.group2Selected = index;
     self.articleSelected = nil;
     self.articleSelectedIndex = NSNotFound;
     [self loadData];
 }
 
-- (void)defineSelectedArticle:(int)index{
+- (void)defineSelectedArticle:(NSUInteger)index{
     Articulo *article = [self.articles objectAtIndex:index];
     if ([self canAddArticle:article]) {
         self.articleSelected = article;
@@ -162,7 +162,7 @@
     }
 }
 
-- (void)defineOrderStatus:(int)index{
+- (void)defineOrderStatus:(NSUInteger)index{
     if (index == 0) {
         self.order.estado = @"presupuestado";
     } else {
@@ -170,21 +170,21 @@
     }
 }
 
-- (void)AddQuantity:(int)quantity canAdd:(BOOL)canAdd {
+- (void)AddQuantity:(NSUInteger)quantity canAdd:(BOOL)canAdd {
     if (canAdd) {
         BOOL existItem = NO;
         EQDataAccessLayer * DAL = [EQDataAccessLayer sharedInstance];
         for (ItemPedido *item in self.order.items) {
             if ([item.articulo.identifier isEqualToString:self.articleSelected.identifier]) {
                 existItem = YES;
-                item.cantidad = [NSNumber numberWithInt:quantity];
+                item.cantidad = [NSNumber numberWithUnsignedInteger:quantity];
             }
         }
         
         if (!existItem) {
             ItemPedido *item = (ItemPedido *)[DAL createManagedObject:@"ItemPedido"];
             item.articuloID = self.articleSelected.identifier;
-            item.cantidad = [NSNumber numberWithInt:quantity];
+            item.cantidad = [NSNumber numberWithUnsignedInteger:quantity];
             [self.order addItemsObject:item];
             item.orden = @([self.order.items count]);
         }
@@ -195,7 +195,7 @@
     }
 }
 
-- (BOOL)addItemQuantity:(int)quantity{
+- (BOOL)addItemQuantity:(NSUInteger)quantity{
     int multiplo = [self.articleSelected.multiploPedido intValue];
     int minimo = [self.articleSelected.minimoPedido intValue];
     BOOL canAdd = self.articleSelected && quantity % multiplo == 0 && quantity >= minimo;
@@ -270,7 +270,7 @@
     }
     
     if (g3) {
-        int index = [self.categories indexOfObject:g3];
+        NSUInteger index = [self.categories indexOfObject:g3];
         [self defineSelectedCategory:index];
         
         index = [self.group1 indexOfObject:g2];
@@ -282,7 +282,7 @@
         index = [self.articles indexOfObject:item.articulo];
         [self defineSelectedArticle:index];
     } else {
-        int index = [self.categories indexOfObject:g2];
+        NSUInteger index = [self.categories indexOfObject:g2];
         [self defineSelectedCategory:index];
         
         index = [self.group1 indexOfObject:g1];
@@ -309,17 +309,17 @@
     [self.undoManager undo];
 }
 
-- (void)sortArticlesByIndex:(int)index{
+- (void)sortArticlesByIndex:(NSUInteger)index{
     self.sortArticle = [NSSortDescriptor sortDescriptorWithKey:index == 0 ? @"codigo" : @"nombre" ascending:YES];
     [self loadData];
 }
 
-- (void)sortGroup2ByIndex:(int)index{
+- (void)sortGroup2ByIndex:(NSUInteger)index{
     self.sortGroup2 = [NSSortDescriptor sortDescriptorWithKey:index == 0 ? @"relevancia" : @"nombre" ascending:index == 1];
     [self loadData];
 }
 
-- (void)sortGroup1ByIndex:(int)index{
+- (void)sortGroup1ByIndex:(NSUInteger)index{
     self.sortGroup1 = [NSSortDescriptor sortDescriptorWithKey:index == 0 ? @"relevancia" : @"nombre" ascending:index == 1];
     [self loadData];
 }

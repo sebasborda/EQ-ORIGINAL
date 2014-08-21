@@ -254,9 +254,13 @@
         cell.nameTextView.text = articulo.nombre;
         return cell;
     } else if ([tableView isEqual:self.tableOrderDetail]) {
-        EQEditOrderDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"EditOrderDetailCell" forIndexPath:indexPath];
-        cell.delegate = self;
-        [cell loadItem:[self.viewModel items][indexPath.row]];
+        EQEditOrderDetailCell *cell = nil;
+        if ([[self.viewModel items] count] > 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"EditOrderDetailCell" forIndexPath:indexPath];
+            cell.delegate = self;
+            [cell loadItem:[self.viewModel items][indexPath.row]];
+        }
+
         return cell;
     }
     

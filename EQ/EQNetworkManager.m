@@ -14,7 +14,6 @@
 
 + (void)makeRequest:(EQRequest *)request{
     @synchronized (self) {
-        
         [AFJSONRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"text/html"]];
         AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
             NSArray *jsonArray = nil;

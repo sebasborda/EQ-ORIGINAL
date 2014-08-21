@@ -9,6 +9,12 @@
 #import "EQBaseViewModel.h"
 #import "Pedido+extra.h"
 
+@protocol EQOrdersViewModelDelegate <EQBaseViewModelDelegate>
+
+- (void)bugDidReport:(NSString *)code;
+
+@end
+
 @interface EQOrdersViewModel : EQBaseViewModel
 
 @property (nonatomic, strong) NSArray *orders;
@@ -19,7 +25,7 @@
 @property (nonatomic, strong) NSDate *startCreationDate;
 @property (nonatomic, strong) NSDate *endCreationDate;
 @property (nonatomic, strong) NSArray *sortFields;
-@property (nonatomic, assign) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic, assign) id<EQOrdersViewModelDelegate> delegate;
 @property (nonatomic, strong) NSString* clientName;
 
 - (void)changeSortOrder:(int)index;
@@ -28,5 +34,6 @@
 - (void)cancelOrder:(Pedido *)order;
 - (BOOL)canCreateOrder;
 - (float)total;
+- (void)reportBug;
 
 @end

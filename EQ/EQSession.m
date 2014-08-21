@@ -109,7 +109,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:@"lastSyncDate"];
     [defaults synchronize];
-    [[EQDataManager sharedInstance] sendPendingData];
 }
 
 - (BOOL)isUserLogged{

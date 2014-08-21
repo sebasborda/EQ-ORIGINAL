@@ -187,5 +187,13 @@
     [self loadData];
 }
 
+- (void)reportBug {
+    NSString *code = [[EQDataManager sharedInstance] ordersToJSon:self.currentSeller.pedidos];
+    [self performSelectorOnMainThread:@selector(bugDidReportCode:) withObject:code waitUntilDone:NO];
+}
+
+- (void)bugDidReportCode:(NSString *)code {
+    [self.delegate bugDidReport:code];
+}
 
 @end
