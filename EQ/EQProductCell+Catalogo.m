@@ -20,7 +20,7 @@
     NSArray *photos = [catalog.imagenes sortedArrayUsingDescriptors:@[sortDescriptor]];
 
     CatalogoImagen *imagenCatalog = [photos firstObject];
-    UIImage *image = [[EQImagesManager sharedInstance] imageNamed:imagenCatalog.nombre defaltImage:DEFAULT_IMAGE];
+    UIImage *image = [[EQImagesManager sharedInstance] catalogImageNamed:imagenCatalog.nombre defaltImage:DEFAULT_IMAGE];
     self.productImage.image = image;
 
     self.productStatusLabel.hidden = YES;

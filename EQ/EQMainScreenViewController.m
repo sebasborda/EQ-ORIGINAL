@@ -8,11 +8,15 @@
 
 #import "EQMainScreenViewController.h"
 #import "EQMainScreenViewModel.h"
+#import "EQSession.h"
+#import "EQDataManager.h"
 
-@interface EQMainScreenViewController ()
+@interface EQMainScreenViewController () 
 
 @property (nonatomic,strong) EQMainScreenViewModel *viewModel;
 @property (nonatomic,strong) EQCreateClientViewController *createClient;
+@property (nonatomic,strong) UIAlertView *updateDataAlert;
+@property (nonatomic,strong) UIAlertView *updateImagesAlert;
 
 @end
 
@@ -51,6 +55,16 @@
     [self presentViewController:self.createClient animated:YES completion:nil];
 }
 
+- (IBAction)updateDataAction:(id)sender {
+    self.updateDataAlert = [[UIAlertView alloc] initWithTitle:@"Actualizar datos" message:@"La actualización puede tardar varios minutos" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil];
+    [self.updateDataAlert show];
+}
+
+- (IBAction)updateImages:(id)sender {
+    self.updateImagesAlert = [[UIAlertView alloc] initWithTitle:@"Actualizar imagenes de articulos" message:@"La actualización puede tardar varios minutos" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil];
+    [self.updateImagesAlert show];
+}
+
 - (void)createClientCancelled{
     [self.createClient dismissViewControllerAnimated:YES completion:nil];
 }
@@ -64,6 +78,18 @@
     self.chooseClientButton.titleLabel.text = [NSString stringWithFormat:@"  %@",clientName];
     [self closePopover];
     [APP_DELEGATE selectTabAtIndex:EQTabIndexOrders];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView cancelButtonIndex] != buttonIndex) {
+        if (self.updateDataAlert == alertView) {
+            self.updateImagesAlert = nil;
+            [[EQSession sharedInstance] forceSynchronization];
+        } else if (self.updateImagesAlert == alertView) {
+            [[EQDataManager sharedInstance] forceDownloadArticlesImage];
+        }
+    }
+
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "EQBaseViewController.h"
 
-@interface EQCatalogViewController : EQBaseViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate>
+@interface EQCatalogViewController : EQBaseViewController <UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UICollectionView *catalogsCollectionView;
 @property (strong, nonatomic) IBOutlet UILabel *catalogTitleLabel;
 - (IBAction)closeCatalogAction:(id)sender;

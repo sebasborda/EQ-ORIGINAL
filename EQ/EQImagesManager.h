@@ -8,16 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString * const CACHE_DIRECTORY_FORMAT;
+extern NSString * const CACHE_DIRECTORY_FORMAT_CATALOGS;
+extern NSString * const CACHE_DIRECTORY_FORMAT_ARTICLES;
 
-@interface EQImagesManager : UIImageView
+@interface EQImagesManager : NSObject
 
 + (EQImagesManager *)sharedInstance;
 - (void)loadCache;
-- (BOOL)saveImage:(UIImage *)image named:(NSString *)name;
-- (BOOL)existImageNamed:(NSString *)name;
-- (UIImage *)imageNamed:(NSString *)name;
-- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage;
-- (void)clearCache;
+- (BOOL)saveCatalogImage:(UIImage *)image named:(NSString *)name;
+- (BOOL)saveArticleImage:(UIImage *)image named:(NSString *)name;
+
+- (BOOL)existCatalogImageNamed:(NSString *)name;
+- (BOOL)existArticleImageNamed:(NSString *)name;
+- (UIImage *)catalogImageNamed:(NSString *)name;
+- (UIImage *)articleImageNamed:(NSString *)name;
+- (UIImage *)catalogImageNamed:(NSString *)name defaltImage:(NSString *)defaultImage;
+- (UIImage *)articleImageNamed:(NSString *)name defaltImage:(NSString *)defaultImage;
+- (void)clearCatalogsCache;
+- (void)clearArticlesCache;
 
 @end

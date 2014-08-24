@@ -29,7 +29,7 @@
                         error = [[dictionary objectForKey:key] boolValue];
                     } else if([key isEqualToString:@"message"]){
                         message = [dictionary objectForKey:key];
-                        NSLog(@"%@", message);
+                        NSLog(@"message: %@", message);
                     }
                 }
             } else {

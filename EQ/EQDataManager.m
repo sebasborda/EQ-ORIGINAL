@@ -50,6 +50,8 @@
 @property (nonatomic,strong) FailRequest failBlock;
 @property (nonatomic,assign) BOOL dataUpdated;
 @property (nonatomic,strong) NSPredicate *objectIDPredicate;
+@property (nonatomic,strong) UIAlertView *updateDataAlert;
+
 
 @end
 
@@ -262,7 +264,11 @@
 - (void)executeRequestWithParameters:(NSMutableDictionary *)parameters successBlock:(SuccessRequest)success failBlock:(FailRequest)fail{
     if (self.showLoading) {
         NSString *object = [[parameters[@"object"] stringByReplacingOccurrencesOfString:@"_" withString:@" "] uppercaseString];
-        NSString *message = [NSString stringWithFormat:@"CARGANDO %@",object];
+        NSString *message = @"CARGANDO";
+        if (object) {
+            message = [message stringByAppendingFormat:@" %@",object];
+        }
+        
         if ([[parameters allKeys] containsObject:@"page"]) {
             message = [message stringByAppendingFormat:@" - PAGINA %@",parameters[@"page"]];
         }
@@ -702,7 +708,7 @@
 
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         [self deleteCatalogs];
-        [[EQImagesManager sharedInstance] clearCache];
+        [[EQImagesManager sharedInstance] clearCatalogsCache];
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         // make a directory for these
         NSFileManager *mgr = [NSFileManager defaultManager];
@@ -713,7 +719,7 @@
             catalogo.identifier = [[catalogoDictionary filterInvalidEntry:@"id"] stringValue];
             catalogo.titulo = [catalogoDictionary filterInvalidEntry:@"titulo"];
             catalogo.posicion = [NSNumber numberWithInt:catalogNumber];
-            NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, NSHomeDirectory(),catalogo.identifier];
+            NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT_CATALOGS, NSHomeDirectory(),catalogo.identifier];
             if (![mgr fileExistsAtPath:picturesPath isDirectory:&isDir]) {
                 [mgr createDirectoryAtPath:picturesPath withIntermediateDirectories:YES attributes:nil error:nil];
             }
@@ -726,24 +732,17 @@
                     NSString *fileName = [[fotoPath componentsSeparatedByString:@"/"] lastObject];
                     if ([fileName length] > 0) {
                         fileName = [catalogo.identifier stringByAppendingFormat:@"/%@",fileName];
-                        if (![[EQImagesManager sharedInstance] existImageNamed:fileName]) {
-                            NSURL *url = [NSURL URLWithString:[PROD_BASE_URL stringByAppendingString:fotoPath]];
-                            NSData *imageData = [NSData dataWithContentsOfURL:url];
-                            UIImage *image = [UIImage imageWithData:imageData];
-                            if (image != nil) {
-                                [[EQImagesManager sharedInstance] saveImage:image named:fileName];
-                                CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
-                                imagen.catalogoID = catalogo.identifier;
-                                imagen.nombre = fileName;
-                                imagen.pagina = [NSNumber numberWithInt:pagina];
-                            } else {
-                                NSLog(@"Catalogo: No se pudo descargar la imagen %@",url);
-                            }
-                        } else {
+                        NSURL *url = [NSURL URLWithString:[PROD_BASE_URL stringByAppendingString:fotoPath]];
+                        NSData *imageData = [NSData dataWithContentsOfURL:url];
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        if (image != nil) {
+                            [[EQImagesManager sharedInstance] saveCatalogImage:image named:fileName];
                             CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
                             imagen.catalogoID = catalogo.identifier;
                             imagen.nombre = fileName;
                             imagen.pagina = [NSNumber numberWithInt:pagina];
+                        } else {
+                            NSLog(@"Catalogo: No se pudo descargar la imagen %@",url);
                         }
                     }
                 }
@@ -1480,6 +1479,49 @@
     for (NSManagedObject *managedObject in items) {
         [context deleteObject:managedObject];
         NSLog(@"Deleted %@", entityName);
+    }
+}
+
+- (void)forceDownloadArticlesImage {
+    [APP_DELEGATE showLoadingView];
+    [[EQImagesManager sharedInstance] clearArticlesCache];
+    EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
+    NSArray *articles = [adl objectListForClass:[Articulo class]];
+    for (Articulo *art in articles) {
+        NSString *fileName = [[art imagenURL] stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+        if ([art imagenURL] != nil) {
+            NSURL *imageURL = [NSURL URLWithString:[[IMAGES_BASE_URL stringByAppendingString:[art imagenURL]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            NSData *imageData = nil;
+            if (imageURL) {
+                imageData = [NSData dataWithContentsOfURL:imageURL];
+                UIImage *image = [UIImage imageWithData:imageData];
+                [[EQImagesManager sharedInstance] saveArticleImage:image named:fileName];
+            }
+        }
+    }
+    [APP_DELEGATE hideLoadingView];
+}
+
+- (void)checkIfNeedSendData {
+    if ([self isServerAvailable]) {
+        EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
+        NSArray *orders = [dal objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
+        NSArray *clients = [dal objectListForClass:[Cliente class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"]];
+
+        if ([orders count] > 0 || [clients count] > 0) {
+            NSString *message = [NSString stringWithFormat:@"Clientes: %lu Pedidos: %lu", (unsigned long)[clients count], (unsigned long)[orders count]];
+            self.updateDataAlert = [[UIAlertView alloc] initWithTitle:@"Enviar datos pendientes" message:message delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil];
+
+            [self.updateDataAlert show];
+        }
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView == self.updateDataAlert) {
+        if (buttonIndex == [alertView cancelButtonIndex]) {
+            [self updateDataShowLoading:YES];
+        }
     }
 }
 

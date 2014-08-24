@@ -15,7 +15,9 @@
 
 @end
 
-NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
+NSString * const CACHE_DIRECTORY_FORMAT_CATALOGS = @"%@/Caches/Pictures/Catalogs/%@";
+NSString * const CACHE_DIRECTORY_FORMAT_ARTICLES = @"%@/Caches/Pictures/Articles/%@";
+
 
 @implementation EQImagesManager
 
@@ -38,13 +40,18 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     return documentsDirectory;
 }
 
-- (void)loadCache{
+- (void)loadCache {
+    [self loadCache:CACHE_DIRECTORY_FORMAT_CATALOGS];
+    [self loadCache:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (void)loadCache:(NSString *)baseDirectory{
     [APP_DELEGATE showLoadingView];
     self.cacheDictionary = [NSMutableDictionary dictionary];
     
     // make a directory for these
     BOOL isDir;
-    NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
+    NSString *picturesPath = [NSString stringWithFormat:baseDirectory, [self documentDirectory],@""];
     
     if (![self.fileManager fileExistsAtPath:picturesPath isDirectory:&isDir]) {
         NSError *error = nil;
@@ -77,17 +84,18 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     [APP_DELEGATE hideLoadingView];
 }
 
-- (BOOL)saveImage:(UIImage *)image named:(NSString *)name{
-    if (![self existImageNamed:name]) {
+- (BOOL)saveImage:(UIImage *)image named:(NSString *)name baseDirectory:(NSString *)baseDirectory{
+
+    if (![self existImageNamed:name baseDirectory:baseDirectory]) {
         // Save Image
-        NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], name];
-        
+        NSString *filePath = [NSString stringWithFormat:baseDirectory, [self documentDirectory], name];
+
         NSData *imageData = UIImageJPEGRepresentation(image, 90);
         NSArray *nameParts = [name componentsSeparatedByString:@"/"];
         if ([nameParts count] > 1) {
             NSMutableArray *parts = [NSMutableArray arrayWithArray:nameParts];
             [parts removeLastObject];
-            NSString *directory = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], [parts componentsJoinedByString:@"/"]];
+            NSString *directory = [NSString stringWithFormat:baseDirectory, [self documentDirectory], [parts componentsJoinedByString:@"/"]];
             // make a directory for these
             BOOL isDir;
             if (![self.fileManager fileExistsAtPath:directory isDirectory:&isDir]) {
@@ -95,24 +103,44 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
                 [self.fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
             }
         }
-        
+
         NSError *error = nil;
         if ([imageData writeToFile:filePath options:NSDataWritingAtomic error:&error]) {
             //TODO: uncomment to use cache
-//            [self.cacheDictionary setObject:image forKey:name];
+            //            [self.cacheDictionary setObject:image forKey:name];
             return YES;
         }
     }
-    
+
     return  NO;
 }
 
-- (UIImage *)imageNamed:(NSString *)name {
-    return [self imageNamed:name defaltImage:nil];
+- (BOOL)saveCatalogImage:(UIImage *)image named:(NSString *)name{
+    return [self saveImage:image named:name baseDirectory:CACHE_DIRECTORY_FORMAT_CATALOGS];
 }
 
-- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage {
-    NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
+- (BOOL)saveArticleImage:(UIImage *)image named:(NSString *)name{
+    return [self saveImage:image named:name baseDirectory:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (UIImage *)catalogImageNamed:(NSString *)name{
+    return [self imageNamed:name defaltImage:nil baseDirectory:CACHE_DIRECTORY_FORMAT_CATALOGS];
+}
+
+- (UIImage *)articleImageNamed:(NSString *)name{
+    return [self imageNamed:name defaltImage:nil baseDirectory:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (UIImage *)catalogImageNamed:(NSString *)name defaltImage:(NSString *)defaultImage {
+    return [self imageNamed:name defaltImage:defaultImage baseDirectory:CACHE_DIRECTORY_FORMAT_CATALOGS];
+}
+
+- (UIImage *)articleImageNamed:(NSString *)name defaltImage:(NSString *)defaultImage {
+    return [self imageNamed:name defaltImage:defaultImage baseDirectory:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage baseDirectory:(NSString *)baseDirectory {
+    NSString *picturesPath = [NSString stringWithFormat:baseDirectory, [self documentDirectory],@""];
     name = name ? name : defaultImage;
     UIImage *image = [UIImage imageWithContentsOfFile:[picturesPath stringByAppendingString:name]];
 
@@ -123,13 +151,29 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     return image;
 }
 
-- (BOOL)existImageNamed:(NSString *)name{
-    NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], name];
+- (BOOL)existCatalogImageNamed:(NSString *)name {
+    return [self existImageNamed:name baseDirectory:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (BOOL)existArticleImageNamed:(NSString *)name {
+    return [self existImageNamed:name baseDirectory:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (BOOL)existImageNamed:(NSString *)name baseDirectory:(NSString *)baseDirectory{
+    NSString *filePath = [NSString stringWithFormat:baseDirectory, [self documentDirectory], name];
     return [self.fileManager fileExistsAtPath:filePath];
 }
 
-- (void)clearCache{
-    NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
+- (void)clearCatalogsCache {
+    [self clearCache:CACHE_DIRECTORY_FORMAT_CATALOGS];
+}
+
+- (void)clearArticlesCache {
+    [self clearCache:CACHE_DIRECTORY_FORMAT_ARTICLES];
+}
+
+- (void)clearCache:(NSString *)baseDirectory{
+    NSString *picturesPath = [NSString stringWithFormat:baseDirectory, [self documentDirectory],@""];
 
     // make a directory for these
     BOOL isDir;

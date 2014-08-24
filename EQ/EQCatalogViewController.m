@@ -23,6 +23,7 @@
 @property (nonatomic,strong) EQCatalogViewModel *viewModel;
 @property (nonatomic,strong) Catalogo *currentCatalog;
 @property (nonatomic,strong) NSArray *categoriesList;
+@property (nonatomic,strong) UIAlertView *updateAlert;
 
 @end
 
@@ -90,7 +91,7 @@
     int page = 0;
     for (CatalogoImagen *catalogImage in images) {
         CGRect frame = CGRectMake(scrollFrame.size.width * page, 0, scrollFrame.size.width, scrollFrame.size.height);
-        UIImage *image = [[EQImagesManager sharedInstance] imageNamed:catalogImage.nombre defaltImage:DEFAULT_IMAGE];
+        UIImage *image = [[EQImagesManager sharedInstance] catalogImageNamed:catalogImage.nombre defaltImage:DEFAULT_IMAGE];
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.image = image;
         [self.catalogScrollView addSubview:imageView];
@@ -157,9 +158,17 @@
 }
 
 - (IBAction)updateCatalogAction:(id)sender {
-    __weak EQCatalogViewController *weakSelf = self;
-    [[EQDataManager sharedInstance] updateCatalog:^(BOOL finished) {
-        [weakSelf.viewModel loadData];
-    }];
+    self.updateAlert = [[UIAlertView alloc] initWithTitle:@"Actualizar catalogos" message:@"La actualización puede tardar varios minutos" delegate:self cancelButtonTitle:@"Cancelar" otherButtonTitles:@"Aceptar", nil];
+    [self.updateAlert show];
 }
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView == self.updateAlert && buttonIndex != [alertView cancelButtonIndex]) {
+        __weak EQCatalogViewController *weakSelf = self;
+        [[EQDataManager sharedInstance] updateCatalog:^(BOOL finished) {
+            [weakSelf.viewModel loadData];
+        }];
+    }
+}
+
 @end

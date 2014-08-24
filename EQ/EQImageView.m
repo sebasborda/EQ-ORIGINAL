@@ -19,7 +19,7 @@
 - (void)loadURL:(NSString *)imagePath{
     if (imagePath) {
         NSString *fileName = [imagePath stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
-        UIImage *image = [[EQImagesManager sharedInstance] imageNamed:fileName];
+        UIImage *image = [[EQImagesManager sharedInstance] articleImageNamed:fileName];
         if (image) {
             [self setImage:image];
         } else{
@@ -27,7 +27,7 @@
             NSURLRequest *request = [NSURLRequest requestWithURL:imageURL];
             AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request success:^(UIImage *image){
                 [self setImage:image];
-                [[EQImagesManager sharedInstance] saveImage:image named:fileName];
+                [[EQImagesManager sharedInstance] saveArticleImage:image named:fileName];
             }];
             
             [operation start];

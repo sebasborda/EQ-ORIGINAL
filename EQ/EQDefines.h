@@ -23,7 +23,7 @@ typedef enum{
 #define PROD_BASE_URL @"http://www.eqarte.com.ar"
 
 #ifdef TEST_VERSION
-    #define MAXIMUM_MINUTES_TO_UPDATE 15
+    #define MAXIMUM_MINUTES_TO_UPDATE 5
     #define HOST @"stg.eqarte.com.ar"
     #define BASE_URL @"http://stg.eqarte.com.ar/"
     #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"
@@ -31,7 +31,7 @@ typedef enum{
     #define DEBUG_ERROR NO
     #define DEBUG_ERROR_CODE @"40-072220140051"
 #else
-    #define MAXIMUM_MINUTES_TO_UPDATE 10
+    #define MAXIMUM_MINUTES_TO_UPDATE 5
     #define HOST @"www.eqarte.com.ar"
     #define BASE_URL @"http://www.eqarte.com.ar/"
     #define IMAGES_BASE_URL @"http://www.eqarte.com.ar/wp-content/uploads/"

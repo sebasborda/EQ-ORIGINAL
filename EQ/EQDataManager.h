@@ -10,7 +10,7 @@
 #import "Comunicacion.h"
 #import "Pedido+extra.h"
 
-@interface EQDataManager : NSObject
+@interface EQDataManager : NSObject <UIAlertViewDelegate>
 
 + (EQDataManager *)sharedInstance;
 - (void)updateDataShowLoading:(BOOL)show;
@@ -24,5 +24,8 @@
 
 //used to debug errors
 - (NSString *)ordersToJSon:(NSArray *)orders;
+
+- (void)forceDownloadArticlesImage;
+- (void)checkIfNeedSendData;
 
 @end
