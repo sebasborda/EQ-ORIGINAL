@@ -7,7 +7,7 @@
 //
 
 #import "ALTabBarController.h"
-#import "EQOrdersViewController.h"
+#import "EQMainScreenViewController.h"
 
 #define TOP_BAR_HEIGHT -1
 
@@ -25,7 +25,7 @@
     
     UINavigationController *nav = [self.viewControllers objectAtIndex:0];
     if ([nav.viewControllers count] == 0) {
-        [nav pushViewController:[EQOrdersViewController new] animated:NO];
+        [nav pushViewController:[EQMainScreenViewController new] animated:NO];
     }
     
     [self.customTabBarView selectTabAtIndex:self.selectedIndex];

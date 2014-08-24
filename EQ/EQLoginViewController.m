@@ -31,7 +31,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     if ([[EQSession sharedInstance] isUserLogged]) {
-        [self.navigationController pushViewController:[EQMainScreenViewController new] animated:YES];
+        [APP_DELEGATE pushTabBarAtIndex:EQTabIndexMain];
     }
 }
 
@@ -60,7 +60,7 @@
 
 -(void)loginSuccessful{
     [self stopLoading];
-    [self.navigationController pushViewController:[EQMainScreenViewController new] animated:YES];
+    [APP_DELEGATE pushTabBarAtIndex:EQTabIndexMain];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

@@ -8,6 +8,7 @@
 #import "EQAppDelegate.h"
 
 typedef enum{
+    EQTabIndexMain,
     EQTabIndexOrders,
     EQTabIndexCurrentAccount,
     EQTabIndexSales,

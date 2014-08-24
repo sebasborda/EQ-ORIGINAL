@@ -42,7 +42,7 @@
 
 - (IBAction)sectionButtonAction:(id)sender{
     UIButton *button = (UIButton *)sender;
-    [APP_DELEGATE pushTabBarAtIndex:button.tag];
+    [APP_DELEGATE selectTabAtIndex:button.tag];
 }
 
 - (IBAction)createClientButtonAction:(id)sender {
@@ -57,13 +57,13 @@
 
 - (void)clientSaved{
     [self.createClient dismissViewControllerAnimated:YES completion:nil];
-    [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
+    [APP_DELEGATE selectTabAtIndex:EQTabIndexOrders];
 }
 
 - (void)clientSelected:(NSString *)clientName{
     self.chooseClientButton.titleLabel.text = [NSString stringWithFormat:@"  %@",clientName];
     [self closePopover];
-    [APP_DELEGATE pushTabBarAtIndex:EQTabIndexOrders];
+    [APP_DELEGATE selectTabAtIndex:EQTabIndexOrders];
 }
 
 @end
