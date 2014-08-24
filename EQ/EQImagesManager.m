@@ -11,6 +11,7 @@
 @interface EQImagesManager()
 
 @property (nonatomic,strong) NSMutableDictionary *cacheDictionary;
+@property (nonatomic,strong) NSFileManager *fileManager;
 
 @end
 
@@ -24,7 +25,9 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[EQImagesManager alloc] init];
-        [sharedInstance loadCache];
+        sharedInstance.fileManager = [NSFileManager defaultManager];
+        //TODO: uncomment to use cache
+//        [sharedInstance loadCache];
     });
     return sharedInstance;
 }
@@ -40,17 +43,15 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     self.cacheDictionary = [NSMutableDictionary dictionary];
     
     // make a directory for these
-    NSFileManager *mgr = [NSFileManager defaultManager];
     BOOL isDir;
-    
     NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
     
-    if (![mgr fileExistsAtPath:picturesPath isDirectory:&isDir]) {
+    if (![self.fileManager fileExistsAtPath:picturesPath isDirectory:&isDir]) {
         NSError *error = nil;
-        [mgr createDirectoryAtPath:picturesPath withIntermediateDirectories:YES attributes:nil error:&error];
+        [self.fileManager createDirectoryAtPath:picturesPath withIntermediateDirectories:YES attributes:nil error:&error];
     } else {
         // load pictures
-        NSDirectoryEnumerator *dir = [mgr enumeratorAtPath: picturesPath];
+        NSDirectoryEnumerator *dir = [self.fileManager enumeratorAtPath: picturesPath];
         NSString *picture;
         while ((picture = [dir nextObject])) {
             NSString *fileName = [[picture componentsSeparatedByString:@"/"] lastObject];
@@ -58,7 +59,7 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
                 NSString *directory = [fileName copy];
                 NSString *directoryPath = [picturesPath stringByAppendingFormat:@"%@/",directory];
                 // load pictures
-                NSDirectoryEnumerator *subDir = [mgr enumeratorAtPath:directoryPath];
+                NSDirectoryEnumerator *subDir = [self.fileManager enumeratorAtPath:directoryPath];
                 NSString *newPicture;
                 while ((newPicture = [subDir nextObject])) {
                     UIImage *img = [UIImage imageWithContentsOfFile:[directoryPath stringByAppendingString:newPicture]];
@@ -88,17 +89,17 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
             [parts removeLastObject];
             NSString *directory = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], [parts componentsJoinedByString:@"/"]];
             // make a directory for these
-            NSFileManager *mgr = [NSFileManager defaultManager];
             BOOL isDir;
-            if (![mgr fileExistsAtPath:directory isDirectory:&isDir]) {
+            if (![self.fileManager fileExistsAtPath:directory isDirectory:&isDir]) {
                 NSError *error = nil;
-                [mgr createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
+                [self.fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:&error];
             }
         }
         
         NSError *error = nil;
         if ([imageData writeToFile:filePath options:NSDataWritingAtomic error:&error]) {
-            [self.cacheDictionary setObject:image forKey:name];
+            //TODO: uncomment to use cache
+//            [self.cacheDictionary setObject:image forKey:name];
             return YES;
         }
     }
@@ -106,24 +107,67 @@ NSString * const CACHE_DIRECTORY_FORMAT = @"%@/Caches/Pictures/%@";
     return  NO;
 }
 
-- (BOOL)existImageNamed:(NSString *)name{
-    return [self.cacheDictionary objectForKey:name] != nil;
+- (UIImage *)imageNamed:(NSString *)name {
+    return [self imageNamed:name defaltImage:nil];
 }
 
-- (UIImage *)imageNamed:(NSString *)name{
-    return [self.cacheDictionary objectForKey:name];
+- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage {
+    NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
+    name = name ? name : defaultImage;
+    UIImage *image = [UIImage imageWithContentsOfFile:[picturesPath stringByAppendingString:name]];
+
+    if (image == nil) {
+        image = [UIImage imageNamed:defaultImage];
+    }
+
+    return image;
+}
+
+- (BOOL)existImageNamed:(NSString *)name{
+    NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], name];
+    return [self.fileManager fileExistsAtPath:filePath];
 }
 
 - (void)clearCache{
-    // delete all of them so we get up to date
-    for (NSString *fileName in [self.cacheDictionary allKeys]) {
-        // remove from disk
-        NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], fileName];
-        NSFileManager *mgr = [NSFileManager defaultManager];
-        [mgr removeItemAtPath:filePath error:nil];
+    NSString *picturesPath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory],@""];
+
+    // make a directory for these
+    BOOL isDir;
+    if ([self.fileManager fileExistsAtPath:picturesPath isDirectory:&isDir]) {
+        NSError *error = nil;
+        if (![self.fileManager removeItemAtPath:picturesPath error:&error]) {
+            NSLog(@"Fail");
+        }
     }
-    
-    [self.cacheDictionary removeAllObjects];
 }
+
+//TODO: uncomment to use cache
+//- (UIImage *)imageNamed:(NSString *)name {
+//    return [self.cacheDictionary objectForKey:name];
+//}
+//
+//- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage{
+//    UIImage *image = [self.cacheDictionary objectForKey:name];
+//    if (image == nil) {
+//        image = [UIImage imageNamed:defaultImage];
+//    }
+//
+//    return image;
+//}
+//
+//- (BOOL)existImageNamed:(NSString *)name{
+//    return [self.cacheDictionary objectForKey:name] != nil;
+//}
+//
+//- (void)clearCache{
+//    // delete all of them so we get up to date
+//    for (NSString *fileName in [self.cacheDictionary allKeys]) {
+//        // remove from disk
+//        NSString *filePath = [NSString stringWithFormat:CACHE_DIRECTORY_FORMAT, [self documentDirectory], fileName];
+//        [self.fileManager removeItemAtPath:filePath error:nil];
+//    }
+//    
+//    [self.cacheDictionary removeAllObjects];
+//}
 
 @end

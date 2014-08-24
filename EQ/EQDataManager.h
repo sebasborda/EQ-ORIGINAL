@@ -18,6 +18,10 @@
 - (void)sendOrder:(Pedido *)order;
 - (void)sendCommunication:(Comunicacion *)communication;
 
+- (void)updateCatalog:(void (^)(BOOL finished))completion;
+
+- (NSMutableDictionary *)obtainLastUpdateFor:(Class)class needIncludeUser:(BOOL)needIncludeUser;
+
 //used to debug errors
 - (NSString *)ordersToJSon:(NSArray *)orders;
 

@@ -10,20 +10,19 @@
 #import "EQImagesManager.h"
 #import "CatalogoImagen.h"
 
+#define DEFAULT_IMAGE @"catalogoFotoProductoInexistente.png"
+
 @implementation EQProductCell (Catalogo)
 
 - (void)loadCatalog:(Catalogo *)catalog {
     self.productNameLabel.text = catalog.titulo;
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"pagina" ascending:YES];
     NSArray *photos = [catalog.imagenes sortedArrayUsingDescriptors:@[sortDescriptor]];
-    if ([photos count] > 0) {
-        CatalogoImagen *imagenCatalog = [photos objectAtIndex:0];
-        UIImage *image = [[EQImagesManager sharedInstance] imageNamed:imagenCatalog.nombre];
-        self.productImage.image = image;
-    } else {
-       self.productImage.image = [UIImage imageNamed:@"catalogoFotoProductoInexistente.png"];
-    }
-    
+
+    CatalogoImagen *imagenCatalog = [photos firstObject];
+    UIImage *image = [[EQImagesManager sharedInstance] imageNamed:imagenCatalog.nombre defaltImage:DEFAULT_IMAGE];
+    self.productImage.image = image;
+
     self.productStatusLabel.hidden = YES;
     self.agotadoImage.hidden = YES;
     self.codigoIcon.hidden = YES;

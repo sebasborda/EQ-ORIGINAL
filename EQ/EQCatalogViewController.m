@@ -13,6 +13,10 @@
 #import "Grupo+extra.h"
 #import "EQImagesManager.h"
 #import "CatalogoImagen.h"
+#import "EQDataManager.h"
+
+#define DEFAULT_IMAGE @"catalogoFotoProductoInexistente.png"
+
 
 @interface EQCatalogViewController ()
 
@@ -86,7 +90,7 @@
     int page = 0;
     for (CatalogoImagen *catalogImage in images) {
         CGRect frame = CGRectMake(scrollFrame.size.width * page, 0, scrollFrame.size.width, scrollFrame.size.height);
-        UIImage *image = [[EQImagesManager sharedInstance] imageNamed:catalogImage.nombre];
+        UIImage *image = [[EQImagesManager sharedInstance] imageNamed:catalogImage.nombre defaltImage:DEFAULT_IMAGE];
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.image = image;
         [self.catalogScrollView addSubview:imageView];
@@ -107,7 +111,6 @@
         } else {
             button.hidden = YES;
         }
-        
     }
     
     self.catalogDetailView.transform = CGAffineTransformMakeScale(0.9, 0.9);
@@ -118,6 +121,10 @@
 }
 
 - (void)modelDidUpdateData{
+    if (self.viewModel.lastUpdate == nil) {
+        self.viewModel.lastUpdate = @"Nunca se descargaron";
+    }
+    self.lastUpdateLabel.text =  [NSString stringWithFormat:@"Ultima actualización de catálogos: %@", self.viewModel.lastUpdate];
     [self.catalogsCollectionView reloadData];
     [super modelDidUpdateData];
 }
@@ -149,4 +156,10 @@
     [APP_DELEGATE selectTabAtIndex:EQTabIndexProducts];
 }
 
+- (IBAction)updateCatalogAction:(id)sender {
+    __weak EQCatalogViewController *weakSelf = self;
+    [[EQDataManager sharedInstance] updateCatalog:^(BOOL finished) {
+        [weakSelf.viewModel loadData];
+    }];
+}
 @end

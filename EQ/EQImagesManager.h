@@ -17,6 +17,7 @@ extern NSString * const CACHE_DIRECTORY_FORMAT;
 - (BOOL)saveImage:(UIImage *)image named:(NSString *)name;
 - (BOOL)existImageNamed:(NSString *)name;
 - (UIImage *)imageNamed:(NSString *)name;
+- (UIImage *)imageNamed:(NSString *)name defaltImage:(NSString *)defaultImage;
 - (void)clearCache;
 
 @end

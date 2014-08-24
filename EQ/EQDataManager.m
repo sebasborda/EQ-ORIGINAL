@@ -335,6 +335,8 @@
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
 }
 
+
+
 - (void)changePricesList{
     NSManagedObjectContext *context = [[EQDataAccessLayer sharedInstance] managedObjectContext];
     NSError *error = nil;
@@ -624,6 +626,7 @@
     [self updateSalesPage:page forceOverride:override];
 }
 
+//last load method
 - (void)updateSalesPage:(int)page forceOverride:(BOOL)override{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"venta" forKey:@"object"];
@@ -662,9 +665,8 @@
                 [self changeSalesList];
             }
             [self updateCompletedFor:[Venta class] needUser:YES];
-            [self updateCatalog];
+            [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
         }
-        
     };
     
     [self executeRequestWithParameters:dictionary successBlock:success failBlock:nil];
@@ -691,15 +693,16 @@
     }
 }
 
-//last load method
-- (void)updateCatalog{
+- (void)updateCatalog:(void (^)(BOOL finished))completion {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setObject:@"catalogo" forKey:@"object"];
     [dictionary setObject:@"listar" forKey:@"action"];
     [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    
+    self.showLoading = YES;
+
     SuccessRequest successBlock = ^(NSArray * jsonArray){
         [self deleteCatalogs];
+        [[EQImagesManager sharedInstance] clearCache];
         EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
         // make a directory for these
         NSFileManager *mgr = [NSFileManager defaultManager];
@@ -724,18 +727,24 @@
                     if ([fileName length] > 0) {
                         fileName = [catalogo.identifier stringByAppendingFormat:@"/%@",fileName];
                         if (![[EQImagesManager sharedInstance] existImageNamed:fileName]) {
-                            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[BASE_URL stringByAppendingString:fotoPath]]];
-                            AFImageRequestOperation *operation = [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            NSURL *url = [NSURL URLWithString:[PROD_BASE_URL stringByAppendingString:fotoPath]];
+                            NSData *imageData = [NSData dataWithContentsOfURL:url];
+                            UIImage *image = [UIImage imageWithData:imageData];
+                            if (image != nil) {
                                 [[EQImagesManager sharedInstance] saveImage:image named:fileName];
-                            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                NSLog(@"%@",error);
-                            }];
-                            [operation start];
+                                CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
+                                imagen.catalogoID = catalogo.identifier;
+                                imagen.nombre = fileName;
+                                imagen.pagina = [NSNumber numberWithInt:pagina];
+                            } else {
+                                NSLog(@"Catalogo: No se pudo descargar la imagen %@",url);
+                            }
+                        } else {
+                            CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
+                            imagen.catalogoID = catalogo.identifier;
+                            imagen.nombre = fileName;
+                            imagen.pagina = [NSNumber numberWithInt:pagina];
                         }
-                        CatalogoImagen *imagen = (CatalogoImagen *)[adl createManagedObject:@"CatalogoImagen"];
-                        imagen.catalogoID = catalogo.identifier;
-                        imagen.nombre = fileName;
-                        imagen.pagina = [NSNumber numberWithInt:pagina];
                     }
                 }
             }
@@ -751,7 +760,8 @@
         
         [adl saveContext];
         [self updateCompletedFor:[Catalogo class] needUser:NO];
-        [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
+        completion(YES);
+        self.showLoading = NO;
     };
     
     [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
@@ -874,7 +884,6 @@
     SuccessRequest block = ^(NSArray *jsonArray){
         if ([jsonArray count] > 0) {
             EQDataAccessLayer *adl = [EQDataAccessLayer sharedInstance];
-            [[EQImagesManager sharedInstance] clearCache];
             for (NSDictionary* articuloDictionary in jsonArray) {
                 Articulo *art = (Articulo *)[adl objectForClass:[Articulo class] withId:[articuloDictionary objectForKey:@"id"]];
                 art.identifier = [articuloDictionary filterInvalidEntry:@"id"];

@@ -21,5 +21,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *categoryThreeButton;
 - (IBAction)categoryThreeButtonAction:(id)sender;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *categoryButtonsList;
+@property (strong, nonatomic) IBOutlet UIButton *updateCatalogButton;
+- (IBAction)updateCatalogAction:(id)sender;
+@property (strong, nonatomic) IBOutlet UILabel *lastUpdateLabel;
 
 @end

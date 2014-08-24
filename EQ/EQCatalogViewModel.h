@@ -11,6 +11,7 @@
 @interface EQCatalogViewModel : EQBaseViewModel
 
 @property (nonatomic, strong) NSArray *catalogs;
-@property (nonatomic,assign) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic, assign) id<EQBaseViewModelDelegate> delegate;
+@property (nonatomic, copy) NSString *lastUpdate;
 
 @end
