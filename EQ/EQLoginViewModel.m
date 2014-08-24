@@ -15,7 +15,7 @@
 #import "NSString+Number.h"
 #import "EQDataAccessLayer.h"
 
-#define TEST_CREDENTIALS YES
+#define TEST_CREDENTIALS NO
 
 @implementation EQLoginViewModel
 @synthesize delegate = _delegate;
