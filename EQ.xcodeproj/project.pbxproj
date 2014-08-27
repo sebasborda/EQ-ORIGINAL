@@ -779,6 +779,9 @@
 		96ED114F18952A630028A6AB /* iconTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114C18952A630028A6AB /* iconTest.png */; };
 		96ED115018952A630028A6AB /* iconTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114D18952A630028A6AB /* iconTest@2x.png */; };
 		96ED115118952A630028A6AB /* iconTest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96ED114D18952A630028A6AB /* iconTest@2x.png */; };
+		96F0B10919AD64ED00B8B95A /* inicio.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0B10819AD64ED00B8B95A /* inicio.png */; };
+		96F0B10A19AD64ED00B8B95A /* inicio.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0B10819AD64ED00B8B95A /* inicio.png */; };
+		96F0B10B19AD64ED00B8B95A /* inicio.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0B10819AD64ED00B8B95A /* inicio.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1302,6 +1305,7 @@
 		96E26710189750BC003C8E81 /* CtaCte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtaCte.m; sourceTree = "<group>"; };
 		96ED114C18952A630028A6AB /* iconTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconTest.png; sourceTree = "<group>"; };
 		96ED114D18952A630028A6AB /* iconTest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconTest@2x.png"; sourceTree = "<group>"; };
+		96F0B10819AD64ED00B8B95A /* inicio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inicio.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1567,6 +1571,7 @@
 		212A8A9E171FA4F500F7900A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				96F0B10819AD64ED00B8B95A /* inicio.png */,
 				6BB5B20718177275006B41AA /* buttonSolapasCatalogo.png */,
 				6BDA6ADB1818BE2900F08C94 /* buttonVolverACatalago.png */,
 				6BDA6ADC1818BE2900F08C94 /* buttonVolverACatalago@2x.png */,
@@ -2367,6 +2372,7 @@
 				6BDA6AE11818BE2900F08C94 /* buttonVolverACatalagoHighlighted.png in Resources */,
 				6BD92A0E17974DB9005048D6 /* inicioButtonComunicacion@2x.png in Resources */,
 				6BD92A0F17974DB9005048D6 /* inicioButtonComunicacionHighlighted.png in Resources */,
+				96F0B10919AD64ED00B8B95A /* inicio.png in Resources */,
 				6BD92A1017974DB9005048D6 /* inicioButtonComunicacionHighlighted@2x.png in Resources */,
 				6BD92A1117974DB9005048D6 /* inicioButtonCuentaCorriente.png in Resources */,
 				6BD92A1217974DB9005048D6 /* inicioButtonCuentaCorriente@2x.png in Resources */,
@@ -2635,6 +2641,7 @@
 				96579C6F186261D900A688DA /* inicioButtonComunicacion@2x.png in Resources */,
 				96579C70186261D900A688DA /* inicioButtonComunicacionHighlighted.png in Resources */,
 				96579C71186261D900A688DA /* inicioButtonComunicacionHighlighted@2x.png in Resources */,
+				96F0B10A19AD64ED00B8B95A /* inicio.png in Resources */,
 				96579C72186261D900A688DA /* inicioButtonCuentaCorriente.png in Resources */,
 				96579C73186261D900A688DA /* inicioButtonCuentaCorriente@2x.png in Resources */,
 				96579C74186261D900A688DA /* buttonSolapasCatalogoHighlighted@2x.png in Resources */,
@@ -2817,6 +2824,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F0B10B19AD64ED00B8B95A /* inicio.png in Resources */,
 				96BCD56A18FB86ED00568806 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
