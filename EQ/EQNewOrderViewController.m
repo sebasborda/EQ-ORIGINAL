@@ -446,8 +446,8 @@
     self.isInteractionEnable = NO;
 }
 
-- (void)articleUnavailable{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"El articulo no esta disponible" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+- (void)articleUnavailable:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Articulo no disponible" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
 }

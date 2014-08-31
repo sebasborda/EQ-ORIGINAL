@@ -22,7 +22,6 @@
 @property(nonatomic,assign) BOOL hasDiscount;
 
 @property (nonatomic,weak) id<EQBaseViewModelDelegate> delegate;
-@property (nonatomic,strong) NSString *clientID;
 @property (nonatomic,strong) Cliente *client;
 
 - (void)loadData;

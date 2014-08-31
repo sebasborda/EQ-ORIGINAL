@@ -2,8 +2,8 @@
 //  Cliente.h
 //  EQ
 //
-//  Created by Sebastian Borda on 9/18/13.
-//  Copyright (c) 2013 Sebastian Borda. All rights reserved.
+//  Created by Sebastian Borda on 8/30/14.
+//  Copyright (c) 2014 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * codigo1;
 @property (nonatomic, retain) NSString * codigo2;
 @property (nonatomic, retain) NSString * codigoPostal;
+@property (nonatomic, retain) NSNumber * conDescuento;
 @property (nonatomic, retain) NSString * condicionDePagoID;
 @property (nonatomic, retain) NSString * cuit;
 @property (nonatomic, retain) NSNumber * descuento1;
@@ -48,6 +49,6 @@
 @property (nonatomic, retain) NSString * vendedorID;
 @property (nonatomic, retain) NSString * web;
 @property (nonatomic, retain) NSString * zonaEnvioID;
-@property (nonatomic, retain) NSNumber * conDescuento;
+@property (nonatomic, retain) NSString * tempID;
 
 @end

@@ -14,7 +14,7 @@
 
 - (void)modelDidAddItem;
 - (void)modelAddItemDidFail;
-- (void)articleUnavailable;
+- (void)articleUnavailable:(NSString *)message;
 
 @end
 

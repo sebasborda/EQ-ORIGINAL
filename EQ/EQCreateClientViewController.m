@@ -39,13 +39,13 @@
     return self;
 }
 
-- (id)initWithClientId:(NSString *)clientId
+- (id)initWithClient:(Cliente *)client
 {
     self = [super init];
     if (self) {
         self.viewModel = [EQCreateClientViewModel new];
         self.viewModel.delegate = self;
-        self.viewModel.clientID = clientId;
+        self.viewModel.client = client;
         [self.viewModel loadData];
     }
     return self;

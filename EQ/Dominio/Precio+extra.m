@@ -28,4 +28,8 @@
     return [self.importe floatValue];
 }
 
+- (NSString *)description{
+    return [NSString stringWithFormat:@"numero:%@ articuloID:%@ activo:%@",self.numero,self.articuloID,self.activo];
+}
+
 @end

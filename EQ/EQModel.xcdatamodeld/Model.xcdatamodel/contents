@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Articulo" representedClassName="Articulo" syncable="YES">
         <attribute name="activo" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="cantidadPredeterminada" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -78,6 +78,7 @@
         <attribute name="provinciaID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="sucursal" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="telefono" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tempID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="web" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="zonaEnvioID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
@@ -104,6 +105,9 @@
         </fetchedProperty>
         <fetchedProperty name="pedidos" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="clienteID == $FETCH_SOURCE.identifier"/>
+        </fetchedProperty>
+        <fetchedProperty name="pedidosPendientes" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Pedido" predicateString="tempClientID == $FETCH_SOURCE.tempID"/>
         </fetchedProperty>
         <fetchedProperty name="provincias" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Provincia" predicateString="identifier == $FETCH_SOURCE.provinciaID"/>
@@ -241,11 +245,15 @@
         <attribute name="observaciones" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sincronizacion" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="subTotal" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="tempClientID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="total" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="vendedorID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ItemPedido" inverseName="pedido" inverseEntity="ItemPedido" syncable="YES"/>
         <fetchedProperty name="clientes" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="identifier == $FETCH_SOURCE.clienteID"/>
+        </fetchedProperty>
+        <fetchedProperty name="tempClientes" optional="YES" syncable="YES">
+            <fetchRequest name="fetchedPropertyFetchRequest" entity="Cliente" predicateString="tempID == $FETCH_SOURCE.tempClientID"/>
         </fetchedProperty>
         <fetchedProperty name="vendedores" optional="YES" syncable="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Vendedor" predicateString="identifier == $FETCH_SOURCE.vendedorID"/>
@@ -342,26 +350,26 @@
         <attribute name="identifier" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Articulo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Catalogo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CatalogoImagen" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Cliente" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Comunicacion" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CondPag" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CtaCte" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Disponibilidad" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Expreso" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Grupo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ItemFacturado" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ItemPedido" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="LineaVTA" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Pedido" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Precio" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Provincia" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="TipoIvas" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Usuario" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Vendedor" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Venta" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ZonaEnvio" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Articulo" positionX="0" positionY="0" width="128" height="329"/>
+        <element name="Catalogo" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="CatalogoImagen" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Cliente" positionX="0" positionY="0" width="128" height="821"/>
+        <element name="Comunicacion" positionX="0" positionY="0" width="128" height="299"/>
+        <element name="CondPag" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="CtaCte" positionX="0" positionY="0" width="128" height="254"/>
+        <element name="Disponibilidad" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Expreso" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Grupo" positionX="0" positionY="0" width="128" height="224"/>
+        <element name="ItemFacturado" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="ItemPedido" positionX="0" positionY="0" width="128" height="269"/>
+        <element name="LineaVTA" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Pedido" positionX="0" positionY="0" width="128" height="374"/>
+        <element name="Precio" positionX="0" positionY="0" width="128" height="149"/>
+        <element name="Provincia" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="TipoIvas" positionX="0" positionY="0" width="128" height="134"/>
+        <element name="Usuario" positionX="0" positionY="0" width="128" height="164"/>
+        <element name="Vendedor" positionX="0" positionY="0" width="128" height="239"/>
+        <element name="Venta" positionX="0" positionY="0" width="128" height="269"/>
+        <element name="ZonaEnvio" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

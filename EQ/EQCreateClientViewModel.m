@@ -42,23 +42,17 @@
 }
 
 - (void)loadData{
-    if (self.clientID) {
-        self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:self.clientID];
         self.selectedTaxAtIndex = [[self obtainTaxesList] indexOfObject:self.client.iva];
         self.selectedProvinceAtIndex = [[self obtainProvinces] indexOfObject:self.client.provincia];
         self.selectedPaymentConditionAtIndex = [[self obtainPaymentConditionList] indexOfObject:self.client.condicionDePago];
         self.selectedExpressAtIndex = [[self obtainExpressList] indexOfObject:self.client.expreso];
         self.selectedDeliveryAreaAtIndex = [[self obtainDeliveryAreaList] indexOfObject:self.client.zonaEnvio];
         self.selectedSalesLineAtIndex = [[self obtainSalesLineList] indexOfObject:self.client.lineaDeVenta];
-        self.hasDiscount = [self.client.conDescuento boolValue];
-    }
-    
+        self.hasDiscount = [self.client.conDescuento boolValue];    
 }
 
 - (void)saveClient:(NSDictionary *)clientDictionary{
-    if (self.clientID) {
-        self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] objectForClass:[Cliente class] withId:self.clientID];
-    } else {
+    if (self.client == nil) {
         self.client = (Cliente *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Cliente class])];
     }
     

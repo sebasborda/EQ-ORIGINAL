@@ -163,9 +163,12 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
     if (alertView == self.updateAlert && buttonIndex != [alertView cancelButtonIndex]) {
         __weak EQCatalogViewController *weakSelf = self;
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
         [[EQDataManager sharedInstance] updateCatalog:^(BOOL finished) {
+            [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
             [weakSelf.viewModel loadData];
         }];
     }

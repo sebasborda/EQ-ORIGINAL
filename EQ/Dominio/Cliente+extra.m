@@ -26,6 +26,7 @@
 @dynamic listaDePrecios;
 @dynamic cobradores;
 @dynamic vendedores;
+@dynamic pedidosPendientes;
 
 
 
@@ -83,7 +84,7 @@
 }
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"Cliente id:%@ nombre:%@ desc1-2-3-4:%@-%@-%@-%@ cod1-2:%@-%@ numero de lista :%@ cantidad de precios:%@",self.identifier,self.nombre,self.descuento1,self.descuento2,self.descuento3,self.descuento4,self.codigo1,self.codigo2, self.listaPrecios, [self.listaDePrecios count]];
+    return [NSString stringWithFormat:@"Cliente id:%@ nombre:%@ desc1-2-3-4:%@-%@-%@-%@ cod1-2:%@-%@ numero de lista :%@ cantidad de precios:%d",self.identifier,self.nombre,self.descuento1,self.descuento2,self.descuento3,self.descuento4,self.codigo1,self.codigo2, self.listaPrecios, [self.listaDePrecios count]];
 }
 
 @end

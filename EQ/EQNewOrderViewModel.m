@@ -15,6 +15,10 @@
 #import "EQDataManager.h"
 #import "Vendedor+extra.h"
 #import "EQSession.h"
+#import "Cliente+extra.h"
+#import "Precio+extra.h"
+#import "Disponibilidad+extra.h"
+#import "Articulo+extra.h"
 
 #define DEFAULT_CATEGORY @"artistica"
 
@@ -43,6 +47,7 @@
     if (self) {
         self.order = (Pedido *)[[EQDataAccessLayer sharedInstance] createManagedObject:NSStringFromClass([Pedido class])];
         self.order.clienteID = self.ActiveClient.identifier;
+        self.order.tempClientID = self.ActiveClient.tempID;
         self.order.descuento3 = self.ActiveClient.descuento3;
         self.order.descuento4 = self.ActiveClient.descuento4;
         self.order.vendedorID = self.currentSeller.identifier;
@@ -101,6 +106,7 @@
         
         if (self.ActiveClient) {
             self.order.clienteID = self.ActiveClient.identifier;
+            self.order.tempClientID = self.ActiveClient.tempID;
         }
     }
     
@@ -153,12 +159,13 @@
 
 - (void)defineSelectedArticle:(NSUInteger)index{
     Articulo *article = [self.articles objectAtIndex:index];
-    if ([self canAddArticle:article]) {
+    NSString *message = [self canAddArticle:article];
+    if (message == nil) {
         self.articleSelected = article;
         self.articleSelectedIndex = index;
         [self.delegate modelDidUpdateData];
     } else {
-        [self.delegate articleUnavailable];
+        [self.delegate articleUnavailable:message];
     }
 }
 
@@ -324,13 +331,27 @@
     [self loadData];
 }
 
-- (BOOL)canAddArticle:(Articulo *)article{
+- (NSString *)canAddArticle:(Articulo *)article{
     Cliente *client = self.ActiveClient;
     if (!self.newOrder) {
         client = self.order.cliente;
     }
-    
-    return [article priceForClient:client] != nil && [article.disponibilidadID intValue] == 1 && [article.activo boolValue];
+
+    Precio *precio = [article priceForClient:client];
+    if (precio == nil) {
+        return [NSString stringWithFormat:@"No se encontro precio para el articulo:%@ lista:%@",article.identifier,client.listaPrecios];
+    }
+
+    if (![article.disponibilidad isAvailable]) {
+        return [NSString stringWithFormat:@"El estado del articulo:%@ estado:%@",article.identifier, [article.disponibilidad descripcion]];
+    }
+
+    if (![article.activo boolValue]) {
+        return [NSString stringWithFormat:@"El articulo:%@ no esta activo",article.identifier];
+    }
+
+
+    return  nil;
 }
 
 - (NSString *)orderHTML {

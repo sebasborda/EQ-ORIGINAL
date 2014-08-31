@@ -2,8 +2,8 @@
 //  Cliente.m
 //  EQ
 //
-//  Created by Sebastian Borda on 9/18/13.
-//  Copyright (c) 2013 Sebastian Borda. All rights reserved.
+//  Created by Sebastian Borda on 8/30/14.
+//  Copyright (c) 2014 Sebastian Borda. All rights reserved.
 //
 
 #import "Cliente.h"
@@ -17,6 +17,7 @@
 @dynamic codigo1;
 @dynamic codigo2;
 @dynamic codigoPostal;
+@dynamic conDescuento;
 @dynamic condicionDePagoID;
 @dynamic cuit;
 @dynamic descuento1;
@@ -47,6 +48,6 @@
 @dynamic vendedorID;
 @dynamic web;
 @dynamic zonaEnvioID;
-@dynamic conDescuento;
+@dynamic tempID;
 
 @end

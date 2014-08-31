@@ -144,15 +144,15 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lJp-uf-rPJ">
-                    <rect key="frame" x="55" y="1" width="75" height="50"/>
+                    <rect key="frame" x="60" y="4" width="66" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="36"/>
                     <state key="normal" backgroundImage="inicio.png">
                         <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
-                    <state key="selected" image="inicio.png"/>
-                    <state key="highlighted" image="inicio.png">
+                    <state key="selected" image="inicio_selected.png"/>
+                    <state key="highlighted" image="inicio_selected.png">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -203,6 +203,7 @@
         <image name="buttonSolapasProductos.png" width="75" height="50"/>
         <image name="buttonSolapasProductosHighlighted.png" width="75" height="50"/>
         <image name="fondoSolapas.png" width="768" height="50"/>
-        <image name="inicio.png" width="134" height="81"/>
+        <image name="inicio.png" width="133" height="83"/>
+        <image name="inicio_selected.png" width="134" height="81"/>
     </resources>
 </document>

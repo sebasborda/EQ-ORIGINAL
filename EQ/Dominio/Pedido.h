@@ -2,8 +2,8 @@
 //  Pedido.h
 //  EQ
 //
-//  Created by Sebastian Borda on 8/25/13.
-//  Copyright (c) 2013 Sebastian Borda. All rights reserved.
+//  Created by Sebastian Borda on 8/30/14.
+//  Copyright (c) 2014 Sebastian Borda. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -27,6 +27,7 @@
 @property (nonatomic, retain) NSString * observaciones;
 @property (nonatomic, retain) NSDate * sincronizacion;
 @property (nonatomic, retain) NSNumber * subTotal;
+@property (nonatomic, retain) NSString * tempClientID;
 @property (nonatomic, retain) NSNumber * total;
 @property (nonatomic, retain) NSString * vendedorID;
 @property (nonatomic, retain) NSSet *items;

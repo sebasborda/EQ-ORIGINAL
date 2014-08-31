@@ -25,6 +25,7 @@
 @property (nonatomic,strong) NSArray *provincias;
 @property (nonatomic,strong) NSArray *zonasEnvio;
 @property (nonatomic,strong) NSArray *pedidos;
+@property (nonatomic,strong) NSArray *pedidosPendientes;
 @property (nonatomic,strong) NSArray *listaDePrecios;
 @property (nonatomic,strong) NSArray *cobradores;
 @property (nonatomic,strong) NSArray *vendedores;

@@ -762,8 +762,12 @@
         completion(YES);
         self.showLoading = NO;
     };
+
+    FailRequest fail = ^(NSError *error) {
+        completion(NO);
+    };
     
-    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:nil];
+    [self executeRequestWithParameters:dictionary successBlock:successBlock failBlock:fail];
 }
 
 - (void)changeSalesList{
@@ -1174,6 +1178,11 @@
         
         if (idString) {
             newClient.identifier = idString;
+            for (Pedido *pedido in newClient.pedidosPendientes) {
+                pedido.tempClientID = nil;
+                pedido.clienteID = idString;
+            }
+            newClient.tempID = nil;
         }
         
         newClient.actualizado = [NSNumber numberWithBool:YES];
@@ -1183,7 +1192,11 @@
     };
     
     FailRequest failBlock = ^(NSError *error){
-
+        newClient = (Cliente *)[[[EQDataAccessLayer sharedInstance] managedObjectContext] objectWithID:[client objectID]];
+        if (newClient.identifier == nil && newClient.tempID == nil) {
+            newClient.tempID = [[client mail] stringByAppendingString:[[NSDate date] description]];
+            [[EQDataAccessLayer sharedInstance] saveContext];
+        }
     };
     
     EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
@@ -1320,40 +1333,44 @@
 
 
 - (void)sendOrder:(Pedido *)order{
-    NSMutableDictionary *dictionary = [NSMutableDictionary new];
-    [dictionary setNotNilObject:@"pedido" forKey:@"object"];
-    [dictionary setNotNilObject:[order.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
-    [dictionary addEntriesFromDictionary:[self obtainCredentials]];
-    [dictionary addEntriesFromDictionary:[self parseOrder:order includeItems:YES]];
-    [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
-    
-    __block Pedido *newOrder = nil;
-    SuccessRequest block = ^(NSDictionary *clientDictionary){
-        newOrder = (Pedido *)[[[EQDataAccessLayer sharedInstance] managedObjectContext] objectWithID:[order objectID]];
-        id identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
-        NSString * idString = nil;
-        if ([identifier isKindOfClass:[NSString class]]) {
-            idString = identifier;
-        } else {
-            idString = [identifier stringValue];
-        }
-        if (idString) {
-            newOrder.identifier = idString;
-        }
-        
-        newOrder.sincronizacion = [NSDate date];
-        newOrder.actualizado = [NSNumber numberWithBool:YES];
-        [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQSession sharedInstance] updateCache];
-        [self sendPendingOrders];
-    };
-    
-    FailRequest failBlock = ^(NSError *error){
-        NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
-    };
-    
-    EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
-    [EQNetworkManager makeRequest:request];
+    if ([order.cliente.actualizado boolValue]) {
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        [dictionary setNotNilObject:@"pedido" forKey:@"object"];
+        [dictionary setNotNilObject:[order.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
+        [dictionary addEntriesFromDictionary:[self obtainCredentials]];
+        [dictionary addEntriesFromDictionary:[self parseOrder:order includeItems:YES]];
+        [dictionary setValue:[NSNumber numberWithBool:YES] forKey:@"POST"];
+
+        __block Pedido *newOrder = nil;
+        SuccessRequest block = ^(NSDictionary *clientDictionary){
+            newOrder = (Pedido *)[[[EQDataAccessLayer sharedInstance] managedObjectContext] objectWithID:[order objectID]];
+            id identifier = [clientDictionary filterInvalidEntry:@"obj_id"];
+            NSString * idString = nil;
+            if ([identifier isKindOfClass:[NSString class]]) {
+                idString = identifier;
+            } else {
+                idString = [identifier stringValue];
+            }
+            if (idString) {
+                newOrder.identifier = idString;
+            }
+
+            newOrder.sincronizacion = [NSDate date];
+            newOrder.actualizado = [NSNumber numberWithBool:YES];
+            [[EQDataAccessLayer sharedInstance] saveContext];
+            [[EQSession sharedInstance] updateCache];
+            [self sendPendingOrders];
+        };
+
+        FailRequest failBlock = ^(NSError *error){
+            NSLog(@"send order fail error:%@ UserInfo:%@",error ,error.userInfo);
+        };
+
+        EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
+        [EQNetworkManager makeRequest:request];
+    } else {
+        [self sendPendingClients];
+    }
 }
 
 - (NSString *)ordersToJSon:(NSArray *)orders {
@@ -1519,7 +1536,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView == self.updateDataAlert) {
-        if (buttonIndex == [alertView cancelButtonIndex]) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
             [self updateDataShowLoading:YES];
         }
     }
