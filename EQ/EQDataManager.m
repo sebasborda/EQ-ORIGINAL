@@ -100,10 +100,10 @@
             self.showLoading = show;
             // start load
             if (show) {
-                [self sendPendingClients];
+                [self sendPendingClientsFullUpdate:NO];
             } else {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [self sendPendingClients];
+                    [self sendPendingClientsFullUpdate:NO];
                 });
             }
         } else {
@@ -127,37 +127,39 @@
     }
 }
 
-- (void)sendPendingCommunications{
+- (void)sendPendingCommunicationsFullUpdate:(BOOL)fullUpdate{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
     NSArray *communications = [dal objectListForClass:[Comunicacion class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
 
     Comunicacion *communication = [communications firstObject];
     if (communication) {
-        [self sendCommunication:communication];
-    } else {
+        [self sendCommunication:communication andUpdate:YES fullUpdate:fullUpdate];
+    } else if (fullUpdate){
         [self updateSettings];
+    } else {
+        [self performSelectorOnMainThread:@selector(updateCompleted) withObject:nil waitUntilDone:NO];
     }
 }
 
-- (void)sendPendingOrders{
+- (void)sendPendingOrdersFullUpdate:(BOOL)fullUpdate{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
     NSArray *orders = [dal objectListForClass:[Pedido class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
     Pedido *order = [orders firstObject];
     if (order) {
-        [self sendOrder:order];
+        [self sendOrder:order andUpdate:YES fullUpdate:fullUpdate];
     } else {
-        [self sendPendingCommunications];
+        [self sendPendingCommunicationsFullUpdate:fullUpdate];
     }
 }
 
-- (void)sendPendingClients{
+- (void)sendPendingClientsFullUpdate:(BOOL)fullUpdate{
     EQDataAccessLayer *dal = [EQDataAccessLayer sharedInstance];
     NSArray *clients = [dal objectListForClass:[Cliente class] filterByPredicate:[NSPredicate predicateWithFormat:@"SELF.actualizado == false"] sortBy:nil limit:1];
     Cliente *client = [clients firstObject];
     if (client) {
-        [self sendClient:client];
+        [self sendClient:client andUpdate:YES fullUpdate:fullUpdate];
     } else {
-        [self sendPendingOrders];
+        [self sendPendingOrdersFullUpdate:fullUpdate];
     }
 }
 
@@ -724,7 +726,6 @@
                 [mgr createDirectoryAtPath:picturesPath withIntermediateDirectories:YES attributes:nil error:nil];
             }
             
-            
             if ([[catalogoDictionary filterInvalidEntry:@"fotos_ipad"] isKindOfClass:[NSArray class]]) {
                 int pagina = 0;
                 for (NSString *fotoPath in [catalogoDictionary objectForKey:@"fotos_ipad"]) {
@@ -733,7 +734,11 @@
                     if ([fileName length] > 0) {
                         fileName = [catalogo.identifier stringByAppendingFormat:@"/%@",fileName];
                         NSURL *url = [NSURL URLWithString:[PROD_BASE_URL stringByAppendingString:fotoPath]];
-                        NSData *imageData = [NSData dataWithContentsOfURL:url];
+                        NSError *error = nil;
+                        NSData *imageData = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+                        if (error) {
+                            NSLog(@"download %@ fails error %@", [url absoluteString], [error localizedDescription]);
+                        }
                         UIImage *image = [UIImage imageWithData:imageData];
                         if (image != nil) {
                             [[EQImagesManager sharedInstance] saveCatalogImage:image named:fileName];
@@ -1158,7 +1163,7 @@
 
 #pragma mark - update server
 
-- (void)sendClient:(Cliente *)client{
+- (void)sendClient:(Cliente *)client andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate{
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setNotNilObject:@"cliente" forKey:@"object"];
     [dictionary setNotNilObject:[client.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
@@ -1188,7 +1193,9 @@
         newClient.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
         [[EQSession sharedInstance] updateCache];
-        [self sendPendingClients];
+        if (update) {
+            [self sendPendingClientsFullUpdate:NO];
+        }
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -1271,7 +1278,7 @@
     return dictionary;
 }
 
-- (void)sendCommunication:(Comunicacion *)communication{
+- (void)sendCommunication:(Comunicacion *)communication andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate {
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     [dictionary setNotNilObject:@"comunicacion" forKey:@"object"];
     [dictionary setNotNilObject:[communication.identifier intValue] > 0 ? @"modificar":@"crear" forKey:@"action"];
@@ -1294,7 +1301,9 @@
         
         newCommunication.actualizado = [NSNumber numberWithBool:YES];
         [[EQDataAccessLayer sharedInstance] saveContext];
-        [self sendPendingCommunications];
+        if (update) {
+            [self sendPendingCommunicationsFullUpdate:NO];
+        }
     };
     
     FailRequest failBlock = ^(NSError *error){
@@ -1332,7 +1341,7 @@
 }
 
 
-- (void)sendOrder:(Pedido *)order{
+- (void)sendOrder:(Pedido *)order andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate {
     if ([order.cliente.actualizado boolValue]) {
         NSMutableDictionary *dictionary = [NSMutableDictionary new];
         [dictionary setNotNilObject:@"pedido" forKey:@"object"];
@@ -1359,7 +1368,9 @@
             newOrder.actualizado = [NSNumber numberWithBool:YES];
             [[EQDataAccessLayer sharedInstance] saveContext];
             [[EQSession sharedInstance] updateCache];
-            [self sendPendingOrders];
+            if (update) {
+                [self sendPendingOrdersFullUpdate:NO];
+            }
         };
 
         FailRequest failBlock = ^(NSError *error){
@@ -1369,7 +1380,7 @@
         EQRequest *request = [[EQRequest alloc] initWithParams:dictionary successRequestBlock:block failRequestBlock:failBlock runInBackground:YES];
         [EQNetworkManager makeRequest:request];
     } else {
-        [self sendPendingClients];
+        [self sendPendingClientsFullUpdate:NO];
     }
 }
 
@@ -1537,7 +1548,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView == self.updateDataAlert) {
         if (buttonIndex != [alertView cancelButtonIndex]) {
-            [self updateDataShowLoading:YES];
+            [self sendPendingClientsFullUpdate:NO];
         }
     }
 }

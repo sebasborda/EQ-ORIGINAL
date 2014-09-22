@@ -89,7 +89,7 @@
         if ([communication.activo boolValue]) {
             communication.activo = @0;
             [[EQDataAccessLayer sharedInstance] saveContext];
-            [[EQDataManager sharedInstance] sendCommunication:communication];
+            [[EQDataManager sharedInstance] sendCommunication:communication andUpdate:NO fullUpdate:NO];
         }
     }
 }
@@ -98,7 +98,7 @@
     if (self.selectedCommunication.leido == nil) {
         self.selectedCommunication.leido = [NSDate date];
         [[EQDataAccessLayer sharedInstance] saveContext];
-        [[EQDataManager sharedInstance] sendCommunication:self.selectedCommunication];
+        [[EQDataManager sharedInstance] sendCommunication:self.selectedCommunication andUpdate:NO fullUpdate:NO];
     }
 }
 
@@ -120,7 +120,7 @@
     NSMutableArray *communications = self.communications[communication.threadID];
     [communications insertObject:communication atIndex:0];
     
-    [[EQDataManager sharedInstance] sendCommunication:communication];
+    [[EQDataManager sharedInstance] sendCommunication:communication andUpdate:NO fullUpdate:NO];
 }
 
 @end

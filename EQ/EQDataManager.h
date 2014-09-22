@@ -14,9 +14,9 @@
 
 + (EQDataManager *)sharedInstance;
 - (void)updateDataShowLoading:(BOOL)show;
-- (void)sendClient:(Cliente *)client;
-- (void)sendOrder:(Pedido *)order;
-- (void)sendCommunication:(Comunicacion *)communication;
+- (void)sendClient:(Cliente *)client andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate;
+- (void)sendOrder:(Pedido *)order andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate;
+- (void)sendCommunication:(Comunicacion *)communication andUpdate:(BOOL)update fullUpdate:(BOOL)fullUpdate;
 
 - (void)updateCatalog:(void (^)(BOOL finished))completion;
 

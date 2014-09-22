@@ -15,7 +15,8 @@
 + (void)makeRequest:(EQRequest *)request{
     @synchronized (self) {
         [AFJSONRequestOperation addAcceptableContentTypes:[NSSet setWithObject:@"text/html"]];
-        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request.urlRequest
+                                                                                            success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *urlResponse, id JSON) {
             NSArray *jsonArray = nil;
             BOOL error = JSON == nil;
             NSString *message = nil;
@@ -48,6 +49,10 @@
                                                  NSLog(@"Failed: %@ for request %@",[error localizedDescription], [[urlRequest URL] absoluteString]);
                                                  request.failBlock(error);
                                              }];
+
+#ifdef TEST_VERSION
+        operation.credential = [NSURLCredential credentialWithUser:@"eq" password:@"eq" persistence:NSURLCredentialPersistencePermanent];
+#endif
         [operation start];
     }
 }

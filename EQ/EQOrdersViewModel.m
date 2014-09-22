@@ -157,7 +157,7 @@
 - (void)cancelOrder:(Pedido *)order {
     order.estado = @"anulado";
     [[EQDataAccessLayer sharedInstance] saveContext];
-    [[EQDataManager sharedInstance] sendOrder:order];
+    [[EQDataManager sharedInstance] sendOrder:order andUpdate:NO fullUpdate:NO];
 }
 
 - (void)changeSortOrder:(int)index{

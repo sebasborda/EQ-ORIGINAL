@@ -106,7 +106,7 @@
     [[EQDataAccessLayer sharedInstance] saveContext];
     [[EQSession sharedInstance] updateCache];
     
-    [[EQDataManager sharedInstance] sendClient:self.client];
+    [[EQDataManager sharedInstance] sendClient:self.client andUpdate:NO fullUpdate:NO];
     [EQSession sharedInstance].selectedClient = self.client;
 }
 

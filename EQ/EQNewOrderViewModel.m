@@ -119,7 +119,7 @@
     [[EQSession sharedInstance] updateCache];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[EQDataManager sharedInstance] sendOrder:self.order];
+        [[EQDataManager sharedInstance] sendOrder:self.order andUpdate:NO fullUpdate:NO];
     });
 }
 
