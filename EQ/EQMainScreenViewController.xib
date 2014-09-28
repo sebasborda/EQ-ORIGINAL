@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">13C64</string>
+		<string key="IBDocument.SystemVersion">13E28</string>
 		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
-		<string key="IBDocument.AppKitVersion">1265.19</string>
-		<string key="IBDocument.HIToolboxVersion">697.40</string>
+		<string key="IBDocument.AppKitVersion">1265.21</string>
+		<string key="IBDocument.HIToolboxVersion">698.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">3733</string>
@@ -44,7 +44,7 @@
 						<string key="NSFrameSize">{768, 1004}</string>
 						<reference key="NSSuperview" ref="219871015"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="381808873"/>
+						<reference key="NSNextKeyView" ref="306858129"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -119,7 +119,7 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="NSCustomResource" key="IBUIHighlightedImage" id="537845170">
+						<object class="NSCustomResource" key="IBUIHighlightedImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">inicioButtonCerrarSesionHighlighted.png</string>
 						</object>
@@ -153,7 +153,6 @@
 						<reference key="IBUIHighlightedTitleColor" ref="458184712"/>
 						<string key="IBUINormalTitle">Actualizar</string>
 						<reference key="IBUINormalTitleShadowColor" ref="623005986"/>
-						<reference key="IBUIHighlightedImage" ref="537845170"/>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="649200250">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">grayButton.png</string>
@@ -177,7 +176,6 @@
 						<reference key="IBUIHighlightedTitleColor" ref="458184712"/>
 						<string key="IBUINormalTitle">Actualizar</string>
 						<reference key="IBUINormalTitleShadowColor" ref="623005986"/>
-						<reference key="IBUIHighlightedImage" ref="537845170"/>
 						<reference key="IBUINormalBackgroundImage" ref="649200250"/>
 						<reference key="IBUIFontDescription" ref="38765204"/>
 						<reference key="IBUIFont" ref="407681998"/>
@@ -403,7 +401,7 @@
 						<string key="NSFrame">{{571, 796}, {125, 125}}</string>
 						<reference key="NSSuperview" ref="219871015"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="306858129"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">8</int>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -523,6 +521,7 @@
 						<string key="NSFrame">{{296, 9}, {452, 21}}</string>
 						<reference key="NSSuperview" ref="219871015"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="381808873"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="NSHuggingPriority">{251, 251}</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -974,9 +973,11 @@
 				<reference key="ZbD-f7-Z5h.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="ZbD-f7-Z5h.showNotes"/>
 				<string key="bLJ-II-xzK.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="bLJ-II-xzK.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<reference key="bLJ-II-xzK.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="bLJ-II-xzK.showNotes"/>
 				<string key="qgc-CU-z9y.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="qgc-CU-z9y.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<reference key="qgc-CU-z9y.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="qgc-CU-z9y.showNotes"/>
 				<string key="zkG-DF-5QF.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
