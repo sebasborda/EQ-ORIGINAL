@@ -11,7 +11,7 @@
 @implementation Disponibilidad (extra)
 
 - (BOOL)isAvailable {
-    return [self.identifier integerValue] >= 1;
+    return [self.identifier integerValue] == 1;
 }
 
 @end

@@ -919,6 +919,10 @@
                 art.multiploPedido = [multiplo intValue] > 0 ? multiplo : @3;
                 art.minimoPedido = [[articuloDictionary filterInvalidEntry:@"minimo_pedido"] number];
                 art.disponibilidadID = [articuloDictionary filterInvalidEntry:@"disponibilidad_id"];
+
+                if (![art.disponibilidadID isEqualToString:@"1"]) {
+                    NSLog(@"no disponible: %@ text %@",art.disponibilidadID, [articuloDictionary filterInvalidEntry:@"disponibilidad"]);
+                }
                 
                 NSDateFormatter *dateFormatter = DATE_FORMATTER;
                 [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
